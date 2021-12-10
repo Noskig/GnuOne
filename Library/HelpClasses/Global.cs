@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace Welcome_Settings
 {
-    public static class ScriptSql
+    public static class Global
     {
+		public static string ConnectionString;
+		public static string CompleteConnectionString;
         public static string sql = @"-- --------------------------------------------------------
 -- Värd:                         127.0.0.1
--- Serverversion:                10.6.5-MariaDB - mariadb.org binary distribution
+-- Serverversion:                10.6.3-MariaDB - mariadb.org binary distribution
 -- Server-OS:                    Win64
 -- HeidiSQL Version:             11.3.0.6295
 -- --------------------------------------------------------
@@ -57,21 +59,22 @@ CREATE TABLE IF NOT EXISTS `discussion` (
 /*!40000 ALTER TABLE `discussion` DISABLE KEYS */;
 /*!40000 ALTER TABLE `discussion` ENABLE KEYS */;
 
--- Dumpar struktur för tabell gnu.lastupdate
-CREATE TABLE IF NOT EXISTS `lastupdate` (
+-- Dumpar struktur för tabell gnu.lastupdates
+CREATE TABLE IF NOT EXISTS `lastupdates` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `TimeSet` datetime NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.lastupdate: ~0 rows (ungefär)
-/*!40000 ALTER TABLE `lastupdate` DISABLE KEYS */;
-INSERT INTO `lastupdate` (`ID`, `TimeSet`) VALUES
+-- Dumpar data för tabell gnu.lastupdates: ~0 rows (ungefär)
+/*!40000 ALTER TABLE `lastupdates` DISABLE KEYS */;
+REPLACE INTO `lastupdates` (`ID`, `TimeSet`) VALUES
 	(1, '1950-01-01 00:00:01');
-/*!40000 ALTER TABLE `lastupdate` ENABLE KEYS */;
+/*!40000 ALTER TABLE `lastupdates` ENABLE KEYS */;
 
 -- Dumpar struktur för tabell gnu.mysettings
 CREATE TABLE IF NOT EXISTS `mysettings` (
+  `ID` int(11) DEFAULT NULL,
   `Email` varchar(75) DEFAULT NULL,
   `Password` varchar(75) DEFAULT NULL,
   `Username` varchar(75) DEFAULT NULL,
@@ -94,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   CONSTRAINT `FK_posts_discussion` FOREIGN KEY (`discussionid`) REFERENCES `discussion` (`discussionid`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.posts: ~1 rows (ungefär)
+-- Dumpar data för tabell gnu.posts: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 
@@ -108,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 -- Dumpar data för tabell gnu.users: ~8 rows (ungefär)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`userid`, `username`, `email`) VALUES
+REPLACE INTO `users` (`userid`, `username`, `email`) VALUES
 	(1, 'bober', 'bobertestar@gmail.com'),
 	(2, 'Sam', 'mintestmail321@gmail.com'),
 	(3, 'Albin', 'albinscodetesting@gmail.com'),
@@ -124,5 +127,8 @@ INSERT INTO `users` (`userid`, `username`, `email`) VALUES
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
 ";
+
+
+
     }
 }

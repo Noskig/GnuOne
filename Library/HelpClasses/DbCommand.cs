@@ -22,17 +22,16 @@ namespace Library.HelpClasses
                         comm.CommandText = queryString;
                         comm.ExecuteNonQuery();
                     }
-
                 }
             }
               catch (Exception)
             {
-
-                Console.Error.WriteLine("Db kan inte skapas");
-                Console.Error.WriteLine(queryString);
-                Console.Error.WriteLine(connectionstring);
-                Console.WriteLine("Kontrollera queryn och connectionstring");
-                throw;
+                Console.WriteLine("Info: Db already exist/Or mail couldnt be read?");
+                //Console.Error.WriteLine("Db kan inte skapas");
+                //Console.Error.WriteLine(queryString);
+                //Console.Error.WriteLine(connectionstring);
+                //Console.WriteLine("Kontrollera queryn och connectionstring");
+                return;
             }
         }
     }
