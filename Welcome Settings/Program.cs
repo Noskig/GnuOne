@@ -2,7 +2,9 @@
 using Library;
 using Library.HelpClasses;
 using MailKit.Net.Pop3;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Data.SqlClient;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
@@ -12,13 +14,10 @@ using Welcome_Settings;
 
 /// <summary>
 /// skriv inlogg
-/// 
 /// skapas connectionsträng
-/// 
 /// kontakt db - om den inte finns, skapas
 /// 
 /// ladda frontend - skriva in mail - mailen sparas i databasen
-/// 
 /// läsa mail?
 /// 
 /// 
@@ -37,84 +36,135 @@ using Welcome_Settings;
 /// Ändra klass namn SqlScript till Global (klassen innehåller nu sqlscript + sätter connectionstringen)
 /// Implementerat evighetsLoop med mailreader vart 5 sekund.
 /// Implementerat AesCryption i HelpClass.
+/// 
+/// FRE
+///     Kollar connectionsträngen om inloggningen var korrekt
+///       -Först mot heidi. Genom att försöka skicka in bös. Det går = den finns
+///       -Annars skapar med scriptet
+///     Lagt allt i en while loop som snurrar. Glömt varför, men det känns gött xD
+///     Gjort om strukturen lite, förhoppningsvist mer läsbar
+/// 
 ///------------------------------------------------
 /// 
 
 
+bool oo =true;
+while (oo) { 
 
 
+    Global.ConnectionString = EnterCredentials();
+
+    MariaContext context = new MariaContext(Global.ConnectionString);
+    MariaContext DbContext = new MariaContext(Global.CompleteConnectionString);
+
+    //kollar om det är rätt inlog med att skicka någonting till db:n
+    if (await CheckConnection(context))
+    {
+        //no gnu - skapa db
+        if (!IsThereAGnu(DbContext))
+        {
+        CreateDatabase(Global.ConnectionString);
+        }
+
+        //finns det i db.mysettings
+        if (IsThereMailCredentials(DbContext))
+        {
+            ///kanske behöver kolla om det är rätt uppgifter för email-log in. 
+            ///Kanske om vi eller frontend skickar det att logga in via Gmail. Så att det måste bli rätt.?
 
 
+            int i = 0;
 
-Global.ConnectionString = EnterCredentials(); 
-MariaContext context = new MariaContext(Global.ConnectionString);
-CreateDatabase(/*CheckIfDatabaseExist(context),*/ Global.ConnectionString);
-MariaContext _newContext = new MariaContext(Global.CompleteConnectionString);
-CheckMailCredentials(_newContext);
+            Console.WriteLine("Endless Mail-read LOOOP begins now.");
+            while (true)
+            {
+              
+                ReadUnOpenEmails(DbContext, Global.CompleteConnectionString);
 
-/// check if mailadress exist in db
-/// if yes - start reading mail
-/// if no - Send to frontend to enter and then save mailadress
+                i++;
+                Console.WriteLine($"Read email {i} times");
 
+                Thread.Sleep(5000);
+            }
+        }
+        else
+        {
+            ///skicka till frontend för att fylla i.
+            throw new Exception("Inga uppgifter i db.settings");
+        };
+    }
+    else
+    {
+        Console.Clear();
+        Console.WriteLine("Det gick inte att ansluta till databasen testa igen");
+        Console.WriteLine();
+    }
+}
 
+bool IsThereAGnu(MariaContext dbcontext)
+{
+    try
+    {
+        dbcontext.LastUpdates.Any();
+        return true;
+    }
+    catch {
+        return false;
+    }
+}
 
-static void CheckMailCredentials(MariaContext _newContext)
+static bool IsThereMailCredentials(MariaContext _newContext)
 {
     //finns det nått finns det allt - Frontend validering
     if (_newContext.MySettings.Any())
     {
-        int i = 0;
-        Console.WriteLine("Endless Mail-read LOOOP begins now.");
-        while (true)
-        {
-            ReadUnOpenEmails(_newContext, Global.CompleteConnectionString);
-            i++;
-            Console.WriteLine($"Read email {i} times");
-            Thread.Sleep(5000);
-        }
+       return true;
     }
     else
     {
-        Console.WriteLine("Här måste du fylla i dina uppgifter på FRONTEND");
-        ///skicka till frontend create mail - som pingar api?
+        return false;
     }
-
 }
 static void CreateDatabase(/*bool created,*/ string connection)
 {
     DbCommand.CreateCommand(Global.sql, connection);
 }
-//static bool CheckIfDatabaseExist(MariaContext context)
-//{
-//    if (context.Database.CanConnect()) //FEEEEEEL (Stoppar, hittar inga databas)
-//    {
-//        return true;
-//    }
-//    else return false;
 
-//}
+static async Task<bool> CheckConnection(MariaContext context)
+{
+    try
+    {   //Försöker skicka in ett vanligt sql scrip
+        var dontreallycareaboutwhatgetsback = await context.Database.ExecuteSqlRawAsync("SELECT 1");
+    }
+    catch (Exception)
+    {
+        return false;
+    }
+    return true;
+}
+
 static string EnterCredentials()
 {
-        Console.WriteLine("Hello! \n"
-            + "Thanks for using this app. This first time.\n " +
-            "Please enter your heidi-username and password.");
-        Console.WriteLine();
-        Console.Write("Username: ");
+    Console.WriteLine(    "Hello! \n"
+                      +   "Thanks for using this app.\n" +
+                          "Please enter your heidi-username and password.");
+    Console.WriteLine();
+    Console.Write(        "Username: ");
 
-        var inputU = Console.ReadLine();
+    var inputU = Console.ReadLine();
 
-        Console.Write("Password: ");
+    Console.Write(          "Password: ");
 
-        var inputP = Console.ReadLine();
+    var inputP = Console.ReadLine();
 
-        Console.WriteLine();
+    Console.WriteLine();
 
-        string newConn = "server=localhost;user id=" + inputU + ";password=" + inputP + ";";
-        Global.CompleteConnectionString = "server=localhost;user id=" + inputU + ";password=" + inputP + ";database=gnu;"; 
+    ///connectionstringen byggs
+    string newConn = "server=localhost;user id=" + inputU + ";password=" + inputP + ";";
+    /// den fullständiga med DB till global
+    Global.CompleteConnectionString = "server=localhost;user id=" + inputU + ";password=" + inputP + ";database=gnu;";
 
     return newConn;
-        Console.WriteLine(newConn);
-        Console.WriteLine("thanks");
 }
 
 static void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)

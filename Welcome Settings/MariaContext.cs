@@ -27,8 +27,12 @@ namespace Welcome_Settings
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //MariaDb är kompatibel med MySql
+            try { 
             optionsBuilder.UseMySql(_connectionstring, ServerVersion.AutoDetect(_connectionstring));
+            }
+            catch (Exception e){
+                Console.WriteLine(e);
+            }
         }
     }
 }
