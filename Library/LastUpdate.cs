@@ -7,17 +7,10 @@ using System.Threading.Tasks;
 
 namespace Library
 {
-    public class User
+    public class LastUpdate
     {
         [Key]
-        public int userid { get; set; }
-        public string username { get; set; }
-        public string Email { get; set; } 
-
-        public User()
-        {
-
-        }
+        public int Id { get; set; }
+        public DateTime TimeSet { get; set; }
     }
-
 }
