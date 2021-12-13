@@ -17,7 +17,7 @@ namespace Welcome_Settings
             _connectionstring = connectionstring;
         }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<Disussion> Discussions {get; set;}
+        public DbSet<Discussion> Discussions {get; set;}
         public DbSet<Post> Posts { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<LastUpdate> LastUpdates { get; set; }

@@ -5,6 +5,7 @@ using MailKit.Net.Pop3;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
@@ -48,8 +49,11 @@ using Welcome_Settings;
 /// 
 
 
-bool oo =true;
-while (oo) { 
+bool oo = true;
+
+
+while (oo)
+{
 
 
     Global.ConnectionString = EnterCredentials();
@@ -57,13 +61,17 @@ while (oo) {
     MariaContext context = new MariaContext(Global.ConnectionString);
     MariaContext DbContext = new MariaContext(Global.CompleteConnectionString);
 
+    WriteToJson("ConnectionStrings:Defaultconnection", Global.CompleteConnectionString);
+
+
+
     //kollar om det är rätt inlog med att skicka någonting till db:n
     if (await CheckConnection(context))
     {
         //no gnu - skapa db
         if (!IsThereAGnu(DbContext))
         {
-        CreateDatabase(Global.ConnectionString);
+            CreateDatabase(Global.ConnectionString);
         }
 
         //finns det i db.mysettings
@@ -76,10 +84,23 @@ while (oo) {
             int i = 0;
 
             Console.WriteLine("Endless Mail-read LOOOP begins now.");
+
+
+            //startar api:et
+            string path = @"..\..\..\..\GnuOne\bin\debug\net6.0\GnuOne.exe";
+            string fullpath = Path.GetFullPath(path);
+            Console.WriteLine(Path.GetFullPath(path));
+            Process.Start(fullpath);
+
+            //köra react script och starta frontend
+
+
             while (true)
             {
-              
+
                 ReadUnOpenEmails(DbContext, Global.CompleteConnectionString);
+
+
 
                 i++;
                 Console.WriteLine($"Read email {i} times");
@@ -108,7 +129,8 @@ bool IsThereAGnu(MariaContext dbcontext)
         dbcontext.LastUpdates.Any();
         return true;
     }
-    catch {
+    catch
+    {
         return false;
     }
 }
@@ -118,7 +140,7 @@ static bool IsThereMailCredentials(MariaContext _newContext)
     //finns det nått finns det allt - Frontend validering
     if (_newContext.MySettings.Any())
     {
-       return true;
+        return true;
     }
     else
     {
@@ -145,15 +167,15 @@ static async Task<bool> CheckConnection(MariaContext context)
 
 static string EnterCredentials()
 {
-    Console.WriteLine(    "Hello! \n"
-                      +   "Thanks for using this app.\n" +
+    Console.WriteLine("Hello! \n"
+                      + "Thanks for using this app.\n" +
                           "Please enter your heidi-username and password.");
     Console.WriteLine();
-    Console.Write(        "Username: ");
+    Console.Write("Username: ");
 
     var inputU = Console.ReadLine();
 
-    Console.Write(          "Password: ");
+    Console.Write("Password: ");
 
     string inputP = pwMask.pwMasker();
 
@@ -163,6 +185,10 @@ static string EnterCredentials()
     string newConn = "server=localhost;user id=" + inputU + ";password=" + inputP + ";";
     /// den fullständiga med DB till global
     Global.CompleteConnectionString = "server=localhost;user id=" + inputU + ";password=" + inputP + ";database=gnu;";
+
+    ///write to appsettings.json
+
+
 
     return newConn;
 }
@@ -214,4 +240,47 @@ static void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
     }
 }
 
+
+static void WriteToJson(string sectionPathKey, string value)
+{
+    string path = @"..\..\..\..\GnuOne\appsettings.json";
+    string fullpath = Path.GetFullPath(path);
+    Console.WriteLine(Path.GetFullPath(path));
+    try
+    {
+        var filePath = fullpath;
+        string json = File.ReadAllText(filePath);
+        dynamic? jsonObj = JsonConvert.DeserializeObject(json);
+
+        SetValueRecursively(sectionPathKey, jsonObj, value);
+
+        string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+        File.WriteAllText(filePath, output);
+
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Error writing app settings | {0}", ex.Message);
+    }
+}
+
+
+ static void SetValueRecursively(string sectionPathKey, dynamic? jsonObj, string value)
+{
+    // split the string at the first ':' character
+    var remainingSections = sectionPathKey.Split(":", 2);
+
+    var currentSection = remainingSections[0];
+    if (remainingSections.Length > 1)
+    {
+        // continue with the procress, moving down the tree
+        var nextSection = remainingSections[1];
+        SetValueRecursively(nextSection, jsonObj[currentSection], value);
+    }
+    else
+    {
+        // we've got to the end of the tree, set the value
+        jsonObj[currentSection] = value;
+    }
+}
 

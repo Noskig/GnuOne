@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GnuOne", "GnuOne\GnuOne.csproj", "{615F0A22-75CB-47E9-9FEA-D6CF74B91A63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GnuOne", "GnuOne\GnuOne.csproj", "{615F0A22-75CB-47E9-9FEA-D6CF74B91A63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Welcome Settings", "Welcome Settings\Welcome Settings.csproj", "{2CF3501D-546F-486E-835C-25BB94D012AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Welcome Settings", "Welcome Settings\Welcome Settings.csproj", "{2CF3501D-546F-486E-835C-25BB94D012AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Library\Library.csproj", "{DF102743-DF77-404A-8976-4200BC4B5C9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library", "Library\Library.csproj", "{DF102743-DF77-404A-8976-4200BC4B5C9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
