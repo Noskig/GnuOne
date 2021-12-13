@@ -155,7 +155,7 @@ static string EnterCredentials()
 
     Console.Write(          "Password: ");
 
-    var inputP = Console.ReadLine();
+    string inputP = pwMask.pwMasker();
 
     Console.WriteLine();
 
