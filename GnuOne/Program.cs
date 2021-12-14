@@ -1,4 +1,6 @@
 using GnuOne.Data;
+using Library.HelpClasses;
+using MailKit.Net.Pop3;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using Welcome_Settings;
@@ -6,26 +8,7 @@ using Welcome_Settings;
 /// <summary>
 /// 
 /// </summary>
-
-
-
-//När vi kör welcome och startar gnuone.exe. Funkar inta kontakten med databasen. Det funkar om connectionstringen är hårdkordad.
-/// Vill vi kanske att GnuOne startar Welcome settings/mail loopen. istället för tvärt om?
-/// 
-/// Mer att göra. Göra klart contoller.
-/// Frontend - lägga in sin app i denna.
-
-//async Mailloop();
-//Process process = new Process();
-
-
-//// Configure the process using the StartInfo properties.
-//process.StartInfo.FileName = "process.exe";
-//process.StartInfo.Arguments = "-n";
-//process.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
-//process.Start();
-//process.WaitForExit();// Waits here for the process to exit.
-
+StartCredential();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +25,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         builder =>
         {
-            ///för att tillåta kommunikation från/till FrontEND
+            ///fï¿½r att tillï¿½ta kommunikation frï¿½n/till FrontEND
             builder.AllowAnyHeader();
             builder.AllowAnyOrigin();
             builder.AllowAnyMethod();
@@ -76,14 +59,88 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
 
-app.MapFallbackToFile("index.html"); ;
+app.MapFallbackToFile("index.html"); 
+
+int a = 0; //Visualiserar att mailfunktionen rullar.
+var loop1Task = Task.Run(async () => {
+    while (true)
+    {
+        using (MariaContext context = new MariaContext(_connectionstring))
+        {
+            ReadUnOpenEmails(context, _connectionstring);
+            await Task.Delay(5000);
+            a++;
+            Console.WriteLine(a);
+        }
+    }
+});
 
 app.Run();
 
 
-/// Flytta över controllers hit med mailfunktionen
-///     AddDbcontext.
-///         Skriva in connectionsträngen in i Json fil. från Welcome settings. Använda appsettings för att skapa dbcontexten
-///        
-/// 
-/// Frågor. Va händer när man göra en Process.Start från Welcomesettings.
+
+
+
+
+static void StartCredential()
+{
+    string path = @"..\Welcome Settings\bin\debug\net6.0\Welcome Settings.exe";
+    string fullpath = Path.GetFullPath(path);
+    Console.WriteLine(Path.GetFullPath(path));
+
+    Process process = new Process();
+    // Configure the process using the StartInfo properties.
+    process.StartInfo.FileName = fullpath;
+    process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+    process.StartInfo.UseShellExecute = true;
+    process.StartInfo.CreateNoWindow = false;
+    process.Start();
+    process.WaitForExit();
+}
+static void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
+{
+    var me = _newContext.MySettings.First();
+    using (var client = new Pop3Client())
+    {
+        client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+        client.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
+        client.Connect("pop.gmail.com", 995, true);
+        client.AuthenticationMechanisms.Remove("XOAUTH2");
+        client.Authenticate(me.Email, me.Password);
+
+        for (int i = 0; i < client.Count; i++)
+        {
+            var message = client.GetMessage(i);
+            var subjet = message.Subject;
+            var body = message.GetTextBody(MimeKit.Text.TextFormat.Text);
+            string[] relativData = body.Split("XYXY/(/(XYXY7");
+            string decryptedMess = AesCryption.Decrypt(relativData[0], me.Secret);
+            string[] Data = decryptedMess.Split("\"");
+            var LocalDate = _newContext.LastUpdates.First();
+            string[] Sub = subjet.Split("/()/");
+            DateTime IncomeDate = Convert.ToDateTime(Sub[0]);
+            if (IncomeDate > LocalDate.TimeSet)
+            {
+                switch (Sub[1])
+                {
+                    case "DELETE":
+                        DbCommand.CreateCommand(decryptedMess, ConnectionString);
+                        break;
+
+                    case "PUT":
+                        DbCommand.CreateCommand(decryptedMess, ConnectionString);
+                        break;
+
+                    default:
+                        DbCommand.CreateCommand(decryptedMess, ConnectionString);
+                        break;
+                }
+                LocalDate.TimeSet = IncomeDate;
+                _newContext.LastUpdates.Update(LocalDate);
+                _newContext.SaveChanges();
+            }
+
+        }
+    }
+}
+

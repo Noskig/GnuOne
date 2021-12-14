@@ -10,7 +10,8 @@ namespace Welcome_Settings
     {
 		public static string ConnectionString;
 		public static string CompleteConnectionString;
-        public static string sql = @"-- --------------------------------------------------------
+
+		public static string sql = @"-- --------------------------------------------------------
 -- Värd:                         127.0.0.1
 -- Serverversion:                10.6.3-MariaDB - mariadb.org binary distribution
 -- Server-OS:                    Win64

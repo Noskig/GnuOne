@@ -77,36 +77,7 @@ while (oo)
         //finns det i db.mysettings
         if (IsThereMailCredentials(DbContext))
         {
-            ///kanske behöver kolla om det är rätt uppgifter för email-log in. 
-            ///Kanske om vi eller frontend skickar det att logga in via Gmail. Så att det måste bli rätt.?
-
-
-            int i = 0;
-
-            Console.WriteLine("Endless Mail-read LOOOP begins now.");
-
-
-            //startar api:et
-            string path = @"..\..\..\..\GnuOne\bin\debug\net6.0\GnuOne.exe";
-            string fullpath = Path.GetFullPath(path);
-            Console.WriteLine(Path.GetFullPath(path));
-            Process.Start(fullpath);
-
-            //köra react script och starta frontend
-
-
-            while (true)
-            {
-
-                ReadUnOpenEmails(DbContext, Global.CompleteConnectionString);
-
-
-
-                i++;
-                Console.WriteLine($"Read email {i} times");
-
-                Thread.Sleep(5000);
-            }
+            oo = false;
         }
         else
         {
@@ -193,57 +164,12 @@ static string EnterCredentials()
     return newConn;
 }
 
-static void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
-{
-    var me = _newContext.MySettings.First();
-    using (var client = new Pop3Client())
-    {
-        client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-        client.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
-        client.Connect("pop.gmail.com", 995, true);
-        client.AuthenticationMechanisms.Remove("XOAUTH2");
-        client.Authenticate(me.Email, me.Password);
 
-        for (int i = 0; i < client.Count; i++)
-        {
-            var message = client.GetMessage(i);
-            var subjet = message.Subject;
-            var body = message.GetTextBody(MimeKit.Text.TextFormat.Text);
-            string[] relativData = body.Split("XYXY/(/(XYXY7");
-            string decryptedMess = AesCryption.Decrypt(relativData[0], me.Secret);
-            string[] Data = decryptedMess.Split("\"");
-            var LocalDate = _newContext.LastUpdates.First();
-            string[] Sub = subjet.Split("/()/");
-            DateTime IncomeDate = Convert.ToDateTime(Sub[0]);
-            if (IncomeDate > LocalDate.TimeSet)
-            {
-                switch (Sub[1])
-                {
-                    case "DELETE":
-                        DbCommand.CreateCommand(decryptedMess, Global.CompleteConnectionString);
-                        break;
-
-                    case "PUT":
-                        DbCommand.CreateCommand(decryptedMess, Global.CompleteConnectionString);
-                        break;
-
-                    default:
-                        DbCommand.CreateCommand(decryptedMess, Global.CompleteConnectionString);
-                        break;
-                }
-                LocalDate.TimeSet = IncomeDate;
-                _newContext.LastUpdates.Update(LocalDate);
-                _newContext.SaveChanges();
-            }
-
-        }
-    }
-}
 
 
 static void WriteToJson(string sectionPathKey, string value)
 {
-    string path = @"..\..\..\..\GnuOne\appsettings.json";
+    string path = @"..\GnuOne\appsettings.json";
     string fullpath = Path.GetFullPath(path);
     Console.WriteLine(Path.GetFullPath(path));
     try
