@@ -94,13 +94,23 @@ while (oo)
 
             var settings = new MySettings
             {
+                ID =1,
                 Email = email,
                 Password = pw,
                 Username = username,
                 Secret = "secretkey"
             };
-            DbContext.MySettings.Add(settings);
-            DbContext.SaveChanges();
+            try
+            {
+
+            await DbContext.MySettings.AddRangeAsync(settings);
+            await DbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
             oo = false;
 
