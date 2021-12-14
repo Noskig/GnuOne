@@ -102,16 +102,75 @@ namespace GnuOne.Controllers
             return CreatedAtAction("GetDiscussion", new { id = discussion.discussionid }, discussion);
         }
 
-        // PUT api/<DiscussionsController>/5
+        // PUT: api/Discussions/5
+        /// <summary>
+        /// Ändrar en discussion
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="discussion"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> PutDiscussion(int id, Discussion discussion)
         {
+            if (id != discussion.discussionid)
+            {
+                return BadRequest();
+            }
+            if (!DiscussionExists(id))
+            {
+                return NotFound();
+            }
+
+            //hittar gamla texten för att skicka med 
+            //och hitta den unika kommentaren i databasen hos de andra användare
+            var oldtext = await _context.Discussion.Where(x => x.discussionid == discussion.discussionid)
+                                                    .Select(x => x.discussiontext)
+                                                    .FirstOrDefaultAsync();
+
+
+            var settings = await _context.MySettings.FirstAsync();
+            //skickar ut mail
+            foreach (var user in _context.Users)
+            {
+                ///skapa query
+                var query = discussion.EditDiscussion(oldtext);
+                ///Skicka mail
+                MailSender.SendEmail(user.Email, query, "PUT", settings);
+            }
+
+            return Accepted(discussion);
         }
 
-        // DELETE api/<DiscussionsController>/5
+        // DELETE: api/Discussions/5
+        /// <summary>
+        /// Tar bort discussionen med ett specifikt ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> DeleteDiscussion(int id)
         {
+            var discussion = await _context.Discussion.FindAsync(id);
+            if (discussion == null)
+            {
+                return NotFound();
+            }
+            //skickar ut mail
+            var settings = await _context.MySettings.FirstAsync();
+            //skickar ut mail
+            foreach (var user in _context.Users)
+            {
+                ///skapa query
+                var query = discussion.DeleteDiscussion();
+                ///Skicka mail
+                MailSender.SendEmail(user.Email, query, "PUT", settings);
+            }
+
+            return Accepted(discussion);
+        }
+        private bool DiscussionExists(int? id)
+        {
+            return _context.Discussion.Any(e => e.discussionid == id);
         }
     }
 }

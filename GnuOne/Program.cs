@@ -25,7 +25,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         builder =>
         {
-            ///f�r att till�ta kommunikation fr�n/till FrontEND
+            ///får att tillåta kommunikation från/till FrontEND
             builder.AllowAnyHeader();
             builder.AllowAnyOrigin();
             builder.AllowAnyMethod();
