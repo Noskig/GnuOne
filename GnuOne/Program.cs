@@ -7,6 +7,19 @@ using Welcome_Settings;
 
 /// <summary>
 /// 
+/// 
+/// PUBLISHA - kunna köra utan VS
+/// 
+///  
+/// 
+/// Lägga till vänner / grupper -- Hur blir det med nycklar. 
+///     Bjuda in via mail? - vanlig mail / dedikerad gmail?
+///     Krypera lösenord till mailen, nycklar mellan sina vänner/ grupper.
+///     PM
+/// 
+/// --bittorrent--
+/// backup - restore
+/// 
 /// </summary>
 StartCredential();
 

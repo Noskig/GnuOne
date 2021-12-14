@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Welcome Settings", "Welcome
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library", "Library\Library.csproj", "{DF102743-DF77-404A-8976-4200BC4B5C9C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackupRestore", "BackupRestore\BackupRestore.csproj", "{373F8612-3DF7-4D30-BC85-F3F2367F4888}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{DF102743-DF77-404A-8976-4200BC4B5C9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF102743-DF77-404A-8976-4200BC4B5C9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF102743-DF77-404A-8976-4200BC4B5C9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{373F8612-3DF7-4D30-BC85-F3F2367F4888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{373F8612-3DF7-4D30-BC85-F3F2367F4888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{373F8612-3DF7-4D30-BC85-F3F2367F4888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{373F8612-3DF7-4D30-BC85-F3F2367F4888}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
