@@ -11,17 +11,19 @@ using Welcome_Settings;
 namespace GnuOne.Controllers
 {
     [Route("api/[controller]")]
-    
+
     [ApiController]
     public class DiscussionsController : ControllerBase
     {
 
         private readonly ApiContext _context;
+        private readonly MySettings _settings;
         //Contexten laddas inte med connectionstring
 
         public DiscussionsController(ApiContext context)
         {
             _context = context;
+            _settings = _context.MySettings.First();
         }
 
         // GET: api/Discussions
@@ -32,13 +34,13 @@ namespace GnuOne.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-       
-  
+
+
             var listaDiscussion = await _context.Discussion.ToListAsync();
             var converted = JsonConvert.SerializeObject(listaDiscussion);
-            
+
             return Ok(converted);
-            
+
         }
 
         // GET: api/Discussions/5
@@ -76,6 +78,7 @@ namespace GnuOne.Controllers
         public async Task<IActionResult> PostDiscussion([FromBody] Discussion discussion)
         {
             discussion.createddate = DateTime.Now;
+            //discussion.user = _settings.Username;
 
             //Sätter ID manuellt för att matcha i DB hos alla användare. Vill vi ha det så?
             if (_context.Discussion.Any())
@@ -88,14 +91,13 @@ namespace GnuOne.Controllers
                 discussion.discussionid = 1;
             }
 
-            var settings = await _context.MySettings.FirstAsync();
+
+            ///skapa query
+            var query = discussion.SendDiscussion();
             //skickar ut mail
             foreach (var user in _context.Users)
             {
-                ///skapa query
-                var query = discussion.SendDiscussion();
-                ///Skicka mail
-                MailSender.SendEmail(user.Email, query, "Post", settings);
+                MailSender.SendEmail(user.Email, query, "Post", _settings);
             }
 
 
@@ -128,14 +130,13 @@ namespace GnuOne.Controllers
                                                     .FirstOrDefaultAsync();
 
 
-            var settings = await _context.MySettings.FirstAsync();
+            ///skapa query
+            var query = discussion.EditDiscussion(oldtext);
             //skickar ut mail
             foreach (var user in _context.Users)
             {
-                ///skapa query
-                var query = discussion.EditDiscussion(oldtext);
                 ///Skicka mail
-                MailSender.SendEmail(user.Email, query, "PUT", settings);
+                MailSender.SendEmail(user.Email, query, "PUT", _settings);
             }
 
             return Accepted(discussion);
@@ -155,15 +156,14 @@ namespace GnuOne.Controllers
             {
                 return NotFound();
             }
+
             //skickar ut mail
-            var settings = await _context.MySettings.FirstAsync();
-            //skickar ut mail
+            ///skapa query
+            var query = discussion.DeleteDiscussion();
             foreach (var user in _context.Users)
             {
-                ///skapa query
-                var query = discussion.DeleteDiscussion();
                 ///Skicka mail
-                MailSender.SendEmail(user.Email, query, "PUT", settings);
+                MailSender.SendEmail(user.Email, query, "PUT", _settings);
             }
 
             return Accepted(discussion);

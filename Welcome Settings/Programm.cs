@@ -74,6 +74,7 @@ while (oo)
             CreateDatabase(Global.ConnectionString);
         }
 
+
         //finns det i db.mysettings
         if (IsThereMailCredentials(DbContext))
         {
@@ -81,8 +82,28 @@ while (oo)
         }
         else
         {
-            ///skicka till frontend för att fylla i.
-            throw new Exception("Inga uppgifter i db.settings");
+            ///kanske skicka till frontend för att fylla i.
+
+            Console.Clear();
+            Console.Write("Write your Email: ");
+            var email = Console.ReadLine();
+            Console.Write("EmailPassword: ");
+            var pw = Console.ReadLine();
+            Console.Write("choose your username: ");
+            var username = Console.ReadLine();
+
+            var settings = new MySettings
+            {
+                Email = email,
+                Password = pw,
+                Username = username,
+                Secret = "secretkey"
+            };
+            DbContext.MySettings.Add(settings);
+            DbContext.SaveChanges();
+
+            oo = false;
+
         };
     }
     else
