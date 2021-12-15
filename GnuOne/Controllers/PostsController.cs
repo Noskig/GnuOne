@@ -82,7 +82,7 @@ namespace GnuOne.Controllers
             //skickar ut mail
             ///skapa query
             var query = post.SendPost();
-            foreach (var user in _context.Users)
+            foreach (var user in _context.MyFriends)
             {
                 ///Skicka mail
                 MailSender.SendEmail(user.Email, query, "Post", _settings);
@@ -116,7 +116,7 @@ namespace GnuOne.Controllers
             //skickar ut mail
             var query = post.EditPost(oldtext);
 
-            foreach (var user in _context.Users)
+            foreach (var user in _context.MyFriends)
             {
                 MailSender.SendEmail(user.Email, query, "Put", _settings);
             }
@@ -139,7 +139,7 @@ namespace GnuOne.Controllers
             }
             //skickar ut mail
             var query = post.DeletePost();
-            foreach (var user in _context.Users)
+            foreach (var user in _context.MyFriends)
             {
                 MailSender.SendEmail(user.Email, query, "Delete", _settings);
             }

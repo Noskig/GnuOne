@@ -91,11 +91,14 @@ namespace GnuOne.Controllers
                 discussion.discussionid = 1;
             }
 
+            //var JsonDiscussion = JsonConvert.SerializeObject(discussion);
+
+            // Mailsender.sendemail(JsonDiscussion, 
 
             ///skapa query
             var query = discussion.SendDiscussion();
             //skickar ut mail
-            foreach (var user in _context.Users)
+            foreach (var user in _context.MyFriends)
             {
                 MailSender.SendEmail(user.Email, query, "Post", _settings);
             }
@@ -133,7 +136,7 @@ namespace GnuOne.Controllers
             ///skapa query
             var query = discussion.EditDiscussion(oldtext);
             //skickar ut mail
-            foreach (var user in _context.Users)
+            foreach (var user in _context.MyFriends)
             {
                 ///Skicka mail
                 MailSender.SendEmail(user.Email, query, "PUT", _settings);
@@ -160,7 +163,7 @@ namespace GnuOne.Controllers
             //skickar ut mail
             ///skapa query
             var query = discussion.DeleteDiscussion();
-            foreach (var user in _context.Users)
+            foreach (var user in _context.MyFriends)
             {
                 ///Skicka mail
                 MailSender.SendEmail(user.Email, query, "PUT", _settings);
