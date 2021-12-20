@@ -1,4 +1,5 @@
 ﻿using Library;
+using Library.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace GnuOne.Data
         public DbSet<Discussion> Discussions {get; set;}
         public DbSet<Post> Posts { get; set; }
         public DbSet<MyFriend> MyFriends { get; set; }
+        public DbSet<MyFriendsFriends> MyFriendsFriends { get; set; }
         public DbSet<LastUpdate> LastUpdates { get; set; }
         public DbSet<MySettings> MySettings { get; set; }
 

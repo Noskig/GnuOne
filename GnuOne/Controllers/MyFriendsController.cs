@@ -76,12 +76,24 @@ namespace GnuOne.Controllers
                 string myName = _settings.Username;
 
                 var allMyDiscussion = _context.Discussion.Where(x => x.user == myName).ToList();
+                foreach (var item in allMyDiscussion)
+                {
+                    item.discussionid = null;
+                }
                 string myDiscussionJson = System.Text.Json.JsonSerializer.Serialize(allMyDiscussion);
 
                 var allMyPost = _context.Posts.Where(x => x.User == myName).ToList();
+                foreach (var item in allMyPost)
+                {
+                    item.postid = null;
+                }
                 string myPostJson = System.Text.Json.JsonSerializer.Serialize(allMyPost);
 
                 var allMyFriends = _context.MyFriends.ToList();
+                //foreach (var item in allMyFriends)
+                //{
+                //    item.userid = null;
+                //}
                 string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
                 MailSender.SendAcceptedRequest(_settings, MyFriend.Email, myDiscussionJson, myPostJson, myFriendJson);
 

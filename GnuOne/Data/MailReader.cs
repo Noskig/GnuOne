@@ -1,5 +1,6 @@
 ﻿using Library;
 using Library.HelpClasses;
+using Library.Models;
 using MailKit.Net.Pop3;
 using Newtonsoft.Json;
 using System.Text.Json;
@@ -70,29 +71,49 @@ namespace GnuOne.Data
                                 _newContext.MyFriends.Remove(myfriend);
                                 _newContext.SaveChangesAsync();
                                 break;
+
                             case "AcceptedfriendRequest":
                                 var bodymessages = decrypted.Split("/()/");
                                 var friend = _newContext.MyFriends.Where(x => x.Email == bodymessages[0]).FirstOrDefault();
                                 friend.IsFriend = true;
                                 _newContext.Update(friend);
+                                _newContext.SaveChanges();
 
-                                var deserializedItemsFromItems = JsonConvert.DeserializeObject<List<Discussion>>(File.ReadAllText(bodymessages[1]));
-                                foreach (Discussion x in deserializedItemsFromItems) { _newContext.Discussions.Add(x); };
-
-                                var deserializedItemsFromItems1 = JsonConvert.DeserializeObject<List<Post>>(File.ReadAllText(bodymessages[2]));
-                                foreach (Post x in deserializedItemsFromItems1) { _newContext.Posts.Add(x); };
-
-                                var deserializedItemsFromItems2 = JsonConvert.DeserializeObject<List<MyFriend>>(File.ReadAllText(bodymessages[3]));
-                                foreach (MyFriend x in deserializedItemsFromItems2) { _newContext.MyFriends.Add(x); };
-
+                                try
+                                {
+                                    var deserializedItemsFromItems = System.Text.Json.JsonSerializer.Deserialize<List<Discussion>>(bodymessages[1]);
+                                    if (deserializedItemsFromItems != null)
+                                    {
+                                        foreach (Discussion x in deserializedItemsFromItems) { _newContext.Discussions.Add(x); };
+                                    }
+                                    var deserializedItemsFromItems1 = System.Text.Json.JsonSerializer.Deserialize<List<Post>>(bodymessages[2]);
+                                    if (deserializedItemsFromItems1 != null)
+                                    {
+                                        foreach (Post x in deserializedItemsFromItems1) { _newContext.Posts.Add(x); };
+                                    }
+                                    var deserializedItemsFromItems2 = System.Text.Json.JsonSerializer.Deserialize<List<MyFriendsFriends>>(bodymessages[3]);
+                                    if (deserializedItemsFromItems2 != null)
+                                    {
+                                        foreach (MyFriendsFriends x in deserializedItemsFromItems2) 
+                                        {
+                                            MyFriendsFriends friefrie = new MyFriendsFriends() { Email = x.Email, userName = x.userName, myFriendID = friend.userid };
+                                            _newContext.MyFriendsFriends.Add(friefrie); 
+                                        };
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                    throw;
+                                }
+                                _newContext.SaveChanges();
                                 break;
 
                             case "deleteFriend":
                                 var bodymessage3 = decrypted.Split("/()/");
-                                var deleteFriend = new MyFriend(bodymessage3);
-                                _newContext.MyFriends.Remove(deleteFriend);
-                                var allDiscussions = _newContext.Discussions.Where(x => x.user == bodymessage3[0]).ToList();
-                                _newContext.RemoveRange(allDiscussions);
+                                var deletemyFriend = _newContext.MyFriends.Where(y => y.Email == bodymessage3[1]).FirstOrDefault();
+                                _newContext.MyFriends.Remove(deletemyFriend);
+                                //var allDiscussions = _newContext.Discussions.Where(x => x.user == bodymessage3[0]).ToList();
+                                //_newContext.RemoveRange(allDiscussions);
                                 _newContext.SaveChangesAsync();
                                 break;
 
