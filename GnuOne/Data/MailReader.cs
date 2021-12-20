@@ -1,6 +1,8 @@
 ﻿using Library;
 using Library.HelpClasses;
 using MailKit.Net.Pop3;
+using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace GnuOne.Data
 {
@@ -55,12 +57,33 @@ namespace GnuOne.Data
                                 DbCommand.CreateCommand(decrypted, ConnectionString);
                                 break;
 
-                            case "FriendRequest":
-
+                            case "friendRequest":
                                 var bodymessage = decrypted.Split("/()/");
                                 var potentialfriend = new MyFriend(bodymessage);
                                 _newContext.MyFriends.Add(potentialfriend);
-                                 _newContext.SaveChangesAsync();
+                                _newContext.SaveChangesAsync();
+
+                                break;
+                            case "friendRequestDenied":
+                                var bodymessage1 = decrypted.Split("/()/");
+                                var potentialfriend1 = new MyFriend(bodymessage1);
+                                _newContext.MyFriends.Remove(potentialfriend1);
+                                _newContext.SaveChangesAsync();
+                                break;
+                            case "friendRequestAccepted":
+                                var bodymessages = decrypted.Split("/()/");
+                                var friend = _newContext.MyFriends.Where(x => x.Email == bodymessages[0]).FirstOrDefault();
+                                friend.IsFriend = true;
+                                _newContext.Update(friend);
+
+                                var deserializedItemsFromItems = JsonConvert.DeserializeObject<List<Discussion>>(File.ReadAllText(bodymessages[1]));
+                                foreach (Discussion x in deserializedItemsFromItems) { _newContext.Discussions.Add(x); };
+
+                                var deserializedItemsFromItems1 = JsonConvert.DeserializeObject<List<Post>>(File.ReadAllText(bodymessages[2]));
+                                foreach (Post x in deserializedItemsFromItems1) { _newContext.Posts.Add(x); };
+
+                                var deserializedItemsFromItems2 = JsonConvert.DeserializeObject<List<MyFriend>>(File.ReadAllText(bodymessages[3]));
+                                foreach (MyFriend x in deserializedItemsFromItems2) { _newContext.MyFriends.Add(x); };
 
                                 break;
                             default:

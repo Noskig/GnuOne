@@ -67,7 +67,7 @@ namespace Library.HelpClasses
 
         public static void SendDeniedRequest(MySettings mySettings, string ToEmail)
         {
-            string subject = "NotFriends";
+            string subject = "friendRequestDenied";
 
             var sw = new StringBuilder();
             sw.Append(DateTime.Now.ToString() + "/()/");
@@ -123,17 +123,16 @@ namespace Library.HelpClasses
 
         }
 
-        public static void SendAcceptedRequest(MySettings mySettings, string ToEmail, List<Discussion> AllMyDiscussions, List<MyFriend> myFriends, List<Post> Posts)
+        public static void SendAcceptedRequest(MySettings mySettings, string ToEmail, string myDiscussion, string myPost, string myFriend)
         {
             ///Här slutar vi onsdag
 
 
-            string subject = "AcceptedFriendRequest";
+            string subject = "friendRequestAccepted";
 
             var sw = new StringBuilder();
             sw.Append(DateTime.Now.ToString() + "/()/");
             sw.Append(subject);
-
 
             //Vill endast skicka username och Email.
 
@@ -144,9 +143,15 @@ namespace Library.HelpClasses
 
             var crypt = new StringBuilder();
 
-            crypt.Append(username);
-            crypt.Append("/()/");
             crypt.Append(mailAddress);
+            //crypt.Append("/()/");
+            //crypt.Append(mailAddress);
+            crypt.Append("/()/");
+            crypt.Append(myDiscussion);
+            crypt.Append("/()/");
+            crypt.Append(myPost);
+            crypt.Append("/()/");
+            crypt.Append(myFriend);
 
             string encrypt = AesCryption.Encrypt(crypt.ToString(), mySettings.Secret);
 
@@ -185,7 +190,7 @@ namespace Library.HelpClasses
 
         public static void SendFriendRequest(MySettings mySettings, string ToEmail)
         {
-            string subject = "FriendRequest";
+            string subject = "friendRequest";
             
             var sw = new StringBuilder();
             sw.Append(DateTime.Now.ToString() + "/()/");
