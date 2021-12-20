@@ -144,8 +144,6 @@ namespace Library.HelpClasses
             var crypt = new StringBuilder();
 
             crypt.Append(mailAddress);
-            //crypt.Append("/()/");
-            //crypt.Append(mailAddress);
             crypt.Append("/()/");
             crypt.Append(myDiscussion);
             crypt.Append("/()/");

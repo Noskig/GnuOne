@@ -4,6 +4,7 @@ using Library.HelpClasses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Text;
 using System.Text.Json;
 
@@ -29,82 +30,62 @@ namespace GnuOne.Controllers
         /// <param name="ToEmail"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> SendFriendRequest([FromBody] string ToEmail)
+        //[Route("api/[controller]/SendFriendRequest")]
+        public async Task<IActionResult> PostSendFriendRequest([FromBody] MyFriend Email)
         {
-
             var potentialnewfriend = new MyFriend();
-            potentialnewfriend.Email = ToEmail;
-
-            MailSender.SendFriendRequest(_settings, ToEmail);
-
+            potentialnewfriend.Email = Email.Email;
+            MailSender.SendFriendRequest(_settings, Email.Email);
             await _context.MyFriends.AddAsync(potentialnewfriend);
             await _context.SaveChangesAsync();
-
             return Ok();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var listaDiscussion = await _context.MyFriends.ToListAsync();
+            var converted = JsonConvert.SerializeObject(listaDiscussion);
+
+            return Ok(converted);
+        }
 
 
         ///Skicka tillbaka att jag accepterat eller nekat vänförfrågan
-        [HttpPost]
-        [Route("api/[controller]/answerrequest")]
-        public async Task<IActionResult> AnswerRequest([FromBody] string newFriendsEmail, bool decicison)
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] MyFriend MyFriend)
         {
-            var friend = await _context.MyFriends.Where(x => newFriendsEmail == x.Email).FirstAsync(); /// vet inte om den blir null om man inte hittar en vän
+            var friend = await _context.MyFriends.Where(x => x.Email == MyFriend.Email).FirstAsync(); /// vet inte om den blir null om man inte hittar en vän
             if (friend == null)
             {
                 return BadRequest("Could not find friend with this email");
             }
-            if (decicison == false)
+            if (MyFriend.IsFriend == false)
             {
-                MailSender.SendDeniedRequest(_settings, newFriendsEmail); //kan den misslyckas?
+                MailSender.SendDeniedRequest(_settings, MyFriend.Email); //kan den misslyckas?
                 _context.MyFriends.Remove(friend);
                 await _context.SaveChangesAsync();
                 return Ok("Dont want to be friends");
             }
+            else
+            {
+                friend.IsFriend = true;
+                _context.Update(friend);
+                _context.SaveChanges();
 
-            friend.IsFriend = true;
-            _context.Update(friend);
-            _context.SaveChanges();
+                string myName = _settings.Username;
 
-            string myName = _settings.Username;
+                var allMyDiscussion = _context.Discussion.Where(x => x.user == myName).ToList();
+                string myDiscussionJson = System.Text.Json.JsonSerializer.Serialize(allMyDiscussion);
 
-            var allMyDiscussion = _context.Discussion.Where(x => x.user == myName).ToList();
-            string myDiscussionJson = JsonSerializer.Serialize(allMyDiscussion);
+                var allMyPost = _context.Posts.Where(x => x.User == myName).ToList();
+                string myPostJson = System.Text.Json.JsonSerializer.Serialize(allMyPost);
 
-            var allMyPost = _context.Posts.Where(x => x.User == myName).ToList();
-            string myPostJson = JsonSerializer.Serialize(allMyPost);
+                var allMyFriends = _context.MyFriends.ToList();
+                string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
+                MailSender.SendAcceptedRequest(_settings, MyFriend.Email, myDiscussionJson, myPostJson, myFriendJson);
 
-            var allMyFriends = _context.MyFriends.ToList();
-            string myFriendJson = JsonSerializer.Serialize(allMyFriends);
-
-           
-
-
-            MailSender.SendAcceptedRequest(_settings, newFriendsEmail, myDiscussionJson, myPostJson, myFriendJson);
-
-            //Vill skicka med användarenamn & ändra bool till true på andra sidan.
-
-
-
-            //skicka tillbaka info att vi är vänner 
-            //skicka med mina inlägg (discussions + underliggande posts)
-
-            ///Vi skapade friendspeople tabell. Lägg in i dbcontext.
-            ///forsätta skicka alla mina discussions,posts och vänner i mailet.
-
-
-
-
-            //friend.IsFriend = true;
-            //_context.MyFriends.Update(friend);
-            //await _context.SaveChangesAsync();
-
-
-
-            //ändra isfriend till true
-
-
+            }
             return Ok();
         }
 
