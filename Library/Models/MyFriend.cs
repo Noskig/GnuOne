@@ -19,11 +19,11 @@ namespace Library
         {
 
         }
-        //public MyFriend(string[] bodymessage)
-        //{
-        //    this.username = bodymessage[0];
-        //    this.Email = bodymessage[1];
-        //}
+        public MyFriend(string[] bodymessage)
+        {
+            this.username = bodymessage[0];
+            this.Email = bodymessage[1];
+        }
     }
 
 }

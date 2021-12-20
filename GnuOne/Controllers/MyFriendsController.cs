@@ -89,6 +89,19 @@ namespace GnuOne.Controllers
             return Ok();
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromBody] MyFriend MyFriend)
+        {
+            var MyDiscussions = _context.Discussion.Where(x => x.user == MyFriend.username).ToList(); //lägga till Email kolumn i discussion? Unikt ID?
+            _context.Discussion.RemoveRange(MyDiscussions);
+            var MyFriends = _context.MyFriends.Where(x => x.Email == MyFriend.Email).ToList();
+            _context.MyFriends.RemoveRange(MyFriends);
+            await _context.SaveChangesAsync();
+
+            MailSender.DeleteFriend(_settings, MyFriend.Email);
+            return Ok();
+        }
+
 
     }
 }

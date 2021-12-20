@@ -86,6 +86,16 @@ namespace GnuOne.Data
                                 foreach (MyFriend x in deserializedItemsFromItems2) { _newContext.MyFriends.Add(x); };
 
                                 break;
+
+                            case "deleteFriend":
+                                var bodymessage3 = decrypted.Split("/()/");
+                                var deleteFriend = new MyFriend(bodymessage3);
+                                _newContext.MyFriends.Remove(deleteFriend);
+                                var allDiscussions = _newContext.Discussions.Where(x => x.user == bodymessage3[0]).ToList();
+                                _newContext.RemoveRange(allDiscussions);
+                                _newContext.SaveChangesAsync();
+                                break;
+
                             default:
                                 DbCommand.CreateCommand(decrypted, ConnectionString);
                                 break;
