@@ -67,7 +67,7 @@ namespace Library.HelpClasses
 
         public static void SendDeniedRequest(MySettings mySettings, string ToEmail)
         {
-            string subject = "friendRequestDenied";
+            string subject = "DeniedfriendRequest";
 
             var sw = new StringBuilder();
             sw.Append(DateTime.Now.ToString() + "/()/");
@@ -128,7 +128,7 @@ namespace Library.HelpClasses
             ///Här slutar vi onsdag
 
 
-            string subject = "friendRequestAccepted";
+            string subject = "AcceptedfriendRequest";
 
             var sw = new StringBuilder();
             sw.Append(DateTime.Now.ToString() + "/()/");

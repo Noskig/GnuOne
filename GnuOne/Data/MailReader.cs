@@ -64,13 +64,13 @@ namespace GnuOne.Data
                                 _newContext.SaveChangesAsync();
 
                                 break;
-                            case "friendRequestDenied":
+                            case "DeniedfriendRequest":
                                 var bodymessage1 = decrypted.Split("/()/");
-                                var potentialfriend1 = new MyFriend(bodymessage1);
-                                _newContext.MyFriends.Remove(potentialfriend1);
+                                var myfriend = _newContext.MyFriends.Where(x => x.Email == bodymessage1[1]).FirstOrDefault();
+                                _newContext.MyFriends.Remove(myfriend);
                                 _newContext.SaveChangesAsync();
                                 break;
-                            case "friendRequestAccepted":
+                            case "AcceptedfriendRequest":
                                 var bodymessages = decrypted.Split("/()/");
                                 var friend = _newContext.MyFriends.Where(x => x.Email == bodymessages[0]).FirstOrDefault();
                                 friend.IsFriend = true;
