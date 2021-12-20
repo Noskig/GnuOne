@@ -2,11 +2,11 @@
 {
     public class DiscussionDTO
     {
-        public int? discussionid { get; set; }
-        public string headline { get; set; }
-        public string discussiontext { get; set; }
-        public string user { get; set; }
-        public DateTime createddate { get; set; }
+        public int? ID { get; set; }
+        public string Headline { get; set; }
+        public string discussionText { get; set; }
+        public string userName { get; set; }
+        public DateTime Date { get; set; }
 
         public List<Post> posts { get; set; }
 
@@ -16,11 +16,11 @@
         }
         public DiscussionDTO(Discussion discussion, List<Post> posts)
         {
-            this.discussionid = discussion.discussionid;
-            this.headline = discussion.headline;
-            this.discussiontext = discussion.discussiontext;
-            this.user = discussion.user;
-            this.createddate = discussion.createddate;
+            this.ID = discussion.ID;
+            this.Headline = discussion.Headline;
+            this.discussionText = discussion.discussionText;
+            this.userName = discussion.userName;
+            this.Date = discussion.Date;
 
             this.posts = posts;
         }

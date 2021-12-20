@@ -60,7 +60,7 @@ namespace GnuOne.Controllers
             {
                 return BadRequest("Could not find friend with this email");
             }
-            if (MyFriend.IsFriend == false)
+            if (MyFriend.isFriend == false)
             {
                 MailSender.SendDeniedRequest(_settings, MyFriend.Email); //kan den misslyckas?
                 _context.MyFriends.Remove(friend);
@@ -69,23 +69,23 @@ namespace GnuOne.Controllers
             }
             else
             {
-                friend.IsFriend = true;
+                friend.isFriend = true;
                 _context.Update(friend);
                 _context.SaveChanges();
 
-                string myName = _settings.Username;
+                string myName = _settings.userName;
 
-                var allMyDiscussion = _context.Discussions.Where(x => x.user == myName).ToList();
+                var allMyDiscussion = _context.Discussions.Where(x => x.userName == myName).ToList();
                 foreach (var item in allMyDiscussion)
                 {
-                    item.discussionid = null;
+                    item.ID = null;
                 }
                 string myDiscussionJson = System.Text.Json.JsonSerializer.Serialize(allMyDiscussion);
 
-                var allMyPost = _context.Posts.Where(x => x.User == myName).ToList();
+                var allMyPost = _context.Posts.Where(x => x.userName == myName).ToList();
                 foreach (var item in allMyPost)
                 {
-                    item.postid = null;
+                    item.ID = null;
                 }
                 string myPostJson = System.Text.Json.JsonSerializer.Serialize(allMyPost);
 
@@ -101,7 +101,7 @@ namespace GnuOne.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] MyFriend MyFriend)
         {
-            var MyDiscussions = _context.Discussions.Where(x => x.user == MyFriend.username).ToList(); //lägga till Email kolumn i discussion? Unikt ID?
+            var MyDiscussions = _context.Discussions.Where(x => x.userName == MyFriend.userName).ToList(); //lägga till Email kolumn i discussion? Unikt ID?
             _context.Discussions.RemoveRange(MyDiscussions);
             var MyFriends = _context.MyFriends.Where(x => x.Email == MyFriend.Email).ToList();
             _context.MyFriends.RemoveRange(MyFriends);

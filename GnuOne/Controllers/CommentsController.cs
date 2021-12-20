@@ -46,7 +46,7 @@ namespace GnuOne.Controllers
         public async Task<IActionResult> GetComment(int? id)
         {
 
-            var comment = await _context.Comments.Where(x => x.postid == id).ToListAsync();
+            var comment = await _context.Comments.Where(x => x.ID == id).ToListAsync();
             if (comment.Count == 0)
             {
                 return NotFound();
@@ -66,17 +66,17 @@ namespace GnuOne.Controllers
         [HttpPost]
         public async Task<IActionResult> PostComment([FromBody] Comment comment)
         {
-            comment.date = DateTime.Now;
+            comment.Date = DateTime.Now;
 
             //För att matcha ID i alla Databaser så sätts den manuellt.
             if (_context.Comments.Any())
             {
-                var HighestID = await _context.Comments.Select(x => x.commentid).MaxAsync();
-                comment.commentid = HighestID + 1;
+                var HighestID = await _context.Comments.Select(x => x.ID).MaxAsync();
+                comment.ID = HighestID + 1;
             }
             else
             {
-                comment.commentid = 1;
+                comment.ID = 1;
             }
             var query = comment.SendComments();
             //skickar ut mail
@@ -86,7 +86,7 @@ namespace GnuOne.Controllers
             }
 
 
-            return CreatedAtAction("GetComment", new { id = comment.commentid }, comment);
+            return CreatedAtAction("GetComment", new { id = comment.ID }, comment);
         }
 
         // PUT: api/Comments
@@ -99,7 +99,7 @@ namespace GnuOne.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutComment(int id, [FromBody] Comment comment)
         {
-            if (id != comment.commentid)
+            if (id != comment.ID)
             {
                 return BadRequest();
             }
@@ -110,8 +110,8 @@ namespace GnuOne.Controllers
 
             //hittar gamla texten för att skicka med 
             //och hitta den unika kommentaren i databasen hos de andra användare
-            var oldcommentText = await _context.Comments.Where(x => x.commentid == comment.commentid)
-                                                    .Select(x => x.comment_text)
+            var oldcommentText = await _context.Comments.Where(x => x.ID == comment.ID)
+                                                    .Select(x => x.commentText)
                                                     .FirstOrDefaultAsync();
 
             var query = comment.EditComment(oldcommentText);
@@ -151,7 +151,7 @@ namespace GnuOne.Controllers
         }
         private bool CommentExists(int? id)
         {
-            return _context.Comments.Any(e => e.commentid == id);
+            return _context.Comments.Any(e => e.ID == id);
         }
     }
 }

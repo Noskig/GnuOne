@@ -37,7 +37,7 @@ namespace Library.HelpClasses
             var mailAddress = mySettings.Email;
             var password = mySettings.Password;
             MimeMessage message = new MimeMessage();
-            message.From.Add(new MailboxAddress(mySettings.Username, mailAddress));
+            message.From.Add(new MailboxAddress(mySettings.userName, mailAddress));
             message.To.Add(MailboxAddress.Parse(email));
             message.Subject = sw.ToString();
             message.Body = new TextPart("plain")
@@ -76,7 +76,7 @@ namespace Library.HelpClasses
 
             //Vill endast skicka username och Email.
 
-            string username = mySettings.Username;
+            string username = mySettings.userName;
             string mailAddress = mySettings.Email;
 
 
@@ -136,7 +136,7 @@ namespace Library.HelpClasses
 
             //Vill endast skicka username och Email.
 
-            string username = mySettings.Username;
+            string username = mySettings.userName;
             string mailAddress = mySettings.Email;
 
             var password = mySettings.Password;
@@ -197,7 +197,7 @@ namespace Library.HelpClasses
 
             //Vill endast skicka username och Email.
 
-            string username = mySettings.Username;
+            string username = mySettings.userName;
             string mailAddress = mySettings.Email;
 
             var password = mySettings.Password;
@@ -255,7 +255,7 @@ namespace Library.HelpClasses
 
             //Vill endast skicka username och Email.
 
-            string username = mySettings.Username;
+            string username = mySettings.userName;
             string mailAddress = mySettings.Email;
 
             var password = mySettings.Password;

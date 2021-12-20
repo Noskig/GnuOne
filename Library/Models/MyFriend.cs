@@ -10,10 +10,10 @@ namespace Library
     public class MyFriend
     {
         [Key]
-        public int userid { get; set; }
-        public string? username { get; set; }
+        public int ID { get; set; }
+        public string? userName { get; set; }
         public string Email { get; set; }
-        public bool IsFriend { get; set; } = false;
+        public bool isFriend { get; set; } = false;
 
         public MyFriend()
         {
@@ -21,7 +21,7 @@ namespace Library
         }
         public MyFriend(string[] bodymessage)
         {
-            this.username = bodymessage[0];
+            this.userName = bodymessage[0];
             this.Email = bodymessage[1];
         }
     }

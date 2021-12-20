@@ -75,7 +75,7 @@ namespace GnuOne.Data
                             case "AcceptedfriendRequest":
                                 var bodymessages = decrypted.Split("/()/");
                                 var friend = _newContext.MyFriends.Where(x => x.Email == bodymessages[0]).FirstOrDefault();
-                                friend.IsFriend = true;
+                                friend.isFriend = true;
                                 _newContext.Update(friend);
                                 _newContext.SaveChanges();
 
@@ -86,7 +86,7 @@ namespace GnuOne.Data
                                     {
                                         foreach (Discussion x in deserializedItemsFromItems) 
                                         {
-                                            Discussion discdisc = new Discussion() { user = x.user, headline = x.headline, discussiontext = x.discussiontext, createddate = x.createddate};
+                                            Discussion discdisc = new Discussion() { userName = x.userName, Headline = x.Headline, discussionText = x.discussionText, Date = x.Date};
                                             _newContext.Discussions.Add(discdisc); 
                                         };
                                         _newContext.SaveChanges();
@@ -97,7 +97,7 @@ namespace GnuOne.Data
                                     {
                                         foreach (Post x in deserializedItemsFromItems1) 
                                         {
-                                            Post pospos = new Post() { User = x.User, DateTime = x.DateTime, Text = x.Text }; //Discussion ID!? DÖÖÖÖÖDEN! =D 
+                                            Post pospos = new Post() { userName = x.userName, Date = x.Date, postText = x.postText }; //Discussion ID!? DÖÖÖÖÖDEN! =D 
                                             _newContext.Posts.Add(x); 
                                         };
                                         _newContext.SaveChanges();
@@ -107,7 +107,7 @@ namespace GnuOne.Data
                                     {
                                         foreach (MyFriendsFriends x in deserializedItemsFromItems2) 
                                         {
-                                            MyFriendsFriends friefrie = new MyFriendsFriends() { Email = x.Email, userName = x.userName, myFriendID = friend.userid };
+                                            MyFriendsFriends friefrie = new MyFriendsFriends() { Email = x.Email, userName = x.userName, myFriendID = friend.ID };
                                             _newContext.MyFriendsFriends.Add(friefrie); 
                                         };
                                         _newContext.SaveChanges();

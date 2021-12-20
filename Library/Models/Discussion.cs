@@ -10,20 +10,20 @@ namespace Library
     public class Discussion
     {
         [Key]
-        public int? discussionid { get; set; }
-        public string headline { get; set; } 
-        public string discussiontext { get; set; } 
-        public string user { get; set; } 
-        public DateTime createddate { get; set; }
+        public int? ID { get; set; }
+        public string Headline { get; set; } 
+        public string discussionText { get; set; } 
+        public string userName { get; set; } 
+        public DateTime Date { get; set; }
 
         public string SendDiscussion()
         {
-            var one = '"' + this.discussionid.ToString() + '"';
-            var two = '"' + this.headline + '"';
+            var one = '"' + this.ID.ToString() + '"';
+            var two = '"' + this.Headline + '"';
 
-            var thr = '"' + this.discussiontext + '"';
-            var fou = '"' + this.user + '"';
-            var fiv = '"' + this.createddate.ToString() + '"';
+            var thr = '"' + this.discussionText + '"';
+            var fou = '"' + this.userName + '"';
+            var fiv = '"' + this.Date.ToString() + '"';
 
             var comma = ",";
 
@@ -36,11 +36,11 @@ namespace Library
 
         public string EditDiscussion(string oldtext)
         {
-            var one = '"' + this.discussionid.ToString() + '"';
-            var two = '"' + this.headline + '"';
-            var thr = '"' + this.discussiontext + '"';
-            var fou = '"' + this.user + '"';
-            var fiv = '"' + this.createddate.ToString() + '"';
+            var one = '"' + this.ID.ToString() + '"';
+            var two = '"' + this.Headline + '"';
+            var thr = '"' + this.discussionText + '"';
+            var fou = '"' + this.userName + '"';
+            var fiv = '"' + this.Date.ToString() + '"';
 
             oldtext = '"' + oldtext + '"';
 
@@ -52,11 +52,11 @@ namespace Library
 
         public string DeleteDiscussion()
         {
-            var one = '"' + this.discussionid.ToString() + '"';
-            var two = '"' + this.headline + '"';
-            var thr = '"' + this.discussiontext + '"';
-            var fou = '"' + this.user + '"';
-            var fiv = '"' + this.createddate.ToString() + '"';
+            var one = '"' + this.ID.ToString() + '"';
+            var two = '"' + this.Headline + '"';
+            var thr = '"' + this.discussionText + '"';
+            var fou = '"' + this.userName + '"';
+            var fiv = '"' + this.Date.ToString() + '"';
 
             string query = $"DELETE from DISCUSSION WHERE DISCUSSIONID={one} AND Headline={two} AND DiscussionText={thr} AND User={fou}";
 

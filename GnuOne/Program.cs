@@ -49,7 +49,7 @@ while (oo)
                 ID = 1,
                 Email = email,
                 Password = pw,
-                Username = username,
+                userName = username,
                 Secret = "secretkey"
             };
             try

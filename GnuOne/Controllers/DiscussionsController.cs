@@ -61,7 +61,7 @@ namespace GnuOne.Controllers
             }
 
 
-            var postlist = await _context.Posts.Where(x => x.discussionid == id).ToListAsync();
+            var postlist = await _context.Posts.Where(x => x.ID == id).ToListAsync();
 
             var dto = new DiscussionDTO(discussion, postlist);
 
@@ -77,18 +77,18 @@ namespace GnuOne.Controllers
         [HttpPost]
         public async Task<IActionResult> PostDiscussion([FromBody] Discussion discussion)
         {
-            discussion.createddate = DateTime.Now;
+            discussion.Date = DateTime.Now;
             //discussion.user = _settings.Username;
 
             //Sätter ID manuellt för att matcha i DB hos alla användare. Vill vi ha det så?
             if (_context.Discussions.Any())
             {
-                var HighestID = await _context.Discussions.Select(x => x.discussionid).MaxAsync();
-                discussion.discussionid = HighestID + 1;
+                var HighestID = await _context.Discussions.Select(x => x.ID).MaxAsync();
+                discussion.ID = HighestID + 1;
             }
             else
             {
-                discussion.discussionid = 1;
+                discussion.ID = 1;
             }
 
             //var JsonDiscussion = JsonConvert.SerializeObject(discussion);
@@ -104,7 +104,7 @@ namespace GnuOne.Controllers
             }
 
 
-            return CreatedAtAction("GetDiscussion", new { id = discussion.discussionid }, discussion);
+            return CreatedAtAction("GetDiscussion", new { id = discussion.ID }, discussion);
         }
 
         // PUT: api/Discussions/5
@@ -117,7 +117,7 @@ namespace GnuOne.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDiscussion(int id, Discussion discussion)
         {
-            if (id != discussion.discussionid)
+            if (id != discussion.ID)
             {
                 return BadRequest();
             }
@@ -128,8 +128,8 @@ namespace GnuOne.Controllers
 
             //hittar gamla texten för att skicka med 
             //och hitta den unika kommentaren i databasen hos de andra användare
-            var oldtext = await _context.Discussions.Where(x => x.discussionid == discussion.discussionid)
-                                                    .Select(x => x.discussiontext)
+            var oldtext = await _context.Discussions.Where(x => x.ID == discussion.ID)
+                                                    .Select(x => x.discussionText)
                                                     .FirstOrDefaultAsync();
 
 
@@ -173,7 +173,7 @@ namespace GnuOne.Controllers
         }
         private bool DiscussionExists(int? id)
         {
-            return _context.Discussions.Any(e => e.discussionid == id);
+            return _context.Discussions.Any(e => e.ID == id);
         }
     }
 }

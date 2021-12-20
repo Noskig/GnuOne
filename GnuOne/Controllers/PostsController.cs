@@ -65,17 +65,17 @@ namespace GnuOne.Controllers
         [HttpPost]
         public async Task<IActionResult> PostPost([FromBody] Post post)
         {
-            post.DateTime = DateTime.Now;
+            post.Date = DateTime.Now;
 
             //Sätter ID manuellt för att matcha i DB hos alla användare.
             if (_context.Posts.Any())
             {
-                var HighestID = await _context.Posts.Select(x => x.postid).MaxAsync();
-                post.postid = HighestID + 1;
+                var HighestID = await _context.Posts.Select(x => x.ID).MaxAsync();
+                post.ID = HighestID + 1;
             }
             else
             {
-                post.postid = 1;
+                post.ID = 1;
             }
             //skickar ut mail
             var settings = await _context.MySettings.FirstAsync();
@@ -87,7 +87,7 @@ namespace GnuOne.Controllers
                 ///Skicka mail
                 MailSender.SendEmail(user.Email, query, "Post", _settings);
             }
-            return CreatedAtAction("GetPost", new { id = post.postid }, post);
+            return CreatedAtAction("GetPost", new { id = post.ID }, post);
         }
 
         // PUT: api/Posts/5
@@ -100,7 +100,7 @@ namespace GnuOne.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPost(int? id, Post post)
         {
-            if (id != post.postid)
+            if (id != post.ID)
             {
                 return BadRequest();
             }
@@ -111,7 +111,7 @@ namespace GnuOne.Controllers
             }
             //hittar gamla texten för att skicka med 
             //och hitta den unika kommentaren i databasen hos de andra användare
-            var oldtext = await _context.Posts.Where(x => x.postid == post.postid).Select(x => x.Text).FirstOrDefaultAsync();
+            var oldtext = await _context.Posts.Where(x => x.ID == post.ID).Select(x => x.postText).FirstOrDefaultAsync();
 
             //skickar ut mail
             var query = post.EditPost(oldtext);
@@ -149,7 +149,7 @@ namespace GnuOne.Controllers
 
         private bool PostExists(int? id)
         {
-            return _context.Posts.Any(e => e.postid == id);
+            return _context.Posts.Any(e => e.ID == id);
         }
     }
 }

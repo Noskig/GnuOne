@@ -10,19 +10,19 @@ namespace Library
     public class Post
     {
         [Key]
-        public int? postid { get; set; }
-        public string User { get; set; } 
-        public string Text { get; set; } 
-        public DateTime DateTime { get; set; }
-        public int discussionid { get; set; }
+        public int? ID { get; set; }
+        public string userName { get; set; } 
+        public string postText { get; set; } 
+        public DateTime Date { get; set; }
+        public int discussionID { get; set; }
 
         public string SendPost()
         {
-            var one = '"' + this.postid.ToString() + '"';
-            var two = '"' + this.User + '"';
-            var thr = '"' + this.Text + '"';
-            var fou = '"' + this.DateTime.ToString() + '"';
-            var fiv = this.discussionid;
+            var one = '"' + this.ID.ToString() + '"';
+            var two = '"' + this.userName + '"';
+            var thr = '"' + this.postText + '"';
+            var fou = '"' + this.Date.ToString() + '"';
+            var fiv = this.discussionID;
 
             var comma = ",";
 
@@ -34,11 +34,11 @@ namespace Library
 
         public string EditPost(string oldtext)
         {
-            var one = '"' + this.postid.ToString() + '"';
-            var two = '"' + this.User + '"';
-            var thr = '"' + this.Text + '"';
-            var fou = '"' + this.DateTime.ToString() + '"';
-            var fiv = this.discussionid;
+            var one = '"' + this.ID.ToString() + '"';
+            var two = '"' + this.userName + '"';
+            var thr = '"' + this.postText + '"';
+            var fou = '"' + this.Date.ToString() + '"';
+            var fiv = this.discussionID;
 
             oldtext = '"' + oldtext + '"';
 
@@ -49,11 +49,11 @@ namespace Library
 
         public string DeletePost()
         {
-            var one = '"' + this.postid.ToString() + '"';
-            var two = '"' + this.User + '"';
-            var thr = '"' + this.Text + '"';
-            var fou = '"' + this.DateTime.ToString() + '"';
-            var fiv = this.discussionid;
+            var one = '"' + this.ID.ToString() + '"';
+            var two = '"' + this.userName + '"';
+            var thr = '"' + this.postText + '"';
+            var fou = '"' + this.Date.ToString() + '"';
+            var fiv = this.discussionID;
 
             string query = $"DELETE from POSTS WHERE POSTID={one} AND User={two} AND Text={thr}";
 
