@@ -35,8 +35,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `comment_text` varchar(100) NOT NULL,
   `postid` int(11) NOT NULL,
   PRIMARY KEY (`commentid`) USING BTREE,
-  KEY `FK_comments_posts` (`postid`),
-  CONSTRAINT `FK_comments_posts` FOREIGN KEY (`postid`) REFERENCES `posts` (`postid`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `FK_comments_posts` (`postid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumpar data för tabell gnu.comments: ~0 rows (ungefär)
@@ -44,22 +43,20 @@ DELETE FROM `comments`;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 
--- Dumpar struktur för tabell gnu.discussion
-CREATE TABLE IF NOT EXISTS `discussion` (
-  `discussionid` int(11) NOT NULL,
+-- Dumpar struktur för tabell gnu.discussions
+CREATE TABLE IF NOT EXISTS `discussions` (
+  `discussionid` int(11) NOT NULL AUTO_INCREMENT,
   `headline` varchar(50) DEFAULT NULL,
   `discussiontext` varchar(500) DEFAULT NULL,
   `user` varchar(50) DEFAULT NULL,
   `createddate` datetime DEFAULT NULL,
   PRIMARY KEY (`discussionid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.discussion: ~1 rows (ungefär)
-DELETE FROM `discussion`;
-/*!40000 ALTER TABLE `discussion` DISABLE KEYS */;
-INSERT INTO `discussion` (`discussionid`, `headline`, `discussiontext`, `user`, `createddate`) VALUES
-	(1, 'Första H', 'Första diskussionen', 'Yos', '2021-12-20 10:02:36');
-/*!40000 ALTER TABLE `discussion` ENABLE KEYS */;
+-- Dumpar data för tabell gnu.discussions: ~1 rows (ungefär)
+DELETE FROM `discussions`;
+/*!40000 ALTER TABLE `discussions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `discussions` ENABLE KEYS */;
 
 -- Dumpar struktur för tabell gnu.lastupdates
 CREATE TABLE IF NOT EXISTS `lastupdates` (
@@ -72,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `lastupdates` (
 DELETE FROM `lastupdates`;
 /*!40000 ALTER TABLE `lastupdates` DISABLE KEYS */;
 INSERT INTO `lastupdates` (`ID`, `TimeSet`) VALUES
-	(1, '2021-12-20 11:34:22');
+	(1, '1950-01-01 01:01:01');
 /*!40000 ALTER TABLE `lastupdates` ENABLE KEYS */;
 
 -- Dumpar struktur för tabell gnu.myfriends
@@ -82,9 +79,9 @@ CREATE TABLE IF NOT EXISTS `myfriends` (
   `Email` varchar(50) DEFAULT NULL,
   `IsFriend` bit(1) DEFAULT NULL,
   PRIMARY KEY (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myfriends: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.myfriends: ~2 rows (ungefär)
 DELETE FROM `myfriends`;
 /*!40000 ALTER TABLE `myfriends` DISABLE KEYS */;
 /*!40000 ALTER TABLE `myfriends` ENABLE KEYS */;
@@ -121,21 +118,18 @@ DELETE FROM `mysettings`;
 
 -- Dumpar struktur för tabell gnu.posts
 CREATE TABLE IF NOT EXISTS `posts` (
-  `postid` int(11) NOT NULL,
+  `postid` int(11) NOT NULL AUTO_INCREMENT,
   `User` varchar(50) NOT NULL DEFAULT '',
   `text` varchar(1000) NOT NULL DEFAULT '',
   `DateTime` datetime NOT NULL,
   `discussionid` int(11) NOT NULL,
   PRIMARY KEY (`postid`) USING BTREE,
-  KEY `FK_posts_discussion` (`discussionid`),
-  CONSTRAINT `FK_posts_discussion` FOREIGN KEY (`discussionid`) REFERENCES `discussion` (`discussionid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `FK_posts_discussion` (`discussionid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Dumpar data för tabell gnu.posts: ~1 rows (ungefär)
 DELETE FROM `posts`;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` (`postid`, `User`, `text`, `DateTime`, `discussionid`) VALUES
-	(1, 'Albin', 'Skriver igen', '2021-12-20 11:21:57', 1);
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 
 -- Dumpar struktur för tabell gnu.users
