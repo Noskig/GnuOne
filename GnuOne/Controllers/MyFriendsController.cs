@@ -75,7 +75,7 @@ namespace GnuOne.Controllers
 
                 string myName = _settings.Username;
 
-                var allMyDiscussion = _context.Discussion.Where(x => x.user == myName).ToList();
+                var allMyDiscussion = _context.Discussions.Where(x => x.user == myName).ToList();
                 foreach (var item in allMyDiscussion)
                 {
                     item.discussionid = null;
@@ -101,8 +101,8 @@ namespace GnuOne.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] MyFriend MyFriend)
         {
-            var MyDiscussions = _context.Discussion.Where(x => x.user == MyFriend.username).ToList(); //lägga till Email kolumn i discussion? Unikt ID?
-            _context.Discussion.RemoveRange(MyDiscussions);
+            var MyDiscussions = _context.Discussions.Where(x => x.user == MyFriend.username).ToList(); //lägga till Email kolumn i discussion? Unikt ID?
+            _context.Discussions.RemoveRange(MyDiscussions);
             var MyFriends = _context.MyFriends.Where(x => x.Email == MyFriend.Email).ToList();
             _context.MyFriends.RemoveRange(MyFriends);
             await _context.SaveChangesAsync();

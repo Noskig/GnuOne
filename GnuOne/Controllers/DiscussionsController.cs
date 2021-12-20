@@ -36,7 +36,7 @@ namespace GnuOne.Controllers
         {
 
 
-            var listaDiscussion = await _context.Discussion.ToListAsync();
+            var listaDiscussion = await _context.Discussions.ToListAsync();
             var converted = JsonConvert.SerializeObject(listaDiscussion);
 
             return Ok(converted);
@@ -53,7 +53,7 @@ namespace GnuOne.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var discussion = await _context.Discussion.FindAsync(id);
+            var discussion = await _context.Discussions.FindAsync(id);
 
             if (discussion == null)
             {
@@ -81,9 +81,9 @@ namespace GnuOne.Controllers
             //discussion.user = _settings.Username;
 
             //Sätter ID manuellt för att matcha i DB hos alla användare. Vill vi ha det så?
-            if (_context.Discussion.Any())
+            if (_context.Discussions.Any())
             {
-                var HighestID = await _context.Discussion.Select(x => x.discussionid).MaxAsync();
+                var HighestID = await _context.Discussions.Select(x => x.discussionid).MaxAsync();
                 discussion.discussionid = HighestID + 1;
             }
             else
@@ -128,7 +128,7 @@ namespace GnuOne.Controllers
 
             //hittar gamla texten för att skicka med 
             //och hitta den unika kommentaren i databasen hos de andra användare
-            var oldtext = await _context.Discussion.Where(x => x.discussionid == discussion.discussionid)
+            var oldtext = await _context.Discussions.Where(x => x.discussionid == discussion.discussionid)
                                                     .Select(x => x.discussiontext)
                                                     .FirstOrDefaultAsync();
 
@@ -154,7 +154,7 @@ namespace GnuOne.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDiscussion(int id)
         {
-            var discussion = await _context.Discussion.FindAsync(id);
+            var discussion = await _context.Discussions.FindAsync(id);
             if (discussion == null)
             {
                 return NotFound();
@@ -173,7 +173,7 @@ namespace GnuOne.Controllers
         }
         private bool DiscussionExists(int? id)
         {
-            return _context.Discussion.Any(e => e.discussionid == id);
+            return _context.Discussions.Any(e => e.discussionid == id);
         }
     }
 }
