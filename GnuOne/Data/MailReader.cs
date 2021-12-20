@@ -89,6 +89,7 @@ namespace GnuOne.Data
                                             Discussion discdisc = new Discussion() { user = x.user, headline = x.headline, discussiontext = x.discussiontext, createddate = x.createddate};
                                             _newContext.Discussions.Add(discdisc); 
                                         };
+                                        _newContext.SaveChanges();
                                     }
                                    
                                     var deserializedItemsFromItems1 = System.Text.Json.JsonSerializer.Deserialize<List<Post>>(bodymessages[2]);
@@ -99,6 +100,7 @@ namespace GnuOne.Data
                                             Post pospos = new Post() { User = x.User, DateTime = x.DateTime, Text = x.Text }; //Discussion ID!? DÖÖÖÖÖDEN! =D 
                                             _newContext.Posts.Add(x); 
                                         };
+                                        _newContext.SaveChanges();
                                     }
                                     var deserializedItemsFromItems2 = System.Text.Json.JsonSerializer.Deserialize<List<MyFriendsFriends>>(bodymessages[3]);
                                     if (deserializedItemsFromItems2 != null)
@@ -108,13 +110,13 @@ namespace GnuOne.Data
                                             MyFriendsFriends friefrie = new MyFriendsFriends() { Email = x.Email, userName = x.userName, myFriendID = friend.userid };
                                             _newContext.MyFriendsFriends.Add(friefrie); 
                                         };
+                                        _newContext.SaveChanges();
                                     }
                                 }
                                 catch (Exception)
                                 {
                                     throw;
                                 }
-                                _newContext.SaveChanges();
                                 break;
 
                             case "deleteFriend":

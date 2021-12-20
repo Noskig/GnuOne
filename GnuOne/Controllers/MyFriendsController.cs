@@ -90,10 +90,7 @@ namespace GnuOne.Controllers
                 string myPostJson = System.Text.Json.JsonSerializer.Serialize(allMyPost);
 
                 var allMyFriends = _context.MyFriends.ToList();
-                //foreach (var item in allMyFriends)
-                //{
-                //    item.userid = null;
-                //}
+               
                 string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
                 MailSender.SendAcceptedRequest(_settings, MyFriend.Email, myDiscussionJson, myPostJson, myFriendJson);
 

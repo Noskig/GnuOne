@@ -12,7 +12,7 @@ namespace GnuOne.Data
         {
         }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<Discussion> Discussion { get; set; }
+        public DbSet<Discussion> Discussions { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<MyFriend> MyFriends { get; set; }
         public DbSet<MyFriendsFriends> MyFriendsFriends { get; set; }
