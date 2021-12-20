@@ -84,12 +84,21 @@ namespace GnuOne.Data
                                     var deserializedItemsFromItems = System.Text.Json.JsonSerializer.Deserialize<List<Discussion>>(bodymessages[1]);
                                     if (deserializedItemsFromItems != null)
                                     {
-                                        foreach (Discussion x in deserializedItemsFromItems) { _newContext.Discussions.Add(x); };
+                                        foreach (Discussion x in deserializedItemsFromItems) 
+                                        {
+                                            Discussion discdisc = new Discussion() { user = x.user, headline = x.headline, discussiontext = x.discussiontext, createddate = x.createddate};
+                                            _newContext.Discussions.Add(discdisc); 
+                                        };
                                     }
+                                   
                                     var deserializedItemsFromItems1 = System.Text.Json.JsonSerializer.Deserialize<List<Post>>(bodymessages[2]);
                                     if (deserializedItemsFromItems1 != null)
                                     {
-                                        foreach (Post x in deserializedItemsFromItems1) { _newContext.Posts.Add(x); };
+                                        foreach (Post x in deserializedItemsFromItems1) 
+                                        {
+                                            Post pospos = new Post() { User = x.User, DateTime = x.DateTime, Text = x.Text }; //Discussion ID!? DÖÖÖÖÖDEN! =D 
+                                            _newContext.Posts.Add(x); 
+                                        };
                                     }
                                     var deserializedItemsFromItems2 = System.Text.Json.JsonSerializer.Deserialize<List<MyFriendsFriends>>(bodymessages[3]);
                                     if (deserializedItemsFromItems2 != null)
