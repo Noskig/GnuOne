@@ -4,13 +4,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+//Bara ändra SendDiscussion Email/ID to unix.
 namespace Library
 {
     public class Discussion
     {
         [Key]
         public int? ID { get; set; }
+        public string Email { get; set; }
         public string Headline { get; set; } 
         public string discussionText { get; set; } 
         public string userName { get; set; } 
@@ -19,15 +20,17 @@ namespace Library
         public string SendDiscussion()
         {
             var one = '"' + this.ID.ToString() + '"';
-            var two = '"' + this.Headline + '"';
+            var two = '"' + this.Email + '"';
 
-            var thr = '"' + this.discussionText + '"';
-            var fou = '"' + this.userName + '"';
-            var fiv = '"' + this.Date.ToString() + '"';
+            var thr = '"' + this.Headline + '"';
+
+            var fou = '"' + this.discussionText + '"';
+            var fiv = '"' + this.userName + '"';
+            var six = '"' + this.Date.ToString() + '"';
 
             var comma = ",";
 
-            string query = "INSERT into DISCUSSION (DISCUSSIONID, HEADLINE, DISCUSSIONTEXT, USER, CREATEDDATE) VALUES (" + one + comma + two + comma + thr + comma + fou + comma + fiv + ")";
+            string query = "INSERT into DISCUSSION (DISCUSSIONID, HEADLINE, DISCUSSIONTEXT, USER, CREATEDDATE) VALUES (" + one + comma + two + comma + thr + comma + fou + comma + fiv + comma + six + ")";
 
 
             return query;

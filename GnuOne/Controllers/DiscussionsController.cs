@@ -81,16 +81,21 @@ namespace GnuOne.Controllers
             //discussion.user = _settings.Username;
 
             //Sätter ID manuellt för att matcha i DB hos alla användare. Vill vi ha det så?
-            if (_context.Discussions.Any())
-            {
-                var HighestID = await _context.Discussions.Select(x => x.ID).MaxAsync();
-                discussion.ID = HighestID + 1;
-            }
-            else
-            {
-                discussion.ID = 1;
-            }
+            //if (_context.Discussions.Any())
+            //{
+            //    var HighestID = await _context.Discussions.Select(x => x.ID).MaxAsync();
+            //    discussion.ID = HighestID + 1;
+            //}
+            //else
+            //{
+            //    discussion.ID = 1;
+            //}
+            DateTime foo = DateTime.Now;
+            long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
+            discussion.ID = Convert.ToInt32(unixTime);
+            discussion.Email = _settings.Email;
 
+     
             //var JsonDiscussion = JsonConvert.SerializeObject(discussion);
 
             // Mailsender.sendemail(JsonDiscussion, 

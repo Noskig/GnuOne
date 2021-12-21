@@ -7,10 +7,12 @@ namespace Library
     {
         [Key]
         public int? ID { get; set; }
+        public string Email { get; set; }
         public string userName { get; set; } 
         public DateTime Date { get; set; }
         public string commentText { get; set; }
         public int postID { get; set; }
+        public string postEmail { get; set; }
 
         public string SendComments() 
         { 

@@ -33,12 +33,15 @@ USE `gnu`;
 -- Dumpar struktur för tabell gnu.comments
 CREATE TABLE IF NOT EXISTS `comments` (
   `ID` int(11) NOT NULL,
+  `Email` varchar(50) NOT NULL DEFAULT '',
   `userName` varchar(50) DEFAULT NULL,
   `Date` datetime DEFAULT NULL,
   `commentText` varchar(100) NOT NULL,
   `postID` int(11) NOT NULL,
-  PRIMARY KEY (`ID`) USING BTREE,
-  KEY `FK_comments_posts` (`postID`) USING BTREE
+  `postEmail` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`ID`,`Email`),
+  KEY `FK_comments_posts` (`postID`,`postEmail`),
+  CONSTRAINT `FK_comments_posts` FOREIGN KEY (`postID`, `postEmail`) REFERENCES `posts` (`ID`, `Email`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumpar data för tabell gnu.comments: ~0 rows (ungefär)
@@ -48,13 +51,14 @@ DELETE FROM `comments`;
 
 -- Dumpar struktur för tabell gnu.discussions
 CREATE TABLE IF NOT EXISTS `discussions` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ID` int(11) NOT NULL,
+  `Email` varchar(50) NOT NULL DEFAULT '',
   `Headline` varchar(50) DEFAULT NULL,
   `discussionText` varchar(500) DEFAULT NULL,
   `userName` varchar(50) DEFAULT NULL,
   `Date` datetime DEFAULT NULL,
-  PRIMARY KEY (`ID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`ID`,`Email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumpar data för tabell gnu.discussions: ~0 rows (ungefär)
 DELETE FROM `discussions`;
@@ -121,14 +125,17 @@ DELETE FROM `mysettings`;
 
 -- Dumpar struktur för tabell gnu.posts
 CREATE TABLE IF NOT EXISTS `posts` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ID` int(11) NOT NULL,
+  `Email` varchar(50) NOT NULL,
   `userName` varchar(50) NOT NULL DEFAULT '',
   `postText` varchar(1000) NOT NULL DEFAULT '',
   `Date` datetime NOT NULL,
   `discussionID` int(11) NOT NULL,
-  PRIMARY KEY (`ID`) USING BTREE,
-  KEY `FK_posts_discussion` (`discussionID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `discussionEmail` varchar(50) NOT NULL,
+  PRIMARY KEY (`ID`,`Email`),
+  KEY `FK_posts_discussions` (`discussionID`,`discussionEmail`),
+  CONSTRAINT `FK_posts_discussions` FOREIGN KEY (`discussionID`, `discussionEmail`) REFERENCES `discussions` (`ID`, `Email`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumpar data för tabell gnu.posts: ~0 rows (ungefär)
 DELETE FROM `posts`;
