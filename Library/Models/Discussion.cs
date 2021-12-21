@@ -30,7 +30,7 @@ namespace Library
 
             var comma = ",";
 
-            string query = "INSERT into DISCUSSION (DISCUSSIONID, HEADLINE, DISCUSSIONTEXT, USER, CREATEDDATE) VALUES (" + one + comma + two + comma + thr + comma + fou + comma + fiv + comma + six + ")";
+            string query = "INSERT into discussions (ID, Email, Headline, discussionText, userName, Date) VALUES (" + one + comma + two + comma + thr + comma + fou + comma + fiv + comma + six + ")";
 
 
             return query;
@@ -47,8 +47,8 @@ namespace Library
 
             oldtext = '"' + oldtext + '"';
 
-            string query = $"UPDATE DISCUSSION SET DISCUSSIONTEXT={thr}, HEADLINE={two} " +
-                $"WHERE discussionid={one} AND DISCUSSIONTEXT={oldtext} AND USER={fou}";
+            string query = $"UPDATE DISCUSSIONs SET DISCUSSIONTEXT={thr}, HEADLINE={two} " +
+                $"WHERE ID={one} AND DISCUSSIONTEXT={oldtext} AND userName={fou}";
             //Where ID And Email?
             return query;
         }
@@ -61,7 +61,7 @@ namespace Library
             var fou = '"' + this.userName + '"';
             var fiv = '"' + this.Date.ToString() + '"';
 
-            string query = $"DELETE from DISCUSSION WHERE DISCUSSIONID={one} AND Headline={two} AND DiscussionText={thr} AND User={fou}";
+            string query = $"DELETE from DISCUSSIONs WHERE ID={one} AND Headline={two} AND DiscussionText={thr} AND UserName={fou}";
 
             return query;
         }

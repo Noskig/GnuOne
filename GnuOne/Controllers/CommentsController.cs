@@ -124,7 +124,7 @@ namespace GnuOne.Controllers
 
             foreach (var user in _context.MyFriends)
             {
-                MailSender.SendEmail(user.Email, query, "PUT", _settings);
+                MailSender.SendEmail(user.Email, query, "Put", _settings);
             }
             _context.Update(comment);
             _context.SaveChanges();

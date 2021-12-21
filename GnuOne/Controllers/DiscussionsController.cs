@@ -146,7 +146,7 @@ namespace GnuOne.Controllers
             foreach (var user in _context.MyFriends)
             {
                 ///Skicka mail
-                MailSender.SendEmail(user.Email, query, "PUT", _settings);
+                MailSender.SendEmail(user.Email, query, "Put", _settings);
             }
             _context.Update(discussion);
             _context.SaveChanges();
@@ -175,7 +175,7 @@ namespace GnuOne.Controllers
             foreach (var user in _context.MyFriends)
             {
                 ///Skicka mail
-                MailSender.SendEmail(user.Email, query, "PUT", _settings);
+                MailSender.SendEmail(user.Email, query, "Delete", _settings);
             }
             _context.Remove(discussion);
             _context.SaveChanges();

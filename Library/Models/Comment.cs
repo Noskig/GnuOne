@@ -23,7 +23,7 @@ namespace Library
             var fou = '"' + this.Date.ToString() + '"';
             var fiv = '"' + this.commentText + '"';
             var six = this.postID;
-            var sev = this.postEmail;
+            var sev = '"' + this.postEmail + '"';
 
             var comma = ",";
 
@@ -38,7 +38,7 @@ namespace Library
             var fou = '"' + this.commentText + '"';
             var fiv = '"' + this.postID;
 
-            string query = $"DELETE from COMMENTS WHERE COMMENTID={one} AND user={two} AND COMMENT_TEXT={fou}";
+            string query = $"DELETE from COMMENTS WHERE ID={one} AND username={two} AND COMMENTTEXT={fou}";
             return query;
         }
         public string EditComment(string oldcommenttext)
@@ -51,7 +51,7 @@ namespace Library
 
             oldcommenttext = '"' + oldcommenttext + '"';
 
-            string query = $"UPDATE COMMENTS SET COMMENT_TEXT={fou}, date={thr} WHERE commentid={one} AND COMMENT_TEXT={oldcommenttext}";
+            string query = $"UPDATE COMMENTS SET COMMENTTEXT={fou}, date={thr} WHERE id={one} AND COMMENTTEXT={oldcommenttext}";
             return query;
         }
 

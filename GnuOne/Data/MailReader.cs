@@ -38,10 +38,10 @@ namespace GnuOne.Data
                         {
                             switch (Sub[1])
                             {
-                                case "DELETE":
+                                case "Delete":
                                     DbCommand.CreateCommand(decrypted, ConnectionString);
                                     break;
-                                case "PUT":
+                                case "Put":
                                     DbCommand.CreateCommand(decrypted, ConnectionString);
                                     break;
                                 case "friendRequest":

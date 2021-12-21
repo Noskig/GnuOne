@@ -26,7 +26,7 @@ namespace Library
             var fou = '"' + this.postText + '"';
             var fiv = '"' + this.Date.ToString() + '"';
             var six = this.discussionID;
-            var sev = this.discussionEmail;
+            var sev = '"' + this.discussionEmail + '"';
 
             var comma = ",";
 
@@ -46,7 +46,7 @@ namespace Library
 
             oldtext = '"' + oldtext + '"';
 
-            string query = $"UPDATE POSTS SET TEXT={thr} WHERE postid={one} AND User={two} AND Text={oldtext}";
+            string query = $"UPDATE POSTS SET postTEXT={thr} WHERE id={one} AND Username={two} AND postText={oldtext}";
 
             return query;
         }
@@ -59,7 +59,7 @@ namespace Library
             var fou = '"' + this.Date.ToString() + '"';
             var fiv = this.discussionID;
 
-            string query = $"DELETE from POSTS WHERE POSTID={one} AND User={two} AND Text={thr}";
+            string query = $"DELETE from POSTS WHERE ID={one} AND Username={two} AND postText={thr}";
 
             return query;
 
