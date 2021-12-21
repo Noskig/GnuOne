@@ -68,15 +68,19 @@ namespace GnuOne.Controllers
             post.Date = DateTime.Now;
 
             //Sätter ID manuellt för att matcha i DB hos alla användare.
-            if (_context.Posts.Any())
-            {
-                var HighestID = await _context.Posts.Select(x => x.ID).MaxAsync();
-                post.ID = HighestID + 1;
-            }
-            else
-            {
-                post.ID = 1;
-            }
+            //if (_context.Posts.Any())
+            //{
+            //    var HighestID = await _context.Posts.Select(x => x.ID).MaxAsync();
+            //    post.ID = HighestID + 1;
+            //}
+            //else
+            //{
+            //    post.ID = 1;
+            //}
+            DateTime foo = DateTime.Now;
+            long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
+            post.ID = Convert.ToInt32(unixTime);
+            post.Email = _settings.Email;
             //skickar ut mail
             var settings = await _context.MySettings.FirstAsync();
             //skickar ut mail

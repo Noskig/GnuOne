@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library
 {
+    //Ändra klassen samt sendComments.
     public class Comment
     {
         [Key]
@@ -17,13 +18,16 @@ namespace Library
         public string SendComments() 
         { 
             var one = '"' + this.ID.ToString() + '"';
-            var two = '"' + this.userName + '"';
-            var thr = '"' + this.Date.ToString() + '"';
-            var fou = '"' + this.commentText + '"';
-            var fiv = this.postID;
+            var two = '"' + this.Email + '"';
+            var thr = '"' + this.userName + '"';
+            var fou = '"' + this.Date.ToString() + '"';
+            var fiv = '"' + this.commentText + '"';
+            var six = this.postID;
+            var sev = this.postEmail;
+
             var comma = ",";
 
-            string query = "INSERT into COMMENTS (COMMENTID, USER, Date, COMMENT_TEXT, POSTID ) VALUES (" + one + comma + two + comma + thr + comma + fou + comma + fiv + ")";
+            string query = "INSERT into COMMENTS (ID, Email, userName, Date, commentText, postID, postEmail ) VALUES (" + one + comma + two + comma + thr + comma + fou + comma + fiv + comma + six + comma + sev + ")";
             return query;
         }
         public string DeleteComments()

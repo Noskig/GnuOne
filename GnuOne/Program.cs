@@ -118,6 +118,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
 app.MapFallbackToFile("index.html"); 
+
+
 int a = 0; //Visualiserar att mailfunktionen rullar.
 var loop1Task = Task.Run(async () => {
     while (true)

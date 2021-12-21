@@ -69,15 +69,19 @@ namespace GnuOne.Controllers
             comment.Date = DateTime.Now;
 
             //För att matcha ID i alla Databaser så sätts den manuellt.
-            if (_context.Comments.Any())
-            {
-                var HighestID = await _context.Comments.Select(x => x.ID).MaxAsync();
-                comment.ID = HighestID + 1;
-            }
-            else
-            {
-                comment.ID = 1;
-            }
+            //if (_context.Comments.Any())
+            //{
+            //    var HighestID = await _context.Comments.Select(x => x.ID).MaxAsync();
+            //    comment.ID = HighestID + 1;
+            //}
+            //else
+            //{
+            //    comment.ID = 1;
+            //}
+            DateTime foo = DateTime.Now;
+            long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
+            comment.ID = Convert.ToInt32(unixTime);
+            comment.Email = _settings.Email;
             var query = comment.SendComments();
             //skickar ut mail
             foreach (var user in _context.MyFriends)

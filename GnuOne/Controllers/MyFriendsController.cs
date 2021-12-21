@@ -39,6 +39,8 @@ namespace GnuOne.Controllers
             await _context.MyFriends.AddAsync(potentialnewfriend);
             await _context.SaveChangesAsync();
             return Ok();
+
+            //KLAR
         }
 
         [HttpGet]
@@ -76,24 +78,17 @@ namespace GnuOne.Controllers
                 string myName = _settings.userName;
 
                 var allMyDiscussion = _context.Discussions.Where(x => x.userName == myName).ToList();
-                foreach (var item in allMyDiscussion)
-                {
-                    item.ID = null;
-                }
                 string myDiscussionJson = System.Text.Json.JsonSerializer.Serialize(allMyDiscussion);
-
                 var allMyPost = _context.Posts.Where(x => x.userName == myName).ToList();
-                foreach (var item in allMyPost)
-                {
-                    item.ID = null;
-                }
                 string myPostJson = System.Text.Json.JsonSerializer.Serialize(allMyPost);
-
                 var allMyFriends = _context.MyFriends.ToList();
                
                 string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
                 MailSender.SendAcceptedRequest(_settings, MyFriend.Email, myDiscussionJson, myPostJson, myFriendJson);
-
+                //TO-DO
+                //Discussion Edit/delete osv
+                //Post
+                //Comments
             }
             return Ok();
         }
@@ -101,7 +96,7 @@ namespace GnuOne.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] MyFriend MyFriend)
         {
-            var MyDiscussions = _context.Discussions.Where(x => x.userName == MyFriend.userName).ToList(); //lägga till Email kolumn i discussion? Unikt ID?
+            var MyDiscussions = _context.Discussions.Where(x => x.Email == MyFriend.Email).ToList(); 
             _context.Discussions.RemoveRange(MyDiscussions);
             var MyFriends = _context.MyFriends.Where(x => x.Email == MyFriend.Email).ToList();
             _context.MyFriends.RemoveRange(MyFriends);
@@ -109,6 +104,8 @@ namespace GnuOne.Controllers
 
             MailSender.DeleteFriend(_settings, MyFriend.Email);
             return Ok();
+
+            //Är denna Okej?
         }
 
 

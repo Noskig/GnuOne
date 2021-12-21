@@ -49,7 +49,7 @@ namespace Library
 
             string query = $"UPDATE DISCUSSION SET DISCUSSIONTEXT={thr}, HEADLINE={two} " +
                 $"WHERE discussionid={one} AND DISCUSSIONTEXT={oldtext} AND USER={fou}";
-
+            //Where ID And Email?
             return query;
         }
 

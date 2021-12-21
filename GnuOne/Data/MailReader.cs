@@ -22,30 +22,16 @@ namespace GnuOne.Data
 
                 for (int i = 0; i < client.Count; i++)
                 {
-                    //Vi behöver inte skicka råa SQL satser. kan istället
-                    ///Decrypt mail
-                    ///Deserialse object -> ex Disucssion disscuission
-                    ///discussion 
-                    ///context.discussion.add(discussio)
-                    ///contect.savechanged()
-
-
                     var message = client.GetMessage(i);
                     var subjet = message.Subject;
-
                     var body = message.GetTextBody(MimeKit.Text.TextFormat.Text);
-
-
-                    
                     string[] relativData = body.Split("XYXY/(/(XYXY7");
-
                     string decrypted = AesCryption.Decrypt(relativData[0], me.Secret);
-
                     string[] Data = decrypted.Split("\"");
                     var LocalDate = _newContext.LastUpdates.First();
                     string[] Sub = subjet.Split("/()/");
                     DateTime IncomeDate = Convert.ToDateTime(Sub[0]);
-                    if (IncomeDate > LocalDate.TimeSet)
+                    if (IncomeDate > LocalDate.timeSet)
                     {
                         switch (Sub[1])
                         {
@@ -77,7 +63,7 @@ namespace GnuOne.Data
                                 var friend = _newContext.MyFriends.Where(x => x.Email == bodymessages[0]).FirstOrDefault();
                                 friend.isFriend = true;
                                 _newContext.Update(friend);
-                                _newContext.SaveChanges();
+                                _newContext.SaveChangesAsync();
 
                                 try
                                 {
@@ -86,10 +72,10 @@ namespace GnuOne.Data
                                     {
                                         foreach (Discussion x in deserializedItemsFromItems) 
                                         {
-                                            Discussion discdisc = new Discussion() { userName = x.userName, Headline = x.Headline, discussionText = x.discussionText, Date = x.Date};
+                                            Discussion discdisc = new Discussion() { ID = x.ID, Email = x.Email, userName = x.userName, Headline = x.Headline, discussionText = x.discussionText, Date = x.Date};
                                             _newContext.Discussions.Add(discdisc); 
                                         };
-                                        _newContext.SaveChanges();
+                                        _newContext.SaveChangesAsync();
                                     }
                                    
                                     var deserializedItemsFromItems1 = System.Text.Json.JsonSerializer.Deserialize<List<Post>>(bodymessages[2]);
@@ -97,10 +83,10 @@ namespace GnuOne.Data
                                     {
                                         foreach (Post x in deserializedItemsFromItems1) 
                                         {
-                                            Post pospos = new Post() { userName = x.userName, Date = x.Date, postText = x.postText }; //Discussion ID!? DÖÖÖÖÖDEN! =D 
+                                            Post pospos = new Post() { ID = x.ID, Email = x.Email, userName = x.userName, Date = x.Date, postText = x.postText }; //Discussion ID!? DÖÖÖÖÖDEN! =D 
                                             _newContext.Posts.Add(x); 
                                         };
-                                        _newContext.SaveChanges();
+                                        _newContext.SaveChangesAsync();
                                     }
                                     var deserializedItemsFromItems2 = System.Text.Json.JsonSerializer.Deserialize<List<MyFriendsFriends>>(bodymessages[3]);
                                     if (deserializedItemsFromItems2 != null)
@@ -110,7 +96,7 @@ namespace GnuOne.Data
                                             MyFriendsFriends friefrie = new MyFriendsFriends() { Email = x.Email, userName = x.userName, myFriendID = friend.ID };
                                             _newContext.MyFriendsFriends.Add(friefrie); 
                                         };
-                                        _newContext.SaveChanges();
+                                        _newContext.SaveChangesAsync();
                                     }
                                 }
                                 catch (Exception)
@@ -121,10 +107,10 @@ namespace GnuOne.Data
 
                             case "deleteFriend":
                                 var bodymessage3 = decrypted.Split("/()/");
+                                var allDiscussions = _newContext.Discussions.Where(x => x.Email == bodymessage3[1]).ToList();
+                                _newContext.RemoveRange(allDiscussions);
                                 var deletemyFriend = _newContext.MyFriends.Where(y => y.Email == bodymessage3[1]).FirstOrDefault();
                                 _newContext.MyFriends.Remove(deletemyFriend);
-                                //var allDiscussions = _newContext.Discussions.Where(x => x.user == bodymessage3[0]).ToList();
-                                //_newContext.RemoveRange(allDiscussions);
                                 _newContext.SaveChangesAsync();
                                 break;
 
@@ -134,14 +120,12 @@ namespace GnuOne.Data
 
 
                         }
-                        LocalDate.TimeSet = IncomeDate;
+                        LocalDate.timeSet = IncomeDate;
                         _newContext.LastUpdates.Update(LocalDate);
-                        _newContext.SaveChanges();
+                        _newContext.SaveChangesAsync();
                     }
-
                 }
             }
         }
     }
-
 }
