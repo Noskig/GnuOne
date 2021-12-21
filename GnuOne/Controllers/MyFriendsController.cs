@@ -34,7 +34,8 @@ namespace GnuOne.Controllers
         {
             var potentialnewfriend = new MyFriend();
             potentialnewfriend.Email = Email.Email;
-            MailSender.SendFriendRequest(_settings, Email.Email);
+            string subject = "friendRequest";
+            MailSender.SendFriendMail(_settings, Email.Email, subject);
             await _context.MyFriends.AddAsync(potentialnewfriend);
             await _context.SaveChangesAsync();
             return Ok();
@@ -59,7 +60,8 @@ namespace GnuOne.Controllers
             }
             if (MyFriend.isFriend == false)
             {
-                MailSender.SendDeniedRequest(_settings, MyFriend.Email); 
+                string subject = "DeniedfriendRequest";
+                MailSender.SendFriendMail(_settings, MyFriend.Email, subject); 
                 _context.MyFriends.Remove(friend);
                 await _context.SaveChangesAsync();
                 return Ok("Dont want to be friends");
@@ -95,8 +97,8 @@ namespace GnuOne.Controllers
             var MyFriends = _context.MyFriends.Where(x => x.Email == MyFriend.Email).ToList();
             _context.MyFriends.RemoveRange(MyFriends);
             await _context.SaveChangesAsync();
-
-            MailSender.DeleteFriend(_settings, MyFriend.Email);
+            string subject = "deleteFriend";
+            MailSender.SendFriendMail(_settings, MyFriend.Email, subject);
             return Ok();
         }
     }
