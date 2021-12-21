@@ -59,6 +59,7 @@ namespace GnuOne.Data
                                     var friend = _newContext.MyFriends.Where(x => x.Email == bodymessages[0]).FirstOrDefault();
                                     friend.isFriend = true;
                                     _newContext.Update(friend);
+                                    //Metod för att skicka tillbaka Discussion, post, comments & friends.
                                     try
                                     {
                                         var deserializedItemsFromItems = System.Text.Json.JsonSerializer.Deserialize<List<Discussion>>(bodymessages[1]);

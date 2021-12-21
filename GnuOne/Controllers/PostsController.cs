@@ -66,31 +66,15 @@ namespace GnuOne.Controllers
         public async Task<IActionResult> PostPost([FromBody] Post post)
         {
             post.Date = DateTime.Now;
-
-            //Sätter ID manuellt för att matcha i DB hos alla användare.
-            //if (_context.Posts.Any())
-            //{
-            //    var HighestID = await _context.Posts.Select(x => x.ID).MaxAsync();
-            //    post.ID = HighestID + 1;
-            //}
-            //else
-            //{
-            //    post.ID = 1;
-            //}
             DateTime foo = DateTime.Now;
             long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
             post.ID = Convert.ToInt32(unixTime);
             post.Email = _settings.Email;
-            //skickar ut mail
             var settings = await _context.MySettings.FirstAsync();
-            //skickar ut mail
-            ///skapa query
-
             
             var query = post.SendPost();
             foreach (var user in _context.MyFriends)
             {
-                ///Skicka mail
                 MailSender.SendEmail(user.Email, query, "Post", _settings);
             }
             _context.Add(post);
@@ -147,7 +131,6 @@ namespace GnuOne.Controllers
             {
                 return NotFound();
             }
-            //skickar ut mail
             var query = post.DeletePost();
             foreach (var user in _context.MyFriends)
             {
@@ -157,7 +140,6 @@ namespace GnuOne.Controllers
             _context.SaveChanges();
             return Accepted(post);
         }
-
         private bool PostExists(int? id)
         {
             return _context.Posts.Any(e => e.ID == id);

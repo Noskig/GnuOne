@@ -18,8 +18,6 @@ namespace GnuOne.Controllers
 
         private readonly ApiContext _context;
         private readonly MySettings _settings;
-        //Contexten laddas inte med connectionstring
-
         public DiscussionsController(ApiContext context)
         {
             _context = context;
@@ -78,32 +76,12 @@ namespace GnuOne.Controllers
         public async Task<IActionResult> PostDiscussion([FromBody] Discussion discussion)
         {
             discussion.Date = DateTime.Now;
-            //discussion.user = _settings.Username;
-
-            //Sätter ID manuellt för att matcha i DB hos alla användare. Vill vi ha det så?
-            //if (_context.Discussions.Any())
-            //{
-            //    var HighestID = await _context.Discussions.Select(x => x.ID).MaxAsync();
-            //    discussion.ID = HighestID + 1;
-            //}
-            //else
-            //{
-            //    discussion.ID = 1;
-            //}
             DateTime foo = DateTime.Now;
             long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
             discussion.ID = Convert.ToInt32(unixTime);
             discussion.Email = _settings.Email;
-            
-
-     
-            //var JsonDiscussion = JsonConvert.SerializeObject(discussion);
-
-            // Mailsender.sendemail(JsonDiscussion, 
-
-            ///skapa query
+ 
             var query = discussion.SendDiscussion();
-            //skickar ut mail
             foreach (var user in _context.MyFriends)
             {
                 MailSender.SendEmail(user.Email, query, "Post", _settings);
@@ -142,10 +120,8 @@ namespace GnuOne.Controllers
 
            
             var query = discussion.EditDiscussion(oldtext);
-            //skickar ut mail
             foreach (var user in _context.MyFriends)
             {
-                ///Skicka mail
                 MailSender.SendEmail(user.Email, query, "Put", _settings);
             }
             _context.Update(discussion);
@@ -174,7 +150,6 @@ namespace GnuOne.Controllers
             var query = discussion.DeleteDiscussion();
             foreach (var user in _context.MyFriends)
             {
-                ///Skicka mail
                 MailSender.SendEmail(user.Email, query, "Delete", _settings);
             }
             _context.Remove(discussion);

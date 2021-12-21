@@ -67,17 +67,7 @@ namespace GnuOne.Controllers
         public async Task<IActionResult> PostComment([FromBody] Comment comment)
         {
             comment.Date = DateTime.Now;
-
-            //För att matcha ID i alla Databaser så sätts den manuellt.
-            //if (_context.Comments.Any())
-            //{
-            //    var HighestID = await _context.Comments.Select(x => x.ID).MaxAsync();
-            //    comment.ID = HighestID + 1;
-            //}
-            //else
-            //{
-            //    comment.ID = 1;
-            //}
+       
             DateTime foo = DateTime.Now;
             long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
             comment.ID = Convert.ToInt32(unixTime);
@@ -120,7 +110,6 @@ namespace GnuOne.Controllers
                                                     .FirstOrDefaultAsync();
 
             var query = comment.EditComment(oldcommentText);
-            //Skickar ut mailen
 
             foreach (var user in _context.MyFriends)
             {
@@ -148,7 +137,6 @@ namespace GnuOne.Controllers
             }
 
             var query = comment.DeleteComments();
-            //skickar ut mail
             foreach (var user in _context.MyFriends)
             {
                 MailSender.SendEmail(user.Email, query, "Delete", _settings);

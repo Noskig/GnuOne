@@ -10,6 +10,9 @@ Främmande nyckel finns mellan myFriends & myFriendsFriends.
 ATT GÖRA:
 1. Skicka databasen åt motsatt håll.
 
+EXTRA:
+1. kombinera flera Mailsender-funktioner?
+
 ///////////////////////////////////////////////////////////
 PROBLEM:
 

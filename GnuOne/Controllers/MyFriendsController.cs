@@ -21,7 +21,6 @@ namespace GnuOne.Controllers
         {
             _context = context;
             _settings = _context.MySettings.First();
-
         }
         ///Frontend - Klicka på knapp för att skicka en vänförfrågan
         /// <summary>
@@ -50,25 +49,25 @@ namespace GnuOne.Controllers
             return Ok(converted);
         }
 
-
-        ///Skicka tillbaka att jag accepterat eller nekat vänförfrågan
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] MyFriend MyFriend)
         {
-            var friend = await _context.MyFriends.Where(x => x.Email == MyFriend.Email).FirstAsync(); /// vet inte om den blir null om man inte hittar en vän
+            var friend = await _context.MyFriends.Where(x => x.Email == MyFriend.Email).FirstAsync(); 
             if (friend == null)
             {
                 return BadRequest("Could not find friend with this email");
             }
             if (MyFriend.isFriend == false)
             {
-                MailSender.SendDeniedRequest(_settings, MyFriend.Email); //kan den misslyckas?
+                MailSender.SendDeniedRequest(_settings, MyFriend.Email); 
                 _context.MyFriends.Remove(friend);
                 await _context.SaveChangesAsync();
                 return Ok("Dont want to be friends");
             }
             else
             {
+                //Skapa metod?
+                ///////////////////
                 friend.isFriend = true;
                 _context.Update(friend);
                 _context.SaveChanges();
@@ -83,10 +82,7 @@ namespace GnuOne.Controllers
                
                 string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
                 MailSender.SendAcceptedRequest(_settings, MyFriend.Email, myDiscussionJson, myPostJson, myFriendJson);
-                //TO-DO
-                //Discussion Edit/delete osv
-                //Post
-                //Comments
+               /////////////////////
             }
             return Ok();
         }
@@ -102,10 +98,6 @@ namespace GnuOne.Controllers
 
             MailSender.DeleteFriend(_settings, MyFriend.Email);
             return Ok();
-
-            //Är denna Okej?
         }
-
-
     }
 }

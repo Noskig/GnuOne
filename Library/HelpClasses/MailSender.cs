@@ -12,9 +12,6 @@ namespace Library.HelpClasses
 {
     public class MailSender 
     {
-
-
-
         /// <summary>
         /// Krypterar och struktuerar upp för mailutskick
         /// </summary>
@@ -23,7 +20,6 @@ namespace Library.HelpClasses
         /// <param name="subject"></param>
         public static void SendEmail(string email, string query, string? subject, MySettings mySettings)
         {
-
             if (subject == null)
             {
                 subject = "Posting";
@@ -51,8 +47,6 @@ namespace Library.HelpClasses
                 client.Connect("smtp.gmail.com", 465, true);
                 client.Authenticate(mailAddress, password);
                 client.Send(message);
-                //Console.WriteLine("Email Sent!");
-                //dh.SendSqlQuery(r.ToSQL());
             }
             catch (Exception e)
             {
@@ -64,78 +58,12 @@ namespace Library.HelpClasses
                 client.Dispose();
             }
         }
-
-        public static void SendDeniedRequest(MySettings mySettings, string ToEmail)
-        {
-            string subject = "DeniedfriendRequest";
-
-            var sw = new StringBuilder();
-            sw.Append(DateTime.Now.ToString() + "/()/");
-            sw.Append(subject);
-
-
-            //Vill endast skicka username och Email.
-
-            string username = mySettings.userName;
-            string mailAddress = mySettings.Email;
-
-
-            var crypt = new StringBuilder();
-
-            crypt.Append(username);
-            crypt.Append("/()/");
-            crypt.Append(mailAddress);
-
-            string encrypt = AesCryption.Encrypt(crypt.ToString(), mySettings.Secret);
-
-            var body = encrypt;
-
-            MimeMessage message = new MimeMessage();
-            message.From.Add(new MailboxAddress(username, mailAddress));
-            message.To.Add(MailboxAddress.Parse(ToEmail));
-            message.Subject = sw.ToString();
-            message.Body = new TextPart("plain")
-            {
-                Text = $"{body}XYXY/(/(XYXY7"
-            };
-
-
-            SmtpClient client = new SmtpClient();
-            try
-            {
-                client.CheckCertificateRevocation = false;
-                client.Connect("smtp.gmail.com", 465, true);
-                client.Authenticate(mailAddress, mySettings.Password); ///avkryptera lösen från db:n
-                client.Send(message);
-                //Console.WriteLine("Email Sent!");
-                //dh.SendSqlQuery(r.ToSQL());
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                client.Disconnect(true);
-                client.Dispose();
-            }
-
-
-        }
-
         public static void SendAcceptedRequest(MySettings mySettings, string ToEmail, string myDiscussion, string myPost, string myFriend)
         {
-            ///Här slutar vi onsdag
-
-
             string subject = "AcceptedfriendRequest";
-
             var sw = new StringBuilder();
             sw.Append(DateTime.Now.ToString() + "/()/");
             sw.Append(subject);
-
-            //Vill endast skicka username och Email.
-
             string username = mySettings.userName;
             string mailAddress = mySettings.Email;
 
@@ -186,22 +114,16 @@ namespace Library.HelpClasses
             }
         }
 
-        public static void SendFriendRequest(MySettings mySettings, string ToEmail)
+
+        public static void SendDeniedRequest(MySettings mySettings, string ToEmail)
         {
-            string subject = "friendRequest";
-            
+            string subject = "DeniedfriendRequest";
+
             var sw = new StringBuilder();
             sw.Append(DateTime.Now.ToString() + "/()/");
             sw.Append(subject);
-
-
-            //Vill endast skicka username och Email.
-
             string username = mySettings.userName;
             string mailAddress = mySettings.Email;
-
-            var password = mySettings.Password;
-
             var crypt = new StringBuilder();
 
             crypt.Append(username);
@@ -220,17 +142,58 @@ namespace Library.HelpClasses
             {
                 Text = $"{body}XYXY/(/(XYXY7"
             };
-
-
             SmtpClient client = new SmtpClient();
             try
             {
                 client.CheckCertificateRevocation = false;
                 client.Connect("smtp.gmail.com", 465, true);
-                client.Authenticate(mailAddress, password);
+                client.Authenticate(mailAddress, mySettings.Password); 
                 client.Send(message);
-                //Console.WriteLine("Email Sent!");
-                //dh.SendSqlQuery(r.ToSQL());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                client.Disconnect(true);
+                client.Dispose();
+            }
+
+
+        }
+
+       
+
+        public static void SendFriendRequest(MySettings mySettings, string ToEmail)
+        {
+            string subject = "friendRequest";
+            var sw = new StringBuilder();
+            sw.Append(DateTime.Now.ToString() + "/()/");
+            sw.Append(subject);
+            string username = mySettings.userName;
+            string mailAddress = mySettings.Email;
+            var crypt = new StringBuilder();
+            crypt.Append(username);
+            crypt.Append("/()/");
+            crypt.Append(mailAddress);
+            string encrypt = AesCryption.Encrypt(crypt.ToString(), mySettings.Secret);
+            var body = encrypt;
+            MimeMessage message = new MimeMessage();
+            message.From.Add(new MailboxAddress(username, mailAddress));
+            message.To.Add(MailboxAddress.Parse(ToEmail));
+            message.Subject = sw.ToString();
+            message.Body = new TextPart("plain")
+            {
+                Text = $"{body}XYXY/(/(XYXY7"
+            };
+            SmtpClient client = new SmtpClient();
+            try
+            {
+                client.CheckCertificateRevocation = false;
+                client.Connect("smtp.gmail.com", 465, true);
+                client.Authenticate(mailAddress, mySettings.Password);
+                client.Send(message);
             }
             catch (Exception e)
             {
@@ -243,33 +206,21 @@ namespace Library.HelpClasses
             }
         }
 
-
         public static void DeleteFriend(MySettings mySettings, string ToEmail)
         {
             string subject = "deleteFriend";
-
             var sw = new StringBuilder();
             sw.Append(DateTime.Now.ToString() + "/()/");
             sw.Append(subject);
-
-
-            //Vill endast skicka username och Email.
-
             string username = mySettings.userName;
             string mailAddress = mySettings.Email;
-
             var password = mySettings.Password;
-
             var crypt = new StringBuilder();
-
             crypt.Append(username);
             crypt.Append("/()/");
             crypt.Append(mailAddress);
-
             string encrypt = AesCryption.Encrypt(crypt.ToString(), mySettings.Secret);
-
             var body = encrypt;
-
             MimeMessage message = new MimeMessage();
             message.From.Add(new MailboxAddress(username, mailAddress));
             message.To.Add(MailboxAddress.Parse(ToEmail));
@@ -278,8 +229,6 @@ namespace Library.HelpClasses
             {
                 Text = $"{body}XYXY/(/(XYXY7"
             };
-
-
             SmtpClient client = new SmtpClient();
             try
             {
@@ -287,8 +236,6 @@ namespace Library.HelpClasses
                 client.Connect("smtp.gmail.com", 465, true);
                 client.Authenticate(mailAddress, password);
                 client.Send(message);
-                //Console.WriteLine("Email Sent!");
-                //dh.SendSqlQuery(r.ToSQL());
             }
             catch (Exception e)
             {
