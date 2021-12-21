@@ -24,14 +24,16 @@ namespace GnuOne.Data
                 {
                     var message = client.GetMessage(i);
                     var subjet = message.Subject;
+                    var body = message.GetTextBody(MimeKit.Text.TextFormat.Text);
+                    string[] relativData = body.Split("XYXY/(/(XYXY7");
+                    string[] Sub;
+
                     if (subjet.Contains("/()/"))
                     {
-                        var body = message.GetTextBody(MimeKit.Text.TextFormat.Text);
-                        string[] relativData = body.Split("XYXY/(/(XYXY7");
+                        Sub = subjet.Split("/()/");
                         string decrypted = AesCryption.Decrypt(relativData[0], me.Secret);
                         string[] Data = decrypted.Split("\"");
                         var LocalDate = _newContext.LastUpdates.First();
-                        string[] Sub = subjet.Split("/()/");
                         DateTime IncomeDate = Convert.ToDateTime(Sub[0]);
                         if (IncomeDate > LocalDate.timeSet)
                         {
@@ -119,13 +121,15 @@ namespace GnuOne.Data
                                 default:
                                     DbCommand.CreateCommand(decrypted, ConnectionString);
                                     break;
-
-
                             }
                             LocalDate.timeSet = IncomeDate;
                             _newContext.LastUpdates.Update(LocalDate);
                             _newContext.SaveChangesAsync();
                         }
+                    }
+                    else
+                    {
+                        continue;
                     }
                 }
             }
