@@ -85,12 +85,16 @@ namespace GnuOne.Controllers
             var settings = await _context.MySettings.FirstAsync();
             //skickar ut mail
             ///skapa query
+
+            
             var query = post.SendPost();
             foreach (var user in _context.MyFriends)
             {
                 ///Skicka mail
                 MailSender.SendEmail(user.Email, query, "Post", _settings);
             }
+            _context.Add(post);
+            _context.SaveChanges();
             return CreatedAtAction("GetPost", new { id = post.ID }, post);
         }
 
@@ -124,6 +128,8 @@ namespace GnuOne.Controllers
             {
                 MailSender.SendEmail(user.Email, query, "Put", _settings);
             }
+            _context.Update(post);
+            _context.SaveChanges();
             return Accepted(post);
         }
 
@@ -147,7 +153,8 @@ namespace GnuOne.Controllers
             {
                 MailSender.SendEmail(user.Email, query, "Delete", _settings);
             }
-
+            _context.Remove(post);
+            _context.SaveChanges();
             return Accepted(post);
         }
 

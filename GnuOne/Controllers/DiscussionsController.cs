@@ -94,6 +94,7 @@ namespace GnuOne.Controllers
             long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
             discussion.ID = Convert.ToInt32(unixTime);
             discussion.Email = _settings.Email;
+            
 
      
             //var JsonDiscussion = JsonConvert.SerializeObject(discussion);
@@ -107,8 +108,8 @@ namespace GnuOne.Controllers
             {
                 MailSender.SendEmail(user.Email, query, "Post", _settings);
             }
-
-
+            _context.Add(discussion);
+            _context.SaveChanges();
             return CreatedAtAction("GetDiscussion", new { id = discussion.ID }, discussion);
         }
 
@@ -138,7 +139,8 @@ namespace GnuOne.Controllers
                                                     .FirstOrDefaultAsync();
 
 
-            ///skapa query
+
+           
             var query = discussion.EditDiscussion(oldtext);
             //skickar ut mail
             foreach (var user in _context.MyFriends)
@@ -146,7 +148,8 @@ namespace GnuOne.Controllers
                 ///Skicka mail
                 MailSender.SendEmail(user.Email, query, "PUT", _settings);
             }
-
+            _context.Update(discussion);
+            _context.SaveChanges();
             return Accepted(discussion);
         }
 
@@ -167,13 +170,15 @@ namespace GnuOne.Controllers
 
             //skickar ut mail
             ///skapa query
+            
             var query = discussion.DeleteDiscussion();
             foreach (var user in _context.MyFriends)
             {
                 ///Skicka mail
                 MailSender.SendEmail(user.Email, query, "PUT", _settings);
             }
-
+            _context.Remove(discussion);
+            _context.SaveChanges();
             return Accepted(discussion);
         }
         private bool DiscussionExists(int? id)
