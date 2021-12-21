@@ -129,7 +129,7 @@ var loop1Task = Task.Run(async () => {
             MailReader.ReadUnOpenEmails(context, _connectionstring);
             await Task.Delay(5000);
             a++;
-            Console.WriteLine(a);
+            Console.Write(a);
         }
     }
 });

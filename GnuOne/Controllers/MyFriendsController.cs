@@ -39,8 +39,6 @@ namespace GnuOne.Controllers
             await _context.MyFriends.AddAsync(potentialnewfriend);
             await _context.SaveChangesAsync();
             return Ok();
-
-            //KLAR
         }
 
         [HttpGet]

@@ -30,5 +30,6 @@ Lastupdated ändrar inte tid efter att ett mail har läst in?
 
 ///////////////////////////////////////////////////////////
 FRÅGOR:
-Scriptet är uppdaterat. Men finns både en scripts-klass samt Global-script? Används båda? 
-myFriends ersätter users-tabellen?
+*Scriptet är uppdaterat. Men finns både en scripts-klass samt Global-script? Används båda? 
+*myFriends ersätter users-tabellen?
+*Om jag blir vän med Sam, då får jag hans vänner, men om han sen lägger till en vän efteråt, den vännen får inte jag???
