@@ -53,7 +53,7 @@ function Discussion(props) {
       userName: username,
       postText: messageText,
         discussionID: Number(id),
-        discussionEmail: "bobertestar@gmail.com"
+        discussionEmail: topicInfo.Email
     }
     console.log(message)
     addNewPost(message)

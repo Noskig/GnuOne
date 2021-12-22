@@ -100,7 +100,8 @@ function CreateNewTopicPage() {
                               Headline: topic.Headline,
                               Date: topic.Date,
                               userName: topic.userName,
-                              numberOfPosts: topic.numberOfPosts
+                              numberOfPosts: topic.numberOfPosts,
+                              Email: topic.Email
                           }
                       }}>
                   <h4 className="topicDescription">{topic.Headline}</h4>
