@@ -61,58 +61,54 @@ namespace GnuOne.Data
                                     {
                                         friend.isFriend = true;
                                         _newContext.Update(friend);
-                                    }
-                                   
-                                    try
-                                    {
-                                        var deserializedItemsFromItems = System.Text.Json.JsonSerializer.Deserialize<List<Discussion>>(bodymessages[1]);
-                                        if (deserializedItemsFromItems != null)
+                                        try
                                         {
-                                            foreach (Discussion x in deserializedItemsFromItems)
+                                            var deserializedItemsFromItems = System.Text.Json.JsonSerializer.Deserialize<List<Discussion>>(bodymessages[1]);
+                                            if (deserializedItemsFromItems != null)
                                             {
-                                                Discussion discdisc = new Discussion() { ID = x.ID, Email = x.Email, userName = x.userName, Headline = x.Headline, discussionText = x.discussionText, Date = x.Date };
-                                                _newContext.Discussions.Add(discdisc);
-                                            };
-                                        }
-                                        var deserializedItemsFromItems1 = System.Text.Json.JsonSerializer.Deserialize<List<Post>>(bodymessages[2]);
-                                        if (deserializedItemsFromItems1 != null)
-                                        {
-                                            foreach (Post x in deserializedItemsFromItems1)
-                                            {
-                                                Post pospos = new Post() { ID = x.ID, Email = x.Email, userName = x.userName, Date = x.Date, postText = x.postText }; //Discussion ID!? DÖÖÖÖÖDEN! =D 
-                                                _newContext.Posts.Add(x);
-                                            };
-                                        }
-                                        var deserializedItemsFromItems2 = System.Text.Json.JsonSerializer.Deserialize<List<MyFriendsFriends>>(bodymessages[3]);
-                                        if (deserializedItemsFromItems2 != null)
-                                        {
-                                            var myName = _newContext.MySettings.FirstOrDefault();
-                                            foreach (MyFriendsFriends x in deserializedItemsFromItems2)
-                                            {
-                                                MyFriendsFriends friefrie = new MyFriendsFriends() { Email = x.Email, userName = x.userName, myFriendID = friend.ID };
-                                                if(friefrie.Email != myName.Email)
+                                                foreach (Discussion x in deserializedItemsFromItems)
                                                 {
-                                                   _newContext.MyFriendsFriends.Add(friefrie);
-                                                }
-                                            };
+                                                    Discussion discdisc = new Discussion() { ID = x.ID, Email = x.Email, userName = x.userName, Headline = x.Headline, discussionText = x.discussionText, Date = x.Date };
+                                                    _newContext.Discussions.Add(discdisc);
+                                                };
+                                            }
+                                            var deserializedItemsFromItems1 = System.Text.Json.JsonSerializer.Deserialize<List<Post>>(bodymessages[2]);
+                                            if (deserializedItemsFromItems1 != null)
+                                            {
+                                                foreach (Post x in deserializedItemsFromItems1)
+                                                {
+                                                    Post pospos = new Post() { ID = x.ID, Email = x.Email, userName = x.userName, Date = x.Date, postText = x.postText }; //Discussion ID!? DÖÖÖÖÖDEN! =D 
+                                                    _newContext.Posts.Add(x);
+                                                };
+                                            }
+                                            var deserializedItemsFromItems2 = System.Text.Json.JsonSerializer.Deserialize<List<MyFriendsFriends>>(bodymessages[3]);
+                                            if (deserializedItemsFromItems2 != null)
+                                            {
+                                                var myName = _newContext.MySettings.FirstOrDefault();
+                                                foreach (MyFriendsFriends x in deserializedItemsFromItems2)
+                                                {
+                                                    MyFriendsFriends friefrie = new MyFriendsFriends() { Email = x.Email, userName = x.userName, myFriendID = friend.ID };
+                                                    if(friefrie.Email != myName.Email)
+                                                    {
+                                                       _newContext.MyFriendsFriends.Add(friefrie);
+                                                    }
+                                                };
+                                            }
                                         }
+                                        catch (Exception)
+                                        {
+                                            throw;
+                                        }
+                                        //Metod för att skicka tillbaka Discussion, post, comments & friends.
+                                        var my = _newContext.MySettings.FirstOrDefault();
+                                        var allMyDiscussion = _newContext.Discussions.Where(x => x.Email == my.Email).ToList();
+                                        string myDiscussionJson = System.Text.Json.JsonSerializer.Serialize(allMyDiscussion);
+                                        var allMyPost = _newContext.Posts.Where(x => x.Email == my.Email).ToList();
+                                        string myPostJson = System.Text.Json.JsonSerializer.Serialize(allMyPost);
+                                        var allMyFriends = _newContext.MyFriends.ToList();
+                                        string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
+                                        MailSender.SendAcceptedRequest(my, bodymessages[0], myDiscussionJson, myPostJson, myFriendJson);
                                     }
-                                    catch (Exception)
-                                    {
-                                        throw;
-                                    }
-
-                                    //Metod för att skicka tillbaka Discussion, post, comments & friends.
-                                    var my = _newContext.MySettings.FirstOrDefault();
-
-                                    var allMyDiscussion = _newContext.Discussions.Where(x => x.Email == my.Email).ToList();
-                                    string myDiscussionJson = System.Text.Json.JsonSerializer.Serialize(allMyDiscussion);
-                                    var allMyPost = _newContext.Posts.Where(x => x.Email == my.Email).ToList();
-                                    string myPostJson = System.Text.Json.JsonSerializer.Serialize(allMyPost);
-                                    var allMyFriends = _newContext.MyFriends.ToList();
-                                    string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
-                                    MailSender.SendAcceptedRequest(my, bodymessages[0], myDiscussionJson, myPostJson, myFriendJson);
-
 
                                     break;
 
