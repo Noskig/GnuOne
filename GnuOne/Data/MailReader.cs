@@ -59,7 +59,7 @@ namespace GnuOne.Data
                                     var friend = _newContext.MyFriends.Where(x => x.Email == bodymessages[0]).FirstOrDefault();
                                     if(friend.isFriend == false)
                                     {
-                                        friend.userName = bodymessages[5];
+                                        friend.userName = bodymessages[4];
                                         friend.isFriend = true;
                                         _newContext.Update(friend);
                                         try
