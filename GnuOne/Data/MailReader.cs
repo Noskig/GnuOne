@@ -57,9 +57,11 @@ namespace GnuOne.Data
                                 case "AcceptedfriendRequest":
                                     var bodymessages = decrypted.Split("/()/");
                                     var friend = _newContext.MyFriends.Where(x => x.Email == bodymessages[0]).FirstOrDefault();
-                                    friend.isFriend = true;
-                                    _newContext.Update(friend);
-                                    //Metod för att skicka tillbaka Discussion, post, comments & friends.
+                                    if(friend.isFriend == false)
+                                    {
+                                        friend.isFriend = true;
+                                        _newContext.Update(friend);
+                                    }
                                     try
                                     {
                                         var deserializedItemsFromItems = System.Text.Json.JsonSerializer.Deserialize<List<Discussion>>(bodymessages[1]);
@@ -76,7 +78,7 @@ namespace GnuOne.Data
                                         {
                                             foreach (Post x in deserializedItemsFromItems1)
                                             {
-                                                Post pospos = new Post() { ID = x.ID, Email = x.Email, userName = x.userName, Date = x.Date, postText = x.postText }; //Discussion ID!? DÖÖÖÖÖDEN! =D 
+                                                Post pospos = new Post() { ID = x.ID, Email = x.Email, userName = x.userName, Date = x.Date, postText = x.postText }; 
                                                 _newContext.Posts.Add(x);
                                             };
                                         }
@@ -98,6 +100,18 @@ namespace GnuOne.Data
                                     {
                                         throw;
                                     }
+
+                                    //Metod för att skicka tillbaka Discussion, post, comments & friends.
+                                    var my = _newContext.MySettings.FirstOrDefault();
+
+                                    var allMyDiscussion = _newContext.Discussions.Where(x => x.Email == my.Email).ToList();
+                                    string myDiscussionJson = System.Text.Json.JsonSerializer.Serialize(allMyDiscussion);
+                                    var allMyPost = _newContext.Posts.Where(x => x.Email == my.Email).ToList();
+                                    string myPostJson = System.Text.Json.JsonSerializer.Serialize(allMyPost);
+                                    var allMyFriends = _newContext.MyFriends.ToList();
+                                    string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
+                                    MailSender.SendAcceptedRequest(my, bodymessages[0], myDiscussionJson, myPostJson, myFriendJson);
+
                                     break;
 
                                 case "deleteFriend":

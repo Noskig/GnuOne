@@ -48,7 +48,7 @@ namespace GnuOne.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id}")]
+        [HttpGet("{id}")] //sök på user med Email-adress bla bla.
         public async Task<IActionResult> Get(int id)
         {
             var discussion = await _context.Discussions.FindAsync(id);

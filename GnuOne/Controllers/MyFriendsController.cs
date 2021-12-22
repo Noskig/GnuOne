@@ -68,7 +68,7 @@ namespace GnuOne.Controllers
             }
             else
             {
-                //Skapa metod?
+                //Skicka min diskussioner, men alla poster & kommentarer som är kopplade?
                 ///////////////////
                 friend.isFriend = true;
                 _context.Update(friend);
@@ -81,7 +81,6 @@ namespace GnuOne.Controllers
                 var allMyPost = _context.Posts.Where(x => x.userName == myName).ToList();
                 string myPostJson = System.Text.Json.JsonSerializer.Serialize(allMyPost);
                 var allMyFriends = _context.MyFriends.ToList();
-               
                 string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
                 MailSender.SendAcceptedRequest(_settings, MyFriend.Email, myDiscussionJson, myPostJson, myFriendJson);
                /////////////////////
