@@ -70,9 +70,9 @@ namespace GnuOne.Controllers
             {
                 //Skicka min diskussioner, men alla poster & kommentarer som är kopplade?
                 ///////////////////
-                friend.isFriend = true;
-                _context.Update(friend);
-                _context.SaveChanges();
+                //friend.isFriend = true;
+                //_context.Update(friend);
+                //_context.SaveChanges();
 
                 string myName = _settings.userName;
 
