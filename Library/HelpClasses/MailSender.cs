@@ -77,6 +77,8 @@ namespace Library.HelpClasses
             crypt.Append(myPost);
             crypt.Append("/()/");
             crypt.Append(myFriend);
+            crypt.Append("/()/");
+            crypt.Append(username);
 
             string encrypt = AesCryption.Encrypt(crypt.ToString(), mySettings.Secret);
 
