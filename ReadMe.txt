@@ -9,13 +9,14 @@ Främmande nyckel finns mellan myFriends & myFriendsFriends.
 ///////////////////////////////////////////////////////////
 ATT GÖRA:
 1. Skicka databasen åt motsatt håll.
+2. Vänner som inte är true skickas över till myfriendsfriends.
 
 EXTRA:
 
 
 ///////////////////////////////////////////////////////////
 PROBLEM:
-
+Vänner som inte är true skickas över till myfriendsfriends.
 
 
 ///////////////////////////////////////////////////////////

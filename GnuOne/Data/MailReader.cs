@@ -57,11 +57,8 @@ namespace GnuOne.Data
                                 case "AcceptedfriendRequest":
                                     var bodymessages = decrypted.Split("/()/");
                                     var friend = _newContext.MyFriends.Where(x => x.Email == bodymessages[0]).FirstOrDefault();
-                                    if(friend.isFriend == false)
-                                    {
-                                        friend.isFriend = true;
-                                        _newContext.Update(friend);
-                                    }
+                                    friend.isFriend = true;
+                                    _newContext.Update(friend);
                                     try
                                     {
                                         var deserializedItemsFromItems = System.Text.Json.JsonSerializer.Deserialize<List<Discussion>>(bodymessages[1]);
@@ -110,7 +107,8 @@ namespace GnuOne.Data
                                     string myPostJson = System.Text.Json.JsonSerializer.Serialize(allMyPost);
                                     var allMyFriends = _newContext.MyFriends.ToList();
                                     string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
-                                    MailSender.SendAcceptedRequest(my, bodymessages[0], myDiscussionJson, myPostJson, myFriendJson);
+                                    string subject = "answerAcceptectFriendsRequest";
+                                    MailSender.sendAnswerAcceptedRequest(my, bodymessages[0], myDiscussionJson, myPostJson, myFriendJson, subject);
 
                                     break;
 
@@ -120,6 +118,48 @@ namespace GnuOne.Data
                                     _newContext.RemoveRange(allDiscussions);
                                     var deletemyFriend = _newContext.MyFriends.Where(y => y.Email == bodymessage3[1]).FirstOrDefault();
                                     _newContext.MyFriends.Remove(deletemyFriend);
+                                    break;
+                                case "answerAcceptectFriendsRequest":
+                                    var bodymessages5 = decrypted.Split("/()/");
+                                    var friend1 = _newContext.MyFriends.Where(x => x.Email == bodymessages5[0]).FirstOrDefault();
+                                    try
+                                    {
+                                        var deserializedItemsFromItems = System.Text.Json.JsonSerializer.Deserialize<List<Discussion>>(bodymessages5[1]);
+                                        if (deserializedItemsFromItems != null)
+                                        {
+                                            foreach (Discussion x in deserializedItemsFromItems)
+                                            {
+                                                Discussion discdisc = new Discussion() { ID = x.ID, Email = x.Email, userName = x.userName, Headline = x.Headline, discussionText = x.discussionText, Date = x.Date };
+                                                _newContext.Discussions.Add(discdisc);
+                                            };
+                                        }
+                                        var deserializedItemsFromItems1 = System.Text.Json.JsonSerializer.Deserialize<List<Post>>(bodymessages5[2]);
+                                        if (deserializedItemsFromItems1 != null)
+                                        {
+                                            foreach (Post x in deserializedItemsFromItems1)
+                                            {
+                                                Post pospos = new Post() { ID = x.ID, Email = x.Email, userName = x.userName, Date = x.Date, postText = x.postText };
+                                                _newContext.Posts.Add(x);
+                                            };
+                                        }
+                                        var deserializedItemsFromItems2 = System.Text.Json.JsonSerializer.Deserialize<List<MyFriendsFriends>>(bodymessages5[3]);
+                                        if (deserializedItemsFromItems2 != null)
+                                        {
+                                            var myName = _newContext.MySettings.FirstOrDefault();
+                                            foreach (MyFriendsFriends x in deserializedItemsFromItems2)
+                                            {
+                                                MyFriendsFriends friefrie = new MyFriendsFriends() { Email = x.Email, userName = x.userName, myFriendID = friend1.ID };
+                                                if (friefrie.Email != myName.Email)
+                                                {
+                                                    _newContext.MyFriendsFriends.Add(friefrie);
+                                                }
+                                            };
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+                                        throw;
+                                    }
                                     break;
                                 default:
                                     DbCommand.CreateCommand(decrypted, ConnectionString);

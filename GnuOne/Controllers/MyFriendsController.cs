@@ -80,7 +80,7 @@ namespace GnuOne.Controllers
                 string myDiscussionJson = System.Text.Json.JsonSerializer.Serialize(allMyDiscussion);
                 var allMyPost = _context.Posts.Where(x => x.userName == myName).ToList();
                 string myPostJson = System.Text.Json.JsonSerializer.Serialize(allMyPost);
-                var allMyFriends = _context.MyFriends.ToList();
+                var allMyFriends = _context.MyFriends.Where(x => x.isFriend == true).ToList();
                 string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
                 MailSender.SendAcceptedRequest(_settings, MyFriend.Email, myDiscussionJson, myPostJson, myFriendJson);
                /////////////////////
