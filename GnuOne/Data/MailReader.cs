@@ -100,7 +100,6 @@ namespace GnuOne.Data
                                         {
                                             throw;
                                         }
-                                        //Metod för att skicka tillbaka Discussion, post, comments & friends.
                                         var my = _newContext.MySettings.FirstOrDefault();
                                         var allMyDiscussion = _newContext.Discussions.Where(x => x.Email == my.Email).ToList();
                                         string myDiscussionJson = System.Text.Json.JsonSerializer.Serialize(allMyDiscussion);

@@ -68,14 +68,7 @@ namespace GnuOne.Controllers
             }
             else
             {
-                //Skicka min diskussioner, men alla poster & kommentarer som är kopplade?
-                ///////////////////
-                //friend.isFriend = true;
-                //_context.Update(friend);
-                //_context.SaveChanges();
-
                 string myName = _settings.userName;
-
                 var allMyDiscussion = _context.Discussions.Where(x => x.userName == myName).ToList();
                 string myDiscussionJson = System.Text.Json.JsonSerializer.Serialize(allMyDiscussion);
                 var allMyPost = _context.Posts.Where(x => x.userName == myName).ToList();
@@ -83,7 +76,6 @@ namespace GnuOne.Controllers
                 var allMyFriends = _context.MyFriends.Where(x => x.isFriend == true).ToList();
                 string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
                 MailSender.SendAcceptedRequest(_settings, MyFriend.Email, myDiscussionJson, myPostJson, myFriendJson);
-               /////////////////////
             }
             return Ok();
         }

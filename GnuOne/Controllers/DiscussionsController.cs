@@ -59,7 +59,8 @@ namespace GnuOne.Controllers
             }
 
 
-            var postlist = await _context.Posts.Where(x => x.ID == id).ToListAsync();
+            var postlist = await _context.Posts.Where(x => x.discussionID == id).ToListAsync();
+            //var commentList = await _context.Comments.Where(x => x.postID == id).ToListAsync();
 
             var dto = new DiscussionDTO(discussion, postlist);
 
@@ -87,7 +88,7 @@ namespace GnuOne.Controllers
                 MailSender.SendEmail(user.Email, query, "Post", _settings);
             }
             _context.Add(discussion);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return CreatedAtAction("GetDiscussion", new { id = discussion.ID }, discussion);
         }
 
@@ -125,7 +126,7 @@ namespace GnuOne.Controllers
                 MailSender.SendEmail(user.Email, query, "Put", _settings);
             }
             _context.Update(discussion);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Accepted(discussion);
         }
 
@@ -153,7 +154,7 @@ namespace GnuOne.Controllers
                 MailSender.SendEmail(user.Email, query, "Delete", _settings);
             }
             _context.Remove(discussion);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Accepted(discussion);
         }
         private bool DiscussionExists(int? id)

@@ -79,7 +79,7 @@ namespace GnuOne.Controllers
                 MailSender.SendEmail(user.Email, query, "Post", _settings);
             }
             _context.Add(comment);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetComment", new { id = comment.ID }, comment);
         }
@@ -116,7 +116,7 @@ namespace GnuOne.Controllers
                 MailSender.SendEmail(user.Email, query, "Put", _settings);
             }
             _context.Update(comment);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Accepted(comment);
         }
 
@@ -142,7 +142,7 @@ namespace GnuOne.Controllers
                 MailSender.SendEmail(user.Email, query, "Delete", _settings);
             }
             _context.Remove(comment);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Accepted(comment);
         }
         private bool CommentExists(int? id)
