@@ -78,7 +78,7 @@ namespace GnuOne.Data
                                             {
                                                 foreach (Post x in deserializedItemsFromItems1)
                                                 {
-                                                    Post pospos = new Post() { ID = x.ID, Email = x.Email, userName = x.userName, Date = x.Date, postText = x.postText }; //Discussion ID!? DÖÖÖÖÖDEN! =D 
+                                                    Post pospos = new Post() { ID = x.ID, Email = x.Email, userName = x.userName, Date = x.Date, postText = x.postText }; 
                                                     _newContext.Posts.Add(x);
                                                 };
                                             }

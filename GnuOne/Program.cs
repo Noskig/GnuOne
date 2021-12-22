@@ -96,7 +96,7 @@ builder.Services.AddCors(options =>
             builder.AllowAnyOrigin();
             builder.AllowAnyMethod();
 
-            string[] array = { "https://localhost:5001", "http://localhost:5000", "http://localhost:7261", "http://localhost:5261" };
+            string[] array = { "https://localhost:5001", "http://localhost:5000", "http://localhost:7261", "http://localhost:5261", "https://localhost:44486", "https://localhost:7261" };
             builder.WithOrigins(array);
         });
 });
