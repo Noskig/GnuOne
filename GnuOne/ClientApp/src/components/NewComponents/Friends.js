@@ -54,7 +54,7 @@ const Friends = () => {
     return (
 
         <section className="friends-container">
-            <div className="addFriend"> </div>
+            <div className="add-friend"> </div>
             <div className="friends-list">
                 <ul>
                     {friendsList.map(friend => <li>{friend.Email}</li>)}
