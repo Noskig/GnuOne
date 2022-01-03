@@ -28,13 +28,71 @@ Man kan Get/Post/Put/Delete post
 Man kan Get/Post/Put/Delete comments
 
 ///////////////////////////////////////////////////////////
-ATT GÖRA:
+ATT GÖRA: (utan inbördes ordning)
 
 
+
+1.    Jag vill kunna hämta ner och installera programmet och köra det ifrån en webbrowser. (bittorrent eller iwantag.nu?)
+Skriva instruktion och testa att det går
+(Få första vännen och komma in i systemet. FRONTEND ruta som man skriver i mailen på den som man vill bli vän med)
+-Bjuda in ny användare - Ny sida som förklarar grejer.. Vad man behöver ta ner och att man skapar mail osv.
+-Stegvis förklaring av installationsprocessen.
+--Text
+--Video
+
+2.    Jag vill kunna se vem som finns i systemet.
+Vill vi ha både publika och privata vänner?
+
+"Gömma" att man är vän med någon. Så att deras vänner inte ser mig.
+-Myfreinds tabellen. Extra fält som visar om man ska visas i deras netvärk eller ej? 
+--Behöver studsa en extra gång ut till vännerna som kanske redan har en i deras Friendsfriend-listan
+
+3.    Jag vill kunna lägga till vänner.
+Skapa en process för detta när man har kommit in i systemet.
+-(FRONTEND notiser, knapp för accept/denied)
+--Rätt information ska skickas ut när man blir vän också... Testa
+
+4.    Jag vill ha en sida där jag kan se vilka inställningar som är gjorda och eventuellt ändra valda parametrar.
+-API som ändrar inställningar.
+--Case på mailreader som ändrar i nästa steg.
+
+5.    Fixa till asymmetrisk kryptering/verifiering.
+-Kolla vad Marcus har.
+
+6.    Gå igenom källkoden, dokumentera, städa, fundera på standard.
+Guida Stig
+-Dokumentera github. Text. Video. Göra en snygg förklaring.
+-städa. Göra om till methoder med bra Namn som förklarar vad som händer.
+-Göra om allt till samma standard. Namnsättning framförallt.
+
+7.    TESTA
+-Testa discussion	med flera och olika vänner.
+--Create, Edit, Delete, (FRONTEND, Read)
+-Testa post			-----.------
+--Create, Edit, Delete, (FRONTEND, Read)
+-Testa vänner funktioner. 
+---(Lägga till med FRONTEND)
+---Ta bort vänner.
+---Gömma sig i nätverken. (bli osynlig för deras nätverk)
+
+
+--Nya funktioner
+
+8.    Föreslå nya funktioner 
+-Chatt
+
+
+9.    Fixa fel och införa ändringar
+
+
+
+
+
+Frontend
+Skicka friendrequest med mail.
 
 ///////////////////////////////////////////////////////////
 EXTRA-JOBB:
-
 
 
 ///////////////////////////////////////////////////////////

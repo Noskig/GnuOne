@@ -71,7 +71,7 @@ namespace GnuOne.Controllers
             post.ID = Convert.ToInt32(unixTime);
             post.Email = _settings.Email;
             post.userName = _settings.userName;
-            
+
             var query = post.SendPost();
             foreach (var user in _context.MyFriends)
             {

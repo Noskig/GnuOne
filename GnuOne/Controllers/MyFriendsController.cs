@@ -53,7 +53,7 @@ namespace GnuOne.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] MyFriend MyFriend)
         {
-            var friend = await _context.MyFriends.Where(x => x.Email == MyFriend.Email).FirstAsync(); 
+            var friend = await _context.MyFriends.Where(x => x.Email == MyFriend.Email).FirstAsync();
             if (friend == null)
             {
                 return BadRequest("Could not find friend with this email");
@@ -61,7 +61,7 @@ namespace GnuOne.Controllers
             if (MyFriend.isFriend == false)
             {
                 string subject = "DeniedfriendRequest";
-                MailSender.SendFriendMail(_settings, MyFriend.Email, subject); 
+                MailSender.SendFriendMail(_settings, MyFriend.Email, subject);
                 _context.MyFriends.Remove(friend);
                 await _context.SaveChangesAsync();
                 return Ok("Dont want to be friends");
@@ -75,15 +75,15 @@ namespace GnuOne.Controllers
                 string myPostJson = System.Text.Json.JsonSerializer.Serialize(allMyPost);
                 var allMyFriends = _context.MyFriends.Where(x => x.isFriend == true).ToList();
                 string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
-                
-                
+
+
                 //try to send?
                 MailSender.SendAcceptedRequest(_settings, MyFriend.Email, myDiscussionJson, myPostJson, myFriendJson);
 
                 friend.isFriend = true;
                 _context.MyFriends.Update(friend);
                 await _context.SaveChangesAsync();
-                
+
 
             }
             return Ok();
@@ -92,7 +92,7 @@ namespace GnuOne.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] MyFriend MyFriend)
         {
-            var MyDiscussions = _context.Discussions.Where(x => x.Email == MyFriend.Email).ToList(); 
+            var MyDiscussions = _context.Discussions.Where(x => x.Email == MyFriend.Email).ToList();
             _context.Discussions.RemoveRange(MyDiscussions);
             var MyFriends = _context.MyFriends.Where(x => x.Email == MyFriend.Email).ToList();
             _context.MyFriends.RemoveRange(MyFriends);
