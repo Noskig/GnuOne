@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Welcome_Settings
 {
+	//används inte?
     public class Script
     {
         public string sql { get; private set; } = @"-- --------------------------------------------------------

@@ -9,7 +9,7 @@ function Discussion(props) {
   const [username, setUsername] = useState('')
   const [messageText, setMessageText] = useState('')
   const [dataList, setDataList] = useState()
-    const url = 'https://localhost:7261/api/'
+    const url = 'https://localhost:5001/api/'
   const [showComments, setShowComments] = useState(false)
   const [commentsSection, setCommentsSection] = useState('')
   const [activePost, setactivePost] = useState(false)
@@ -81,7 +81,7 @@ function createNewPost() {
 }
 
   async function addNewPost(message) {
-      await fetch('https://localhost:7261/api/posts', {
+      await fetch('https://localhost:5001/api/posts', {
       method: 'POST',
       body: JSON.stringify(message),
       headers: {

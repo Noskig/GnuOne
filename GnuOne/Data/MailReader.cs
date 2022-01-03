@@ -104,6 +104,8 @@ namespace GnuOne.Data
                                         {
                                             throw;
                                         }
+
+
                                         var my = _newContext.MySettings.FirstOrDefault();
                                         var allMyDiscussion = _newContext.Discussions.Where(x => x.Email == my.Email).ToList();
                                         string myDiscussionJson = System.Text.Json.JsonSerializer.Serialize(allMyDiscussion);
@@ -111,6 +113,7 @@ namespace GnuOne.Data
                                         string myPostJson = System.Text.Json.JsonSerializer.Serialize(allMyPost);
                                         var allMyFriends = _newContext.MyFriends.ToList();
                                         string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
+
                                         MailSender.SendAcceptedRequest(my, bodymessages[0], myDiscussionJson, myPostJson, myFriendJson);
                                     }
 

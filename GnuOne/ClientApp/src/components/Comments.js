@@ -8,7 +8,7 @@ function Comments(props) {
   const id = props.id
   const [username, setUsername] = useState('')
   const [messageText, setMessageText] = useState('')
-    const baseUrl = 'https://localhost:7261/'
+    const baseUrl = 'https://localhost:5001/'
   const [editActive, setEditActive] = useState(false)
   const [commentActive, setCommentActive] = useState('')
   const [deletecommentActive, setDeleteCommentActive] = useState('')
