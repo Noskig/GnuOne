@@ -81,6 +81,7 @@ namespace GnuOne.Controllers
             long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
             discussion.ID = Convert.ToInt32(unixTime);
             discussion.Email = _settings.Email;
+            discussion.userName = _settings.userName;
  
             var query = discussion.SendDiscussion();
             foreach (var user in _context.MyFriends)

@@ -54,7 +54,10 @@ namespace GnuOne.Data
                                     var myfriend = _newContext.MyFriends.Where(x => x.Email == bodymessage1[1]).FirstOrDefault();
                                     _newContext.MyFriends.Remove(myfriend);
                                     break;
-                                case "AcceptedfriendRequest":
+
+                                    //Studsar en gång för mycket, men ingen större problem.
+                                    //
+                                case "AcceptedfriendRequest": 
                                     var bodymessages = decrypted.Split("/()/");
                                     var friend = _newContext.MyFriends.Where(x => x.Email == bodymessages[0]).FirstOrDefault();
                                     if(friend.isFriend == false)
@@ -62,6 +65,7 @@ namespace GnuOne.Data
                                         friend.userName = bodymessages[4];
                                         friend.isFriend = true;
                                         _newContext.Update(friend);
+                                        _newContext.SaveChangesAsync();
                                         try
                                         {
                                             var deserializedItemsFromItems = System.Text.Json.JsonSerializer.Deserialize<List<Discussion>>(bodymessages[1]);

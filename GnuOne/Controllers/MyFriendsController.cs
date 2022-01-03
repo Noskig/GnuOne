@@ -75,7 +75,16 @@ namespace GnuOne.Controllers
                 string myPostJson = System.Text.Json.JsonSerializer.Serialize(allMyPost);
                 var allMyFriends = _context.MyFriends.Where(x => x.isFriend == true).ToList();
                 string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
+                
+                
+                //try to send?
                 MailSender.SendAcceptedRequest(_settings, MyFriend.Email, myDiscussionJson, myPostJson, myFriendJson);
+
+                friend.isFriend = true;
+                _context.MyFriends.Update(friend);
+                await _context.SaveChangesAsync();
+                
+
             }
             return Ok();
         }

@@ -70,7 +70,7 @@ namespace GnuOne.Controllers
             long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
             post.ID = Convert.ToInt32(unixTime);
             post.Email = _settings.Email;
-            var settings = await _context.MySettings.FirstAsync();
+            post.userName = _settings.userName;
             
             var query = post.SendPost();
             foreach (var user in _context.MyFriends)
