@@ -34,13 +34,19 @@ namespace GnuOne.Controllers
         {
             var potentialnewfriend = new MyFriend();
             potentialnewfriend.Email = Email.Email;
+
             string subject = "friendRequest";
             MailSender.SendFriendMail(_settings, Email.Email, subject);
+
             await _context.MyFriends.AddAsync(potentialnewfriend);
             await _context.SaveChangesAsync();
+
             return Ok();
         }
-
+        /// <summary>
+        /// Letar efter vänner & gör till JSON
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -49,23 +55,28 @@ namespace GnuOne.Controllers
 
             return Ok(converted);
         }
-
+        /// <summary>
+        /// Svarar på en vänförfrågan
+        /// </summary>
+        /// <param name="potentialFriend"></param>
+        /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] MyFriend MyFriend)
+        public async Task<IActionResult> Put([FromBody] MyFriend potentialFriend)
         {
-            var friend = await _context.MyFriends.Where(x => x.Email == MyFriend.Email).FirstAsync();
+            var friend = await _context.MyFriends.Where(x => x.Email == potentialFriend.Email).FirstAsync();
             if (friend == null)
             {
                 return BadRequest("Could not find friend with this email");
             }
-            if (MyFriend.isFriend == false)
+            if (potentialFriend.isFriend == false)
             {
                 string subject = "DeniedfriendRequest";
-                MailSender.SendFriendMail(_settings, MyFriend.Email, subject);
+                MailSender.SendFriendMail(_settings, potentialFriend.Email, subject);
                 _context.MyFriends.Remove(friend);
                 await _context.SaveChangesAsync();
                 return Ok("Dont want to be friends");
             }
+            //Gör om ens discuss,vänner och post till JSON och sänder iväg ett mail
             else
             {
                 string myName = _settings.userName;
@@ -78,17 +89,20 @@ namespace GnuOne.Controllers
 
 
                 //try to send?
-                MailSender.SendAcceptedRequest(_settings, MyFriend.Email, myDiscussionJson, myPostJson, myFriendJson);
+                MailSender.SendAcceptedRequest(_settings, potentialFriend.Email, myDiscussionJson, myPostJson, myFriendJson);
 
                 friend.isFriend = true;
                 _context.MyFriends.Update(friend);
                 await _context.SaveChangesAsync();
 
-
             }
             return Ok();
         }
-
+        /// <summary>
+        /// Tar bort en vän
+        /// </summary>
+        /// <param name="MyFriend"></param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] MyFriend MyFriend)
         {
@@ -97,8 +111,10 @@ namespace GnuOne.Controllers
             var MyFriends = _context.MyFriends.Where(x => x.Email == MyFriend.Email).ToList();
             _context.MyFriends.RemoveRange(MyFriends);
             await _context.SaveChangesAsync();
+
             string subject = "deleteFriend";
             MailSender.SendFriendMail(_settings, MyFriend.Email, subject);
+            //Behöver gå ut ett mail till mina vänner att vännen tas bort
             return Ok();
         }
     }

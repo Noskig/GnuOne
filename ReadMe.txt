@@ -63,7 +63,12 @@ Skapa en process för detta när man har kommit in i systemet.
 Guida Stig
 -Dokumentera github. Text. Video. Göra en snygg förklaring.
 -städa. Göra om till methoder med bra Namn som förklarar vad som händer.
+-- Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post.
 -Göra om allt till samma standard. Namnsättning framförallt.
+--Göra om i Myfriendscontrollern rad 82-88 till metod
+--Behöver gå ut ett mail till mina vänner att vännen tas bort
+
+
 
 7.    TESTA
 -Testa discussion	med flera och olika vänner.

@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Welcome_Settings;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace GnuOne.Controllers
 {
@@ -15,7 +14,6 @@ namespace GnuOne.Controllers
     [ApiController]
     public class DiscussionsController : ControllerBase
     {
-
         private readonly ApiContext _context;
         private readonly MySettings _settings;
         public DiscussionsController(ApiContext context)
@@ -32,13 +30,10 @@ namespace GnuOne.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-
-
             var listaDiscussion = await _context.Discussions.ToListAsync();
             var converted = JsonConvert.SerializeObject(listaDiscussion);
 
             return Ok(converted);
-
         }
 
         // GET: api/Discussions/5
@@ -58,7 +53,6 @@ namespace GnuOne.Controllers
                 return NotFound();
             }
 
-
             var postlist = await _context.Posts.Where(x => x.discussionID == id).ToListAsync();
             //var commentList = await _context.Comments.Where(x => x.postID == id).ToListAsync();
 
@@ -77,9 +71,9 @@ namespace GnuOne.Controllers
         public async Task<IActionResult> PostDiscussion([FromBody] Discussion discussion)
         {
             discussion.Date = DateTime.Now;
-            DateTime foo = DateTime.Now;
-            long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
-            discussion.ID = Convert.ToInt32(unixTime);
+            DateTime unixTime = DateTime.Now;
+            long unixID = ((DateTimeOffset)unixTime).ToUnixTimeSeconds();
+            discussion.ID = Convert.ToInt32(unixID);
             discussion.Email = _settings.Email;
             discussion.userName = _settings.userName;
  
@@ -114,13 +108,11 @@ namespace GnuOne.Controllers
 
             //hittar gamla texten för att skicka med 
             //och hitta den unika kommentaren i databasen hos de andra användare
-            var oldtext = await _context.Discussions.Where(x => x.ID == discussion.ID)
+            
+            var oldtext = await _context.Discussions.Where(x => x.ID == discussion.ID && x.Email == _settings.Email)
                                                     .Select(x => x.discussionText)
                                                     .FirstOrDefaultAsync();
 
-
-
-           
             var query = discussion.EditDiscussion(oldtext);
             foreach (var user in _context.MyFriends)
             {
