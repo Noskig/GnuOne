@@ -251,5 +251,3 @@ static void SetValueRecursively(string sectionPathKey, dynamic? jsonObj, string 
         jsonObj[currentSection] = value;
     }
 }
-
-

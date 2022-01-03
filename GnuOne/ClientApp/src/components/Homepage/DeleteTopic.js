@@ -4,7 +4,7 @@ import "./deleteTopic.css"
 
 const DeleteTopic = (props) => {
 
-    const url = 'https://localhost:7261/api/discussions'
+    const url = 'https://localhost:5001/api/discussions'
 
     function fetchData() {
         props.fetchData()

@@ -11,7 +11,7 @@ const Overlay = (props) => {
     const [headline, setHeadline] = useState('')
     const [user, setUser] = useState('default user')
     const [topicData, setTopicData] = useState([])
-    const url = 'https://localhost:7261/api/discussions'
+    const url = 'https://localhost:5001/api/discussions'
 
     useEffect(() => {
         fetchData()

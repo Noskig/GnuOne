@@ -14,7 +14,7 @@ import HotTopics from './hotTopics/HotTopics';
 //testar
 function CreateNewTopicPage() {
   const [topicData, setTopicData] = useState([])
-  const url = 'https://localhost:7261/api/discussions'
+  const url = 'https://localhost:5001/api/discussions'
   const [showOverlay, setShowOverlay] = useState(false)
   const [showDeleteConfirm, setshowDeleteConfirm] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
