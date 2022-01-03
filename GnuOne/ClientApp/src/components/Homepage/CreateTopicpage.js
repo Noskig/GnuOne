@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from '../NavBar/NavBar';
@@ -9,18 +9,21 @@ import DeleteTopic from './DeleteTopic';
 import share from '../../icons/share.svg'
 import trash from '../../icons/trash.svg'
 import HotTopics from './hotTopics/HotTopics';
+import PortContext from '../../contexts/portContext';
 
 
 //testar
 function CreateNewTopicPage() {
   const [topicData, setTopicData] = useState([])
-  const url = 'https://localhost:7261/api/discussions'
+  const port = useContext(PortContext)
+  const url = `https://localhost:${port}/api/discussions`
   const [showOverlay, setShowOverlay] = useState(false)
   const [showDeleteConfirm, setshowDeleteConfirm] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const filteredTopics = filterTopics(topicData, searchTerm)
   const [activeTopic, setActiveTopic] = useState()
 
+    console.log(port)
   useEffect(() => {
     fetchData()
   }, [])

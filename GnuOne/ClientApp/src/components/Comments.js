@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import "../styles/comments.css";
+import PortContext from '../contexts/portContext'
 
 
 
@@ -8,7 +9,8 @@ function Comments(props) {
   const id = props.id
   const [username, setUsername] = useState('')
   const [messageText, setMessageText] = useState('')
-    const baseUrl = 'https://localhost:7261/'
+  const port = useContext(PortContext)
+  const url = `https://localhost:${port}/`
   const [editActive, setEditActive] = useState(false)
   const [commentActive, setCommentActive] = useState('')
   const [deletecommentActive, setDeleteCommentActive] = useState('')
@@ -22,7 +24,7 @@ function Comments(props) {
   }, [id])
 
   async function getComments(id) {
-    const response = await fetch(baseUrl + 'api/comments/' + id)
+    const response = await fetch(url + 'api/comments/' + id)
     const data = await response.json()
     console.log(data)
     setCommentsList(data)
@@ -70,7 +72,7 @@ function Comments(props) {
       if (changedComment.comment_text !== messageText) {
         changedComment.comment_text = messageText
         console.log(changedComment)
-        await fetch(baseUrl + 'api/comments/' + changedComment.commentid, {
+        await fetch(url + 'api/comments/' + changedComment.commentid, {
           method: 'PUT',
           body: JSON.stringify(changedComment),
           headers: {
@@ -88,7 +90,7 @@ function Comments(props) {
 
     async function addNewComment(message) {
       console.log(message)
-      await fetch(baseUrl + 'api/comments', {
+      await fetch(url + 'api/comments', {
         method: 'POST',
         body: JSON.stringify(message),
         headers: {
@@ -100,7 +102,7 @@ function Comments(props) {
 
     async function deleteComment(e, Cid) {
       e.preventDefault()
-      await fetch(baseUrl + 'api/comments/' + Cid, {
+      await fetch(url + 'api/comments/' + Cid, {
         method: 'DELETE',
         body: { id: Cid },
         headers: {

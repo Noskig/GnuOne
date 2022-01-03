@@ -6,17 +6,21 @@ import {
     Switch,
     Route,
 } from "react-router-dom";
+import PortContext from './contexts/portContext'
+import MyProfile from './Pages/MyProfile';
 
 function App() {
     return (
+        <PortContext.Provider value={7261}>
         <Router>
             <div className="App">
-                <Switch>
-                    <Route exact path="/"> <CreateTopicpage /></Route>
+                    <Switch>
+                        <Route exact path="/"> <MyProfile /></Route>
                     <Route path="/discussions/:id"><Discussion /></Route>
                 </Switch>
             </div>
-        </Router>
+            </Router>
+        </PortContext.Provider>
     )
 }
 export default App;

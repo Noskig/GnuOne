@@ -1,10 +1,12 @@
 import "./deleteTopic.css"
-
+import PortContext from '../../contexts/portContext';
+import { useContext } from 'react'
 
 
 const DeleteTopic = (props) => {
-
-    const url = 'https://localhost:7261/api/discussions'
+    const port = useContext(PortContext)
+    const url = `https://localhost:${port}/api/discussions`
+   
 
     function fetchData() {
         props.fetchData()
