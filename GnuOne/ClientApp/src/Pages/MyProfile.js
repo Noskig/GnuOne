@@ -1,9 +1,9 @@
 ﻿import React, { useContext } from 'react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import friends from '../icons/friends.svg'
 import PortContext from '../contexts/portContext';
-import './MyProfile.css'
+import './MyProfile.min.css'
 
 
 //testar
@@ -22,7 +22,7 @@ function MyProfile() {
             <div className="profile-wheel-wrapper">
                 <ul className='profile-wheel'>
                     <li>
-                        <img alt="icon person" src="./profile-icon.svg" />
+                        <img alt="icon person" src={friends} />
                     </li>
                     <li>
                         <img alt="icon person" src="./profile-icon.svg" />
