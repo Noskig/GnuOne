@@ -73,7 +73,7 @@ namespace GnuOne.Data
                                     friend.userName = bodymessages[4];
                                     friend.isFriend = true;
                                     _newContext.Update(friend);
-                                    _newContext.SaveChangesAsync();
+                                    _newContext.SaveChanges();
 
                                     try
                                     {
@@ -114,7 +114,7 @@ namespace GnuOne.Data
                                         Console.WriteLine(ex.Message);
                                     }
 
-                                    _newContext.SaveChangesAsync();
+                                    _newContext.SaveChanges();
 
                                     var myData = _newContext.MySettings.FirstOrDefault();
                                     var allMyDiscussions = _newContext.Discussions.Where(x => x.Email == myData.Email).ToList();
@@ -188,7 +188,7 @@ namespace GnuOne.Data
                                 break;
                         }
 
-                        _newContext.SaveChangesAsync();
+                        _newContext.SaveChanges();
                         // Flaggar meddelandet att det skall tas bort.
                         client.Inbox.AddFlags(mail, MessageFlags.Deleted, true);
                     }
