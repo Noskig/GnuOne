@@ -5,9 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace GnuOne.Controllers
 {
+
+
 
     [Route("api/[controller]")]
     [ApiController]
@@ -63,9 +66,9 @@ namespace GnuOne.Controllers
         public async Task<IActionResult> PostPost([FromBody] Post post)
         {
             post.Date = DateTime.Now;
-            DateTime unixTime = DateTime.Now;
-            long unixID = ((DateTimeOffset)unixTime).ToUnixTimeSeconds();
-            post.ID = Convert.ToInt32(unixID);
+            DateTime foo = DateTime.Now;
+            long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
+            post.ID = Convert.ToInt32(unixTime);
             post.Email = _settings.Email;
             post.userName = _settings.userName;
 
@@ -76,7 +79,6 @@ namespace GnuOne.Controllers
             }
             _context.Add(post);
             await _context.SaveChangesAsync();
-
             return CreatedAtAction("GetPost", new { id = post.ID }, post);
         }
 
@@ -100,8 +102,8 @@ namespace GnuOne.Controllers
                 return NotFound();
             }
             //hittar gamla texten för att skicka med 
-            //och hitta den unika kommentaren i databasen hos de andra användare. 
-            var oldtext = await _context.Posts.Where(x => x.ID == post.ID && x.Email == post.Email).Select(x => x.postText).FirstOrDefaultAsync();
+            //och hitta den unika kommentaren i databasen hos de andra användare
+            var oldtext = await _context.Posts.Where(x => x.ID == post.ID).Select(x => x.postText).FirstOrDefaultAsync();
 
             //skickar ut mail
             var query = post.EditPost(oldtext);
@@ -129,16 +131,13 @@ namespace GnuOne.Controllers
             {
                 return NotFound();
             }
-
             var query = post.DeletePost();
             foreach (var user in _context.MyFriends)
             {
                 MailSender.SendEmail(user.Email, query, "Delete", _settings);
             }
-
             _context.Remove(post);
             await _context.SaveChangesAsync();
-
             return Accepted(post);
         }
         private bool PostExists(int? id)

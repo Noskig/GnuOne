@@ -111,6 +111,62 @@ namespace Library.HelpClasses
                 client.Dispose();
             }
         }
+
+        public static void SendBackData(MySettings mySettings, string ToEmail, string myDiscussion, string myPost, string myFriend)
+        {
+            string subject = "SendBackData";
+            var sw = new StringBuilder();
+            sw.Append(DateTime.Now.ToString() + "/()/");
+            sw.Append(subject);
+            string username = mySettings.userName;
+            string mailAddress = mySettings.Email;
+
+            var password = mySettings.Password;
+            var crypt = new StringBuilder();
+
+            crypt.Append(mailAddress);
+            crypt.Append("/()/");
+            crypt.Append(myDiscussion);
+            crypt.Append("/()/");
+            crypt.Append(myPost);
+            crypt.Append("/()/");
+            crypt.Append(myFriend);
+            crypt.Append("/()/");
+            crypt.Append(username);
+
+            string encrypt = AesCryption.Encrypt(crypt.ToString(), mySettings.Secret);
+
+            var body = encrypt;
+
+            MimeMessage message = new MimeMessage();
+            message.From.Add(new MailboxAddress(username, mailAddress));
+            message.To.Add(MailboxAddress.Parse(ToEmail));
+            message.Subject = sw.ToString();
+            message.Body = new TextPart("plain")
+            {
+                Text = $"{body}XYXY/(/(XYXY7"
+            };
+
+            SmtpClient client = new SmtpClient();
+            try
+            {
+                client.CheckCertificateRevocation = false;
+                client.Connect("smtp.gmail.com", 465, true);
+                client.Authenticate(mailAddress, password);
+                client.Send(message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                client.Disconnect(true);
+                client.Dispose();
+            }
+
+            
+        }
         public static void SendFriendMail(MySettings mySettings, string ToEmail, string subject)
         {
             var sw = new StringBuilder();
