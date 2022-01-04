@@ -13,7 +13,7 @@ namespace GnuOne.Data
 {
     public static class MailReader
     {
-        public static async void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
+        public static  void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
         {
             var myInfo = _newContext.MySettings.First();
            
@@ -46,12 +46,12 @@ namespace GnuOne.Data
                         {
                             case "PostedDiscussion":
 
-                                await RecieveAndSaveDiscussion(decryptedMessage, _newContext);
+                                RecieveAndSaveDiscussion(decryptedMessage, _newContext);
                                 break;
 
                             case "PostedPost":
 
-                                await RecieveAndSavePost(decryptedMessage, _newContext);
+                                RecieveAndSavePost(decryptedMessage, _newContext);
                                 break;
 
                             case "Delete":
@@ -333,22 +333,22 @@ namespace GnuOne.Data
             //    }
         }
 
-        private static async Task RecieveAndSavePost(string decryptedbody, MariaContext context)
+        private static void RecieveAndSavePost(string decryptedbody, MariaContext context)
         {
             var post = JsonConvert.DeserializeObject<Post>(decryptedbody);
 
             context.Posts.Add(post);
-            await context.SaveChangesAsync();
+            context.SaveChangesAsync();
         }
 
-        private static async Task RecieveAndSaveDiscussion(string decryptedbody, MariaContext context)
+        private static void RecieveAndSaveDiscussion(string decryptedbody, MariaContext context)
         {
             ///kanske try?
             
             var discussion = JsonConvert.DeserializeObject<Discussion>(decryptedbody);
 
             context.Discussions.Add(discussion);
-            await context.SaveChangesAsync();
+            context.SaveChanges();
             
         }
     }
