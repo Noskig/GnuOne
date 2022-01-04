@@ -1,47 +1,50 @@
-﻿import React, { useContext } from 'react';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+﻿import React from 'react';
+import { Link, Switch } from 'react-router-dom';
 import friends from '../icons/friends.svg'
-import PortContext from '../contexts/portContext';
+import trash from '../icons/trash.svg'
 import './MyProfile.min.css'
+import RouteWithSubRoutes from '../components/NewComponents/RouteWithSubRoutes';
 
 
 //testar
-function MyProfile() {
-
-    const port = useContext(PortContext)
-    const url = `https://localhost:${port}/api/discussions`
-
-    console.log(port)
-
-
+function MyProfile({ routes }) {
+    const menu = [
+        {
+            path: '/profile/friends', // the url
+            img: friends, // the img that appears in the wheel
+        },
+        {
+            path: '/profile/bio',
+            img: trash,
+        },
+        {
+            path: '/profile/messages',
+            img: trash,
+        },
+        {
+            path: '/profile/settings',
+            img: trash,
+        },
+        {
+            path: '/profile/discussions',
+            img: trash,
+        },
+        {
+            path: '/profile/bio',
+            img: trash,
+        },
+    ];
 
 
     return (
-        <section className="profile-wheel-container">
+        <> <section className="profile-wheel-container">
             <div className="profile-wheel-wrapper">
                 <ul className='profile-wheel'>
-                    <li>
-                        <img alt="icon person" src={friends} />
-                    </li>
-                    <li>
-                        <img alt="icon person" src="./profile-icon.svg" />
-                    </li>
-                    <li>
-                        <img alt="icon person" src="./profile-icon.svg" />
-                    </li>
-                    <li>
-                        <img alt="icon person" src="./profile-icon.svg" />
-                    </li>
-                    <li>
-                        <img alt="icon person" src="./profile-icon.svg" />
-                    </li>
-                    <li>
-                        <img alt="icon person" src="./profile-icon.svg" />
-                    </li>
-                    <li>
-                        <img alt="icon person" src="./profile-icon.svg" />
-                    </li>
+                    {menu.map((menuItem) => (
+                        <li key={menuItem.name}>
+                            <Link to={menuItem.path}><img alt="icon person" src={menuItem.img} /></Link>
+                        </li>
+                    ))}
                     <div className="profile-wheel-lines-container">
                         <div className="line"></div>
                         <div className="line"></div>
@@ -54,6 +57,12 @@ function MyProfile() {
                 </ul>
             </div>
         </section>
+            <Switch>
+                {routes.map((route, i) => (
+                    <RouteWithSubRoutes key={i} {...route} />
+                ))}
+            </Switch>
+        </>
     )
 }
 

@@ -1,6 +1,8 @@
 ﻿
 import { useState, useEffect, useContext } from 'react'
+import './friends.css'
 import PortContext from '../../contexts/portContext';
+import AddFriendOverlay from './AddFriendOverlay';
 
 
 const Friends = () => {
@@ -9,6 +11,8 @@ const Friends = () => {
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/myfriends`
     const [friendsList, setFriendsList] = useState([])
+    const [showOverlay, setShowOverlay] = useState(false)
+
 
     useEffect(() => {
         fetchData()
@@ -20,46 +24,27 @@ const Friends = () => {
         console.log(friends)
         setFriendsList(friends)
     }
-    //function handleClick(e) {
-    //    e.preventDefault()
-    //    let topicData = {
-    //        headline: headline,
-    //        discussiontext: description,
-    //        user: user,
-    //    }
 
-    //    if (headline === "" || description === "") {
-    //        alert("Fill the missing fields please")
-    //    }
-    //    else {
-    //        addNewPost(topicData)
-    //    }
-
-    //}
-
-    async function friendRequest(friendRequestEmail) {
-        await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(friendRequestEmail),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            }
-        })
-        fetchData();
+    const close = () => {
+        setShowOverlay(false)
     }
-
-  
-
 
     return (
 
         <section className="friends-container">
-            <div className="add-friend"> </div>
-            <div className="friends-list">
-                <ul>
-                    {friendsList.map(friend => <li>{friend.Email}</li>)}
-                </ul>
-            </div>
+
+            {showOverlay
+                ? <>
+                    <button className="new-friend" disabled="true">Add new friend</button>
+                    <AddFriendOverlay fetchData={fetchData} close={close} />
+                </>
+
+                : <button className="new-friend" onClick={() => setShowOverlay(true)}> Add new friend </button>
+            }
+
+            <ul className="friends-list">
+                {friendsList.map(friend => <li> <img className="friend-avatar" /> {friend.userName}</li>)}
+            </ul>
 
         </section>
 
