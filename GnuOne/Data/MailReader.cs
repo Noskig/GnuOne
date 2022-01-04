@@ -16,6 +16,7 @@ namespace GnuOne.Data
         public static void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
         {
             var myInfo = _newContext.MySettings.First();
+           
             using (var client = new ImapClient()) //**** new ProtocolLogger("imap.log")) om vi vill logga
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
@@ -25,7 +26,6 @@ namespace GnuOne.Data
                 client.Authenticate(myInfo.Email, myInfo.Password);
 
                 client.Inbox.Open(FolderAccess.ReadWrite);
-
                 var emails = client.Inbox.Search(SearchQuery.All);
 
                 foreach (var mail in emails)
@@ -44,9 +44,16 @@ namespace GnuOne.Data
 
                         switch (Sub[1])
                         {
-                            case "Post":
-                                DbCommand.CreateCommand(decryptedMessage, ConnectionString);
+                            case "PostedDiscussion":
+
+                                RecieveAndSaveDiscussion(decryptedMessage, _newContext);
                                 break;
+
+                            case "PostedPost":
+
+                                RecieveAndSavePost(decryptedMessage, _newContext);
+                                break;
+
                             case "Delete":
                                 DbCommand.CreateCommand(decryptedMessage, ConnectionString);
                                 break;
@@ -324,6 +331,25 @@ namespace GnuOne.Data
             //    {
             //        continue;
             //    }
+        }
+
+        private static async void RecieveAndSavePost(string decryptedbody, MariaContext context)
+        {
+            var post = JsonConvert.DeserializeObject<Post>(decryptedbody);
+
+            await context.Posts.AddAsync(post);
+            await context.SaveChangesAsync();
+        }
+
+        private static async void RecieveAndSaveDiscussion(string decryptedbody, MariaContext context)
+        {
+            ///kanske try?
+            
+            var discussion = JsonConvert.DeserializeObject<Discussion>(decryptedbody);
+
+            await context.Discussions.AddAsync(discussion);
+            await context.SaveChangesAsync();
+            
         }
     }
 }

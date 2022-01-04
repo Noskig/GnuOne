@@ -77,13 +77,16 @@ namespace GnuOne.Controllers
             discussion.Email = _settings.Email;
             discussion.userName = _settings.userName;
  
-            var query = discussion.SendDiscussion();
+            var jsonDiscussion = JsonConvert.SerializeObject(discussion);
+
             foreach (var user in _context.MyFriends)
             {
-                MailSender.SendEmail(user.Email, query, "Post", _settings);
+                MailSender.SendObject(jsonDiscussion, user.Email, _settings, "PostedDiscussion" );
             }
-            _context.Add(discussion);
+
+            await _context.AddAsync(discussion);
             await _context.SaveChangesAsync();
+
             return CreatedAtAction("GetDiscussion", new { id = discussion.ID }, discussion);
         }
 

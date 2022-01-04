@@ -67,18 +67,22 @@ namespace GnuOne.Controllers
         {
             post.Date = DateTime.Now;
             DateTime foo = DateTime.Now;
-            long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
-            post.ID = Convert.ToInt32(unixTime);
+            long unixID = ((DateTimeOffset)foo).ToUnixTimeSeconds();
+            post.ID = Convert.ToInt32(unixID);
             post.Email = _settings.Email;
             post.userName = _settings.userName;
 
-            var query = post.SendPost();
+            var jsonPost = JsonConvert.SerializeObject(post);
+
             foreach (var user in _context.MyFriends)
             {
-                MailSender.SendEmail(user.Email, query, "Post", _settings);
+                MailSender.SendObject(jsonPost, user.Email, _settings, "PostedPost");
             }
-            _context.Add(post);
+
+            await _context.AddAsync(post);
             await _context.SaveChangesAsync();
+
+
             return CreatedAtAction("GetPost", new { id = post.ID }, post);
         }
 
