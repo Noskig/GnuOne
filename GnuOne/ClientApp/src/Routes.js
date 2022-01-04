@@ -5,6 +5,7 @@ import Bio from './components/NewComponents/Bio';
 import Messages from './components/NewComponents/Messages';
 import Settings from './components/NewComponents/Settings';
 import Discussions from './components/NewComponents/Discussions';
+import TestWheel from './components/NewComponents/NewWheelTest';
 
 const routes = [
     {
@@ -38,8 +39,8 @@ const routes = [
                 component: Discussions,
             },
             {
-                path: '/profile/bio',
-                component: Bio,
+                path: '/profile/testwheel',
+                component: TestWheel,
             },
         ],
     },

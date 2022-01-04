@@ -30,7 +30,7 @@ function MyProfile({ routes }) {
             img: trash,
         },
         {
-            path: '/profile/bio',
+            path: '/profile/testwheel',
             img: trash,
         },
     ];
