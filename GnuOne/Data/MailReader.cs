@@ -9,29 +9,28 @@ namespace GnuOne.Data
 {
     public static class MailReader
     {
-
         public static void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
         {
-            var me = _newContext.MySettings.First();
+            var myInfo = _newContext.MySettings.First();
             using (var client = new Pop3Client())
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                 client.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
                 client.Connect("pop.gmail.com", 995, true);
                 client.AuthenticationMechanisms.Remove("XOAUTH2");
-                client.Authenticate(me.Email, me.Password);
+                client.Authenticate(myInfo.Email, myInfo.Password);
                 for (int i = 0; i < client.Count; i++)
                 {
                     var message = client.GetMessage(i);
-                    var subjet = message.Subject;
+                    var subject = message.Subject;
                     var body = message.GetTextBody(MimeKit.Text.TextFormat.Text);
-                    string[] relativData = body.Split("XYXY/(/(XYXY7");
+                    string[] splittedBody = body.Split("XYXY/(/(XYXY7");
                     string[] Sub;
-                    if (subjet.Contains("/()/"))
+                    if (subject.Contains("/()/"))
                     {
-                        Sub = subjet.Split("/()/");
-                        string decrypted = AesCryption.Decrypt(relativData[0], me.Secret);
-                        string[] Data = decrypted.Split("\"");
+                        Sub = subject.Split("/()/");
+                        string decryptedMessage = AesCryption.Decrypt(splittedBody[0], myInfo.Secret);
+                        string[] Data = decryptedMessage.Split("\"");
                         var LocalDate = _newContext.LastUpdates.First();
                         DateTime IncomeDate = Convert.ToDateTime(Sub[0]);
                         if (IncomeDate > LocalDate.timeSet)
@@ -39,18 +38,18 @@ namespace GnuOne.Data
                             switch (Sub[1])
                             {
                                 case "Delete":
-                                    DbCommand.CreateCommand(decrypted, ConnectionString);
+                                    DbCommand.CreateCommand(decryptedMessage, ConnectionString);
                                     break;
                                 case "Put":
-                                    DbCommand.CreateCommand(decrypted, ConnectionString);
+                                    DbCommand.CreateCommand(decryptedMessage, ConnectionString);
                                     break;
                                 case "friendRequest":
-                                    var bodymessage = decrypted.Split("/()/");
+                                    var bodymessage = decryptedMessage.Split("/()/");
                                     var potentialfriend = new MyFriend(bodymessage);
                                     _newContext.MyFriends.AddAsync(potentialfriend);
                                     break;
                                 case "DeniedfriendRequest":
-                                    var bodymessage1 = decrypted.Split("/()/");
+                                    var bodymessage1 = decryptedMessage.Split("/()/");
                                     var myfriend = _newContext.MyFriends.Where(x => x.Email == bodymessage1[1]).FirstOrDefault();
                                     _newContext.MyFriends.Remove(myfriend);
                                     break;
@@ -58,7 +57,7 @@ namespace GnuOne.Data
                                     //Studsar en gång för mycket, men ingen större problem.
                                     //
                                 case "AcceptedfriendRequest": 
-                                    var bodymessages = decrypted.Split("/()/");
+                                    var bodymessages = decryptedMessage.Split("/()/");
                                     var friend = _newContext.MyFriends.Where(x => x.Email == bodymessages[0]).FirstOrDefault();
                                     if(friend.isFriend == false)
                                     {
@@ -73,8 +72,8 @@ namespace GnuOne.Data
                                             {
                                                 foreach (Discussion x in deserializedItemsFromItems)
                                                 {
-                                                    Discussion discdisc = new Discussion() { ID = x.ID, Email = x.Email, userName = x.userName, Headline = x.Headline, discussionText = x.discussionText, Date = x.Date };
-                                                    _newContext.Discussions.Add(discdisc);
+                                                    Discussion discussion = new Discussion() { ID = x.ID, Email = x.Email, userName = x.userName, Headline = x.Headline, discussionText = x.discussionText, Date = x.Date };
+                                                    _newContext.Discussions.Add(discussion);
                                                 };
                                             }
                                             var deserializedItemsFromItems1 = System.Text.Json.JsonSerializer.Deserialize<List<Post>>(bodymessages[2]);
@@ -82,7 +81,7 @@ namespace GnuOne.Data
                                             {
                                                 foreach (Post x in deserializedItemsFromItems1)
                                                 {
-                                                    Post pospos = new Post() { ID = x.ID, Email = x.Email, userName = x.userName, Date = x.Date, postText = x.postText }; 
+                                                    Post post = new Post() { ID = x.ID, Email = x.Email, userName = x.userName, Date = x.Date, postText = x.postText }; 
                                                     _newContext.Posts.Add(x);
                                                 };
                                             }
@@ -92,42 +91,41 @@ namespace GnuOne.Data
                                                 var myName = _newContext.MySettings.FirstOrDefault();
                                                 foreach (MyFriendsFriends x in deserializedItemsFromItems2)
                                                 {
-                                                    MyFriendsFriends friefrie = new MyFriendsFriends() { Email = x.Email, userName = x.userName, myFriendID = friend.ID };
-                                                    if(friefrie.Email != myName.Email)
+                                                    MyFriendsFriends friendsFriend = new MyFriendsFriends() { Email = x.Email, userName = x.userName, myFriendID = friend.ID };
+                                                    if(friendsFriend.Email != myName.Email)
                                                     {
-                                                       _newContext.MyFriendsFriends.Add(friefrie);
+                                                       _newContext.MyFriendsFriends.Add(friendsFriend);
                                                     }
                                                 };
                                             }
                                         }
-                                        catch (Exception)
+                                        catch (Exception ex )
                                         {
-                                            throw;
+                                            Console.WriteLine(ex.Message); 
                                         }
 
-
-                                        var my = _newContext.MySettings.FirstOrDefault();
-                                        var allMyDiscussion = _newContext.Discussions.Where(x => x.Email == my.Email).ToList();
-                                        string myDiscussionJson = System.Text.Json.JsonSerializer.Serialize(allMyDiscussion);
-                                        var allMyPost = _newContext.Posts.Where(x => x.Email == my.Email).ToList();
-                                        string myPostJson = System.Text.Json.JsonSerializer.Serialize(allMyPost);
+                                        var myData = _newContext.MySettings.FirstOrDefault();
+                                        var allMyDiscussions = _newContext.Discussions.Where(x => x.Email == myData.Email).ToList();
+                                        string myDiscussionsJson = System.Text.Json.JsonSerializer.Serialize(allMyDiscussions);
+                                        var allMyPosts = _newContext.Posts.Where(x => x.Email == myData.Email).ToList();
+                                        string myPostsJson = System.Text.Json.JsonSerializer.Serialize(allMyPosts);
                                         var allMyFriends = _newContext.MyFriends.ToList();
-                                        string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
+                                        string myFriendsJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
 
-                                        MailSender.SendAcceptedRequest(my, bodymessages[0], myDiscussionJson, myPostJson, myFriendJson);
+                                        MailSender.SendAcceptedRequest(myData, bodymessages[0], myDiscussionsJson, myPostsJson, myFriendsJson);
                                     }
 
                                     break;
 
                                 case "deleteFriend":
-                                    var bodymessage3 = decrypted.Split("/()/");
+                                    var bodymessage3 = decryptedMessage.Split("/()/");
                                     var allDiscussions = _newContext.Discussions.Where(x => x.Email == bodymessage3[1]).ToList();
                                     _newContext.RemoveRange(allDiscussions);
                                     var deletemyFriend = _newContext.MyFriends.Where(y => y.Email == bodymessage3[1]).FirstOrDefault();
                                     _newContext.MyFriends.Remove(deletemyFriend);
                                     break;
                                 default:
-                                    DbCommand.CreateCommand(decrypted, ConnectionString);
+                                    DbCommand.CreateCommand(decryptedMessage, ConnectionString);
                                     break;
                             }
                             LocalDate.timeSet = IncomeDate;

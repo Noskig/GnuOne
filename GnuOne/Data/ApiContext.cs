@@ -6,8 +6,6 @@ namespace GnuOne.Data
 {
     public class ApiContext : DbContext
     {
- 
-
         public ApiContext(DbContextOptions<ApiContext> options) : base(options)
         {
         }
@@ -18,7 +16,5 @@ namespace GnuOne.Data
         public DbSet<MyFriendsFriends> MyFriendsFriends { get; set; }
         public DbSet<LastUpdate> LastUpdates { get; set; }
         public DbSet<MySettings> MySettings { get; set; }
-
-
     }
 }

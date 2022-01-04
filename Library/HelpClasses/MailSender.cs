@@ -93,7 +93,6 @@ namespace Library.HelpClasses
                 Text = $"{body}XYXY/(/(XYXY7"
             };
 
-
             SmtpClient client = new SmtpClient();
             try
             {

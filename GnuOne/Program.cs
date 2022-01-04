@@ -10,8 +10,8 @@ using Welcome_Settings;
 /// <summary>
 /// 
 /// </summary>
-bool oo = true;
-while (oo)
+bool keepGoing = true;
+while (keepGoing)
 {
     Global.ConnectionString = EnterCredentials();
     MariaContext context = new MariaContext(Global.ConnectionString);
@@ -30,7 +30,7 @@ while (oo)
         //finns det i db.mysettings
         if (IsThereMailCredentials(DbContext))
         {
-            oo = false;
+            keepGoing = false;
         }
         else
         {
@@ -40,7 +40,7 @@ while (oo)
             Console.Write("Write your Email: ");
             var email = Console.ReadLine();
             Console.Write("EmailPassword: ");
-            var pw = Console.ReadLine();
+            var password = Console.ReadLine();
             Console.Write("choose your username: ");
             var username = Console.ReadLine();
 
@@ -48,23 +48,21 @@ while (oo)
             {
                 ID = 1,
                 Email = email,
-                Password = pw,
+                Password = password,
                 userName = username,
                 Secret = "secretkey"
             };
             try
             {
-
                 await DbContext.MySettings.AddRangeAsync(settings);
                 await DbContext.SaveChangesAsync();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
-                throw;
+                Console.WriteLine(ex.Message);
             }
 
-            oo = false;
+            keepGoing = false;
 
         };
     }
@@ -76,7 +74,6 @@ while (oo)
     }
     
 }
-
 
 var builder = WebApplication.CreateBuilder(args);
 string _connectionstring = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -136,7 +133,6 @@ var loop1Task = Task.Run(async () => {
 app.Run();
 
 
-
 bool IsThereAGnu(MariaContext dbcontext)
 {
     try
@@ -185,24 +181,22 @@ static string EnterCredentials()
     Console.WriteLine();
     Console.Write("Username: ");
 
-    var inputU = Console.ReadLine();
+    var inputUserName = Console.ReadLine();
 
     Console.Write("Password: ");
 
-    string inputP = pwMask.pwMasker();
+    string inputPassWord = pwMask.pwMasker();
 
     Console.WriteLine();
 
     ///connectionstringen byggs
-    string newConn = "server=localhost;user id=" + inputU + ";password=" + inputP + ";";
+    string newConnection = "server=localhost;user id=" + inputUserName + ";password=" + inputPassWord + ";";
     /// den fullständiga med DB till global
-    Global.CompleteConnectionString = "server=localhost;user id=" + inputU + ";password=" + inputP + ";database=gnu;";
+    Global.CompleteConnectionString = "server=localhost;user id=" + inputUserName + ";password=" + inputPassWord + ";database=gnu;";
 
     ///write to appsettings.json
 
-
-
-    return newConn;
+    return newConnection;
     //Console.Clear();
     //Console.ForegroundColor = ConsoleColor.Blue;
     //Console.WriteLine(" - Dont shut this window down - ");
@@ -214,7 +208,6 @@ static void WriteToJson(string sectionPathKey, string value)
     string path = Directory.GetCurrentDirectory();
     string fullpath = Path.GetFullPath(path + file);
 
-    
     //Console.WriteLine(Path.GetFullPath(path));
     try
     {
@@ -226,14 +219,13 @@ static void WriteToJson(string sectionPathKey, string value)
 
         string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
         File.WriteAllText(filePath, output);
-
     }
     catch (Exception ex)
     {
         Console.WriteLine("Error writing app settings | {0}", ex.Message);
     }
 }
-static void SetValueRecursively(string sectionPathKey, dynamic? jsonObj, string value)
+static void SetValueRecursively(string sectionPathKey, dynamic? jsonObject, string value)
 {
     // split the string at the first ':' character
     var remainingSections = sectionPathKey.Split(":", 2);
@@ -243,11 +235,11 @@ static void SetValueRecursively(string sectionPathKey, dynamic? jsonObj, string 
     {
         // continue with the procress, moving down the tree
         var nextSection = remainingSections[1];
-        SetValueRecursively(nextSection, jsonObj[currentSection], value);
+        SetValueRecursively(nextSection, jsonObject[currentSection], value);
     }
     else
     {
         // we've got to the end of the tree, set the value
-        jsonObj[currentSection] = value;
+        jsonObject[currentSection] = value;
     }
 }

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Library.HelpClasses
 {
+
+    //Döljer lösenordet i consolen
     public class pwMask
     {
         public static string pwMasker()

@@ -51,6 +51,7 @@ Vill vi ha både publika och privata vänner?
 Skapa en process för detta när man har kommit in i systemet.
 -(FRONTEND notiser, knapp för accept/denied)
 --Rätt information ska skickas ut när man blir vän också... Testa
+-- När delar man delar data med vänner att det zippas(stor mängd data?)
 
 4.    Jag vill ha en sida där jag kan se vilka inställningar som är gjorda och eventuellt ändra valda parametrar.
 -API som ändrar inställningar.
@@ -63,8 +64,9 @@ Skapa en process för detta när man har kommit in i systemet.
 Guida Stig
 -Dokumentera github. Text. Video. Göra en snygg förklaring.
 -städa. Göra om till methoder med bra Namn som förklarar vad som händer.
--- Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post.
+-- Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. rad 107 i postcontrollen bla
 -Göra om allt till samma standard. Namnsättning framförallt.
+--Mailsendermetoder (Alla till samma metod eller alla olika metoder)
 --Göra om i Myfriendscontrollern rad 82-88 till metod
 --Behöver gå ut ett mail till mina vänner att vännen tas bort
 
