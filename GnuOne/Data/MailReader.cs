@@ -13,7 +13,7 @@ namespace GnuOne.Data
 {
     public static class MailReader
     {
-        public static async Task ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
+        public static async void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
         {
             var myInfo = _newContext.MySettings.First();
            
@@ -46,7 +46,7 @@ namespace GnuOne.Data
                         {
                             case "PostedDiscussion":
 
-                                 await RecieveAndSaveDiscussion(decryptedMessage, _newContext);
+                                await RecieveAndSaveDiscussion(decryptedMessage, _newContext);
                                 break;
 
                             case "PostedPost":
@@ -337,7 +337,7 @@ namespace GnuOne.Data
         {
             var post = JsonConvert.DeserializeObject<Post>(decryptedbody);
 
-            await context.Posts.AddAsync(post);
+            context.Posts.Add(post);
             await context.SaveChangesAsync();
         }
 
@@ -347,7 +347,7 @@ namespace GnuOne.Data
             
             var discussion = JsonConvert.DeserializeObject<Discussion>(decryptedbody);
 
-            await context.Discussions.AddAsync(discussion);
+            context.Discussions.Add(discussion);
             await context.SaveChangesAsync();
             
         }
