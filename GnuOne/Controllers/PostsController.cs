@@ -135,13 +135,26 @@ namespace GnuOne.Controllers
             {
                 return NotFound();
             }
-            var query = post.DeletePost();
+
+            //json
+            //krypter
+            //skicka mail
+            //deleta
+
+            var jsonPost = JsonConvert.SerializeObject(post);
+
             foreach (var user in _context.MyFriends)
             {
-                MailSender.SendEmail(user.Email, query, "Delete", _settings);
+                MailSender.SendObject(jsonPost, user.Email, _settings, "DeletePost");
             }
             _context.Remove(post);
             await _context.SaveChangesAsync();
+
+            //var query = post.DeletePost();
+            //foreach (var user in _context.MyFriends)
+            //{
+            //    MailSender.SendEmail(user.Email, query, "Delete", _settings);
+            //}
             return Accepted(post);
         }
         private bool PostExists(int? id)
