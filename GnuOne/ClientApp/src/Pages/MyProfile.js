@@ -41,10 +41,16 @@ function MyProfile({ routes }) {
             <div className="profile-wheel-wrapper">
                 <ul className='profile-wheel'>
                     {menu.map((menuItem) => (
-                        <li key={menuItem.name}>
-                            <Link to={menuItem.path}><img alt="icon person" src={menuItem.img} /></Link>
-                        </li>
+                       
+                            <li key={menuItem.name}>
+                                <Link to={menuItem.path}><img alt="icon person" src={menuItem.img} /></Link>
+                            </li>
+                          
+                       
                     ))}
+                    <li>
+                        <img alt="icon person" src="./profile-icon.svg" />
+                    </li>
                     <div className="profile-wheel-lines-container">
                         <div className="line"></div>
                         <div className="line"></div>
