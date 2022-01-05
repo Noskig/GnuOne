@@ -109,11 +109,6 @@ namespace GnuOne.Controllers
                 return NotFound();
             }
 
-            ///json
-            ///kryptera
-            ///skicka mail
-            ///updatera
-            ///
 
             var jsonDiscussion = JsonConvert.SerializeObject(discussion);
             try

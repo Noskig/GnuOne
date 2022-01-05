@@ -17,7 +17,7 @@ while (keepGoing)
     MariaContext context = new MariaContext(Global.ConnectionString);
     MariaContext DbContext = new MariaContext(Global.CompleteConnectionString);
     WriteToJson("ConnectionStrings:Defaultconnection", Global.CompleteConnectionString);
-    
+
     //kollar om det är rätt inlog med att skicka någonting till db:n
     if (await CheckConnection(context))
     {
@@ -72,7 +72,7 @@ while (keepGoing)
         Console.WriteLine("Det gick inte att ansluta till databasen testa igen");
         Console.WriteLine();
     }
-    
+
 }
 
 var builder = WebApplication.CreateBuilder(args);
@@ -114,20 +114,28 @@ app.UseCors();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
-app.MapFallbackToFile("index.html"); 
+app.MapFallbackToFile("index.html");
 
 
 int a = 0; //Visualiserar att mailfunktionen rullar.
-var loop1Task = Task.Run(async () => {
+var loop1Task = Task.Run(async () =>
+{
     while (true)
     {
-        using (MariaContext context = new MariaContext(_connectionstring))
+        try
         {
-            MailReader.ReadUnOpenEmails(context, _connectionstring);
-            a++;
-            Console.Write(a);
+            using (MariaContext context = new MariaContext(_connectionstring))
+            {
+                MailReader.ReadUnOpenEmails(context, _connectionstring);
+                a++;
+                Console.Write(a);
+            }
         }
-            await Task.Delay(10000);
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    await Task.Delay(10000);
     }
 });
 app.Run();

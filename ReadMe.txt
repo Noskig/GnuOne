@@ -29,7 +29,8 @@ Man kan Get/Post/Put/Delete comments
 
 ///////////////////////////////////////////////////////////
 ATT GÖRA: (utan inbördes ordning)
-
+Torsdag:
+Testa alla vänner och "nya" mailreadern
 
 
 1.    Jag vill kunna hämta ner och installera programmet och köra det ifrån en webbrowser. (bittorrent eller iwantag.nu?)
@@ -64,19 +65,21 @@ Skapa en process för detta när man har kommit in i systemet.
 6.    Gå igenom källkoden, dokumentera, städa, fundera på standard.
 Guida Stig
 -Dokumentera github. Text. Video. Göra en snygg förklaring.
--städa. Göra om till methoder med bra Namn som förklarar vad som händer.
--- Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post.
+
+-städa. Göra om till methoder med bra Namn som förklarar vad som händer. (påbörjad kanske klar)
 
 ******* Känns som det inte går att läsa flera mail, ibland tar den inte bort mailet.
-		Vi markera lästa mail. Sen ta bort alla lästa för att de inte ska krocka.
+		Vi markera lästa mail. Sen ta bort alla lästa för att de inte ska krocka. (vet inte varför, funkar ibland, ibland inte)
+		__Testa postman lite hejvilt_
 
-	**	Fortsätta skriva om mailreadern.
+
+
+	***	Fortsätta skriva om mailreadern.
 	 '	lite fler cases och testa så att all funkar. Skicka å ta emot.
 
 
--Göra om allt till samma standard. Namnsättning framförallt.
---Göra om i Myfriendscontrollern rad 82-88 till metod
---Behöver gå ut ett mail till mina vänner att vännen tas bort
+-Göra om allt till samma standard. Namnsättning framförallt.(på börjad kanske klar)
+
 
 
 
@@ -90,16 +93,27 @@ Guida Stig
 ---Ta bort vänner.
 ---Gömma sig i nätverken. (bli osynlig för deras nätverk)
 
+-Try catch block på all sparning i controllers?
+
 
 --Nya funktioner
 
 8.    Föreslå nya funktioner 
 -Chatt
 
+<p>Katter</p>			
+<checkpox=intresseone>	
 
 9.    Fixa fel och införa ändringar
 
+''''''Bug / ej tänkt på.
+      -Om min vän postar på min discussion.
+	  hur ska mina vänner som inte är vän med den vännen se det inlägget?
+	**Lösning. När någon postar på min discussion. Behöver den posten studsa från min till alla mina vänner som har den diskussionen(alla).
 
+-Profil.
+*userInfo. Standard Bilder. Intressen(bool). Publik nyckel.
+**researcha bilder med johanna (standardbilder som man väjer eller ladda upp sin egen?)
 
 
 
@@ -125,6 +139,10 @@ KLART:
 # Skicka databasen åt motsatt håll.
 # Vänner som inte är true skickas över till myfriendsfriends.
 # deleteFriend tar bort vännen, diskussioner, poster & vänsVänner. Åt båda hållet.
+
+
+# Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. 5/1
+# Göra om i Myfriendscontrollern rad 82-88 till metod   Behöver gå ut ett mail till mina vänner att vännen tas bort 5/1
 
 ///////////////////////////////////////////////////////////
 FRÅGOR:
