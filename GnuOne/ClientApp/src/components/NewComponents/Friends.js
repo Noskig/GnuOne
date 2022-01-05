@@ -12,7 +12,6 @@ const Friends = () => {
     const url = `https://localhost:${port}/api/myfriends`
     const [friendsList, setFriendsList] = useState([])
     const [showOverlay, setShowOverlay] = useState(false)
-    const [isFriend, setIsFriend] = useState(false)
 
 
     useEffect(() => {
@@ -68,7 +67,7 @@ const Friends = () => {
 
             <ul className="friends-list">
                 {friendsList.map(friend => <li key={friend.ID}> <img className="friend-avatar" /> {friend.userName}
-                    <button onClick={(e) => handleClick(e, friend)}>Accept friend</button>
+                    {friend.isFriend ? null : <button onClick={(e) => handleClick(e, friend)}>Accept friend</button>}
                 </li>)}
             </ul>
 
