@@ -76,12 +76,12 @@ namespace GnuOne.Controllers
             discussion.ID = Convert.ToInt32(unixID);
             discussion.Email = _settings.Email;
             discussion.userName = _settings.userName;
- 
+
             var jsonDiscussion = JsonConvert.SerializeObject(discussion);
 
             foreach (var user in _context.MyFriends)
             {
-                MailSender.SendObject(jsonDiscussion, user.Email, _settings, "PostedDiscussion" );
+                MailSender.SendObject(jsonDiscussion, user.Email, _settings, "PostedDiscussion");
             }
 
             await _context.AddAsync(discussion);
@@ -109,20 +109,27 @@ namespace GnuOne.Controllers
                 return NotFound();
             }
 
-            //hittar gamla texten för att skicka med 
-            //och hitta den unika kommentaren i databasen hos de andra användare
-            
-            var oldtext = await _context.Discussions.Where(x => x.ID == discussion.ID && x.Email == _settings.Email)
-                                                    .Select(x => x.discussionText)
-                                                    .FirstOrDefaultAsync();
+            ///json
+            ///kryptera
+            ///skicka mail
+            ///updatera
+            ///
 
-            var query = discussion.EditDiscussion(oldtext);
+            var jsonDiscussion = JsonConvert.SerializeObject(discussion);
+            try
+            {
+                _context.Update(discussion);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Could not update discussion");
+            }
+
             foreach (var user in _context.MyFriends)
             {
-                MailSender.SendEmail(user.Email, query, "Put", _settings);
+                MailSender.SendObject(jsonDiscussion, user.Email, _settings, "PutDiscussion");
             }
-            _context.Update(discussion);
-            await _context.SaveChangesAsync();
             return Accepted(discussion);
         }
 

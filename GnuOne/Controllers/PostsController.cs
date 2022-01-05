@@ -10,8 +10,6 @@ using Newtonsoft.Json;
 namespace GnuOne.Controllers
 {
 
-
-
     [Route("api/[controller]")]
     [ApiController]
     public class PostsController : ControllerBase
@@ -119,18 +117,7 @@ namespace GnuOne.Controllers
             }
             _context.Update(post);
             await _context.SaveChangesAsync();
-            //json
-            //kryptera 
-            //skicka mail
-            //vill ändra
 
-
-            ////skickar ut mail
-            //var query = post.EditPost(oldtext);
-            //foreach (var user in _context.MyFriends)
-            //{
-            //    MailSender.SendEmail(user.Email, query, "Put", _settings);
-            //}
             return Accepted(post);
         }
 

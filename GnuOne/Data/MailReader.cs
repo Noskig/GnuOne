@@ -84,11 +84,29 @@ namespace GnuOne.Data
 
                         case "DeletePost":
                             var deeding = ReceiveAndDeletePost(decryptedMessage, _newContext);
-                            break;
+                            if (deeding == 1)
+                            { break; }
+                            else
+                            {
+                                ///try again?
+                                break;
+                            }
+
 
                         case "PutPost":
                             var deedb = ReceiveAndPutPost(decryptedMessage, _newContext);
+                            if (deedb == 1)
+                            { break; }
+                            else
+                            {
+                                ///try again?
+                                break;
+                            }
+
+                        case "PutDiscussion":
+                            var deedc = RecieveAndPutDiscussion(decryptedMessage, _newContext);
                             break;
+
                         case "Put":
                             DbCommand.CreateCommand(decryptedMessage, ConnectionString);
                             break;
@@ -227,7 +245,6 @@ namespace GnuOne.Data
                             break;
                     }
 
-                    _newContext.SaveChangesAsync();
                     // Flaggar meddelandet att det skall tas bort.
                     client.Inbox.AddFlags(mail, MessageFlags.Deleted, true);  //false? testa
                 }
@@ -242,8 +259,18 @@ namespace GnuOne.Data
 
 
             client.Disconnect(true);
+        }
 
-
+        private static int RecieveAndPutDiscussion(string decryptedMessage, MariaContext context)
+        {
+            var discussion = JsonConvert.DeserializeObject<Discussion>(decryptedMessage);
+            if (discussion is not null)
+            {
+                context.Update(discussion);
+                context.SaveChangesAsync();
+                return 1;
+            }
+            return -1;
         }
 
         private static int ReceiveAndPutPost(string decryptedMessage, MariaContext context)
