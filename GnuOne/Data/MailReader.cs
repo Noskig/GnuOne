@@ -13,10 +13,10 @@ namespace GnuOne.Data
 {
     public static class MailReader
     {
-        public static  void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
+        public static void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
         {
             var myInfo = _newContext.MySettings.First();
-           
+
             using (var client = new ImapClient()) //**** new ProtocolLogger("imap.log")) om vi vill logga
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
@@ -26,6 +26,7 @@ namespace GnuOne.Data
                 client.Authenticate(myInfo.Email, myInfo.Password);
 
                 client.Inbox.Open(FolderAccess.ReadWrite);
+
                 var emails = client.Inbox.Search(SearchQuery.All);
 
                 foreach (var mail in emails)
@@ -46,14 +47,26 @@ namespace GnuOne.Data
                         {
                             case "PostedDiscussion":
 
-                                RecieveAndSaveDiscussion(decryptedMessage, _newContext);
-                                break;
+                                var done = RecieveAndSaveDiscussion(decryptedMessage, _newContext);
+
+                                if(done == 1) 
+                                { break; }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
 
                             case "PostedPost":
 
-                                RecieveAndSavePost(decryptedMessage, _newContext);
-                                break;
-
+                                var doing = RecieveAndSavePost(decryptedMessage, _newContext);
+                                if (doing == 1)
+                                { break; }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
                             case "Delete":
                                 DbCommand.CreateCommand(decryptedMessage, ConnectionString);
                                 break;
@@ -333,26 +346,35 @@ namespace GnuOne.Data
             //    }
         }
 
-        private static void RecieveAndSavePost(string decryptedbody, MariaContext context)
+        private static int RecieveAndSavePost(string decryptedbody, MariaContext context)
         {
-            var post = JsonConvert.DeserializeObject<Post>(decryptedbody);
 
-            context.Posts.Add(post);
-            context.SaveChangesAsync();
+
+            var post = JsonConvert.DeserializeObject<Post>(decryptedbody);
+            if (post is not null)
+            {
+                context.Posts.Add(post);
+                var saved =  context.SaveChangesAsync();
+                return 1;
+            }
+            return -1;
         }
 
-        private static void RecieveAndSaveDiscussion(string decryptedbody, MariaContext context)
+        private static  int RecieveAndSaveDiscussion(string decryptedbody, MariaContext context)
         {
             ///kanske try?
-            
-            var discussion = JsonConvert.DeserializeObject<Discussion>(decryptedbody);
 
-            context.Discussions.Add(discussion);
-            context.SaveChanges();
-            
+            var discussion = JsonConvert.DeserializeObject<Discussion>(decryptedbody);
+            if (discussion is not null)
+            {
+                context.Discussions.Add(discussion);
+                var result = context.SaveChangesAsync();
+
+                return 1;
+            }
+            return 0;
         }
     }
 }
-
 
 

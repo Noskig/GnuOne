@@ -123,7 +123,7 @@ var loop1Task = Task.Run(async () => {
     {
         using (MariaContext context = new MariaContext(_connectionstring))
         {
-            MailReader.ReadUnOpenEmails(context, _connectionstring);
+             MailReader.ReadUnOpenEmails(context, _connectionstring);
             await Task.Delay(5000);
             a++;
             Console.Write(a);

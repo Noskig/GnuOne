@@ -66,6 +66,14 @@ Guida Stig
 -Dokumentera github. Text. Video. Göra en snygg förklaring.
 -städa. Göra om till methoder med bra Namn som förklarar vad som händer.
 -- Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post.
+
+******* Känns som det inte går att läsa flera mail, ibland tar den inte bort mailet.
+		Vi markera lästa mail. Sen ta bort alla lästa för att de inte ska krocka.
+
+	**	Fortsätta skriva om mailreadern.
+	 '	lite fler cases och testa så att all funkar. Skicka å ta emot.
+
+
 -Göra om allt till samma standard. Namnsättning framförallt.
 --Göra om i Myfriendscontrollern rad 82-88 till metod
 --Behöver gå ut ett mail till mina vänner att vännen tas bort
