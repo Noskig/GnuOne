@@ -141,16 +141,22 @@ namespace GnuOne.Controllers
                 return NotFound();
             }
 
-            //skickar ut mail
-            ///skapa query
-            
-            var query = discussion.DeleteDiscussion();
+            var jsonDiscussion = JsonConvert.SerializeObject(discussion);
+
             foreach (var user in _context.MyFriends)
             {
-                MailSender.SendEmail(user.Email, query, "Delete", _settings);
+                MailSender.SendObject(jsonDiscussion, user.Email, _settings, "DeleteDiscussion");
             }
+
             _context.Remove(discussion);
             await _context.SaveChangesAsync();
+
+            //var query = discussion.DeleteDiscussion();
+
+            //foreach (var user in _context.MyFriends)
+            //{
+            //    MailSender.SendEmail(user.Email, query, "Delete", _settings);
+            //}
             return Accepted(discussion);
         }
         private bool DiscussionExists(int? id)
