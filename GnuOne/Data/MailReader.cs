@@ -85,8 +85,9 @@ namespace GnuOne.Data
                         case "DeletePost":
                             var deeding = ReceiveAndDeletePost(decryptedMessage, _newContext);
                             break;
-                        case "Delete":
-                            DbCommand.CreateCommand(decryptedMessage, ConnectionString);
+
+                        case "PutPost":
+                            var deedb = ReceiveAndPutPost(decryptedMessage, _newContext);
                             break;
                         case "Put":
                             DbCommand.CreateCommand(decryptedMessage, ConnectionString);
@@ -243,6 +244,18 @@ namespace GnuOne.Data
             client.Disconnect(true);
 
 
+        }
+
+        private static int ReceiveAndPutPost(string decryptedMessage, MariaContext context)
+        {
+            var post = JsonConvert.DeserializeObject<Post>(decryptedMessage);
+            if(post is not null)
+            {
+                context.Update(post);
+                context.SaveChangesAsync();
+                return 1;
+            }
+            return -1;
         }
 
         private static int ReceiveAndDeletePost(string decryptedMessage, MariaContext context)

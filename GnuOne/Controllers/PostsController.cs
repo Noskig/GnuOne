@@ -105,19 +105,32 @@ namespace GnuOne.Controllers
             {
                 return NotFound();
             }
+
+
             //hittar gamla texten för att skicka med 
             //och hitta den unika kommentaren i databasen hos de andra användare
-            var oldtext = await _context.Posts.Where(x => x.ID == post.ID).Select(x => x.postText).FirstOrDefaultAsync();
+            //var oldtext = await _context.Posts.Where(x => x.ID == post.ID).Select(x => x.postText).FirstOrDefaultAsync();
 
-            //skickar ut mail
-            var query = post.EditPost(oldtext);
+            var jsonPost = JsonConvert.SerializeObject(post);
 
             foreach (var user in _context.MyFriends)
             {
-                MailSender.SendEmail(user.Email, query, "Put", _settings);
+                MailSender.SendObject(jsonPost, user.Email, _settings, "PutPost");
             }
             _context.Update(post);
             await _context.SaveChangesAsync();
+            //json
+            //kryptera 
+            //skicka mail
+            //vill ändra
+
+
+            ////skickar ut mail
+            //var query = post.EditPost(oldtext);
+            //foreach (var user in _context.MyFriends)
+            //{
+            //    MailSender.SendEmail(user.Email, query, "Put", _settings);
+            //}
             return Accepted(post);
         }
 
@@ -149,12 +162,6 @@ namespace GnuOne.Controllers
             }
             _context.Remove(post);
             await _context.SaveChangesAsync();
-
-            //var query = post.DeletePost();
-            //foreach (var user in _context.MyFriends)
-            //{
-            //    MailSender.SendEmail(user.Email, query, "Delete", _settings);
-            //}
             return Accepted(post);
         }
         private bool PostExists(int? id)
