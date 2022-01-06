@@ -181,7 +181,7 @@ namespace GnuOne.Data
             if (removeablefriendfirend is not null)
             {
                 context.MyFriendsFriends.Remove(removeablefriendfirend);
-                context.SaveChangesAsync();
+                context.SaveChangesAsync().Wait();
                 return 1;
             }
             return -1;
@@ -197,7 +197,7 @@ namespace GnuOne.Data
                 var theirDiscussion = context.Discussions.Where(x => x.Email == theirSettings.Email).ToList();
                 context.Discussions.RemoveRange(theirDiscussion);
                 context.MyFriends.Remove(stupidFriend);
-                context.SaveChangesAsync();
+                context.SaveChangesAsync().Wait();
                 ///skicka ut mail till mina vänner att dom är borta
                 var jsonStupidFriend = JsonConvert.SerializeObject(stupidFriend);
 
@@ -207,8 +207,6 @@ namespace GnuOne.Data
                 {
                     MailSender.SendObject(jsonStupidFriend, user.Email, mySettings, "FriendsFriendGotRemoved");
                 }
-
-
                 return 1;
             }
             return -1;
@@ -217,7 +215,7 @@ namespace GnuOne.Data
         private static int GiveBackMyInformation(MariaContext context, string toEmail)
         {
 
-            var mysettingsEmail = context.MySettings.Select(x => x.Email).ToString();
+            var mysettingsEmail = context.MySettings.Select(x => x.Email).Single();
 
             var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(context, mysettingsEmail);
             var jsonBigList = JsonConvert.SerializeObject(bigListWithMyInfo);

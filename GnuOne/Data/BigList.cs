@@ -35,7 +35,8 @@ namespace GnuOne.Data
                 }
             }
             var myFriends = _context.MyFriends.ToListAsync().Result;
-            var sendUsername = _context.MySettings.Select(x => x.userName).ToString();
+            var sendUsername = _context.MySettings.Select(x => x.userName).Single();
+
 
             var manylists = new BigList(myDiscussions, allRelevantPosts, myFriends, myEmail,sendUsername);
             return manylists;
@@ -55,7 +56,7 @@ namespace GnuOne.Data
                 }
             }
             var myFriends = _context.MyFriends.ToList();
-            var sendUsername = _context.MySettings.Select(x => x.userName).ToString();
+            var sendUsername = _context.MySettings.Select(x => x.userName).Single();
             var manylists = new BigList(myDiscussions, allRelevantPosts, myFriends, myEmail,sendUsername);
             return manylists;
         }
