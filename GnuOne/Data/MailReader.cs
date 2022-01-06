@@ -13,7 +13,7 @@ namespace GnuOne.Data
 {
     public static class MailReader
     {
-        public static void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
+        public static async void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
         {
             var myInfo = _newContext.MySettings.First();
 
@@ -127,9 +127,11 @@ namespace GnuOne.Data
                                 }
 
                             case "AcceptedFriendRequest":
+                                //var deedf = await Task.Run(() => ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false, myInfo.Email));
                                 var deedf = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false,myInfo.Email);
                                 if (deedf == 1)
                                 {
+                                    //await Task.Run(() => GiveBackMyInformation(_newContext, emailFrom));
                                     var returnInfo = GiveBackMyInformation(_newContext, emailFrom);
                                     break;
                                 }
@@ -215,12 +217,12 @@ namespace GnuOne.Data
         private static int GiveBackMyInformation(MariaContext context, string toEmail)
         {
 
-            var mysettings = context.MySettings.FirstOrDefault();
+            var mysettingsEmail = context.MySettings.Select(x => x.Email).ToString();
 
-            var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(context, mysettings.Email);
+            var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(context, mysettingsEmail);
             var jsonBigList = JsonConvert.SerializeObject(bigListWithMyInfo);
-
-            MailSender.SendObject(jsonBigList, toEmail, mysettings, "GiveBackInformation");
+            var mySettings = context.MySettings.FirstOrDefault();
+            MailSender.SendObject(jsonBigList, toEmail, mySettings, "GiveBackInformation");
 
             return 1;
 
@@ -238,42 +240,44 @@ namespace GnuOne.Data
             if (theirLists is not null)
             {
                 friend.isFriend = true;
-                friend.userName = username;
+                friend.userName = username.ToString();
                 context.MyFriends.Update(friend);
-                var theirDiscussion = theirLists.Discussions;
-                if (theirDiscussion is not null)
-                {
-                    context.Discussions.AddRange(theirDiscussion);
-                    context.SaveChanges();
-                }
-                var theirPosts = theirLists.Posts;
-                if (theirPosts is not null)
-                {
-                    context.Posts.AddRange(theirPosts);
-                    context.SaveChanges();
-                }
                 var theirFriends = theirLists.MyFriends;
                 if (theirFriends is not null)
                 {
+
                     var myFriendFriendsList = new List<MyFriendsFriends>();
                     foreach (var theirfriend in theirFriends)
                     {
                         if (theirfriend.Email != myEmail)
                         {
-                            var bff = new MyFriendsFriends(theirfriend);
+                            var bff = new MyFriendsFriends(theirfriend,friend.Email);
 
                             myFriendFriendsList.Add(bff);
                         }
 
                     }
-                    context.MyFriendsFriends.AddRange(myFriendFriendsList);
-                    context.SaveChanges();
+                    context.MyFriendsFriends.AddRangeAsync(myFriendFriendsList);
                     //context.MyFriends.AddRange(theirFriends);
                 }
+                var theirDiscussion = theirLists.Discussions;
+                if (theirDiscussion is not null)
+                {
+                    context.Discussions.AddRangeAsync(theirDiscussion);
+                    //context.SaveChanges();
+                }
+                var theirPosts = theirLists.Posts;
+                if (theirPosts is not null)
+                {
+                    context.Posts.AddRangeAsync(theirPosts);
+                    //context.SaveChanges();
+                }
+
                 //if (!isSendBack)
                 //{
 
                 //}
+                    context.SaveChangesAsync().Wait();
                 //context.SaveChangesAsync();
                 return 1;
             }

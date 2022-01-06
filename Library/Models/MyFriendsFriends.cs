@@ -9,7 +9,7 @@ namespace Library.Models
     public class MyFriendsFriends
     {
         public int ID { get; set; }
-        public int myFriendID { get; set; }
+        public string myFriendEmail { get; set; }
         public string userName { get; set; }
         public string Email { get; set; }
 
@@ -17,9 +17,10 @@ namespace Library.Models
         {
 
         }        
-        public MyFriendsFriends(MyFriend mf)
+        public MyFriendsFriends(MyFriend mf,string closeFriendEmail)
         {
-            myFriendID = mf.ID;
+            //myFriendID = mf.ID;
+            myFriendEmail = closeFriendEmail;
             userName = mf.userName;
             Email = mf.Email;
         }

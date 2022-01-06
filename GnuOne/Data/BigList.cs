@@ -22,19 +22,19 @@ namespace GnuOne.Data
 
         public static BigList FillingBigListWithMyInfo(MariaContext _context, string myEmail)
         {
-            var myDiscussions = _context.Discussions.Where(x => x.Email == myEmail).ToList();
+            var myDiscussions = _context.Discussions.Where(x => x.Email == myEmail).ToListAsync().Result;
             var allRelevantPosts = new List<Post>();
-
+            
             //fyller listan med rätt posts
             foreach (var discussion in myDiscussions)
             {
-                var posts = _context.Posts.Where(x => x.discussionID == discussion.ID).ToList();
+                var posts = _context.Posts.Where(x => x.discussionID == discussion.ID).ToListAsync().Result;
                 foreach (var post in posts)
                 {
                     allRelevantPosts.Add(post);
                 }
             }
-            var myFriends = _context.MyFriends.ToList();
+            var myFriends = _context.MyFriends.ToListAsync().Result;
             var sendUsername = _context.MySettings.Select(x => x.userName).ToString();
 
             var manylists = new BigList(myDiscussions, allRelevantPosts, myFriends, myEmail,sendUsername);

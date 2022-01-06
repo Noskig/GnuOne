@@ -78,8 +78,8 @@ namespace GnuOne.Controllers
             }
             //min info
             var myInfo = new MyFriend();
-            myInfo.Email = _settings.Email;
-            myInfo.userName = _settings.userName;
+            myInfo.Email = _settings.Email.ToString();
+            myInfo.userName = _settings.userName.ToString();
 
             var jsonMyInfoInObject = JsonConvert.SerializeObject(myInfo);
 
