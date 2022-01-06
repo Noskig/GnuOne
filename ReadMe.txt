@@ -111,6 +111,17 @@ Guida Stig
 	  hur ska mina vänner som inte är vän med den vännen se det inlägget?
 	**Lösning. När någon postar på min discussion. Behöver den posten studsa från min till alla mina vänner som har den diskussionen(alla).
 
+	Ingen Username när man acepterar en förfrågan
+
+	lägga till using på rad 20 i mailreader.cs
+
+	Fixa att man mail när man gör discuss som dessutom skickar fel tidformat.
+
+
+	Filtera bort vänner till den man skickar till. Det kan annars orsaka mail till sig själv
+
+	En väns vän kommer inte i myfriendsfriendslistan
+
 -Profil.
 *userInfo. Standard Bilder. Intressen(bool). Publik nyckel.
 **researcha bilder med johanna (standardbilder som man väjer eller ladda upp sin egen?)
