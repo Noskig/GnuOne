@@ -5,17 +5,19 @@ namespace GnuOne.Data
 {
     public class BigList
     {
-        public List<Discussion>? Discussions{ get; set; }
+        public List<Discussion>? Discussions { get; set; }
         public List<Post>? Posts { get; set; }
-        public List<MyFriend>? MyFriends{ get; set; }
+        public List<MyFriend>? MyFriends { get; set; }
         public string FromEmail { get; set; }
+        public string username { get; set;}
 
-        public BigList(List<Discussion>? discussions, List<Post>? posts, List<MyFriend>? myFriends, string email)
+        public BigList(List<Discussion>? discussions, List<Post>? posts, List<MyFriend>? myFriends, string email,string myUserName)
         {
             Discussions = discussions;
             Posts = posts;
             MyFriends = myFriends;
             FromEmail = email;
+            username = myUserName;
         }
 
         public static BigList FillingBigListWithMyInfo(MariaContext _context, string myEmail)
@@ -33,8 +35,9 @@ namespace GnuOne.Data
                 }
             }
             var myFriends = _context.MyFriends.ToList();
+            var sendUsername = _context.MySettings.Select(x => x.userName).ToString();
 
-            var manylists = new BigList(myDiscussions, allRelevantPosts, myFriends, myEmail);
+            var manylists = new BigList(myDiscussions, allRelevantPosts, myFriends, myEmail,sendUsername);
             return manylists;
         }
         public static BigList FillingBigListWithMyInfo(ApiContext _context, string myEmail, bool isApi)
@@ -52,8 +55,8 @@ namespace GnuOne.Data
                 }
             }
             var myFriends = _context.MyFriends.ToList();
-
-            var manylists = new BigList(myDiscussions, allRelevantPosts, myFriends, myEmail);
+            var sendUsername = _context.MySettings.Select(x => x.userName).ToString();
+            var manylists = new BigList(myDiscussions, allRelevantPosts, myFriends, myEmail,sendUsername);
             return manylists;
         }
 

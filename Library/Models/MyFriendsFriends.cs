@@ -16,6 +16,12 @@ namespace Library.Models
         public MyFriendsFriends()
         {
 
+        }        
+        public MyFriendsFriends(MyFriend mf)
+        {
+            myFriendID = mf.ID;
+            userName = mf.userName;
+            Email = mf.Email;
         }
         public MyFriendsFriends(string[] bodymessage)
         {

@@ -17,158 +17,156 @@ namespace GnuOne.Data
         {
             var myInfo = _newContext.MySettings.First();
 
-            var client = new ImapClient(); //**** new ProtocolLogger("imap.log")) om vi vill logga
-
-            client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-            client.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
-            client.Connect("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect); //****
-            client.AuthenticationMechanisms.Remove("XOAUTH2");
-            client.Authenticate(myInfo.Email, myInfo.Password);                                                 //vad händer om man har fel lösen?
-            client.Inbox.Open(FolderAccess.ReadWrite);
-
-
-            var emails = client.Inbox.Search(SearchQuery.All);
-
-            foreach (var mail in emails)
+            using (var client = new ImapClient()) //**** new ProtocolLogger("imap.log")) om vi vill logga
             {
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                client.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
+                client.Connect("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect); //****
+                client.AuthenticationMechanisms.Remove("XOAUTH2");
+                client.Authenticate(myInfo.Email, myInfo.Password);                                                 //vad händer om man har fel lösen?
+                client.Inbox.Open(FolderAccess.ReadWrite);
 
-                var message = client.Inbox.GetMessage(mail);
-                var emailFrom = message.From.ToString();
-                var subject = message.Subject;
-                string body = message.GetTextBody(MimeKit.Text.TextFormat.Plain);
-                string[] splittedBody = body.Split("XYXY/(/(XYXY7");
-                string[] Sub;
 
-                if (subject.Contains("/()/"))
+                var emails = client.Inbox.Search(SearchQuery.All);
+
+                foreach (var mail in emails)
                 {
-                    Sub = subject.Split("/()/");
-                    string decryptedMessage = AesCryption.Decrypt(splittedBody[0], myInfo.Secret);
-                    string[] Data = decryptedMessage.Split("\"");
+                    var message = client.Inbox.GetMessage(mail);
+                    var emailFrom = message.From.ToString();
+                    var subject = message.Subject;
+                    string body = message.GetTextBody(MimeKit.Text.TextFormat.Plain);
+                    string[] splittedBody = body.Split("XYXY/(/(XYXY7");
+                    string[] Sub;
 
-                    switch (Sub[1])
+                    if (subject.Contains("/()/"))
                     {
-                        case "PostedDiscussion":
+                        Sub = subject.Split("/()/");
+                        string decryptedMessage = AesCryption.Decrypt(splittedBody[0], myInfo.Secret);
+                        string[] Data = decryptedMessage.Split("\"");
 
-                            var done = RecieveAndSaveDiscussion(decryptedMessage, _newContext);
+                        switch (Sub[1])
+                        {
+                            case "PostedDiscussion":
 
-                            if (done == 1)
-                            { break; }
-                            else
-                            {
-                                ///try again?
+                                var done = RecieveAndSaveDiscussion(decryptedMessage, _newContext);
+
+                                if (done == 1)
+                                { break; }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
+
+                            case "PostedPost":
+
+                                var doing = RecieveAndSavePost(decryptedMessage, _newContext);
+                                if (doing == 1)
+                                { break; }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
+
+                            case "DeleteDiscussion":
+
+                                var deed = RecieveAndDeleteDiscussion(decryptedMessage, _newContext);
+                                if (deed == 1)
+                                { break; }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
+
+                            case "DeletePost":
+                                var deeding = ReceiveAndDeletePost(decryptedMessage, _newContext);
+                                if (deeding == 1)
+                                { break; }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
+
+
+                            case "PutPost":
+                                var deedb = ReceiveAndPutPost(decryptedMessage, _newContext);
+                                if (deedb == 1)
+                                { break; }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
+
+                            case "PutDiscussion":
+                                var deedc = RecieveAndPutDiscussion(decryptedMessage, _newContext);
                                 break;
-                            }
 
-                        case "PostedPost":
+                            case "FriendRequest":
+                                var deedd = RecieveFriendRequest(decryptedMessage, _newContext);
+                                if (deedd == 1)
+                                { break; }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
 
-                            var doing = RecieveAndSavePost(decryptedMessage, _newContext);
-                            if (doing == 1)
-                            { break; }
-                            else
-                            {
-                                ///try again?
+                            case "DeniedFriendRequest":
+
+                                var deede = RecieveDeniedFriendRequest(decryptedMessage, _newContext);
+                                if (deede == 1)
+                                { break; }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
+
+                            case "AcceptedFriendRequest":
+                                var deedf = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false,myInfo.Email);
+                                if (deedf == 1)
+                                {
+                                    var returnInfo = GiveBackMyInformation(_newContext, emailFrom);
+                                    break;
+                                }
+                                else { break; }
+
+                            case "GiveBackInformation":
+                                var deedg = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, true,myInfo.Email);
+                                if (deedg == 1) { break; }
+                                else { break; }
+
+                            case "ItsNotMeItsYou":
+                                var deedh = RemoveFriendAndTheirInfoFromDb(decryptedMessage, _newContext);
+                                if (deedh == 1) { break; }
+                                else { break; }
+
+                            case "FriendsFriendGotRemoved":
+                                var deedi = RemoveFriendsFriend(decryptedMessage, _newContext, emailFrom);
+                                if (deedi == 1) { break; }
+                                else { break; }
+
+                            default:
                                 break;
-                            }
+                        }
 
-                        case "DeleteDiscussion":
-
-                            var deed = RecieveAndDeleteDiscussion(decryptedMessage, _newContext);
-                            if (deed == 1)
-                            { break; }
-                            else
-                            {
-                                ///try again?
-                                break;
-                            }
-
-                        case "DeletePost":
-                            var deeding = ReceiveAndDeletePost(decryptedMessage, _newContext);
-                            if (deeding == 1)
-                            { break; }
-                            else
-                            {
-                                ///try again?
-                                break;
-                            }
-
-
-                        case "PutPost":
-                            var deedb = ReceiveAndPutPost(decryptedMessage, _newContext);
-                            if (deedb == 1)
-                            { break; }
-                            else
-                            {
-                                ///try again?
-                                break;
-                            }
-
-                        case "PutDiscussion":
-                            var deedc = RecieveAndPutDiscussion(decryptedMessage, _newContext);
-                            break;
-
-                        case "FriendRequest":
-                            var deedd = RecieveFriendRequest(decryptedMessage, _newContext);
-                            if (deedd == 1)
-                            { break; }
-                            else
-                            {
-                                ///try again?
-                                break;
-                            }
-
-                        case "DeniedFriendRequest":
-
-                            var deede = RecieveDeniedFriendRequest(decryptedMessage, _newContext);
-                            if (deede == 1)
-                            { break; }
-                            else
-                            {
-                                ///try again?
-                                break;
-                            }
-
-                        case "AcceptedFriendRequest":
-                            var deedf = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false);
-                            if (deedf == 1)
-                            {
-                                var returnInfo = GiveBackMyInformation(_newContext, emailFrom);
-                                break;
-                            }
-                            else { break; }
-
-                        case "GiveBackInformation":
-                            var deedg = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, true);
-                            if (deedg == 1) { break; }
-                            else { break; }
-
-                        case "ItsNotMeItsYou":
-                            var deedh = RemoveFriendAndTheirInfoFromDb(decryptedMessage, _newContext);
-                            if (deedh == 1) { break; }
-                            else { break; }
-
-                        case "FriendsFriendGotRemoved":
-                            var deedi = RemoveFriendsFriend(decryptedMessage, _newContext, emailFrom);
-                            if (deedi == 1) { break; }
-                            else { break; }
-
-                        default:
-                            break;
+                        // Flaggar meddelandet att det skall tas bort.
+                        client.Inbox.AddFlags(mail, MessageFlags.Deleted, true);  //false? testa
                     }
 
-                    // Flaggar meddelandet att det skall tas bort.
-                    client.Inbox.AddFlags(mail, MessageFlags.Deleted, true);  //false? testa
+                    //Spammail kmr hit och tas bort
+                    else
+                    {
+                        client.Inbox.AddFlags(mail, MessageFlags.Deleted, true);
+                        continue;
+                    }
                 }
-
-                //Spammail kmr hit och tas bort
-                else
-                {
-                    client.Inbox.AddFlags(mail, MessageFlags.Deleted, true);
-                    continue;
-                }
+                client.Disconnect(true);
             }
-
-
-            client.Disconnect(true);
         }
 
         private static int RemoveFriendsFriend(string decryptedMessage, MariaContext context, string fromEmail)
@@ -228,35 +226,55 @@ namespace GnuOne.Data
 
         }
 
-        private static int ReceieveInfoAndAcceptFriend(string decryptedMessage, MariaContext context, bool isSendBack)
+        private static int ReceieveInfoAndAcceptFriend(string decryptedMessage, MariaContext context, bool isSendBack,string myEmail)
         {
             var theirLists = JsonConvert.DeserializeObject<BigList>(decryptedMessage);
 
+            var email = theirLists.FromEmail;
+            var username = theirLists.username;
+            var friend = context.MyFriends.Where(x => x.Email == email).FirstOrDefault();
+
+
             if (theirLists is not null)
             {
-
+                friend.isFriend = true;
+                friend.userName = username;
+                context.MyFriends.Update(friend);
                 var theirDiscussion = theirLists.Discussions;
                 if (theirDiscussion is not null)
                 {
                     context.Discussions.AddRange(theirDiscussion);
+                    context.SaveChanges();
                 }
                 var theirPosts = theirLists.Posts;
                 if (theirPosts is not null)
                 {
                     context.Posts.AddRange(theirPosts);
+                    context.SaveChanges();
                 }
                 var theirFriends = theirLists.MyFriends;
                 if (theirFriends is not null)
                 {
-                    context.MyFriends.AddRange(theirFriends);
+                    var myFriendFriendsList = new List<MyFriendsFriends>();
+                    foreach (var theirfriend in theirFriends)
+                    {
+                        if (theirfriend.Email != myEmail)
+                        {
+                            var bff = new MyFriendsFriends(theirfriend);
+
+                            myFriendFriendsList.Add(bff);
+                        }
+
+                    }
+                    context.MyFriendsFriends.AddRange(myFriendFriendsList);
+                    context.SaveChanges();
+                    //context.MyFriends.AddRange(theirFriends);
                 }
-                if (!isSendBack)
-                {
-                    var friend = context.MyFriends.Where(x => x.Email == theirLists.FromEmail).First();
-                    friend.isFriend = true;
-                    context.MyFriends.Update(friend);
-                }
-                context.SaveChangesAsync();
+                //if (!isSendBack)
+                //{
+
+                //}
+                //context.SaveChangesAsync();
                 return 1;
             }
             return -1;
