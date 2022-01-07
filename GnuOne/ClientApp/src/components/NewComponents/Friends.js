@@ -29,6 +29,29 @@ const Friends = () => {
         setShowOverlay(false)
     }
 
+    function handleClick(e, friend) {
+        e.preventDefault()
+        let newFriend = {
+            Email: friend.Email,
+            IsFriend: true
+        }
+        acceptRequest(newFriend)
+
+
+    }
+
+    async function acceptRequest(newFriend) {
+        console.log(newFriend)
+        await fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(newFriend),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            }
+        })
+        fetchData();
+    }
+
     return (
 
         <section className="friends-container">
@@ -43,7 +66,9 @@ const Friends = () => {
             }
 
             <ul className="friends-list">
-                {friendsList.map(friend => <li> <img className="friend-avatar" /> {friend.userName}</li>)}
+                {friendsList.map(friend => <li key={friend.ID}> <img className="friend-avatar" /> {friend.userName}
+                    {friend.isFriend ? null : <button onClick={(e) => handleClick(e, friend)}>Accept friend</button>}
+                </li>)}
             </ul>
 
         </section>

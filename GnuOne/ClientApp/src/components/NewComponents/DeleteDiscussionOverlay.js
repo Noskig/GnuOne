@@ -1,12 +1,12 @@
-import "./deleteTopic.css"
+﻿import "./deleteDiscussionOverlay.css"
 import PortContext from '../../contexts/portContext';
 import { useContext } from 'react'
 
 
-const DeleteTopic = (props) => {
+const DeleteDiscussionOverlay = (props) => {
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/discussions`
-   
+
 
     function fetchData() {
         props.fetchData()
@@ -16,10 +16,10 @@ const DeleteTopic = (props) => {
         props.close()
     }
 
-    console.log(props.topicid)
+    console.log(props.discussionId)
 
 
-    async function deleteTopic(e, id) {
+    async function deleteDiscussion(e, id) {
         e.preventDefault()
         console.log(id)
         await fetch(url + `/${id}`, {
@@ -36,18 +36,18 @@ const DeleteTopic = (props) => {
     console.log(props)
 
     return (
-        <div className="newTopicWrapper" >
-            <section className="makeNewTopic">
-                
+        <div className="" >
+            <section className="">
+
                 <button className="close" onClick={close}>✖️</button>
                 <h4>Are you sure you want to delete this topic with all its content?</h4>
                 <div>
                     <button className="button-close" onClick={close}> Cancel</button>
-                    <button className="button-delete" onClick={(e) => deleteTopic(e, props.topicid)}>Confirm</button>
+                    <button className="button-delete" onClick={(e) => deleteDiscussion(e, props.discussionId)}>Confirm</button>
                 </div>
             </section>
         </div>
     )
 }
 
-export default DeleteTopic
+export default DeleteDiscussionOverlay
