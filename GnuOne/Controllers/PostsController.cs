@@ -72,11 +72,15 @@ namespace GnuOne.Controllers
 
             var jsonPost = JsonConvert.SerializeObject(post);
 
-            foreach (var user in _context.MyFriends)
-            {
-                if (user.isFriend == false) { continue; }
-                MailSender.SendObject(jsonPost, user.Email, _settings, "PostedPost");
-            }
+
+            //skickar vidare till författaren
+            MailSender.SendObject(jsonPost, post.discussionEmail, _settings, "PostedPost");
+
+            //foreach (var user in _context.MyFriends)
+            //{
+            //    if (user.isFriend == false) { continue; }
+            //    MailSender.SendObject(jsonPost, user.Email, _settings, "PostedPost");
+            //}
 
             await _context.AddAsync(post);
             await _context.SaveChangesAsync();
@@ -112,11 +116,13 @@ namespace GnuOne.Controllers
 
             var jsonPost = JsonConvert.SerializeObject(post);
 
-            foreach (var user in _context.MyFriends)
-            {
-                if (user.isFriend == false) { continue; }
-                MailSender.SendObject(jsonPost, user.Email, _settings, "PutPost");
-            }
+            MailSender.SendObject(jsonPost, post.discussionEmail, _settings, "PutPost");
+
+            //foreach (var user in _context.MyFriends)
+            //{
+            //    if (user.isFriend == false) { continue; }
+            //    MailSender.SendObject(jsonPost, user.Email, _settings, "PutPost");
+            //}
             _context.Update(post);
             await _context.SaveChangesAsync();
 
@@ -145,11 +151,14 @@ namespace GnuOne.Controllers
 
             var jsonPost = JsonConvert.SerializeObject(post);
 
-            foreach (var user in _context.MyFriends)
-            {
-                if (user.isFriend == false) { continue; }
-                MailSender.SendObject(jsonPost, user.Email, _settings, "DeletePost");
-            }
+            MailSender.SendObject(jsonPost, post.discussionEmail, _settings, "DeletePost");
+
+            //foreach (var user in _context.MyFriends)
+            //{
+            //    if (user.isFriend == false) { continue; }
+            //    MailSender.SendObject(jsonPost, user.Email, _settings, "DeletePost");
+            //}
+
             _context.Remove(post);
             await _context.SaveChangesAsync();
             return Accepted(post);

@@ -81,6 +81,7 @@ Vill vi ha både publika och privata vänner?
       -Om min vän postar på min discussion.
 	  hur ska mina vänner som inte är vän med den vännen se det inlägget?
 	**Lösning. När någon postar på min discussion. Behöver den posten studsa från min till alla mina vänner som har den diskussionen(alla).
+	Jonatan postar på min, jag tar upp mailet och skickar vidare till mina vänner. I Det caset dom får in ska dom först checka om det finns, annars ta in i db
 
 
 
