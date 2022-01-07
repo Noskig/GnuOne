@@ -74,6 +74,7 @@ namespace GnuOne.Controllers
 
             foreach (var user in _context.MyFriends)
             {
+                if (user.isFriend == false) { continue; }
                 MailSender.SendObject(jsonPost, user.Email, _settings, "PostedPost");
             }
 
@@ -113,6 +114,7 @@ namespace GnuOne.Controllers
 
             foreach (var user in _context.MyFriends)
             {
+                if (user.isFriend == false) { continue; }
                 MailSender.SendObject(jsonPost, user.Email, _settings, "PutPost");
             }
             _context.Update(post);
@@ -145,6 +147,7 @@ namespace GnuOne.Controllers
 
             foreach (var user in _context.MyFriends)
             {
+                if (user.isFriend == false) { continue; }
                 MailSender.SendObject(jsonPost, user.Email, _settings, "DeletePost");
             }
             _context.Remove(post);

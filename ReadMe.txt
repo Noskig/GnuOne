@@ -123,7 +123,7 @@ Guida Stig
 
 *APIsync för att synca discussion, post, vänner och vännersvänners ifall att nått skulle bli fel.
 
-
+*Dubbel kolla alla foreach mailutskick loopar att de inte skickar till vänner man inte är vän med "(if (user.isFriend == false) { continue; })"
 
 Frontend
 Skicka friendrequest med mail.

@@ -81,6 +81,7 @@ namespace GnuOne.Controllers
 
             foreach (var user in _context.MyFriends)
             {
+                if (user.isFriend == false) { continue; }
                 MailSender.SendObject(jsonDiscussion, user.Email, _settings, "PostedDiscussion");
             }
 
@@ -123,6 +124,7 @@ namespace GnuOne.Controllers
 
             foreach (var user in _context.MyFriends)
             {
+                if (user.isFriend == false) { continue; }
                 MailSender.SendObject(jsonDiscussion, user.Email, _settings, "PutDiscussion");
             }
             return Accepted(discussion);
@@ -147,6 +149,7 @@ namespace GnuOne.Controllers
 
             foreach (var user in _context.MyFriends)
             {
+                if (user.isFriend == false) { continue; }
                 MailSender.SendObject(jsonDiscussion, user.Email, _settings, "DeleteDiscussion");
             }
 

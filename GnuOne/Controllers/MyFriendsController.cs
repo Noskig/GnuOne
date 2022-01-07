@@ -111,6 +111,7 @@ namespace GnuOne.Controllers
 
                 foreach (var user in _context.MyFriends)
                 {
+                    if (user.isFriend == false) { continue; }
                     MailSender.SendObject(jsonFriendFriendToSend, user.Email, _settings, "FriendGotAFriend");
                 }
 
@@ -147,6 +148,7 @@ namespace GnuOne.Controllers
             //skickas ut till mina vänner och tas bort i deras friendsfriend
             foreach (var user in _context.MyFriends)
             {
+                if (user.isFriend == false) { continue; }
                 MailSender.SendObject(jsonNotFriend, user.Email, _settings, "FriendsFriendGotRemoved");
             }
 

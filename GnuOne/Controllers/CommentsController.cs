@@ -75,6 +75,7 @@ namespace GnuOne.Controllers
             //skickar ut mail
             foreach (var user in _context.MyFriends)
             {
+                if (user.isFriend == false) { continue; }
                 MailSender.SendEmail(user.Email, query, "Post", _settings);
             }
             _context.Add(comment);
@@ -112,6 +113,7 @@ namespace GnuOne.Controllers
 
             foreach (var user in _context.MyFriends)
             {
+                if (user.isFriend == false) { continue; }
                 MailSender.SendEmail(user.Email, query, "Put", _settings);
             }
             _context.Update(comment);
@@ -138,6 +140,7 @@ namespace GnuOne.Controllers
             var query = comment.DeleteComments();
             foreach (var user in _context.MyFriends)
             {
+                if (user.isFriend == false) { continue; }
                 MailSender.SendEmail(user.Email, query, "Delete", _settings);
             }
             _context.Remove(comment);
