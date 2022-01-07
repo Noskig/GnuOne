@@ -33,7 +33,7 @@ Torsdag:
 Testa alla vänner och "nya" mailreadern
 
 
-1.    Jag vill kunna hämta ner och installera programmet och köra det ifrån en webbrowser. (bittorrent eller iwantag.nu?)
+1.   Jag vill kunna hämta ner och installera programmet och köra det ifrån en webbrowser. (bittorrent eller iwantag.nu?)
 Skriva instruktion och testa att det går
 (Få första vännen och komma in i systemet. FRONTEND ruta som man skriver i mailen på den som man vill bli vän med)
 -Bjuda in ny användare - Ny sida som förklarar grejer.. Vad man behöver ta ner och att man skapar mail osv.
@@ -44,55 +44,20 @@ Skriva instruktion och testa att det går
 2.    Jag vill kunna se vem som finns i systemet.
 Vill vi ha både publika och privata vänner?
 
-"Gömma" att man är vän med någon. Så att deras vänner inte ser mig.
--Myfreinds tabellen. Extra fält som visar om man ska visas i deras netvärk eller ej? 
---Behöver studsa en extra gång ut till vännerna som kanske redan har en i deras Friendsfriend-listan
 
 3.    Jag vill kunna lägga till vänner.
-Skapa en process för detta när man har kommit in i systemet.
+-(FRONTEND)Skapa en process för detta när man har kommit in i systemet.
 -(FRONTEND notiser, knapp för accept/denied)
---Rätt information ska skickas ut när man blir vän också... Testa
--När vi blir vänner och delar data med varandra, kolla om vi kan spara allt krypterat i zipfiler som sedan skickas och zippas upp
-
-4.    Jag vill ha en sida där jag kan se vilka inställningar som är gjorda och eventuellt ändra valda parametrar.
--API som ändrar inställningar.
---Case på mailreader som ändrar i nästa steg.
-
-5.    Fixa till asymmetrisk kryptering/verifiering.
--Kolla vad Marcus har.
-
 
 6.    Gå igenom källkoden, dokumentera, städa, fundera på standard.
-Guida Stig
--Dokumentera github. Text. Video. Göra en snygg förklaring.
-
--städa. Göra om till methoder med bra Namn som förklarar vad som händer. (påbörjad kanske klar)
-
-******* Känns som det inte går att läsa flera mail, ibland tar den inte bort mailet.
-		Vi markera lästa mail. Sen ta bort alla lästa för att de inte ska krocka. (vet inte varför, funkar ibland, ibland inte)
-		__Testa postman lite hejvilt_
-
-
-
-	***	Fortsätta skriva om mailreadern.
-	 '	lite fler cases och testa så att all funkar. Skicka å ta emot.
-
-
--Göra om allt till samma standard. Namnsättning framförallt.(på börjad kanske klar)
-
-
 
 
 7.    TESTA
--Testa discussion	med flera och olika vänner.
 --Create, Edit, Delete, (FRONTEND, Read)
--Testa post			-----.------
 --Create, Edit, Delete, (FRONTEND, Read)
--Testa vänner funktioner. 
 ---(Lägga till med FRONTEND)
----Ta bort vänner.
 
----Gömma sig i nätverken. (bli osynlig för deras nätverk, inställning)
+
 
 -Try catch block på all sparning i controllers?
 
@@ -100,23 +65,44 @@ Guida Stig
 --Nya funktioner
 
 8.    Föreslå nya funktioner 
--Chatt
-
-<p>Katter</p>			
-<checkpox=intresseone>	
+**Chatt  (LiveChatt i webben..  JS.. Gun.js Chat)
 
 9.    Fixa fel och införa ändringar
 
-***Fixa scriptet så det matchar den nya DB 6/1
-***När man blir vän med någon. Behöver det gå ut ett mail till mina vänner med en som uppdaterar FriendsFriend 6/1
+-Göra om allt till samma standard. Namnsättning framförallt.(på börjad kanske klar)
+
+
+
+10. Resterade.
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+-__Testa postman lite hejvilt_
 
 ''''''Bug / ej tänkt på.
       -Om min vän postar på min discussion.
 	  hur ska mina vänner som inte är vän med den vännen se det inlägget?
 	**Lösning. När någon postar på min discussion. Behöver den posten studsa från min till alla mina vänner som har den diskussionen(alla).
 
--Profil.
 
+
+-Dokumentera github. Text. Video. Göra en snygg förklaring. Guida Stig
+
+
+5.    Fixa till asymmetrisk kryptering/verifiering.
+-Kolla vad Marcus har.
+
+4.    Jag vill ha en sida där jag kan se vilka inställningar som är gjorda och eventuellt ändra valda parametrar.
+-API som ändrar inställningar.
+--Username?
+--Darkmode?
+
+
+-Gömma sig i nätverken hos vänner. (bli osynlig för deras nätverk, inställning)
+--Case på mailreader som ändrar i nästa steg.
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+*** Profil.
 
 *userInfo. Standard Bilder. Intressen(bool). Publik nyckel.
 **researcha bilder med johanna (standardbilder som man väjer eller ladda upp sin egen?)
@@ -147,10 +133,13 @@ KLART:
 # Skicka databasen åt motsatt håll.
 # Vänner som inte är true skickas över till myfriendsfriends.
 # deleteFriend tar bort vännen, diskussioner, poster & vänsVänner. Åt båda hållet.
+# När man blir vän med någon. Behöver det gå ut ett mail till mina vänner med en som uppdaterar FriendsFriend 7/1
 
 
 # Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. 5/1
 # Göra om i Myfriendscontrollern rad 82-88 till metod   Behöver gå ut ett mail till mina vänner att vännen tas bort 5/1
+# Fixa scriptet så det matchar den nya DB 7/1
+# Rätt information ska skickas ut när man blir vän också
 
 ///////////////////////////////////////////////////////////
 FRÅGOR:

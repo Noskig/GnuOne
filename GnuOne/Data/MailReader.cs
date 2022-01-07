@@ -329,7 +329,7 @@ namespace GnuOne.Data
             {
                 var myfriend = context.MyFriends.Where(x => x.Email == notNewFriend.Email).FirstOrDefault();
                 context.MyFriends.Remove(myfriend);
-                context.SaveChangesAsync();
+                context.SaveChangesAsync().Wait();
                 return 1;
             }
             return -1;
@@ -342,7 +342,7 @@ namespace GnuOne.Data
             if (potentialfriend is not null)
             {
                 context.MyFriends.Add(potentialfriend);
-                context.SaveChangesAsync();
+                context.SaveChangesAsync().Wait();
                 return 1;
             }
             return -1;
@@ -355,7 +355,7 @@ namespace GnuOne.Data
             if (discussion is not null)
             {
                 context.Update(discussion);
-                context.SaveChangesAsync();
+                context.SaveChangesAsync().Wait();
                 return 1;
             }
             return -1;
@@ -367,7 +367,7 @@ namespace GnuOne.Data
             if (post is not null)
             {
                 context.Update(post);
-                context.SaveChangesAsync();
+                context.SaveChangesAsync().Wait();
                 return 1;
             }
             return -1;
@@ -379,7 +379,7 @@ namespace GnuOne.Data
             if (post is not null)
             {
                 context.Remove(post);
-                context.SaveChangesAsync();
+                context.SaveChangesAsync().Wait();
                 return 1;
             }
             return -1;
@@ -391,7 +391,7 @@ namespace GnuOne.Data
             if (discussion is not null)
             {
                 context.Remove(discussion);
-                context.SaveChangesAsync();
+                context.SaveChangesAsync().Wait();
                 return 1;
             }
             return -1;
@@ -402,7 +402,7 @@ namespace GnuOne.Data
             if (post is not null)
             {
                 context.Posts.Add(post);
-                context.SaveChangesAsync();
+                context.SaveChangesAsync().Wait();
                 return 1;
             }
             return -1;
@@ -416,7 +416,7 @@ namespace GnuOne.Data
             if (discussion is not null)
             {
                 context.Discussions.Add(discussion);
-                context.SaveChangesAsync();
+                context.SaveChangesAsync().Wait();
 
                 return 1;
             }
