@@ -11,7 +11,7 @@ namespace Library
     {
         [Key]
         public int Id { get; set; }
-        public DateTime TimeSet { get; set; }
+        public DateTime timeSet { get; set; }
         
     }
 }

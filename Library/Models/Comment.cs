@@ -3,49 +3,55 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library
 {
+    //Ändra klassen samt sendComments.
     public class Comment
     {
         [Key]
-        public int? commentid { get; set; }
-        public string user { get; set; } 
-        public DateTime date { get; set; }
-        public string comment_text { get; set; }
-        public int postid { get; set; }
+        public int? ID { get; set; }
+        public string Email { get; set; }
+        public string userName { get; set; } 
+        public DateTime Date { get; set; }
+        public string commentText { get; set; }
+        public int postID { get; set; }
+        public string postEmail { get; set; }
 
         public string SendComments() 
         { 
-            var one = '"' + this.commentid.ToString() + '"';
-            var two = '"' + this.user + '"';
-            var thr = '"' + this.date.ToString() + '"';
-            var fou = '"' + this.comment_text + '"';
-            var fiv = this.postid;
+            var one = '"' + this.ID.ToString() + '"';
+            var two = '"' + this.Email + '"';
+            var thr = '"' + this.userName + '"';
+            var fou = '"' + this.Date.ToString() + '"';
+            var fiv = '"' + this.commentText + '"';
+            var six = this.postID;
+            var sev = '"' + this.postEmail + '"';
+
             var comma = ",";
 
-            string query = "INSERT into COMMENTS (COMMENTID, USER, Date, COMMENT_TEXT, POSTID ) VALUES (" + one + comma + two + comma + thr + comma + fou + comma + fiv + ")";
+            string query = "INSERT into COMMENTS (ID, Email, userName, Date, commentText, postID, postEmail ) VALUES (" + one + comma + two + comma + thr + comma + fou + comma + fiv + comma + six + comma + sev + ")";
             return query;
         }
         public string DeleteComments()
         {
-            var one = '"' + this.commentid.ToString() + '"';
-            var two = '"' + this.user + '"';
-            var thr = '"' + this.date.ToString() + '"';
-            var fou = '"' + this.comment_text + '"';
-            var fiv = '"' + this.postid;
+            var one = '"' + this.ID.ToString() + '"';
+            var two = '"' + this.userName + '"';
+            var thr = '"' + this.Date.ToString() + '"';
+            var fou = '"' + this.commentText + '"';
+            var fiv = '"' + this.postID;
 
-            string query = $"DELETE from COMMENTS WHERE COMMENTID={one} AND user={two} AND COMMENT_TEXT={fou}";
+            string query = $"DELETE from COMMENTS WHERE ID={one} AND username={two} AND COMMENTTEXT={fou}";
             return query;
         }
         public string EditComment(string oldcommenttext)
         {
-            var one = '"' + this.commentid.ToString() + '"';
-            var two = '"' + this.user + '"';
-            var thr = '"' + this.date.ToString() + '"';
-            var fou = '"' + this.comment_text + '"';
-            var fiv = this.postid;
+            var one = '"' + this.ID.ToString() + '"';
+            var two = '"' + this.userName + '"';
+            var thr = '"' + this.Date.ToString() + '"';
+            var fou = '"' + this.commentText + '"';
+            var fiv = this.postID;
 
             oldcommenttext = '"' + oldcommenttext + '"';
 
-            string query = $"UPDATE COMMENTS SET COMMENT_TEXT={fou}, date={thr} WHERE commentid={one} AND COMMENT_TEXT={oldcommenttext}";
+            string query = $"UPDATE COMMENTS SET COMMENTTEXT={fou}, date={thr} WHERE id={one} AND COMMENTTEXT={oldcommenttext}";
             return query;
         }
 

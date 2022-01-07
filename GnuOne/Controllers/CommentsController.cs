@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace GnuOne.Controllers
 {
@@ -46,7 +45,7 @@ namespace GnuOne.Controllers
         public async Task<IActionResult> GetComment(int? id)
         {
 
-            var comment = await _context.Comments.Where(x => x.postid == id).ToListAsync();
+            var comment = await _context.Comments.Where(x => x.ID == id).ToListAsync();
             if (comment.Count == 0)
             {
                 return NotFound();
@@ -66,27 +65,23 @@ namespace GnuOne.Controllers
         [HttpPost]
         public async Task<IActionResult> PostComment([FromBody] Comment comment)
         {
-            comment.date = DateTime.Now;
-
-            //För att matcha ID i alla Databaser så sätts den manuellt.
-            if (_context.Comments.Any())
-            {
-                var HighestID = await _context.Comments.Select(x => x.commentid).MaxAsync();
-                comment.commentid = HighestID + 1;
-            }
-            else
-            {
-                comment.commentid = 1;
-            }
+            comment.Date = DateTime.Now;
+       
+            DateTime foo = DateTime.Now;
+            long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
+            comment.ID = Convert.ToInt32(unixTime);
+            comment.Email = _settings.Email;
             var query = comment.SendComments();
             //skickar ut mail
-            foreach (var user in _context.Users)
+            foreach (var user in _context.MyFriends)
             {
+                if (user.isFriend == false) { continue; }
                 MailSender.SendEmail(user.Email, query, "Post", _settings);
             }
+            _context.Add(comment);
+            await _context.SaveChangesAsync();
 
-
-            return CreatedAtAction("GetComment", new { id = comment.commentid }, comment);
+            return CreatedAtAction("GetComment", new { id = comment.ID }, comment);
         }
 
         // PUT: api/Comments
@@ -99,7 +94,7 @@ namespace GnuOne.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutComment(int id, [FromBody] Comment comment)
         {
-            if (id != comment.commentid)
+            if (id != comment.ID)
             {
                 return BadRequest();
             }
@@ -110,18 +105,19 @@ namespace GnuOne.Controllers
 
             //hittar gamla texten för att skicka med 
             //och hitta den unika kommentaren i databasen hos de andra användare
-            var oldcommentText = await _context.Comments.Where(x => x.commentid == comment.commentid)
-                                                    .Select(x => x.comment_text)
+            var oldcommentText = await _context.Comments.Where(x => x.ID == comment.ID)
+                                                    .Select(x => x.commentText)
                                                     .FirstOrDefaultAsync();
 
             var query = comment.EditComment(oldcommentText);
-            //Skickar ut mailen
 
-            foreach (var user in _context.Users)
+            foreach (var user in _context.MyFriends)
             {
-                MailSender.SendEmail(user.Email, query, "PUT", _settings);
+                if (user.isFriend == false) { continue; }
+                MailSender.SendEmail(user.Email, query, "Put", _settings);
             }
-
+            _context.Update(comment);
+            await _context.SaveChangesAsync();
             return Accepted(comment);
         }
 
@@ -142,16 +138,18 @@ namespace GnuOne.Controllers
             }
 
             var query = comment.DeleteComments();
-            //skickar ut mail
-            foreach (var user in _context.Users)
+            foreach (var user in _context.MyFriends)
             {
+                if (user.isFriend == false) { continue; }
                 MailSender.SendEmail(user.Email, query, "Delete", _settings);
             }
+            _context.Remove(comment);
+            await _context.SaveChangesAsync();
             return Accepted(comment);
         }
         private bool CommentExists(int? id)
         {
-            return _context.Comments.Any(e => e.commentid == id);
+            return _context.Comments.Any(e => e.ID == id);
         }
     }
 }

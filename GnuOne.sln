@@ -5,11 +5,15 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GnuOne", "GnuOne\GnuOne.csproj", "{615F0A22-75CB-47E9-9FEA-D6CF74B91A63}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Welcome Settings", "Welcome Settings\Welcome Settings.csproj", "{2CF3501D-546F-486E-835C-25BB94D012AD}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library", "Library\Library.csproj", "{DF102743-DF77-404A-8976-4200BC4B5C9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackupRestore", "BackupRestore\BackupRestore.csproj", "{373F8612-3DF7-4D30-BC85-F3F2367F4888}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "INFO", "INFO", "{BBFF6D5A-A1B1-4B27-8405-EF882E2F5E7D}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Desktop\ER-Diagram.png = ..\..\..\Desktop\ER-Diagram.png
+		ReadMe.txt = ReadMe.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayAround1", "PlayAround1\PlayAround1.csproj", "{44EAB948-378D-4703-AAE6-09E89C8E8F1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +25,14 @@ Global
 		{615F0A22-75CB-47E9-9FEA-D6CF74B91A63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{615F0A22-75CB-47E9-9FEA-D6CF74B91A63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{615F0A22-75CB-47E9-9FEA-D6CF74B91A63}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2CF3501D-546F-486E-835C-25BB94D012AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2CF3501D-546F-486E-835C-25BB94D012AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2CF3501D-546F-486E-835C-25BB94D012AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2CF3501D-546F-486E-835C-25BB94D012AD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DF102743-DF77-404A-8976-4200BC4B5C9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DF102743-DF77-404A-8976-4200BC4B5C9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF102743-DF77-404A-8976-4200BC4B5C9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF102743-DF77-404A-8976-4200BC4B5C9C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{373F8612-3DF7-4D30-BC85-F3F2367F4888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{373F8612-3DF7-4D30-BC85-F3F2367F4888}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{373F8612-3DF7-4D30-BC85-F3F2367F4888}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{373F8612-3DF7-4D30-BC85-F3F2367F4888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44EAB948-378D-4703-AAE6-09E89C8E8F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44EAB948-378D-4703-AAE6-09E89C8E8F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44EAB948-378D-4703-AAE6-09E89C8E8F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44EAB948-378D-4703-AAE6-09E89C8E8F1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Welcome_Settings;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace GnuOne.Controllers
 {
@@ -15,11 +14,8 @@ namespace GnuOne.Controllers
     [ApiController]
     public class DiscussionsController : ControllerBase
     {
-
         private readonly ApiContext _context;
         private readonly MySettings _settings;
-        //Contexten laddas inte med connectionstring
-
         public DiscussionsController(ApiContext context)
         {
             _context = context;
@@ -34,13 +30,10 @@ namespace GnuOne.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-
-
-            var listaDiscussion = await _context.Discussion.ToListAsync();
+            var listaDiscussion = await _context.Discussions.ToListAsync();
             var converted = JsonConvert.SerializeObject(listaDiscussion);
 
             return Ok(converted);
-
         }
 
         // GET: api/Discussions/5
@@ -50,18 +43,18 @@ namespace GnuOne.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id}")]
+        [HttpGet("{id}")] //sök på user med Email-adress bla bla.
         public async Task<IActionResult> Get(int id)
         {
-            var discussion = await _context.Discussion.FindAsync(id);
+            var discussion = await _context.Discussions.FindAsync(id);
 
             if (discussion == null)
             {
                 return NotFound();
             }
 
-
-            var postlist = await _context.Posts.Where(x => x.discussionid == id).ToListAsync();
+            var postlist = await _context.Posts.Where(x => x.discussionID == id).ToListAsync();
+            //var commentList = await _context.Comments.Where(x => x.postID == id).ToListAsync();
 
             var dto = new DiscussionDTO(discussion, postlist);
 
@@ -77,31 +70,25 @@ namespace GnuOne.Controllers
         [HttpPost]
         public async Task<IActionResult> PostDiscussion([FromBody] Discussion discussion)
         {
-            discussion.createddate = DateTime.Now;
-            //discussion.user = _settings.Username;
+            discussion.Date = DateTime.Now;
+            DateTime unixTime = DateTime.Now;
+            long unixID = ((DateTimeOffset)unixTime).ToUnixTimeSeconds();
+            discussion.ID = Convert.ToInt32(unixID);
+            discussion.Email = _settings.Email;
+            discussion.userName = _settings.userName;
 
-            //Sätter ID manuellt för att matcha i DB hos alla användare. Vill vi ha det så?
-            if (_context.Discussion.Any())
-            {
-                var HighestID = await _context.Discussion.Select(x => x.discussionid).MaxAsync();
-                discussion.discussionid = HighestID + 1;
-            }
-            else
-            {
-                discussion.discussionid = 1;
-            }
+            var jsonDiscussion = JsonConvert.SerializeObject(discussion);
 
-
-            ///skapa query
-            var query = discussion.SendDiscussion();
-            //skickar ut mail
-            foreach (var user in _context.Users)
+            foreach (var user in _context.MyFriends)
             {
-                MailSender.SendEmail(user.Email, query, "Post", _settings);
+                if (user.isFriend == false) { continue; }
+                MailSender.SendObject(jsonDiscussion, user.Email, _settings, "PostedDiscussion");
             }
 
+            await _context.AddAsync(discussion);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDiscussion", new { id = discussion.discussionid }, discussion);
+            return CreatedAtAction("GetDiscussion", new { id = discussion.ID }, discussion);
         }
 
         // PUT: api/Discussions/5
@@ -114,7 +101,7 @@ namespace GnuOne.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDiscussion(int id, Discussion discussion)
         {
-            if (id != discussion.discussionid)
+            if (id != discussion.ID)
             {
                 return BadRequest();
             }
@@ -123,22 +110,23 @@ namespace GnuOne.Controllers
                 return NotFound();
             }
 
-            //hittar gamla texten för att skicka med 
-            //och hitta den unika kommentaren i databasen hos de andra användare
-            var oldtext = await _context.Discussion.Where(x => x.discussionid == discussion.discussionid)
-                                                    .Select(x => x.discussiontext)
-                                                    .FirstOrDefaultAsync();
 
-
-            ///skapa query
-            var query = discussion.EditDiscussion(oldtext);
-            //skickar ut mail
-            foreach (var user in _context.Users)
+            var jsonDiscussion = JsonConvert.SerializeObject(discussion);
+            try
             {
-                ///Skicka mail
-                MailSender.SendEmail(user.Email, query, "PUT", _settings);
+                _context.Update(discussion);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Could not update discussion");
             }
 
+            foreach (var user in _context.MyFriends)
+            {
+                if (user.isFriend == false) { continue; }
+                MailSender.SendObject(jsonDiscussion, user.Email, _settings, "PutDiscussion");
+            }
             return Accepted(discussion);
         }
 
@@ -151,26 +139,34 @@ namespace GnuOne.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDiscussion(int id)
         {
-            var discussion = await _context.Discussion.FindAsync(id);
+            var discussion = await _context.Discussions.FindAsync(id);
             if (discussion == null)
             {
                 return NotFound();
             }
 
-            //skickar ut mail
-            ///skapa query
-            var query = discussion.DeleteDiscussion();
-            foreach (var user in _context.Users)
+            var jsonDiscussion = JsonConvert.SerializeObject(discussion);
+
+            foreach (var user in _context.MyFriends)
             {
-                ///Skicka mail
-                MailSender.SendEmail(user.Email, query, "PUT", _settings);
+                if (user.isFriend == false) { continue; }
+                MailSender.SendObject(jsonDiscussion, user.Email, _settings, "DeleteDiscussion");
             }
 
+            _context.Remove(discussion);
+            await _context.SaveChangesAsync();
+
+            //var query = discussion.DeleteDiscussion();
+
+            //foreach (var user in _context.MyFriends)
+            //{
+            //    MailSender.SendEmail(user.Email, query, "Delete", _settings);
+            //}
             return Accepted(discussion);
         }
         private bool DiscussionExists(int? id)
         {
-            return _context.Discussion.Any(e => e.discussionid == id);
+            return _context.Discussions.Any(e => e.ID == id);
         }
     }
 }

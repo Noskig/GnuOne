@@ -10,8 +10,6 @@ using Newtonsoft.Json;
 namespace GnuOne.Controllers
 {
 
-
-
     [Route("api/[controller]")]
     [ApiController]
     public class PostsController : ControllerBase
@@ -65,29 +63,30 @@ namespace GnuOne.Controllers
         [HttpPost]
         public async Task<IActionResult> PostPost([FromBody] Post post)
         {
-            post.DateTime = DateTime.Now;
+            post.Date = DateTime.Now;
+            DateTime foo = DateTime.Now;
+            long unixID = ((DateTimeOffset)foo).ToUnixTimeSeconds();
+            post.ID = Convert.ToInt32(unixID);
+            post.Email = _settings.Email;
+            post.userName = _settings.userName;
 
-            //Sätter ID manuellt för att matcha i DB hos alla användare.
-            if (_context.Posts.Any())
-            {
-                var HighestID = await _context.Posts.Select(x => x.postid).MaxAsync();
-                post.postid = HighestID + 1;
-            }
-            else
-            {
-                post.postid = 1;
-            }
-            //skickar ut mail
-            var settings = await _context.MySettings.FirstAsync();
-            //skickar ut mail
-            ///skapa query
-            var query = post.SendPost();
-            foreach (var user in _context.Users)
-            {
-                ///Skicka mail
-                MailSender.SendEmail(user.Email, query, "Post", _settings);
-            }
-            return CreatedAtAction("GetPost", new { id = post.postid }, post);
+            var jsonPost = JsonConvert.SerializeObject(post);
+
+
+            //skickar vidare till författaren
+            MailSender.SendObject(jsonPost, post.discussionEmail, _settings, "PostedPost");
+
+            //foreach (var user in _context.MyFriends)
+            //{
+            //    if (user.isFriend == false) { continue; }
+            //    MailSender.SendObject(jsonPost, user.Email, _settings, "PostedPost");
+            //}
+
+            await _context.AddAsync(post);
+            await _context.SaveChangesAsync();
+
+
+            return CreatedAtAction("GetPost", new { id = post.ID }, post);
         }
 
         // PUT: api/Posts/5
@@ -100,7 +99,7 @@ namespace GnuOne.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPost(int? id, Post post)
         {
-            if (id != post.postid)
+            if (id != post.ID)
             {
                 return BadRequest();
             }
@@ -109,17 +108,24 @@ namespace GnuOne.Controllers
             {
                 return NotFound();
             }
+
+
             //hittar gamla texten för att skicka med 
             //och hitta den unika kommentaren i databasen hos de andra användare
-            var oldtext = await _context.Posts.Where(x => x.postid == post.postid).Select(x => x.Text).FirstOrDefaultAsync();
+            //var oldtext = await _context.Posts.Where(x => x.ID == post.ID).Select(x => x.postText).FirstOrDefaultAsync();
 
-            //skickar ut mail
-            var query = post.EditPost(oldtext);
+            var jsonPost = JsonConvert.SerializeObject(post);
 
-            foreach (var user in _context.Users)
-            {
-                MailSender.SendEmail(user.Email, query, "Put", _settings);
-            }
+            MailSender.SendObject(jsonPost, post.discussionEmail, _settings, "PutPost");
+
+            //foreach (var user in _context.MyFriends)
+            //{
+            //    if (user.isFriend == false) { continue; }
+            //    MailSender.SendObject(jsonPost, user.Email, _settings, "PutPost");
+            //}
+            _context.Update(post);
+            await _context.SaveChangesAsync();
+
             return Accepted(post);
         }
 
@@ -137,19 +143,29 @@ namespace GnuOne.Controllers
             {
                 return NotFound();
             }
-            //skickar ut mail
-            var query = post.DeletePost();
-            foreach (var user in _context.Users)
-            {
-                MailSender.SendEmail(user.Email, query, "Delete", _settings);
-            }
 
+            //json
+            //krypter
+            //skicka mail
+            //deleta
+
+            var jsonPost = JsonConvert.SerializeObject(post);
+
+            MailSender.SendObject(jsonPost, post.discussionEmail, _settings, "DeletePost");
+
+            //foreach (var user in _context.MyFriends)
+            //{
+            //    if (user.isFriend == false) { continue; }
+            //    MailSender.SendObject(jsonPost, user.Email, _settings, "DeletePost");
+            //}
+
+            _context.Remove(post);
+            await _context.SaveChangesAsync();
             return Accepted(post);
         }
-
         private bool PostExists(int? id)
         {
-            return _context.Posts.Any(e => e.postid == id);
+            return _context.Posts.Any(e => e.ID == id);
         }
     }
 }
