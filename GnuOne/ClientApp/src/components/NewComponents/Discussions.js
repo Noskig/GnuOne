@@ -1,13 +1,15 @@
 ﻿
+
 const Discussions = () => {
 
+    const chosenPage = { color: "red" };
 
 
     return (
 
         <section className="discussions-container">
 
-            <h3>Discussions</h3>
+            <h3 style={chosenPage} >Discussions</h3>
 
         </section>
 

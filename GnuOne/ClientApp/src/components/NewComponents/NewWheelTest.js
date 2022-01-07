@@ -1,4 +1,4 @@
-﻿import './newWheelTest.min.css'
+﻿////import './newWheelTest.min.css'
 import { useState } from 'react'
 import { Link } from 'react-router-dom';
 import friends from '../../icons/friends.svg'
