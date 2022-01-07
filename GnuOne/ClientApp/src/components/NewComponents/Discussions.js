@@ -1,15 +1,17 @@
 ﻿import { useState, useEffect, useContext } from 'react'
 import PortContext from '../../contexts/portContext';
 import AddDiscussionOverlay from './AddDiscussionOverlay';
-import { Link } from 'react-router-dom';
+import { Link, Switch } from 'react-router-dom';
 import arrows from '../../icons/arrows.svg'
 import trash from '../../icons/trash.svg'
 import done from '../../icons/done.svg'
 import edit from '../../icons/edit.svg'
 import DeleteDiscussionOverlay from './DeleteDiscussionOverlay'
+import RouteWithSubRoutes from './RouteWithSubRoutes';
 
 
-const Discussions = () => {
+
+const Discussions = ({ routes }) => {
     const [discussions, setDiscussions] = useState([])
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/discussions/`
@@ -74,7 +76,7 @@ const Discussions = () => {
         }
 
         return (
-
+            <>
             <section className="discussions-container">
 
 
@@ -108,7 +110,7 @@ const Discussions = () => {
                                 </>
                                 
                                 : < Link className="dicussion-content" to={{
-                                    pathname: `/discussions/${discussion.ID}`, state: {
+                                    pathname: `/profile/discussions/${discussion.ID}`, state: {
                                         discussionText: discussion.discussionText,
                                         Headline: discussion.Headline,
                                         Date: discussion.Date,
@@ -168,7 +170,12 @@ const Discussions = () => {
                     ) : 'oops kan inte nå api'}
                 </div>
             </section>
-
+                {/*<Switch>
+                {routes.map((route, i) => (
+                    <RouteWithSubRoutes key={i} {...route} />
+                ))}
+            </Switch>*/}
+            </>
 
         )
     }

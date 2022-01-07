@@ -6,6 +6,7 @@ import Messages from './components/NewComponents/Messages';
 import Settings from './components/NewComponents/Settings';
 import Discussions from './components/NewComponents/Discussions';
 import TestWheel from './components/NewComponents/NewWheelTest';
+import Posts from './components/NewComponents/Posts';
 
 const routes = [
     {
@@ -35,8 +36,13 @@ const routes = [
                 component: Settings,
             },
             {
+                path: '/profile/discussions/:id',
+                component: Posts,
+            },
+            {
                 path: '/profile/discussions',
                 component: Discussions,
+
             },
             {
                 path: '/profile/testwheel',
