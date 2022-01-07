@@ -106,6 +106,9 @@ Guida Stig
 
 9.    Fixa fel och införa ändringar
 
+***Fixa scriptet så det matchar den nya DB 6/1
+***När man blir vän med någon. Behöver det gå ut ett mail till mina vänner med en som uppdaterar FriendsFriend 6/1
+
 ''''''Bug / ej tänkt på.
       -Om min vän postar på min discussion.
 	  hur ska mina vänner som inte är vän med den vännen se det inlägget?
@@ -114,6 +117,8 @@ Guida Stig
 -Profil.
 *userInfo. Standard Bilder. Intressen(bool). Publik nyckel.
 **researcha bilder med johanna (standardbilder som man väjer eller ladda upp sin egen?)
+
+
 
 
 

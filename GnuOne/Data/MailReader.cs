@@ -33,6 +33,9 @@ namespace GnuOne.Data
                 {
                     var message = client.Inbox.GetMessage(mail);
                     var emailFrom = message.From.ToString();
+                    string cleanEmailFrom = SkrubbaMailAdress(emailFrom);
+
+
                     var subject = message.Subject;
                     string body = message.GetTextBody(MimeKit.Text.TextFormat.Plain);
                     string[] splittedBody = body.Split("XYXY/(/(XYXY7");
@@ -148,7 +151,7 @@ namespace GnuOne.Data
                                 else { break; }
 
                             case "FriendsFriendGotRemoved":
-                                var deedi = RemoveFriendsFriend(decryptedMessage, _newContext, emailFrom);
+                                var deedi = RemoveFriendsFriend(decryptedMessage, _newContext, cleanEmailFrom);
                                 if (deedi == 1) { break; }
                                 else { break; }
 
@@ -177,7 +180,7 @@ namespace GnuOne.Data
 
             var friendNotfriend = JsonConvert.DeserializeObject<MyFriend>(decryptedMessage);
 
-            var removeablefriendfirend = context.MyFriendsFriends.Where(x => x.ID == friend.ID && x.Email == fromEmail && x.userName == friend.userName).FirstOrDefault();
+            var removeablefriendfirend = context.MyFriendsFriends.Where(x => x.myFriendEmail == fromEmail && x.userName == friendNotfriend.userName).FirstOrDefault();
             if (removeablefriendfirend is not null)
             {
                 context.MyFriendsFriends.Remove(removeablefriendfirend);
@@ -382,6 +385,14 @@ namespace GnuOne.Data
                 return 1;
             }
             return -1;
+        }
+
+        public static string SkrubbaMailAdress(string fromMail)
+        {
+            int startindex = fromMail.IndexOf('<') + 1;
+            int endindex = fromMail.IndexOf('>');
+            string cleanMail = fromMail.Substring(startindex, (endindex - startindex));
+            return cleanMail;
         }
     }
 }
