@@ -106,7 +106,7 @@ const Posts = () => {
     //DELETE 
     function openDeletePost(e, post) {
         e.preventDefault()
-        setActivePost(post.ID)
+        setActivePost(post.id)
         setShowDeleteConfirm(true)
     }
 
@@ -126,7 +126,7 @@ const Posts = () => {
     }
 
     return (
-
+       
         <section className="posts-container">
             <h2>{discussionInfo.Headline}</h2>
             <div className="posts-list">
@@ -142,8 +142,8 @@ const Posts = () => {
 
                             {showDeleteConfirm && activePost === post.id
                                 ?
-                                <button onClick={(e) => deletePost(e, post)}>
-                                    <img alt="delete" src={done} />
+                                <button onClick={(e) => deletePost(e, post.id)}>
+                                    <img alt="done" src={done} />
                                 </button>
 
                                 :
