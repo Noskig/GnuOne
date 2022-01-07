@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "ClientApp/src/Pages/MyProfile.css",
+    "inputFile": "ClientApp/src/Pages/MyProfile.scss"
+  },
+  {
+    "outputFile": "ClientApp/src/components/NewComponents/newWheelTest.css",
+    "inputFile": "ClientApp/src/components/NewComponents/newWheelTest.scss"
+  }
+]

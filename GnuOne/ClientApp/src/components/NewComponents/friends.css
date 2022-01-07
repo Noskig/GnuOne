@@ -1,0 +1,9 @@
+﻿.friends-list {
+    max-width: 50%;
+    padding: 2rem 1rem;
+    background: var(--darker-turquoise)
+}
+
+.friends-list > li {
+    background: white;
+}

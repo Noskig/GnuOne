@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Comments from './Comments';
 import "../styles/discussion.css";
 import Friends from './Friends/Friends'
 import { useParams, useLocation } from 'react-router-dom'
 import NavBar from './NavBar/NavBar';
+import PortContext from '../contexts/portContext'
 
 function Discussion(props) {
   const [username, setUsername] = useState('')
   const [messageText, setMessageText] = useState('')
   const [dataList, setDataList] = useState()
-    const url = 'https://localhost:5001/api/'
+  const port = useContext(PortContext)
+  const url = `https://localhost:${port}/api/`
   const [showComments, setShowComments] = useState(false)
   const [commentsSection, setCommentsSection] = useState('')
   const [activePost, setactivePost] = useState(false)
@@ -81,7 +83,7 @@ function createNewPost() {
 }
 
   async function addNewPost(message) {
-      await fetch('https://localhost:5001/api/posts', {
+      await fetch(`https://localhost:${port}/api/posts` , {
       method: 'POST',
       body: JSON.stringify(message),
       headers: {

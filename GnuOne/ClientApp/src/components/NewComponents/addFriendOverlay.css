@@ -1,0 +1,81 @@
+:root {
+    --border-color: rgb(136, 128, 135)
+}
+
+.new-friend {
+    align-self: center;
+    padding: 0.5em;
+    margin: 0.5em;
+    border-radius: 9px;
+    box-shadow: 2px 3px 7px rgb(226 226 226);
+    border: 2px rgb(136, 128, 135) solid;
+}
+
+.add-friend-overlay {
+    position: fixed;
+      background-color: rgba(247, 245, 245, 0.67);
+      height: 100vh;
+      width: 100vw;
+      top: 0em;
+      left: 0em;
+      z-index: 5;
+      display: flex;
+      justify-content: center;
+      align-items: center;  
+} 
+
+.add-friend  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2em 1.5em 2em 1.5em;
+    border: 1px rgb(136, 128, 135) solid;
+    border-radius: 10px;
+    background: white;
+}
+
+
+
+.add-friend-overlay input, .add-friend-overlay textarea {
+    width: 30em;
+    padding: 0.5em;
+    margin: 0.5em;
+    border-radius: 9px;
+    box-shadow: 2px 3px 7px rgb(226 226 226);
+    border: 2px rgb(136, 128, 135) solid;
+}
+
+.add-friend-overlay button {
+    border: 0px;
+    padding: 0.5em 1.5em;
+    color: white;
+    border-radius: 80px;
+    box-shadow: 2px 3px 7px rgb(226 226 226);
+    background: rgb(90,68,105);
+    background: linear-gradient(90deg, rgba(90,68,105,1) 0%, rgba(16,27,77,1) 71%, rgba(16,27,77,1) 100%, rgba(16,27,77,1) 100%);
+    padding: 0.5em;
+    margin: 0.5em;
+    align-self: flex-end;
+}
+
+.add-friend-overlay .close {
+    background: none ;
+    box-shadow: none;
+}
+
+.add-friend-overlay .close:hover {
+    background:none;
+}
+
+
+.add-friend-overlay button:hover {
+    color:  white;
+    background: rgb(146,135,154);
+    background: linear-gradient(90deg, rgba(146,135,154,1) 0%, rgba(72,88,164,1) 44%, rgba(0,19,111,1) 100%);
+}
+
+
+
+
+
+
