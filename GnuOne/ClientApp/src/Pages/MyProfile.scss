@@ -43,18 +43,17 @@ body {
 
 .line {
     position: absolute;
-    width: 280px;
+    width: 20em;
     height: 3px;
     background-color: lightgray;
     z-index: -1;
 }
-//=================================================================
 
+//=================================================================
 //top circle controler
 /// @param {Integer} $item-count - Number of items on the circle
 /// @param {Length} $circle-size - Large circle size
 /// @param {Length} $item-size - Single item size
-
 @mixin on-circle-about($item-count, $circle-size, $item-size) {
     position: relative;
     width: $circle-size;
@@ -63,7 +62,7 @@ body {
     padding: 0;
     list-style: none;
 
-    > li {
+    > .initialPlace, .chosen, .notChosen, .img-of-person {
         display: block;
         position: absolute;
         top: 50%;
@@ -77,7 +76,7 @@ body {
 
         @for $i from 1 through $item-count {
             &:nth-of-type(#{$i}) {
-                transform: rotate($rot * 1deg) translate($circle-size / 2) rotate($rot * -1deg);
+                transform: rotate($rot * 1deg) translate($circle-size / 2.5) rotate($rot * -1deg);
             }
 
             $rot: $rot + $angle;
@@ -93,7 +92,28 @@ body {
 
         @for $i from 1 through $item-count {
             &:nth-of-type(#{$i}) {
-                transform: rotate($rot * 1deg) translate($circle-size / 4);
+                transform: rotate($rot * 1deg) translate($circle-size / 12);
+            }
+
+            $rot: $rot + $angle;
+        }
+    }
+
+    .notChosenAfter, .img-of-person {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -($item-size / 2);
+        width: $item-size;
+        height: $item-size;
+
+        $angle: (360 / $item-count);
+        $rot: 0;
+
+        @for $i from 1 through $item-count {
+            &:nth-of-type(#{$i}) {
+                transform: rotate($rot * 1deg) translate($circle-size / 3.75) rotate($rot * -1deg);
             }
 
             $rot: $rot + $angle;
@@ -102,9 +122,9 @@ body {
 }
 
 .profile-wheel {
-    @include on-circle-about($item-count: 6, $circle-size: 35em, $item-size: 9em);
+    @include on-circle-about($item-count: 6, $circle-size: 35em, $item-size: 8em);
 
-    li {
+    .initialPlace, .chosen, .notChosen, .notChosenAfter, .img-of-person {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -114,6 +134,20 @@ body {
         background-color: var(--darker-turquoise);
     }
 }
+
+//animations for menu
+.notChosen {
+    text-decoration: none;
+    animation: menu-animation 1s ease-in forwards;
+}
+@keyframes menu-animation {
+    100% {
+        transform: translate(0em);
+    }
+}
+
+
+//=================================================================
 
 // MOBILE AND TABLET SCREENS
 

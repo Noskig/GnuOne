@@ -1,14 +1,12 @@
 
-import Discussion from './components/Discussion';
-import CreateTopicpage from './components/Homepage/CreateTopicpage';
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
+    Redirect
 } from "react-router-dom";
 import PortContext from './contexts/portContext'
-import MyProfile from './Pages/MyProfile';
-import Friends from './components/NewComponents/Friends';
+import routes from './Routes';
+import RouteWithSubRoutes from './components/NewComponents/RouteWithSubRoutes';
 
 function App() {
     return (
@@ -16,13 +14,15 @@ function App() {
             <Router>
                 <div className="App">
                     <Switch>
-                        <Route exact path="/"> <MyProfile /></Route>
-                        <Route path="/friends"><Friends /> </Route> 
-                        <Route path="/discussions/:id"><Discussion /></Route>
+                        <Redirect exact from='/' to='/profile' />
+                        {routes.map((route, i) => (
+                            <RouteWithSubRoutes key={i} {...route} />
+                        ))}
                     </Switch>
                 </div>
             </Router>
         </PortContext.Provider>
     )
 }
-export default App;
+
+export default App
