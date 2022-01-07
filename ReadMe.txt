@@ -91,7 +91,8 @@ Guida Stig
 -Testa vänner funktioner. 
 ---(Lägga till med FRONTEND)
 ---Ta bort vänner.
----Gömma sig i nätverken. (bli osynlig för deras nätverk)
+
+---Gömma sig i nätverken. (bli osynlig för deras nätverk, inställning)
 
 -Try catch block på all sparning i controllers?
 
@@ -115,10 +116,12 @@ Guida Stig
 	**Lösning. När någon postar på min discussion. Behöver den posten studsa från min till alla mina vänner som har den diskussionen(alla).
 
 -Profil.
+
+
 *userInfo. Standard Bilder. Intressen(bool). Publik nyckel.
 **researcha bilder med johanna (standardbilder som man väjer eller ladda upp sin egen?)
 
-
+*APIsync för att synca discussion, post, vänner och vännersvänners ifall att nått skulle bli fel.
 
 
 

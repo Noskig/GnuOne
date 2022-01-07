@@ -131,7 +131,7 @@ namespace GnuOne.Data
 
                             case "AcceptedFriendRequest":
                                 //var deedf = await Task.Run(() => ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false, myInfo.Email));
-                                var deedf = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false,myInfo.Email);
+                                var deedf = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false, myInfo.Email);
                                 if (deedf == 1)
                                 {
                                     //await Task.Run(() => GiveBackMyInformation(_newContext, emailFrom));
@@ -141,7 +141,7 @@ namespace GnuOne.Data
                                 else { break; }
 
                             case "GiveBackInformation":
-                                var deedg = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, true,myInfo.Email);
+                                var deedg = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, true, myInfo.Email);
                                 if (deedg == 1) { break; }
                                 else { break; }
 
@@ -150,9 +150,15 @@ namespace GnuOne.Data
                                 if (deedh == 1) { break; }
                                 else { break; }
 
-                            case "FriendsFriendGotRemoved":
-                                var deedi = RemoveFriendsFriend(decryptedMessage, _newContext, cleanEmailFrom);
+                            case "FriendGotAFriend":
+                                var deedi = UpdateFriendFriends(decryptedMessage, _newContext);
                                 if (deedi == 1) { break; }
+                                else { break; }
+
+
+                            case "FriendsFriendGotRemoved":
+                                var deedj = RemoveFriendsFriend(decryptedMessage, _newContext, cleanEmailFrom);
+                                if (deedj == 1) { break; }
                                 else { break; }
 
                             default:
@@ -172,6 +178,24 @@ namespace GnuOne.Data
                 }
                 client.Disconnect(true);
             }
+        }
+
+        private static int UpdateFriendFriends(string decryptedMessage, MariaContext context)
+        {
+            var newFriendFriends = JsonConvert.DeserializeObject<MyFriendsFriends>(decryptedMessage);
+
+
+            if (newFriendFriends is not null)
+            {
+                var isFriendAlready = context.MyFriendsFriends.Where(x => x.Email == newFriendFriends.Email && x.myFriendEmail == newFriendFriends.myFriendEmail).Any();
+                if (isFriendAlready == false)
+                {
+                    context.MyFriendsFriends.Add(newFriendFriends);
+                    context.SaveChangesAsync().Wait();
+                    return 1;
+                }
+            }
+            return -1;
         }
 
         private static int RemoveFriendsFriend(string decryptedMessage, MariaContext context, string fromEmail)
@@ -217,7 +241,6 @@ namespace GnuOne.Data
 
         private static int GiveBackMyInformation(MariaContext context, string toEmail)
         {
-
             var mysettingsEmail = context.MySettings.Select(x => x.Email).Single();
 
             var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(context, mysettingsEmail);
@@ -225,11 +248,22 @@ namespace GnuOne.Data
             var mySettings = context.MySettings.FirstOrDefault();
             MailSender.SendObject(jsonBigList, toEmail, mySettings, "GiveBackInformation");
 
+            ///vilken vän
+            var friend = context.MyFriends.Where(x => x.Email == toEmail).FirstOrDefault();
+            //gör om till friendfriend och skicka till mina vänner
+            var friendFriendNew = new MyFriendsFriends(friend, mysettingsEmail);
+            var jsonFriendFriendNew = JsonConvert.SerializeObject(friendFriendNew);
+
+            foreach (var user in context.MyFriends)
+            {
+                MailSender.SendObject(jsonFriendFriendNew, user.Email, mySettings, "FriendGotAFriend");
+            }
+
             return 1;
 
         }
 
-        private static int ReceieveInfoAndAcceptFriend(string decryptedMessage, MariaContext context, bool isSendBack,string myEmail)
+        private static int ReceieveInfoAndAcceptFriend(string decryptedMessage, MariaContext context, bool isSendBack, string myEmail)
         {
             var theirLists = JsonConvert.DeserializeObject<BigList>(decryptedMessage);
 
@@ -252,7 +286,7 @@ namespace GnuOne.Data
                     {
                         if (theirfriend.Email != myEmail)
                         {
-                            var bff = new MyFriendsFriends(theirfriend,friend.Email);
+                            var bff = new MyFriendsFriends(theirfriend, friend.Email);
 
                             myFriendFriendsList.Add(bff);
                         }
@@ -278,7 +312,7 @@ namespace GnuOne.Data
                 //{
 
                 //}
-                    context.SaveChangesAsync().Wait();
+                context.SaveChangesAsync().Wait();
                 //context.SaveChangesAsync();
                 return 1;
             }

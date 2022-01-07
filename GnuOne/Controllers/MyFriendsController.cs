@@ -1,6 +1,7 @@
 ﻿using GnuOne.Data;
 using Library;
 using Library.HelpClasses;
+using Library.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -104,6 +105,15 @@ namespace GnuOne.Controllers
                 var jsonBigListObject = JsonConvert.SerializeObject(bigListWithMyInfo);
 
                 MailSender.SendObject(jsonBigListObject, friend.Email, _settings, "AcceptedFriendRequest");
+
+                var newFriendFriendForMyFriend = new MyFriendsFriends(friend, myInfo.Email);
+                var jsonFriendFriendToSend = JsonConvert.SerializeObject(newFriendFriendForMyFriend);
+
+                foreach (var user in _context.MyFriends)
+                {
+                    MailSender.SendObject(jsonFriendFriendToSend, user.Email, _settings, "FriendGotAFriend");
+                }
+
 
                 _context.MyFriends.Update(friend);
                 await _context.SaveChangesAsync();
