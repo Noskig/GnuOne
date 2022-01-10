@@ -1,0 +1,186 @@
+﻿:root {
+  --navMenu-color: #111111;
+  --navLink-color: #4DBBCD;
+  --button-color: #24AAC3;
+  --button-h1-color: #043239;
+  --getStartedSection-color: #0D5A69;
+  --light-turquoise: #BBE3F0;
+  --darker-turquoise: #7DB1BA;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Saira", sans-serif;
+}
+
+.profile-wheel-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.profile-wheel-wrapper {
+  transform: scale(0.7);
+}
+
+.profile-wheel-lines-container {
+  width: 35em;
+  height: 35em;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.line {
+  position: absolute;
+  width: 20em;
+  height: 3px;
+  background-color: lightgray;
+  z-index: -1;
+}
+
+.profile-wheel {
+  position: relative;
+  width: 35em;
+  height: 35em;
+  border-radius: 50%;
+  padding: 0;
+  list-style: none;
+}
+.profile-wheel > .initialPlace, .profile-wheel .chosen, .profile-wheel .notChosen, .profile-wheel .img-of-person {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -4em;
+  width: 8em;
+  height: 8em;
+}
+.profile-wheel > .initialPlace:nth-of-type(1), .profile-wheel .chosen:nth-of-type(1), .profile-wheel .notChosen:nth-of-type(1), .profile-wheel .img-of-person:nth-of-type(1) {
+  transform: rotate(0deg) translate(14em) rotate(0deg);
+}
+.profile-wheel > .initialPlace:nth-of-type(2), .profile-wheel .chosen:nth-of-type(2), .profile-wheel .notChosen:nth-of-type(2), .profile-wheel .img-of-person:nth-of-type(2) {
+  transform: rotate(60deg) translate(14em) rotate(-60deg);
+}
+.profile-wheel > .initialPlace:nth-of-type(3), .profile-wheel .chosen:nth-of-type(3), .profile-wheel .notChosen:nth-of-type(3), .profile-wheel .img-of-person:nth-of-type(3) {
+  transform: rotate(120deg) translate(14em) rotate(-120deg);
+}
+.profile-wheel > .initialPlace:nth-of-type(4), .profile-wheel .chosen:nth-of-type(4), .profile-wheel .notChosen:nth-of-type(4), .profile-wheel .img-of-person:nth-of-type(4) {
+  transform: rotate(180deg) translate(14em) rotate(-180deg);
+}
+.profile-wheel > .initialPlace:nth-of-type(5), .profile-wheel .chosen:nth-of-type(5), .profile-wheel .notChosen:nth-of-type(5), .profile-wheel .img-of-person:nth-of-type(5) {
+  transform: rotate(240deg) translate(14em) rotate(-240deg);
+}
+.profile-wheel > .initialPlace:nth-of-type(6), .profile-wheel .chosen:nth-of-type(6), .profile-wheel .notChosen:nth-of-type(6), .profile-wheel .img-of-person:nth-of-type(6) {
+  transform: rotate(300deg) translate(14em) rotate(-300deg);
+}
+.profile-wheel .line {
+  display: block;
+  position: absolute;
+}
+.profile-wheel .line:nth-of-type(1) {
+  transform: rotate(0deg) translate(2.9166666667em);
+}
+.profile-wheel .line:nth-of-type(2) {
+  transform: rotate(60deg) translate(2.9166666667em);
+}
+.profile-wheel .line:nth-of-type(3) {
+  transform: rotate(120deg) translate(2.9166666667em);
+}
+.profile-wheel .line:nth-of-type(4) {
+  transform: rotate(180deg) translate(2.9166666667em);
+}
+.profile-wheel .line:nth-of-type(5) {
+  transform: rotate(240deg) translate(2.9166666667em);
+}
+.profile-wheel .line:nth-of-type(6) {
+  transform: rotate(300deg) translate(2.9166666667em);
+}
+.profile-wheel .notChosenAfter, .profile-wheel .img-of-person {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -4em;
+  width: 8em;
+  height: 8em;
+}
+.profile-wheel .notChosenAfter:nth-of-type(1), .profile-wheel .img-of-person:nth-of-type(1) {
+  transform: rotate(0deg) translate(9.3333333333em) rotate(0deg);
+}
+.profile-wheel .notChosenAfter:nth-of-type(2), .profile-wheel .img-of-person:nth-of-type(2) {
+  transform: rotate(60deg) translate(9.3333333333em) rotate(-60deg);
+}
+.profile-wheel .notChosenAfter:nth-of-type(3), .profile-wheel .img-of-person:nth-of-type(3) {
+  transform: rotate(120deg) translate(9.3333333333em) rotate(-120deg);
+}
+.profile-wheel .notChosenAfter:nth-of-type(4), .profile-wheel .img-of-person:nth-of-type(4) {
+  transform: rotate(180deg) translate(9.3333333333em) rotate(-180deg);
+}
+.profile-wheel .notChosenAfter:nth-of-type(5), .profile-wheel .img-of-person:nth-of-type(5) {
+  transform: rotate(240deg) translate(9.3333333333em) rotate(-240deg);
+}
+.profile-wheel .notChosenAfter:nth-of-type(6), .profile-wheel .img-of-person:nth-of-type(6) {
+  transform: rotate(300deg) translate(9.3333333333em) rotate(-300deg);
+}
+.profile-wheel .initialPlace, .profile-wheel .chosen, .profile-wheel .notChosen, .profile-wheel .notChosenAfter, .profile-wheel .img-of-person {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  border-radius: 50%;
+  background-color: var(--darker-turquoise);
+}
+
+.notChosen {
+  text-decoration: none;
+  animation: menu-animation 1s ease-in forwards;
+}
+
+@keyframes menu-animation {
+  100% {
+    transform: translate(0em);
+  }
+}
+@media screen and (max-width: 1100px) {
+  .profile-wheel-container {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .profile-wheel-wrapper {
+    transform: scale(0.7);
+    height: 600px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .profile-wheel-container {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .profile-wheel-wrapper {
+    transform: scale(0.6);
+  }
+}
+@media screen and (max-width: 700px) {
+  .profile-wheel-wrapper {
+    transform: scale(0.5);
+    height: 450px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .profile-wheel-wrapper {
+    transform: scale(0.4);
+    height: 320px;
+    margin-bottom: 2rem;
+  }
+}
