@@ -19,16 +19,14 @@ body {
     font-family: 'Saira', sans-serif;
 }
 
-.profile-wheel-container {
-    display: flex;
-    justify-content: space-evenly;
-}
 
 .profile-wheel-wrapper {
     transform: scale(0.7);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
 }
-
-
 
 
 .profile-wheel-lines-container {
@@ -154,11 +152,6 @@ body {
 // screen size below 1000px
 @media screen and (max-width: 1100px) {
 
-    .profile-wheel-container {
-        flex-direction: column-reverse;
-        align-items: center;
-    }
-
     .profile-wheel-wrapper {
         transform: scale(0.7);
         height: 600px;
@@ -167,10 +160,6 @@ body {
 
 @media screen and (max-width: 800px) {
 
-    .profile-wheel-container {
-        flex-direction: column-reverse;
-        align-items: center;
-    }
 
     .profile-wheel-wrapper {
         transform: scale(0.6);
