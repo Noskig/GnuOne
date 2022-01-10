@@ -178,7 +178,7 @@ namespace GnuOne.Data
                                 if (deedf == 1)
                                 {
                                     //await Task.Run(() => GiveBackMyInformation(_newContext, emailFrom));
-                                    var returnInfo = GiveBackMyInformation(_newContext, emailFrom);
+                                    var returnInfo = GiveBackMyInformation(_newContext, cleanEmailFrom);
                                     break;
                                 }
                                 else { break; }
