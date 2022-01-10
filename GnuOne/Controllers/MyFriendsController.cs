@@ -102,6 +102,8 @@ namespace GnuOne.Controllers
                 friend.isFriend = true;
 
                 var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(_context, myInfo.Email, true);
+                bigListWithMyInfo.username = _settings.userName.ToString();
+
                 var jsonBigListObject = JsonConvert.SerializeObject(bigListWithMyInfo);
 
                 MailSender.SendObject(jsonBigListObject, friend.Email, _settings, "AcceptedFriendRequest");

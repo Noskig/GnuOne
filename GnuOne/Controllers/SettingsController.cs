@@ -25,7 +25,6 @@ namespace GnuOne.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
         }
         
 
@@ -41,6 +40,7 @@ namespace GnuOne.Controllers
         }
 
         // DELETE api/<SettingController>/5
+        //kanske ta bort konto?
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

@@ -49,7 +49,9 @@ Vill vi ha både publika och privata vänner?
 -(FRONTEND)Skapa en process för detta när man har kommit in i systemet.
 -(FRONTEND notiser, knapp för accept/denied)
 
+
 6.    Gå igenom källkoden, dokumentera, städa, fundera på standard.
+
 
 
 7.    TESTA
@@ -57,9 +59,9 @@ Vill vi ha både publika och privata vänner?
 --Create, Edit, Delete, (FRONTEND, Read)
 ---(Lägga till med FRONTEND)
 
-
-
 -Try catch block på all sparning i controllers?
+
+
 
 
 --Nya funktioner
@@ -75,49 +77,47 @@ Vill vi ha både publika och privata vänner?
 
 10. Resterade.
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
--__Testa postman lite hejvilt_
 
-''''''Bug / ej tänkt på.
-      -Om min vän postar på min discussion.
-	  hur ska mina vänner som inte är vän med den vännen se det inlägget?
-	**Lösning. När någon postar på min discussion. Behöver den posten studsa från min till alla mina vänner som har den diskussionen(alla).
-	Jonatan postar på min, jag tar upp mailet och skickar vidare till mina vänner. I Det caset dom får in ska dom först checka om det finns, annars ta in i db
+**Dokumentera github. Text. Video. Göra en snygg förklaring. Guida Stig
+-Få prototyp redo, sen dokumentera V.1
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+**Posts som tas bort ska ligga kvar men bli deletat.
+-Bool. IsDeleted på posts. true/false, renderas olika. posts-DTOdeletedpost/Frontend?
+
+-Gömma sig i nätverken hos vänner. (bli osynlig för deras nätverk, inställning)
+
+*** Profil.
+*userInfo. Intressen(bool). Publik nyckel.
+** standardbilder 5st
+** Intressen/Tags
+** tags på inlägg
 
 
-
--Dokumentera github. Text. Video. Göra en snygg förklaring. Guida Stig
+4.    Jag vill ha en sida där jag kan se vilka inställningar som är gjorda och eventuellt ändra valda parametrar.
+-API som ändrar inställningar.
+--Username
+--Darkmode?
+--Radera kontot?
 
 
 5.    Fixa till asymmetrisk kryptering/verifiering.
 -Kolla vad Marcus har.
+-- Vilken information ska krypteras? Mailen? 
+-Maillösenord hashas in i databasen? (Secret key?)
+-- Ska den 
 
-4.    Jag vill ha en sida där jag kan se vilka inställningar som är gjorda och eventuellt ändra valda parametrar.
--API som ändrar inställningar.
---Username?
---Darkmode?
-
-
--Gömma sig i nätverken hos vänner. (bli osynlig för deras nätverk, inställning)
---Case på mailreader som ändrar i nästa steg.
-
-
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-*** Profil.
-
-*userInfo. Standard Bilder. Intressen(bool). Publik nyckel.
-**researcha bilder med johanna (standardbilder som man väjer eller ladda upp sin egen?)
+-__Testa postman lite hejvilt_
 
 *APIsync för att synca discussion, post, vänner och vännersvänners ifall att nått skulle bli fel.
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-*Dubbel kolla alla foreach mailutskick loopar att de inte skickar till vänner man inte är vän med "(if (user.isFriend == false) { continue; })"
-
-Frontend
-Skicka friendrequest med mail.
+----- Slutet av veckan.. En fungerande prototyp ------
 
 ///////////////////////////////////////////////////////////
 EXTRA-JOBB:
-
+** vi har marcus som extra resurs
 
 ///////////////////////////////////////////////////////////
 PROBLEM:
@@ -126,6 +126,7 @@ Skickar ett extra friendacceptmail tillbaka efter båda blivit vänn. Behöver i
 ///////////////////////////////////////////////////////////
 BEHÖVS TESTAS
 FriendRequest. -hänger alla id:n med på korrekt sätt? Discussion, posts osv..
+**Dubbel kolla alla foreach mailutskick loopar att de inte skickar till vänner man inte är vän med "(if (user.isFriend == false) { continue; })"
 
 ///////////////////////////////////////////////////////////
 KLART:
@@ -135,6 +136,8 @@ KLART:
 # Vänner som inte är true skickas över till myfriendsfriends.
 # deleteFriend tar bort vännen, diskussioner, poster & vänsVänner. Åt båda hållet.
 # När man blir vän med någon. Behöver det gå ut ett mail till mina vänner med en som uppdaterar FriendsFriend 7/1
+# Bug #1. Lösning. När någon postar på min discussion. Behöver den posten studsa från min till alla mina vänner som har den diskussionen(alla).
+
 
 
 # Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. 5/1
@@ -153,7 +156,3 @@ TILL STIG:
 * Vad ska man kunna se?
 	# När man blir vänner, ska man kunna se alla varandras diskussioner, inlägg och kommentarer? Men även inlägg & kommentarer från andra, som inte är ens vänner? 
 * Om jag blir vän med Sam, då får jag hans vänner, men om han sen lägger till en vän efteråt, den vännen får inte jag? Sync-vänner-knapp i efterhand
-
-
-warn: Microsoft.EntityFrameworkCore.Query[10103]
-      The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
