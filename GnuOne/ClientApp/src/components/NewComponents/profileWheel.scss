@@ -1,39 +1,14 @@
-﻿:root {
-    --navMenu-color: #111111;
-    --navLink-color: #4DBBCD;
-    --button-color: #24AAC3;
-    --button-h1-color: #043239;
-    --getStartedSection-color: #0D5A69;
-    --light-turquoise: #BBE3F0;
-    --darker-turquoise: #7DB1BA;
+﻿
+
+
+/*.profile-wheel-wrapper {
+    transform: scale(0.6);
 }
-
-html,
-body {
-    height: 100%;
-    width: 100%;
-}
-
-body {
-    margin: 0;
-    font-family: 'Saira', sans-serif;
-}
-
-.profile-wheel-container {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.profile-wheel-wrapper {
-    transform: scale(0.7);
-}
-
-
-
+*/
 
 .profile-wheel-lines-container {
-    width: 35em;
-    height: 35em;
+    width: 17.5em;
+    height: 17.5em;
     border-radius: 50%;
     display: flex;
     flex-direction: column;
@@ -43,7 +18,7 @@ body {
 
 .line {
     position: absolute;
-    width: 20em;
+    width: 10em;
     height: 3px;
     background-color: lightgray;
     z-index: -1;
@@ -122,7 +97,7 @@ body {
 }
 
 .profile-wheel {
-    @include on-circle-about($item-count: 6, $circle-size: 35em, $item-size: 8em);
+    @include on-circle-about($item-count: 6, $circle-size: 17.5em, $item-size: 4em);
 
     .initialPlace, .chosen, .notChosen, .notChosenAfter, .img-of-person {
         display: flex;
@@ -148,50 +123,3 @@ body {
 
 
 //=================================================================
-
-// MOBILE AND TABLET SCREENS
-
-// screen size below 1000px
-@media screen and (max-width: 1100px) {
-
-    .profile-wheel-container {
-        flex-direction: column-reverse;
-        align-items: center;
-    }
-
-    .profile-wheel-wrapper {
-        transform: scale(0.7);
-        height: 600px;
-    }
-}
-
-@media screen and (max-width: 800px) {
-
-    .profile-wheel-container {
-        flex-direction: column-reverse;
-        align-items: center;
-    }
-
-    .profile-wheel-wrapper {
-        transform: scale(0.6);
-    }
-}
-
-// screen size bellow 700px
-@media screen and (max-width: 700px) {
-
-    .profile-wheel-wrapper {
-        transform: scale(0.5);
-        height: 450px;
-    }
-}
-
-// screen size below 500px
-@media screen and (max-width: 500px) {
-
-    .profile-wheel-wrapper {
-        transform: scale(0.4);
-        height: 320px;
-        margin-bottom: 2rem;
-    }
-}
