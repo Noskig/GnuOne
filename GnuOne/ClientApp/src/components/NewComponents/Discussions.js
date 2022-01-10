@@ -1,13 +1,12 @@
 ﻿import { useState, useEffect, useContext } from 'react'
 import PortContext from '../../contexts/portContext';
 import AddDiscussionOverlay from './AddDiscussionOverlay';
-import { Link, Switch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import arrows from '../../icons/arrows.svg'
 import trash from '../../icons/trash.svg'
 import done from '../../icons/done.svg'
 import edit from '../../icons/edit.svg'
 import DeleteDiscussionOverlay from './DeleteDiscussionOverlay'
-import RouteWithSubRoutes from './RouteWithSubRoutes';
 
 
 
@@ -25,6 +24,7 @@ const Discussions = ({ routes }) => {
 
     useEffect(() => {
         fetchData()
+        console.log('i did it again')
     }, [])
 
     async function fetchData() {
