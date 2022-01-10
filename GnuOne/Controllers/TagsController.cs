@@ -1,5 +1,6 @@
 ﻿using GnuOne.Data;
 using Library;
+using Library.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +24,7 @@ namespace GnuOne.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTags()
         {
-            var tags = _context.Tags.ToListAsync();
+            var tags = _context.tags.ToListAsync();
             if (tags is not null)
             {
                 var jsonTags = JsonConvert.SerializeObject(tags);
@@ -35,7 +36,7 @@ namespace GnuOne.Controllers
         [HttpPost]
         public async Task<IActionResult> PostTags([FromBody] Tag tag)
         {
-            _context.Tags.Add(tag);
+            _context.tags.Add(tag);
             await _context.SaveChangesAsync();
 
 

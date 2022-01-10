@@ -1,4 +1,5 @@
-﻿namespace Library
+﻿
+namespace Library
 {
     public class DiscussionDTO
     {
@@ -26,6 +27,8 @@
 
             this.posts = posts;
         }
+
+
 
     }
 }

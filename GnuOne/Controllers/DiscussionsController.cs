@@ -1,6 +1,7 @@
 ﻿using GnuOne.Data;
 using Library;
 using Library.HelpClasses;
+using Library.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -30,7 +31,31 @@ namespace GnuOne.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var listaDiscussion = await _context.Discussions.ToListAsync();
+            var listaDiscussion = _context.Discussions.ToList();
+            var taglista = _context.tags.ToList();
+
+            foreach (var discussion in listaDiscussion)
+            {
+                if (discussion.tagOne is not null)
+                {
+                    var tagOne = taglista.Where(x => x.ID == discussion.tagOne).Select(x => x.tagName).Single();
+                    discussion.tags.Add(tagOne);
+                }
+                if (discussion.tagTwo is not null)
+                {
+                    var tagTwo = taglista.Where(y => y.ID == discussion.tagTwo).Select(x => x.tagName).Single();
+                    discussion.tags.Add(tagTwo);
+
+                }
+                if (discussion.tagThree is not null)
+                {
+                    var tagThree = taglista.Where(z => z.ID == discussion.tagThree).Select(x => x.tagName).Single();
+                    discussion.tags.Add(tagThree);
+
+                }
+            }
+
+
             var converted = JsonConvert.SerializeObject(listaDiscussion);
 
             return Ok(converted);
