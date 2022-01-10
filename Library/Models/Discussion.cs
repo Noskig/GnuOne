@@ -16,6 +16,9 @@ namespace Library
         public string discussionText { get; set; } 
         public string userName { get; set; } 
         public DateTime Date { get; set; }
+        public int TagOne { get; set; }
+        public int TagTwo { get; set; }
+        public int TagThree { get; set; }
 
         public string SendDiscussion()
         {

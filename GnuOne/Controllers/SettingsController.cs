@@ -22,10 +22,11 @@ namespace GnuOne.Controllers
         }
 
         // GET: api/<SettingController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-        }
+        //[HttpGet]
+        //public Task<IActionResult> Get()
+        //{
+        //    return NotFound();  
+        //}
         
 
         //public async Task<IActionResult> PutPost(int? id, Post post)

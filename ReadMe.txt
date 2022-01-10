@@ -91,8 +91,22 @@ Vill vi ha både publika och privata vänner?
 *** Profil.
 *userInfo. Intressen(bool). Publik nyckel.
 ** standardbilder 5st
-** Intressen/Tags
+
+** Intressen/Tags - 
 ** tags på inlägg
+
+????????
+En användare ska kunna tagga sina inlägg. 
+
+-de behöver följa med i discussionen
+
+*Kunna visa sina favorit intressen på sin profil.
+
+*Söka/filtrera(Api?)
+
+
+????????
+
 
 
 4.    Jag vill ha en sida där jag kan se vilka inställningar som är gjorda och eventuellt ändra valda parametrar.

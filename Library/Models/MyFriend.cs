@@ -14,6 +14,7 @@ namespace Library
         public string? userName { get; set; }
         public string Email { get; set; }
         public bool isFriend { get; set; } = false;
+        
 
         public MyFriend()
         {
