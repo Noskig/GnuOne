@@ -17,5 +17,8 @@ namespace GnuOne.Data
         public DbSet<LastUpdate> LastUpdates { get; set; }
         public DbSet<MySettings> MySettings { get; set; }
         public DbSet<Tag> tags { get; set; }
+        public DbSet<myprofile> Myprofile { get; set; }
+        public DbSet<standardpictures> Standardpictures { get; set; }
+
     }
 }

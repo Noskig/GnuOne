@@ -33,6 +33,19 @@ namespace GnuOne.Controllers
             return NotFound();
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var dis = await _context.Discussions.Where(x => x.tagOne == id || x.tagTwo == id || x.tagThree == id).ToListAsync();
+            if (dis.Count > 0)
+            {
+                var json = JsonConvert.SerializeObject(dis);
+                return Ok(json);
+            }
+            return Ok("Couldnt find any discussion by this tag");
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> PostTags([FromBody] Tag tag)
         {
