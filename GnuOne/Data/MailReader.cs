@@ -332,7 +332,10 @@ namespace GnuOne.Data
         {
             var mysettingsEmail = context.MySettings.Select(x => x.Email).Single();
 
-            var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(context, mysettingsEmail);
+            var myprofile = context.MyProfile.FirstOrDefault();
+
+
+            var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(context, mysettingsEmail, false,myprofile);
             var jsonBigList = JsonConvert.SerializeObject(bigListWithMyInfo);
             var mySettings = context.MySettings.FirstOrDefault();
             MailSender.SendObject(jsonBigList, toEmail, mySettings, "GiveBackInformation");
