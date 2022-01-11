@@ -13,7 +13,7 @@ namespace Welcome_Settings
 
 		public static string sql = @"-- --------------------------------------------------------
 -- Värd:                         127.0.0.1
--- Serverversion:                10.6.5-MariaDB - mariadb.org binary distribution
+-- Serverversion:                10.6.3-MariaDB - mariadb.org binary distribution
 -- Server-OS:                    Win64
 -- HeidiSQL Version:             11.3.0.6295
 -- --------------------------------------------------------
@@ -68,22 +68,9 @@ CREATE TABLE IF NOT EXISTS `discussions` (
   CONSTRAINT `FK_discussions_tags_3` FOREIGN KEY (`tagThree`) REFERENCES `tags` (`ID`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.discussions: ~3 rows (ungefär)
+-- Dumpar data för tabell gnu.discussions: ~1 rows (ungefär)
 /*!40000 ALTER TABLE `discussions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `discussions` ENABLE KEYS */;
-
--- Dumpar struktur för tabell gnu.lastupdates
-CREATE TABLE IF NOT EXISTS `lastupdates` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `timeSet` datetime NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
--- Dumpar data för tabell gnu.lastupdates: ~0 rows (ungefär)
-/*!40000 ALTER TABLE `lastupdates` DISABLE KEYS */;
-INSERT INTO `lastupdates` (`ID`, `timeSet`) VALUES
-	(1, '2022-01-04 11:36:25');
-/*!40000 ALTER TABLE `lastupdates` ENABLE KEYS */;
 
 -- Dumpar struktur för tabell gnu.myfriends
 CREATE TABLE IF NOT EXISTS `myfriends` (
@@ -100,9 +87,9 @@ CREATE TABLE IF NOT EXISTS `myfriends` (
   `intresseFive` bit(1) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `Email` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myfriends: ~1 rows (ungefär)
+-- Dumpar data för tabell gnu.myfriends: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `myfriends` DISABLE KEYS */;
 /*!40000 ALTER TABLE `myfriends` ENABLE KEYS */;
 
@@ -115,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `myfriendsfriends` (
   PRIMARY KEY (`ID`),
   KEY `FK_myfriendsfriends_myfriends` (`myFriendEmail`),
   CONSTRAINT `FK_myfriendsfriends_myfriends` FOREIGN KEY (`myFriendEmail`) REFERENCES `myfriends` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 -- Dumpar data för tabell gnu.myfriendsfriends: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `myfriendsfriends` DISABLE KEYS */;
@@ -123,22 +110,25 @@ CREATE TABLE IF NOT EXISTS `myfriendsfriends` (
 
 -- Dumpar struktur för tabell gnu.myprofile
 CREATE TABLE IF NOT EXISTS `myprofile` (
-  `ID` int(11) DEFAULT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Email` varchar(50) DEFAULT NULL,
   `myUserInfo` varchar(50) DEFAULT NULL,
-  `picutureForeign` int(11) DEFAULT NULL,
+  `pictureID` int(11) DEFAULT NULL,
   `tagOne` int(11) DEFAULT NULL,
   `tagTwo` int(11) DEFAULT NULL,
   `tagThree` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
   KEY `FK_myprofile_tags` (`tagOne`),
   KEY `FK_myprofile_tags_2` (`tagTwo`),
   KEY `FK_myprofile_tags_3` (`tagThree`),
+  KEY `FK_myprofile_standardpictures` (`pictureID`),
+  CONSTRAINT `FK_myprofile_standardpictures` FOREIGN KEY (`pictureID`) REFERENCES `standardpictures` (`pictureID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_myprofile_tags` FOREIGN KEY (`tagOne`) REFERENCES `tags` (`ID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_myprofile_tags_2` FOREIGN KEY (`tagTwo`) REFERENCES `tags` (`ID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_myprofile_tags_3` FOREIGN KEY (`tagThree`) REFERENCES `tags` (`ID`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myprofile: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.myprofile: ~1 rows (ungefär)
 /*!40000 ALTER TABLE `myprofile` DISABLE KEYS */;
 /*!40000 ALTER TABLE `myprofile` ENABLE KEYS */;
 
@@ -151,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `mysettings` (
   `Secret` varchar(75) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.mysettings: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.mysettings: ~1 rows (ungefär)
 /*!40000 ALTER TABLE `mysettings` DISABLE KEYS */;
 /*!40000 ALTER TABLE `mysettings` ENABLE KEYS */;
 
@@ -169,22 +159,26 @@ CREATE TABLE IF NOT EXISTS `posts` (
   CONSTRAINT `FK_posts_discussions` FOREIGN KEY (`discussionID`, `discussionEmail`) REFERENCES `discussions` (`ID`, `Email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.posts: ~5 rows (ungefär)
+-- Dumpar data för tabell gnu.posts: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 
 -- Dumpar struktur för tabell gnu.standardpictures
 CREATE TABLE IF NOT EXISTS `standardpictures` (
-  `ID` int(11) DEFAULT NULL,
-  `picOne` bigint(20) DEFAULT NULL,
-  `picTwo` bigint(20) DEFAULT NULL,
-  `picThree` bigint(20) DEFAULT NULL,
-  `picFour` bigint(20) DEFAULT NULL,
-  `picFive` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `pictureID` int(11) NOT NULL AUTO_INCREMENT,
+  `PictureName` varchar(50) DEFAULT NULL,
+  `PictureSrc` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`pictureID`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.standardpictures: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.standardpictures: ~5 rows (ungefär)
 /*!40000 ALTER TABLE `standardpictures` DISABLE KEYS */;
+INSERT INTO `standardpictures` (`pictureID`, `PictureName`, `PictureSrc`) VALUES
+	(1, 'BeerGuy', '/image/BeerGuy.jpg'),
+	(2, 'Flanders', '/image/Flanders.png'),
+	(3, 'Nelson', '/image/Nelson.jpg'),
+	(4, 'Ralph', '/image/Ralph.jpg'),
+	(5, 'SideShow-Bob', '~/image/SideShow-Bob.jpg');
 /*!40000 ALTER TABLE `standardpictures` ENABLE KEYS */;
 
 -- Dumpar struktur för tabell gnu.tags
