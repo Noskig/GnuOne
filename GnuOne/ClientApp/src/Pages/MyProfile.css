@@ -20,20 +20,27 @@ body {
 
 main {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  grid-template-rows: 4rem 1fr 1fr 1fr 4rem;
+  grid-template-columns: 0.5fr repeat(7, 1fr) 0.5fr;
+  grid-template-rows: 4rem 1fr 1fr 1fr 1fr 1fr 4rem;
 }
 main .profile-wheel-container {
   grid-column-start: 6;
   grid-column-end: 9;
-  grid-row-start: 2;
-  grid-row-end: 3;
-  justify-self: center;
+  grid-row-start: 3;
+  grid-row-end: 7;
+  justify-self: right;
 }
 main .friends-container, main .bio-container, main .messages-container, main .settings-container, main .discussions-container {
   grid-column-start: 2;
-  grid-column-end: 5;
+  grid-column-end: 6;
   grid-row-start: 2;
-  grid-row-end: 5;
+  grid-row-end: 7;
+  justify-self: stretch;
+}
+main .search-bar {
+  grid-column-start: 6;
+  grid-column-end: 8;
+  grid-row-start: 2;
+  grid-row-end: 3;
   justify-self: stretch;
 }

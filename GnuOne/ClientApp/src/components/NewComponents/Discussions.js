@@ -7,6 +7,7 @@ import trash from '../../icons/trash.svg'
 import done from '../../icons/done.svg'
 import edit from '../../icons/edit.svg'
 import DeleteDiscussionOverlay from './DeleteDiscussionOverlay'
+import Search from './Search'
 
 
 
@@ -20,7 +21,9 @@ const Discussions = ({ routes }) => {
     const [discussionText, setDiscussionText] = useState('')
     const [activeDiscussion, setActiveDiscussion] = useState('')
     const [editOpen, setEditOpen] = useState(false)
-
+    //SEARCH 
+    const [searchTerm, setSearchTerm] = useState('')
+    const filteredDiscussions = filterDiscussions(discussions, searchTerm)
 
     useEffect(() => {
         fetchData()
@@ -40,10 +43,10 @@ const Discussions = ({ routes }) => {
 
     //EDIT 
     function openEditDiscussion(e, discussion) {
-            e.preventDefault()
-            setActiveDiscussion(discussion.ID)
-            setEditOpen(true)
-            setDiscussionText(discussion.discussionText)
+        e.preventDefault()
+        setActiveDiscussion(discussion.ID)
+        setEditOpen(true)
+        setDiscussionText(discussion.discussionText)
     }
 
     async function confirmEditDiscussion(e, discussion) {
@@ -65,18 +68,35 @@ const Discussions = ({ routes }) => {
         setDiscussionText('')
     }
 
-        //DELETE 
-        const closeDeletion = () => {
-            setshowDeleteConfirm(false)
-        }
+    //DELETE 
+    const closeDeletion = () => {
+        setshowDeleteConfirm(false)
+    }
 
-        function openDeleteOverlay(discussion) {
-            setActiveDiscussion(discussion.ID)
-            setshowDeleteConfirm(true)
-        }
+    function openDeleteOverlay(discussion) {
+        setActiveDiscussion(discussion.ID)
+        setshowDeleteConfirm(true)
+    }
 
-        return (
-            <>
+    //SEARCH 
+    function search(s) {
+        setSearchTerm(s)
+    }
+
+    function filterDiscussions(discussions, searchTerm) {
+        return discussions.filter((data) => {
+            if (searchTerm === "") {
+                return true
+            } else if (data.Headline.toLowerCase().includes(searchTerm.toLowerCase())) {
+                return data
+            }
+
+        })
+    }
+
+    return (
+        <>
+            <Search search={search} />
             <section className="discussions-container">
 
 
@@ -96,19 +116,19 @@ const Discussions = ({ routes }) => {
 
 
                 <div className="discussions-list">
-                    {discussions ? discussions.map(discussion =>
+                    {filteredDiscussions ? filteredDiscussions.map(discussion =>
                         <div className="discussion" key={discussion.ID + discussion.userName}>
 
                             {editOpen && activeDiscussion === discussion.ID
-                                ?<>
-                            <h4 className="">{discussion.Headline}</h4>
-                            <div className={readMore ? "" : "hide"}>
+                                ? <>
+                                    <h4 className="">{discussion.Headline}</h4>
+                                    <div className={readMore ? "" : "hide"}>
 
-                                 <textarea maxLength="500" value={discussionText} className="edit" onChange={(e) => setDiscussionText(e.target.value)} />
+                                        <textarea maxLength="500" value={discussionText} className="edit" onChange={(e) => setDiscussionText(e.target.value)} />
 
-                            </div>
+                                    </div>
                                 </>
-                                
+
                                 : < Link className="dicussion-content" to={{
                                     pathname: `/profile/discussions/${discussion.ID}`, state: {
                                         discussionText: discussion.discussionText,
@@ -126,9 +146,9 @@ const Discussions = ({ routes }) => {
 
                                     </div>
                                 </Link>
-                                
-                                
-                                }
+
+
+                            }
 
 
                             <div className="discussion-options">
@@ -153,7 +173,7 @@ const Discussions = ({ routes }) => {
                                     : <button onClick={(e) => openEditDiscussion(e, discussion)}>
                                         <img alt="edit" src={edit} />
                                     </button>
-                                   
+
                                 }
 
 
@@ -170,14 +190,9 @@ const Discussions = ({ routes }) => {
                     ) : 'oops kan inte nå api'}
                 </div>
             </section>
-                {/*<Switch>
-                {routes.map((route, i) => (
-                    <RouteWithSubRoutes key={i} {...route} />
-                ))}
-            </Switch>*/}
-            </>
+        </>
 
-        )
-    }
+    )
+}
 
-    export default Discussions
+export default Discussions

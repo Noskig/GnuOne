@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react'
 import './friends.css'
 import PortContext from '../../contexts/portContext';
 import AddFriendOverlay from './AddFriendOverlay';
-
+import Search from './Search'
 
 const Friends = () => {
 
@@ -12,7 +12,9 @@ const Friends = () => {
     const url = `https://localhost:${port}/api/myfriends`
     const [friendsList, setFriendsList] = useState([])
     const [showOverlay, setShowOverlay] = useState(false)
-
+    //SEARCH 
+    const [searchTerm, setSearchTerm] = useState('')
+    const filteredFriends = filterFriends(friendsList, searchTerm)
 
     useEffect(() => {
         fetchData()
@@ -52,8 +54,25 @@ const Friends = () => {
         fetchData();
     }
 
-    return (
+    //SEARCH
+    function search(s) {
+        setSearchTerm(s)
+    }
 
+    function filterFriends(friendsList, searchTerm) {
+        return friendsList.filter((data) => {
+            if (searchTerm === "") {
+                return true
+            } else if (data.userName.toLowerCase().includes(searchTerm.toLowerCase())) {
+                return data
+            }
+
+        })
+    }
+
+    return (
+        <>
+            <Search search={search}/>
         <section className="friends-container">
 
             {showOverlay
@@ -66,13 +85,13 @@ const Friends = () => {
             }
 
             <ul className="friends-list">
-                {friendsList.map(friend => <li key={friend.ID}> <img className="friend-avatar" /> {friend.userName}
+                {filteredFriends.map(friend => <li key={friend.ID}> <img className="friend-avatar" /> {friend.userName}
                     {friend.isFriend ? null : <button onClick={(e) => handleClick(e, friend)}>Accept friend</button>}
                 </li>)}
             </ul>
 
         </section>
-
+            </>
     )
 }
 
