@@ -10,7 +10,7 @@ import Posts from './components/NewComponents/Posts';
 
 const routes = [
     {
-        path: '/friendprofile',
+        path: '/friendprofile/:email',
         component: FriendProfile,
     },
     {
