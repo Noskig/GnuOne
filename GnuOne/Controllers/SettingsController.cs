@@ -22,11 +22,11 @@ namespace GnuOne.Controllers
         }
 
         // GET: api/<SettingController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        //[HttpGet]
+        //public Task<IActionResult> Get()
+        //{
+        //    return NotFound();  
+        //}
         
 
         //public async Task<IActionResult> PutPost(int? id, Post post)
@@ -41,6 +41,7 @@ namespace GnuOne.Controllers
         }
 
         // DELETE api/<SettingController>/5
+        //kanske ta bort konto?
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

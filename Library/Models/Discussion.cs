@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Library.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 //Bara ändra SendDiscussion Email/ID to unix.
 namespace Library
 {
@@ -16,6 +19,13 @@ namespace Library
         public string discussionText { get; set; } 
         public string userName { get; set; } 
         public DateTime Date { get; set; }
+        
+        public int? tagOne { get; set; }
+        public int? tagTwo { get; set; }
+        public int? tagThree { get; set; }
+        [NotMapped]
+        public List<string>? tags { get; set; } = new List<string>();
+
 
         public string SendDiscussion()
         {
