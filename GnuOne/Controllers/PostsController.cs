@@ -10,8 +10,6 @@ using Newtonsoft.Json;
 namespace GnuOne.Controllers
 {
 
-
-
     [Route("api/[controller]")]
     [ApiController]
     public class PostsController : ControllerBase
@@ -67,18 +65,27 @@ namespace GnuOne.Controllers
         {
             post.Date = DateTime.Now;
             DateTime foo = DateTime.Now;
-            long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
-            post.ID = Convert.ToInt32(unixTime);
+            long unixID = ((DateTimeOffset)foo).ToUnixTimeSeconds();
+            post.ID = Convert.ToInt32(unixID);
             post.Email = _settings.Email;
             post.userName = _settings.userName;
-            
-            var query = post.SendPost();
-            foreach (var user in _context.MyFriends)
-            {
-                MailSender.SendEmail(user.Email, query, "Post", _settings);
-            }
-            _context.Add(post);
+
+            var jsonPost = JsonConvert.SerializeObject(post);
+
+
+            //skickar vidare till författaren
+            MailSender.SendObject(jsonPost, post.discussionEmail, _settings, "PostedPost");
+
+            //foreach (var user in _context.MyFriends)
+            //{
+            //    if (user.isFriend == false) { continue; }
+            //    MailSender.SendObject(jsonPost, user.Email, _settings, "PostedPost");
+            //}
+
+            await _context.AddAsync(post);
             await _context.SaveChangesAsync();
+
+
             return CreatedAtAction("GetPost", new { id = post.ID }, post);
         }
 
@@ -101,19 +108,24 @@ namespace GnuOne.Controllers
             {
                 return NotFound();
             }
+
+
             //hittar gamla texten för att skicka med 
             //och hitta den unika kommentaren i databasen hos de andra användare
-            var oldtext = await _context.Posts.Where(x => x.ID == post.ID).Select(x => x.postText).FirstOrDefaultAsync();
+            //var oldtext = await _context.Posts.Where(x => x.ID == post.ID).Select(x => x.postText).FirstOrDefaultAsync();
 
-            //skickar ut mail
-            var query = post.EditPost(oldtext);
+            var jsonPost = JsonConvert.SerializeObject(post);
 
-            foreach (var user in _context.MyFriends)
-            {
-                MailSender.SendEmail(user.Email, query, "Put", _settings);
-            }
+            MailSender.SendObject(jsonPost, post.discussionEmail, _settings, "PutPost");
+
+            //foreach (var user in _context.MyFriends)
+            //{
+            //    if (user.isFriend == false) { continue; }
+            //    MailSender.SendObject(jsonPost, user.Email, _settings, "PutPost");
+            //}
             _context.Update(post);
             await _context.SaveChangesAsync();
+
             return Accepted(post);
         }
 
@@ -131,11 +143,22 @@ namespace GnuOne.Controllers
             {
                 return NotFound();
             }
-            var query = post.DeletePost();
-            foreach (var user in _context.MyFriends)
-            {
-                MailSender.SendEmail(user.Email, query, "Delete", _settings);
-            }
+
+            //json
+            //krypter
+            //skicka mail
+            //deleta
+
+            var jsonPost = JsonConvert.SerializeObject(post);
+
+            MailSender.SendObject(jsonPost, post.discussionEmail, _settings, "DeletePost");
+
+            //foreach (var user in _context.MyFriends)
+            //{
+            //    if (user.isFriend == false) { continue; }
+            //    MailSender.SendObject(jsonPost, user.Email, _settings, "DeletePost");
+            //}
+
             _context.Remove(post);
             await _context.SaveChangesAsync();
             return Accepted(post);

@@ -6,5 +6,9 @@
   {
     "outputFile": "ClientApp/src/components/NewComponents/newWheelTest.css",
     "inputFile": "ClientApp/src/components/NewComponents/newWheelTest.scss"
+  },
+  {
+    "outputFile": "ClientApp/src/components/NewComponents/profileWheel.css",
+    "inputFile": "ClientApp/src/components/NewComponents/profileWheel.scss"
   }
 ]

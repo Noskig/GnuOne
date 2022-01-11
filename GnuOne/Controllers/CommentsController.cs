@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace GnuOne.Controllers
 {
@@ -76,6 +75,7 @@ namespace GnuOne.Controllers
             //skickar ut mail
             foreach (var user in _context.MyFriends)
             {
+                if (user.isFriend == false) { continue; }
                 MailSender.SendEmail(user.Email, query, "Post", _settings);
             }
             _context.Add(comment);
@@ -113,6 +113,7 @@ namespace GnuOne.Controllers
 
             foreach (var user in _context.MyFriends)
             {
+                if (user.isFriend == false) { continue; }
                 MailSender.SendEmail(user.Email, query, "Put", _settings);
             }
             _context.Update(comment);
@@ -139,6 +140,7 @@ namespace GnuOne.Controllers
             var query = comment.DeleteComments();
             foreach (var user in _context.MyFriends)
             {
+                if (user.isFriend == false) { continue; }
                 MailSender.SendEmail(user.Email, query, "Delete", _settings);
             }
             _context.Remove(comment);

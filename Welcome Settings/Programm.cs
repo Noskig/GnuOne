@@ -83,37 +83,9 @@ while (oo)
         else
         {
             ///kanske skicka till frontend för att fylla i.
-
-            Console.Clear();
-            Console.Write("Write your Email: ");
-            var email = Console.ReadLine();
-            Console.Write("EmailPassword: ");
-            var pw = Console.ReadLine();
-            Console.Write("choose your username: ");
-            var username = Console.ReadLine();
-
-            var settings = new MySettings
-            {
-                ID =1,
-                Email = email,
-                Password = pw,
-                Username = username,
-                Secret = "secretkey"
-            };
-            try
-            {
-
-            await DbContext.MySettings.AddRangeAsync(settings);
-            await DbContext.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-
+            await CreateYourSettings(DbContext);
+            //Stäng av loopen
             oo = false;
-
         };
     }
     else
@@ -122,6 +94,39 @@ while (oo)
         Console.WriteLine("Det gick inte att ansluta till databasen testa igen");
         Console.WriteLine();
     }
+}
+
+static async Task CreateYourSettings(MariaContext Dbcontext)
+{
+    Console.Clear();
+    Console.Write("Write your Email: ");
+    var email = Console.ReadLine();
+    Console.Write("EmailPassword: ");
+    var pw = Console.ReadLine();
+    Console.Write("choose your username: ");
+    var username = Console.ReadLine();
+
+    var settings = new MySettings
+    {
+        ID = 1,
+        Email = email,
+        Password = pw,
+        Username = username,
+        Secret = "secretkey"
+    };
+    try
+    {
+
+        await Dbcontext.MySettings.AddRangeAsync(settings);
+        await Dbcontext.SaveChangesAsync();
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+        throw;
+    }
+
+ 
 }
 
 bool IsThereAGnu(MariaContext dbcontext)

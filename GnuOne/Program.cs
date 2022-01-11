@@ -9,15 +9,28 @@ using Welcome_Settings;
 
 /// <summary>
 /// 
+/// 
+/// PUBLISHA - kunna köra utan VS
+/// 
+///  
+/// 
+/// Lägga till vänner / grupper -- Hur blir det med nycklar. 
+///     Bjuda in via mail? - vanlig mail / dedikerad gmail?
+///     Krypera lösenord till mailen, nycklar mellan sina vänner/ grupper.
+///     PM
+/// 
+/// --bittorrent--
+/// backup - restore
+/// 
 /// </summary>
-bool oo = true;
-while (oo)
+bool keepGoing = true;
+while (keepGoing)
 {
     Global.ConnectionString = EnterCredentials();
     MariaContext context = new MariaContext(Global.ConnectionString);
     MariaContext DbContext = new MariaContext(Global.CompleteConnectionString);
     WriteToJson("ConnectionStrings:Defaultconnection", Global.CompleteConnectionString);
-    
+
     //kollar om det är rätt inlog med att skicka någonting till db:n
     if (await CheckConnection(context))
     {
@@ -30,7 +43,7 @@ while (oo)
         //finns det i db.mysettings
         if (IsThereMailCredentials(DbContext))
         {
-            oo = false;
+            keepGoing = false;
         }
         else
         {
@@ -40,7 +53,7 @@ while (oo)
             Console.Write("Write your Email: ");
             var email = Console.ReadLine();
             Console.Write("EmailPassword: ");
-            var pw = Console.ReadLine();
+            var password = Console.ReadLine();
             Console.Write("choose your username: ");
             var username = Console.ReadLine();
 
@@ -48,23 +61,21 @@ while (oo)
             {
                 ID = 1,
                 Email = email,
-                Password = pw,
+                Password = password,
                 userName = username,
                 Secret = "secretkey"
             };
             try
             {
-
                 await DbContext.MySettings.AddRangeAsync(settings);
                 await DbContext.SaveChangesAsync();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
-                throw;
+                Console.WriteLine(ex.Message);
             }
 
-            oo = false;
+            keepGoing = false;
 
         };
     }
@@ -74,9 +85,8 @@ while (oo)
         Console.WriteLine("Det gick inte att ansluta till databasen testa igen");
         Console.WriteLine();
     }
-    
-}
 
+}
 
 var builder = WebApplication.CreateBuilder(args);
 string _connectionstring = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -117,24 +127,31 @@ app.UseCors();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
-app.MapFallbackToFile("index.html"); 
+app.MapFallbackToFile("index.html");
 
 
 int a = 0; //Visualiserar att mailfunktionen rullar.
-var loop1Task = Task.Run(async () => {
+var loop1Task = Task.Run(async () =>
+{
     while (true)
     {
-        using (MariaContext context = new MariaContext(_connectionstring))
+        try
         {
-            MailReader.ReadUnOpenEmails(context, _connectionstring);
-            await Task.Delay(5000);
-            a++;
-            Console.Write(a);
+            using (MariaContext context = new MariaContext(_connectionstring))
+            {
+                MailReader.ReadUnOpenEmails(context, _connectionstring);
+                a++;
+                Console.Write(a);
+            }
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    await Task.Delay(10000);
     }
 });
 app.Run();
-
 
 
 bool IsThereAGnu(MariaContext dbcontext)
@@ -185,24 +202,22 @@ static string EnterCredentials()
     Console.WriteLine();
     Console.Write("Username: ");
 
-    var inputU = Console.ReadLine();
+    var inputUserName = Console.ReadLine();
 
     Console.Write("Password: ");
 
-    string inputP = pwMask.pwMasker();
+    string inputPassWord = pwMask.pwMasker();
 
     Console.WriteLine();
 
     ///connectionstringen byggs
-    string newConn = "server=localhost;user id=" + inputU + ";password=" + inputP + ";";
+    string newConnection = "server=localhost;user id=" + inputUserName + ";password=" + inputPassWord + ";";
     /// den fullständiga med DB till global
-    Global.CompleteConnectionString = "server=localhost;user id=" + inputU + ";password=" + inputP + ";database=gnu;";
+    Global.CompleteConnectionString = "server=localhost;user id=" + inputUserName + ";password=" + inputPassWord + ";database=gnu;";
 
     ///write to appsettings.json
 
-
-
-    return newConn;
+    return newConnection;
     //Console.Clear();
     //Console.ForegroundColor = ConsoleColor.Blue;
     //Console.WriteLine(" - Dont shut this window down - ");
@@ -214,7 +229,6 @@ static void WriteToJson(string sectionPathKey, string value)
     string path = Directory.GetCurrentDirectory();
     string fullpath = Path.GetFullPath(path + file);
 
-    
     //Console.WriteLine(Path.GetFullPath(path));
     try
     {
@@ -226,14 +240,13 @@ static void WriteToJson(string sectionPathKey, string value)
 
         string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
         File.WriteAllText(filePath, output);
-
     }
     catch (Exception ex)
     {
         Console.WriteLine("Error writing app settings | {0}", ex.Message);
     }
 }
-static void SetValueRecursively(string sectionPathKey, dynamic? jsonObj, string value)
+static void SetValueRecursively(string sectionPathKey, dynamic? jsonObject, string value)
 {
     // split the string at the first ':' character
     var remainingSections = sectionPathKey.Split(":", 2);
@@ -243,13 +256,11 @@ static void SetValueRecursively(string sectionPathKey, dynamic? jsonObj, string 
     {
         // continue with the procress, moving down the tree
         var nextSection = remainingSections[1];
-        SetValueRecursively(nextSection, jsonObj[currentSection], value);
+        SetValueRecursively(nextSection, jsonObject[currentSection], value);
     }
     else
     {
         // we've got to the end of the tree, set the value
-        jsonObj[currentSection] = value;
+        jsonObject[currentSection] = value;
     }
 }
-
-

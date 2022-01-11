@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Welcome_Settings;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace GnuOne.Controllers
 {
@@ -15,7 +14,6 @@ namespace GnuOne.Controllers
     [ApiController]
     public class DiscussionsController : ControllerBase
     {
-
         private readonly ApiContext _context;
         private readonly MySettings _settings;
         public DiscussionsController(ApiContext context)
@@ -32,13 +30,10 @@ namespace GnuOne.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-
-
             var listaDiscussion = await _context.Discussions.ToListAsync();
             var converted = JsonConvert.SerializeObject(listaDiscussion);
 
             return Ok(converted);
-
         }
 
         // GET: api/Discussions/5
@@ -58,7 +53,6 @@ namespace GnuOne.Controllers
                 return NotFound();
             }
 
-
             var postlist = await _context.Posts.Where(x => x.discussionID == id).ToListAsync();
             //var commentList = await _context.Comments.Where(x => x.postID == id).ToListAsync();
 
@@ -77,19 +71,23 @@ namespace GnuOne.Controllers
         public async Task<IActionResult> PostDiscussion([FromBody] Discussion discussion)
         {
             discussion.Date = DateTime.Now;
-            DateTime foo = DateTime.Now;
-            long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
-            discussion.ID = Convert.ToInt32(unixTime);
+            DateTime unixTime = DateTime.Now;
+            long unixID = ((DateTimeOffset)unixTime).ToUnixTimeSeconds();
+            discussion.ID = Convert.ToInt32(unixID);
             discussion.Email = _settings.Email;
             discussion.userName = _settings.userName;
- 
-            var query = discussion.SendDiscussion();
+
+            var jsonDiscussion = JsonConvert.SerializeObject(discussion);
+
             foreach (var user in _context.MyFriends)
             {
-                MailSender.SendEmail(user.Email, query, "Post", _settings);
+                if (user.isFriend == false) { continue; }
+                MailSender.SendObject(jsonDiscussion, user.Email, _settings, "PostedDiscussion");
             }
-            _context.Add(discussion);
+
+            await _context.AddAsync(discussion);
             await _context.SaveChangesAsync();
+
             return CreatedAtAction("GetDiscussion", new { id = discussion.ID }, discussion);
         }
 
@@ -112,22 +110,23 @@ namespace GnuOne.Controllers
                 return NotFound();
             }
 
-            //hittar gamla texten för att skicka med 
-            //och hitta den unika kommentaren i databasen hos de andra användare
-            var oldtext = await _context.Discussions.Where(x => x.ID == discussion.ID)
-                                                    .Select(x => x.discussionText)
-                                                    .FirstOrDefaultAsync();
 
+            var jsonDiscussion = JsonConvert.SerializeObject(discussion);
+            try
+            {
+                _context.Update(discussion);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Could not update discussion");
+            }
 
-
-           
-            var query = discussion.EditDiscussion(oldtext);
             foreach (var user in _context.MyFriends)
             {
-                MailSender.SendEmail(user.Email, query, "Put", _settings);
+                if (user.isFriend == false) { continue; }
+                MailSender.SendObject(jsonDiscussion, user.Email, _settings, "PutDiscussion");
             }
-            _context.Update(discussion);
-            await _context.SaveChangesAsync();
             return Accepted(discussion);
         }
 
@@ -146,16 +145,23 @@ namespace GnuOne.Controllers
                 return NotFound();
             }
 
-            //skickar ut mail
-            ///skapa query
-            
-            var query = discussion.DeleteDiscussion();
+            var jsonDiscussion = JsonConvert.SerializeObject(discussion);
+
             foreach (var user in _context.MyFriends)
             {
-                MailSender.SendEmail(user.Email, query, "Delete", _settings);
+                if (user.isFriend == false) { continue; }
+                MailSender.SendObject(jsonDiscussion, user.Email, _settings, "DeleteDiscussion");
             }
+
             _context.Remove(discussion);
             await _context.SaveChangesAsync();
+
+            //var query = discussion.DeleteDiscussion();
+
+            //foreach (var user in _context.MyFriends)
+            //{
+            //    MailSender.SendEmail(user.Email, query, "Delete", _settings);
+            //}
             return Accepted(discussion);
         }
         private bool DiscussionExists(int? id)

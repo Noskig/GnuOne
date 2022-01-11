@@ -1,7 +1,11 @@
 ﻿using Library;
 using Library.HelpClasses;
 using Library.Models;
+using MailKit;
+using MailKit.Net.Imap;
 using MailKit.Net.Pop3;
+using MailKit.Search;
+using MailKit.Security;
 using Newtonsoft.Json;
 using System.Text.Json;
 
@@ -9,135 +13,481 @@ namespace GnuOne.Data
 {
     public static class MailReader
     {
-
-        public static void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
+        public static async void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
         {
-            var me = _newContext.MySettings.First();
-            using (var client = new Pop3Client())
+            var myInfo = _newContext.MySettings.First();
+
+            using (var client = new ImapClient()) //**** new ProtocolLogger("imap.log")) om vi vill logga
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                 client.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
-                client.Connect("pop.gmail.com", 995, true);
+                client.Connect("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect); //****
                 client.AuthenticationMechanisms.Remove("XOAUTH2");
-                client.Authenticate(me.Email, me.Password);
-                for (int i = 0; i < client.Count; i++)
+                client.Authenticate(myInfo.Email, myInfo.Password);                                                 //vad händer om man har fel lösen?
+                client.Inbox.Open(FolderAccess.ReadWrite);
+
+
+                var emails = client.Inbox.Search(SearchQuery.All);
+
+                foreach (var mail in emails)
                 {
-                    var message = client.GetMessage(i);
-                    var subjet = message.Subject;
-                    var body = message.GetTextBody(MimeKit.Text.TextFormat.Text);
-                    string[] relativData = body.Split("XYXY/(/(XYXY7");
+                    var message = client.Inbox.GetMessage(mail);
+                    var emailFrom = message.From.ToString();
+                    string cleanEmailFrom = SkrubbaMailAdress(emailFrom);
+
+
+                    var subject = message.Subject;
+                    string body = message.GetTextBody(MimeKit.Text.TextFormat.Plain);
+                    string[] splittedBody = body.Split("XYXY/(/(XYXY7");
                     string[] Sub;
-                    if (subjet.Contains("/()/"))
+
+                    if (subject.Contains("/()/"))
                     {
-                        Sub = subjet.Split("/()/");
-                        string decrypted = AesCryption.Decrypt(relativData[0], me.Secret);
-                        string[] Data = decrypted.Split("\"");
-                        var LocalDate = _newContext.LastUpdates.First();
-                        DateTime IncomeDate = Convert.ToDateTime(Sub[0]);
-                        if (IncomeDate > LocalDate.timeSet)
+                        Sub = subject.Split("/()/");
+                        string decryptedMessage = AesCryption.Decrypt(splittedBody[0], myInfo.Secret);
+                        string[] Data = decryptedMessage.Split("\"");
+
+                        switch (Sub[1])
                         {
-                            switch (Sub[1])
-                            {
-                                case "Delete":
-                                    DbCommand.CreateCommand(decrypted, ConnectionString);
-                                    break;
-                                case "Put":
-                                    DbCommand.CreateCommand(decrypted, ConnectionString);
-                                    break;
-                                case "friendRequest":
-                                    var bodymessage = decrypted.Split("/()/");
-                                    var potentialfriend = new MyFriend(bodymessage);
-                                    _newContext.MyFriends.AddAsync(potentialfriend);
-                                    break;
-                                case "DeniedfriendRequest":
-                                    var bodymessage1 = decrypted.Split("/()/");
-                                    var myfriend = _newContext.MyFriends.Where(x => x.Email == bodymessage1[1]).FirstOrDefault();
-                                    _newContext.MyFriends.Remove(myfriend);
-                                    break;
+                            case "PostedDiscussion":
 
-                                    //Studsar en gång för mycket, men ingen större problem.
-                                    //
-                                case "AcceptedfriendRequest": 
-                                    var bodymessages = decrypted.Split("/()/");
-                                    var friend = _newContext.MyFriends.Where(x => x.Email == bodymessages[0]).FirstOrDefault();
-                                    if(friend.isFriend == false)
-                                    {
-                                        friend.userName = bodymessages[4];
-                                        friend.isFriend = true;
-                                        _newContext.Update(friend);
-                                        _newContext.SaveChangesAsync();
-                                        try
-                                        {
-                                            var deserializedItemsFromItems = System.Text.Json.JsonSerializer.Deserialize<List<Discussion>>(bodymessages[1]);
-                                            if (deserializedItemsFromItems != null)
-                                            {
-                                                foreach (Discussion x in deserializedItemsFromItems)
-                                                {
-                                                    Discussion discdisc = new Discussion() { ID = x.ID, Email = x.Email, userName = x.userName, Headline = x.Headline, discussionText = x.discussionText, Date = x.Date };
-                                                    _newContext.Discussions.Add(discdisc);
-                                                };
-                                            }
-                                            var deserializedItemsFromItems1 = System.Text.Json.JsonSerializer.Deserialize<List<Post>>(bodymessages[2]);
-                                            if (deserializedItemsFromItems1 != null)
-                                            {
-                                                foreach (Post x in deserializedItemsFromItems1)
-                                                {
-                                                    Post pospos = new Post() { ID = x.ID, Email = x.Email, userName = x.userName, Date = x.Date, postText = x.postText }; 
-                                                    _newContext.Posts.Add(x);
-                                                };
-                                            }
-                                            var deserializedItemsFromItems2 = System.Text.Json.JsonSerializer.Deserialize<List<MyFriendsFriends>>(bodymessages[3]);
-                                            if (deserializedItemsFromItems2 != null)
-                                            {
-                                                var myName = _newContext.MySettings.FirstOrDefault();
-                                                foreach (MyFriendsFriends x in deserializedItemsFromItems2)
-                                                {
-                                                    MyFriendsFriends friefrie = new MyFriendsFriends() { Email = x.Email, userName = x.userName, myFriendID = friend.ID };
-                                                    if(friefrie.Email != myName.Email)
-                                                    {
-                                                       _newContext.MyFriendsFriends.Add(friefrie);
-                                                    }
-                                                };
-                                            }
-                                        }
-                                        catch (Exception)
-                                        {
-                                            throw;
-                                        }
-                                        var my = _newContext.MySettings.FirstOrDefault();
-                                        var allMyDiscussion = _newContext.Discussions.Where(x => x.Email == my.Email).ToList();
-                                        string myDiscussionJson = System.Text.Json.JsonSerializer.Serialize(allMyDiscussion);
-                                        var allMyPost = _newContext.Posts.Where(x => x.Email == my.Email).ToList();
-                                        string myPostJson = System.Text.Json.JsonSerializer.Serialize(allMyPost);
-                                        var allMyFriends = _newContext.MyFriends.ToList();
-                                        string myFriendJson = System.Text.Json.JsonSerializer.Serialize(allMyFriends);
-                                        MailSender.SendAcceptedRequest(my, bodymessages[0], myDiscussionJson, myPostJson, myFriendJson);
-                                    }
+                                var done = RecieveAndSaveDiscussion(decryptedMessage, _newContext);
 
+                                if (done == 1)
+                                { break; }
+                                else
+                                {
+                                    ///try again?
                                     break;
+                                }
 
-                                case "deleteFriend":
-                                    var bodymessage3 = decrypted.Split("/()/");
-                                    var allDiscussions = _newContext.Discussions.Where(x => x.Email == bodymessage3[1]).ToList();
-                                    _newContext.RemoveRange(allDiscussions);
-                                    var deletemyFriend = _newContext.MyFriends.Where(y => y.Email == bodymessage3[1]).FirstOrDefault();
-                                    _newContext.MyFriends.Remove(deletemyFriend);
+                            case "PostedPost":
+
+                                var doing = RecieveAndSavePost(decryptedMessage, _newContext);
+                                if (doing == 1)
+                                {
+                                    var doinga = ForwardPostToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardPost");
+                                    break; 
+                                }
+                                else
+                                {
+                                    ///try again?
                                     break;
-                                default:
-                                    DbCommand.CreateCommand(decrypted, ConnectionString);
+                                }
+
+                            case "ForwardPost":
+                                var doingb = RecieveAndSavePost(decryptedMessage, _newContext);
+                                if (doingb == 1)
+                                { break; }
+                                else
+                                {
+                                    ///try again?
                                     break;
-                            }
-                            LocalDate.timeSet = IncomeDate;
-                            _newContext.Update(LocalDate);
-                            _newContext.SaveChangesAsync();
+                                }
+
+                            case "DeleteDiscussion":
+
+                                var deed = RecieveAndDeleteDiscussion(decryptedMessage, _newContext);
+                                if (deed == 1)
+                                { break; }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
+
+                            case "DeletePost":
+                                var deeding = ReceiveAndDeletePost(decryptedMessage, _newContext);
+                                if (deeding == 1)
+                                { 
+                                    var deeding1 = ForwardPostToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardDeletePost");
+                                    break; }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
+
+                            case "ForwardDeletePost":
+                                var deeding2 = ReceiveAndDeletePost(decryptedMessage, _newContext);
+                                if (deeding2 == 1)
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
+
+
+                            case "PutPost":
+                                var deedb = ReceiveAndPutPost(decryptedMessage, _newContext);
+                                if (deedb == 1)
+                                {
+                                    var doinga = ForwardPostToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardPutPost");
+                                    break; 
+                                }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
+
+                            case "ForwardPutPost":
+
+                                var deed1 = ReceiveAndPutPost(decryptedMessage, _newContext);
+                                if (deed1 == 1)
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
+
+                            case "PutDiscussion":
+                                var deedc = RecieveAndPutDiscussion(decryptedMessage, _newContext);
+                                break;
+
+                            case "FriendRequest":
+                                var deedd = RecieveFriendRequest(decryptedMessage, _newContext);
+                                if (deedd == 1)
+                                { break; }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
+
+                            case "DeniedFriendRequest":
+
+                                var deede = RecieveDeniedFriendRequest(decryptedMessage, _newContext);
+                                if (deede == 1)
+                                { break; }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
+
+                            case "AcceptedFriendRequest":
+                                //var deedf = await Task.Run(() => ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false, myInfo.Email));
+                                var deedf = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false, myInfo.Email);
+                                if (deedf == 1)
+                                {
+                                    //await Task.Run(() => GiveBackMyInformation(_newContext, emailFrom));
+                                    var returnInfo = GiveBackMyInformation(_newContext, cleanEmailFrom);
+                                    break;
+                                }
+                                else { break; }
+
+                            case "GiveBackInformation":
+                                var deedg = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, true, myInfo.Email);
+                                if (deedg == 1) { break; }
+                                else { break; }
+
+                            case "ItsNotMeItsYou":
+                                var deedh = RemoveFriendAndTheirInfoFromDb(decryptedMessage, _newContext);
+                                if (deedh == 1) { break; }
+                                else { break; }
+
+                            case "FriendGotAFriend":
+                                var deedi = UpdateFriendFriends(decryptedMessage, _newContext);
+                                if (deedi == 1) { break; }
+                                else { break; }
+
+
+                            case "FriendsFriendGotRemoved":
+                                var deedj = RemoveFriendsFriend(decryptedMessage, _newContext, cleanEmailFrom);
+                                if (deedj == 1) { break; }
+                                else { break; }
+
+                            default:
+                                break;
                         }
+
+                        // Flaggar meddelandet att det skall tas bort.
+                        client.Inbox.AddFlags(mail, MessageFlags.Deleted, true);  //false? testa
                     }
+
+                    //Spammail kmr hit och tas bort
                     else
                     {
+                        client.Inbox.AddFlags(mail, MessageFlags.Deleted, true);
                         continue;
                     }
                 }
+                client.Disconnect(true);
             }
+        }
+
+
+        private static int ForwardPostToFriends(string decryptedMessage, MariaContext context, string fromEmail, string subject)
+        {
+            var mysettings = context.MySettings.FirstOrDefault();
+
+            foreach (var friend in context.MyFriends)
+            {
+                if (friend.Email != fromEmail)
+                {
+                    MailSender.SendObject(decryptedMessage, friend.Email, mysettings, subject);
+                }
+            }
+            return 1;
+
+        }
+
+        private static int UpdateFriendFriends(string decryptedMessage, MariaContext context)
+        {
+            var newFriendFriends = JsonConvert.DeserializeObject<MyFriendsFriends>(decryptedMessage);
+
+
+            if (newFriendFriends is not null)
+            {
+                var isFriendAlready = context.MyFriendsFriends.Where(x => x.Email == newFriendFriends.Email && x.myFriendEmail == newFriendFriends.myFriendEmail).Any();
+                if (isFriendAlready == false)
+                {
+                    context.MyFriendsFriends.Add(newFriendFriends);
+                    context.SaveChangesAsync().Wait();
+                    return 1;
+                }
+            }
+            return -1;
+        }
+
+        private static int RemoveFriendsFriend(string decryptedMessage, MariaContext context, string fromEmail)
+        {
+            var friend = context.MyFriends.Where(x => x.Email == fromEmail).FirstOrDefault();
+
+            var friendNotfriend = JsonConvert.DeserializeObject<MyFriend>(decryptedMessage);
+
+            var removeablefriendfirend = context.MyFriendsFriends.Where(x => x.myFriendEmail == fromEmail && x.Email == friendNotfriend.Email).FirstOrDefault();
+            if (removeablefriendfirend is not null)
+            {
+                context.MyFriendsFriends.Remove(removeablefriendfirend);
+                context.SaveChangesAsync().Wait();
+                return 1;
+            }
+            return -1;
+        }
+
+        private static int RemoveFriendAndTheirInfoFromDb(string decryptedMessage, MariaContext context)
+        {
+            var theirSettings = JsonConvert.DeserializeObject<MySettings>(decryptedMessage);
+
+            if (theirSettings is not null)
+            {
+                var stupidFriend = context.MyFriends.Where(x => x.Email == theirSettings.Email).FirstOrDefault();
+                var theirDiscussion = context.Discussions.Where(x => x.Email == theirSettings.Email).ToList();
+                context.Discussions.RemoveRange(theirDiscussion);
+                context.MyFriends.Remove(stupidFriend);
+                context.SaveChangesAsync().Wait();
+                ///skicka ut mail till mina vänner att dom är borta
+                var jsonStupidFriend = JsonConvert.SerializeObject(stupidFriend);
+
+                var mySettings = context.MySettings.FirstOrDefault();
+
+                foreach (var user in context.MyFriends)
+                {
+                    if (user.isFriend == false) { continue; }
+                    MailSender.SendObject(jsonStupidFriend, user.Email, mySettings, "FriendsFriendGotRemoved");
+                }
+                return 1;
+            }
+            return -1;
+        }
+
+        private static int GiveBackMyInformation(MariaContext context, string toEmail)
+        {
+            var mysettingsEmail = context.MySettings.Select(x => x.Email).Single();
+
+            var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(context, mysettingsEmail);
+            var jsonBigList = JsonConvert.SerializeObject(bigListWithMyInfo);
+            var mySettings = context.MySettings.FirstOrDefault();
+            MailSender.SendObject(jsonBigList, toEmail, mySettings, "GiveBackInformation");
+
+            ///vilken vän
+            var friend = context.MyFriends.Where(x => x.Email == toEmail).FirstOrDefault();
+            //gör om till friendfriend och skicka till mina vänner
+            var friendFriendNew = new MyFriendsFriends(friend, mysettingsEmail);
+            var jsonFriendFriendNew = JsonConvert.SerializeObject(friendFriendNew);
+
+            foreach (var user in context.MyFriends)
+            {
+                if (user.isFriend == false) { continue; }
+                MailSender.SendObject(jsonFriendFriendNew, user.Email, mySettings, "FriendGotAFriend");
+            }
+
+            return 1;
+
+        }
+
+        private static int ReceieveInfoAndAcceptFriend(string decryptedMessage, MariaContext context, bool isSendBack, string myEmail)
+        {
+            var theirLists = JsonConvert.DeserializeObject<BigList>(decryptedMessage);
+
+            var email = theirLists.FromEmail;
+            var username = theirLists.username;
+            var friend = context.MyFriends.Where(x => x.Email == email).FirstOrDefault();
+
+
+            if (theirLists is not null)
+            {
+                friend.isFriend = true;
+                friend.userName = username.ToString();
+                context.MyFriends.Update(friend);
+                var theirFriends = theirLists.MyFriends;
+                if (theirFriends is not null)
+                {
+
+                    var myFriendFriendsList = new List<MyFriendsFriends>();
+                    foreach (var theirfriend in theirFriends)
+                    {
+                        if (theirfriend.Email != myEmail)
+                        {
+                            var bff = new MyFriendsFriends(theirfriend, friend.Email);
+
+                            myFriendFriendsList.Add(bff);
+                        }
+
+                    }
+                    context.MyFriendsFriends.AddRangeAsync(myFriendFriendsList);
+                    //context.MyFriends.AddRange(theirFriends);
+                }
+                var theirDiscussion = theirLists.Discussions;
+                if (theirDiscussion is not null)
+                {
+                    context.Discussions.AddRangeAsync(theirDiscussion);
+                    //context.SaveChanges();
+                }
+                var theirPosts = theirLists.Posts;
+                if (theirPosts is not null)
+                {
+                    context.Posts.AddRangeAsync(theirPosts);
+                    //context.SaveChanges();
+                }
+
+                //if (!isSendBack)
+                //{
+
+                //}
+                context.SaveChangesAsync().Wait();
+                //context.SaveChangesAsync();
+                return 1;
+            }
+            return -1;
+        }
+
+        private static int RecieveDeniedFriendRequest(string decryptedMessage, MariaContext context)
+        {
+            var notNewFriend = JsonConvert.DeserializeObject<MyFriend>(decryptedMessage);
+
+            if (notNewFriend is not null)
+            {
+                var myfriend = context.MyFriends.Where(x => x.Email == notNewFriend.Email).FirstOrDefault();
+                context.MyFriends.Remove(myfriend);
+                context.SaveChangesAsync().Wait();
+                return 1;
+            }
+            return -1;
+        }
+
+        private static int RecieveFriendRequest(string decryptedMessage, MariaContext context)
+        {
+            var potentialfriend = JsonConvert.DeserializeObject<MyFriend>(decryptedMessage);
+
+            if (potentialfriend is not null)
+            {
+                context.MyFriends.Add(potentialfriend);
+                context.SaveChangesAsync().Wait();
+                return 1;
+            }
+            return -1;
+
+        }
+
+        private static int RecieveAndPutDiscussion(string decryptedMessage, MariaContext context)
+        {
+            var discussion = JsonConvert.DeserializeObject<Discussion>(decryptedMessage);
+            if (discussion is not null)
+            {
+                context.Update(discussion);
+                context.SaveChangesAsync().Wait();
+                return 1;
+            }
+            return -1;
+        }
+
+        private static int ReceiveAndPutPost(string decryptedMessage, MariaContext context)
+        {
+            var post = JsonConvert.DeserializeObject<Post>(decryptedMessage);
+            if (post is not null)
+            {
+                context.Update(post);
+                context.SaveChangesAsync().Wait();
+                return 1;
+            }
+            return -1;
+        }
+
+        private static int ReceiveAndDeletePost(string decryptedMessage, MariaContext context)
+        {
+            var post = JsonConvert.DeserializeObject<Post>(decryptedMessage);
+            if (post is not null)
+            {
+                context.Remove(post);
+                context.SaveChangesAsync().Wait();
+                return 1;
+            }
+            return -1;
+        }
+
+        private static int RecieveAndDeleteDiscussion(string decryptedMessage, MariaContext context)
+        {
+            var discussion = JsonConvert.DeserializeObject<Discussion>(decryptedMessage);
+            if (discussion is not null)
+            {
+                context.Remove(discussion);
+                context.SaveChangesAsync().Wait();
+                return 1;
+            }
+            return -1;
+        }
+        private static int RecieveAndSavePost(string decryptedbody, MariaContext context)
+        {
+            var post = JsonConvert.DeserializeObject<Post>(decryptedbody);
+            if (post is not null)
+            {
+                context.Posts.Add(post);
+                context.SaveChangesAsync().Wait();
+                return 1;
+            }
+            return -1;
+        }
+
+        private static int RecieveAndSaveDiscussion(string decryptedbody, MariaContext context)
+        {
+            ///kanske try?
+
+            var discussion = JsonConvert.DeserializeObject<Discussion>(decryptedbody);
+            if (discussion is not null)
+            {
+                context.Discussions.Add(discussion);
+                context.SaveChangesAsync().Wait();
+
+                return 1;
+            }
+            return -1;
+        }
+
+        public static string SkrubbaMailAdress(string fromMail)
+        {
+            int startindex = fromMail.IndexOf('<') + 1;
+            int endindex = fromMail.IndexOf('>');
+            string cleanMail = fromMail.Substring(startindex, (endindex - startindex));
+            return cleanMail;
         }
     }
 }

@@ -1,27 +1,35 @@
-﻿import PortContext from '../../contexts/portContext'
-import { useParams, useLocation } from 'react-router-dom'
+﻿import PortContext from '../../contexts/portContext';
+import { useParams, useLocation } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import trash from '../../icons/trash.svg'
 import done from '../../icons/done.svg'
 import edit from '../../icons/edit.svg'
+import Search from './Search'
+
 
 const Posts = () => {
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/`
-    const [discussion, setDiscussion] = useState([])
+    const [discussion, setDiscussion] = useState({})
+    const [posts, setPosts] = useState([])
     const [postText, setPostText] = useState('')
     const [username, setUsername] = useState('me')
     const [activePost, setActivePost] = useState()
     const [editOpen, setEditOpen] = useState(false)
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
     const [charactersLeft, setCharactersLeft] = useState(0)
-
+    const { id } = useParams();
     let location = useLocation();
     let discussionInfo = location.state
+
+    //SEARCH 
+    const [searchTerm, setSearchTerm] = useState('')
+    console.log(posts)
+    const filteredPosts = filterPosts(posts, searchTerm)
+
     console.log(discussionInfo)
     console.log(location)
 
-    const { id } = useParams();
     console.log(id)
 
     useEffect(() => {
@@ -36,6 +44,7 @@ const Posts = () => {
         const discussion = await response.json()
         console.log(discussion)
         setDiscussion(discussion);
+        setPosts(discussion.posts)
 
     }
 
@@ -125,64 +134,81 @@ const Posts = () => {
 
     }
 
+    //SEARCH 
+    function search(s) {
+        setSearchTerm(s)
+    }
+
+    function filterPosts(posts, searchTerm) {
+        return posts.filter((data) => {
+            if (searchTerm === "") {
+                return true
+            } else if (data.postText.toLowerCase().includes(searchTerm.toLowerCase())) {
+                return data
+            }
+
+        })
+    }
+
     return (
-       
-        <section className="posts-container">
-            <h2>{discussionInfo.Headline}</h2>
-            <div className="posts-list">
-                {discussion.posts ? discussion.posts.map(post =>
-                    <div className="post" key={post.id + post.userName}>
+        <>
+            <Search search={search} />
+            <section className="posts-container">
+                <h2>{discussionInfo.Headline}</h2>
+                <div className="posts-list">
+                    {posts ? filteredPosts.map(post =>
+                        <div className="post" key={post.id + post.userName}>
 
-                        {editOpen && activePost === post.id
-                            ? <textarea maxLength="500" value={postText} className="edit" onChange={(e) => setPostText(e.target.value)} />
-                            : <p className="text">{post.postText}</p>
-                        }
-
-                        <div className="post-options">
-
-                            {showDeleteConfirm && activePost === post.id
-                                ?
-                                <button onClick={(e) => deletePost(e, post.id)}>
-                                    <img alt="done" src={done} />
-                                </button>
-
-                                :
-                                <button onClick={(e) => openDeletePost(e, post)}>
-                                    <img alt="delete" src={trash} />
-                                </button>
-                            }
-                            {editOpen && activePost === post.id ?
-                                <button onClick={(e) => confirmEditPost(e, post)}>
-                                    <img alt="done" src={done} />
-                                </button>
-                                : <button onClick={(e) => openEditPost(e, post)}>
-                                    <img alt="edit" src={edit} />
-                                </button>
-
+                            {editOpen && activePost === post.id
+                                ? <textarea maxLength="500" value={postText} className="edit" onChange={(e) => setPostText(e.target.value)} />
+                                : <p className="text">{post.postText}</p>
                             }
 
+                            <div className="post-options">
+
+                                {showDeleteConfirm && activePost === post.id
+                                    ?
+                                    <button onClick={(e) => deletePost(e, post.id)}>
+                                        <img alt="done" src={done} />
+                                    </button>
+
+                                    :
+                                    <button onClick={(e) => openDeletePost(e, post)}>
+                                        <img alt="delete" src={trash} />
+                                    </button>
+                                }
+                                {editOpen && activePost === post.id ?
+                                    <button onClick={(e) => confirmEditPost(e, post)}>
+                                        <img alt="done" src={done} />
+                                    </button>
+                                    : <button onClick={(e) => openEditPost(e, post)}>
+                                        <img alt="edit" src={edit} />
+                                    </button>
+
+                                }
 
 
+
+                            </div>
+
+
+                            <div className="post-info">
+                                <h4>{post.numberOfPosts} posts on this topic</h4>
+                                <h4 className="createDate">{post.date.slice(0, 19).replace('T', ' ').slice(0, 16)}</h4>
+
+                            </div>
                         </div>
-
-
-                        <div className="post-info">
-                            <h4>{post.numberOfPosts} posts on this topic</h4>
-                            <h4 className="createDate">{post.date.slice(0, 19).replace('T', ' ').slice(0, 16)}</h4>
-
-                        </div>
-                    </div>
-                ) : 'oops kan inte nå api'}
-            </div>
-            {editOpen
-                ? <p>pls finish editing ur post before writing a new one'</p>
-                : <form>
-                    <textarea rows="4" maxLength="500" placeholder="Write something..." value={postText} className="input-text" onChange={e => validateNewPost(e.target.value)} />
-                    <p>{charactersLeft}/500</p>
-                    <button type="button" className="btn" onClick={(e) => createNewPost(e)}>Post</button>
-                </form>}
-        </section>
-
+                    ) : 'oops kan inte nå api'}
+                </div>
+                {editOpen
+                    ? <p>pls finish editing ur post before writing a new one'</p>
+                    : <form>
+                        <textarea rows="4" maxLength="500" placeholder="Write something..." value={postText} className="input-text" onChange={e => validateNewPost(e.target.value)} />
+                        <p>{charactersLeft}/500</p>
+                        <button type="button" className="btn" onClick={(e) => createNewPost(e)}>Post</button>
+                    </form>}
+            </section>
+        </>
     )
 }
 

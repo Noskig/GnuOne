@@ -32,7 +32,6 @@ namespace Library
 
             string query = "INSERT into discussions (ID, Email, Headline, discussionText, userName, Date) VALUES (" + one + comma + two + comma + thr + comma + fou + comma + fiv + comma + six + ")";
 
-
             return query;
 
         }
