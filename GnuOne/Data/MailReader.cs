@@ -63,7 +63,7 @@ namespace GnuOne.Data
 
                             case "PostedPost":
 
-                                var doing = RecieveAndSavePost(decryptedMessage, _newContext);
+                                var doing = RecieveAndSavePost(decryptedMessage, _newContext, cleanEmailFrom, myInfo);
                                 if (doing == 1)
                                 {
                                     var doinga = ForwardPostToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardPost");
@@ -76,7 +76,7 @@ namespace GnuOne.Data
                                 }
 
                             case "ForwardPost":
-                                var doingb = RecieveAndSavePost(decryptedMessage, _newContext);
+                                var doingb = RecieveAndSavePost(decryptedMessage, _newContext, cleanEmailFrom, myInfo);
                                 if (doingb == 1)
                                 { break; }
                                 else
@@ -96,17 +96,17 @@ namespace GnuOne.Data
                                     break;
                                 }
 
-                            case "DeletePost":
-                                var deeding = ReceiveAndDeletePost(decryptedMessage, _newContext);
-                                if (deeding == 1)
-                                { 
-                                    var deeding1 = ForwardPostToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardDeletePost");
-                                    break; }
-                                else
-                                {
-                                    ///try again?
-                                    break;
-                                }
+                            //case "DeletePost":
+                            //    var deeding = ReceiveAndDeletePost(decryptedMessage, _newContext);
+                            //    if (deeding == 1)
+                            //    { 
+                            //        var deeding1 = ForwardPostToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardDeletePost");
+                            //        break; }
+                            //    else
+                            //    {
+                            //        ///try again?
+                            //        break;
+                            //    }
 
                             case "ForwardDeletePost":
                                 var deeding2 = ReceiveAndDeletePost(decryptedMessage, _newContext);
@@ -455,13 +455,16 @@ namespace GnuOne.Data
             }
             return -1;
         }
-        private static int RecieveAndSavePost(string decryptedbody, MariaContext context)
+        private static int RecieveAndSavePost(string decryptedbody, MariaContext context, string Email, MySettings myInfo)
         {
             var post = JsonConvert.DeserializeObject<Post>(decryptedbody);
             if (post is not null)
             {
-                context.Posts.Add(post);
-                context.SaveChangesAsync().Wait();
+                if(Email != myInfo.Email)
+                {
+                    context.Posts.Add(post);
+                    context.SaveChangesAsync().Wait();
+                }
                 return 1;
             }
             return -1;

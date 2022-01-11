@@ -70,8 +70,8 @@ namespace GnuOne.Controllers
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        [HttpPatch]
-        public async Task<IActionResult> Get([FromBody] string email)
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetByEmail(string email)
         {
             var friend = _context.MyFriends.Where(x => x.Email == email).FirstOrDefault();
             var friendsfriends = _context.MyFriendsFriends.Where(x => x.myFriendEmail == email).ToList();

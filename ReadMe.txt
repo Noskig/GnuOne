@@ -95,10 +95,9 @@ Vill vi ha både publika och privata vänner?
 *userInfo. Intressen(bool). Publik nyckel.
 
 -Gömma sig i nätverken hos vänner. (bli osynlig för deras nätverk, inställning)
+//bool var?
 
 
-**Posts som tas bort ska ligga kvar men bli deletat.
--Bool. IsDeleted på posts. true/false, renderas olika. posts-DTOdeletedpost/Frontend?
 
 
 
@@ -158,6 +157,9 @@ KLART:
 # Göra om i Myfriendscontrollern rad 82-88 till metod   Behöver gå ut ett mail till mina vänner att vännen tas bort 5/1
 # Fixa scriptet så det matchar den nya DB 7/1
 # Rätt information ska skickas ut när man blir vän också
+
+# Posts som tas bort ska ligga kvar men bli deletat.
+
 
 ///////////////////////////////////////////////////////////
 FRÅGOR:
