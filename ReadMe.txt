@@ -93,9 +93,9 @@ Vill vi ha både publika och privata vänner?
 *** Profil.
 
 *userInfo. Intressen(bool). Publik nyckel.
-Vi vill kunna uppdatera myprofile, göra så att userinfon skickas till vänner 
-Post och put
-(deletea konto??)
+
+
+
 
 -Gömma sig i nätverken hos vänner. (bli osynlig för deras nätverk, inställning)
 //bool var?
@@ -132,6 +132,9 @@ Post och put
 ///////////////////////////////////////////////////////////
 EXTRA-JOBB:
 ** vi har marcus som extra resurs
+** deletea konto
+- Foreach tabort vänner. 
+-Script för att ta bort databasen
 
 ///////////////////////////////////////////////////////////
 PROBLEM:
@@ -154,6 +157,7 @@ KLART:
 # standardbilder 5st
 # Intressen/Tags
 # Kunna visa sina favorit intressen på sin profil.
+*Vi vill kunna uppdatera myprofile, göra så att userinfon skickas till vänner (11/1)
 
 
 # Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. 5/1

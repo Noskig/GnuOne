@@ -63,12 +63,18 @@ namespace GnuOne.Controllers
             myInfo.tagThree = Profile.tagThree;
 
             var jsonProfileInfo = JsonConvert.SerializeObject(myInfo); 
-            foreach (var user in _context.MyFriends)
+            try
             {
-                //if (user.isFriend == false) { continue; }
-                MailSender.SendObject(jsonProfileInfo, user.Email, _settings, "PutFriendsProfile");
+                foreach (var user in _context.MyFriends)
+                {
+                    //if (user.isFriend == false) { continue; }
+                    MailSender.SendObject(jsonProfileInfo, user.Email, _settings, "PutFriendsProfile");
 
+                }
             }
+            catch (Exception ex) 
+            { }
+            
             _context.MyProfile.Update(myprofile); 
             await _context.SaveChangesAsync(); 
 
