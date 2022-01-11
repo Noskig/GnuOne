@@ -37,11 +37,17 @@ namespace GnuOne.Controllers
             var potentialnewfriend = new MyFriend();
             potentialnewfriend.Email = Email.Email;
 
+            var myProfile = await _context.MyProfile.FirstAsync();
             //skickar min information till vännen
             var myInfo = new MyFriend();
             myInfo.Email = _settings.Email;
             myInfo.userName = _settings.userName;
             myInfo.isFriend = false; //vi har inte blivit vänner än
+            myInfo.userInfo = myProfile.myUserInfo;
+            myInfo.pictureID = myProfile.pictureID;
+            myInfo.tagOne   =  myProfile.tagOne;  
+            myInfo.tagTwo = myProfile.tagTwo;
+            myInfo.tagThree = myProfile.tagThree;  
 
             var jsonMyInfoInObject = JsonConvert.SerializeObject(myInfo);
 

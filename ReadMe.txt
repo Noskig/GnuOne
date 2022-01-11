@@ -93,6 +93,9 @@ Vill vi ha både publika och privata vänner?
 *** Profil.
 
 *userInfo. Intressen(bool). Publik nyckel.
+Vi vill kunna uppdatera myprofile, göra så att userinfon skickas till vänner 
+Post och put
+(deletea konto??)
 
 -Gömma sig i nätverken hos vänner. (bli osynlig för deras nätverk, inställning)
 //bool var?

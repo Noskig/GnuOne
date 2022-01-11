@@ -151,9 +151,19 @@ namespace GnuOne.Data
                                 var deedc = RecieveAndPutDiscussion(decryptedMessage, _newContext);
                                 break;
 
+
                             case "FriendRequest":
                                 var deedd = RecieveFriendRequest(decryptedMessage, _newContext);
                                 if (deedd == 1)
+                                { break; }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
+                            case "PutFriendsProfile":
+                                var deed3 = RecieveAndUpdateFriend(decryptedMessage, _newContext);
+                                if (deed3 == 1)
                                 { break; }
                                 else
                                 {
@@ -223,7 +233,26 @@ namespace GnuOne.Data
             }
         }
 
+        private static int RecieveAndUpdateFriend(string decryptedMessage, MariaContext context)
+        {
+            var friendInfo = JsonConvert.DeserializeObject<MyFriend>(decryptedMessage);
+            if (friendInfo != null) 
+            {
+                var friend = context.MyFriends.Where(x => x.Email == friendInfo.Email).FirstOrDefault();
+                friend.userInfo = friendInfo.userInfo;
+                friend.pictureID = friendInfo.pictureID;
+                friend.tagOne = friendInfo.tagOne;
+                friend.tagTwo = friendInfo.tagTwo;
+                friend.tagThree = friendInfo.tagThree;
 
+                context.MyFriends.Update(friend);
+                context.SaveChangesAsync().Wait();
+                return 1;
+            }
+            return -1;
+        }
+
+        
         private static int ForwardPostToFriends(string decryptedMessage, MariaContext context, string fromEmail, string subject)
         {
             var mysettings = context.MySettings.FirstOrDefault();

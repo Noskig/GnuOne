@@ -13,7 +13,7 @@ namespace Welcome_Settings
 
 		public static string sql = @"-- --------------------------------------------------------
 -- Värd:                         127.0.0.1
--- Serverversion:                10.6.3-MariaDB - mariadb.org binary distribution
+-- Serverversion:                10.6.5-MariaDB - mariadb.org binary distribution
 -- Server-OS:                    Win64
 -- HeidiSQL Version:             11.3.0.6295
 -- --------------------------------------------------------
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `discussions` (
   CONSTRAINT `FK_discussions_tags_3` FOREIGN KEY (`tagThree`) REFERENCES `tags` (`ID`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.discussions: ~1 rows (ungefär)
+-- Dumpar data för tabell gnu.discussions: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `discussions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `discussions` ENABLE KEYS */;
 
@@ -80,11 +80,10 @@ CREATE TABLE IF NOT EXISTS `myfriends` (
   `IsFriend` bit(1) DEFAULT NULL,
   `pubKey` varchar(50) DEFAULT NULL,
   `userInfo` varchar(300) DEFAULT NULL,
-  `intresseOne` bit(1) DEFAULT NULL,
-  `intresseTwo` bit(1) DEFAULT NULL,
-  `intresseThree` bit(1) DEFAULT NULL,
-  `intresseFour` bit(1) DEFAULT NULL,
-  `intresseFive` bit(1) DEFAULT NULL,
+  `pictureID` int(11) DEFAULT NULL,
+  `tagOne` varchar(20) DEFAULT NULL,
+  `tagTwo` varchar(20) DEFAULT NULL,
+  `tagThree` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `Email` (`Email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=latin1;
