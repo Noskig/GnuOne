@@ -21,18 +21,25 @@ namespace GnuOne.Controllers
             _settings = _context.MySettings.First();
         }
 
-        // GET: api/<SettingController>
-        //[HttpGet]
-        //public Task<IActionResult> Get()
-        //{
-        //    return NotFound();  
-        //}
-        
+        //GET: api/<SettingController>
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var settings = await _context.MySettings.FirstOrDefaultAsync();
+
+            if (settings != null)
+            {
+                var jsonsettings = JsonConvert.SerializeObject(settings);
+                return Ok(settings);
+            }
+            return NotFound();
+        }
+
 
         //public async Task<IActionResult> PutPost(int? id, Post post)
         // PUT api/<SettingController>/5
         [HttpPut]
-        public async Task<IActionResult> updateSettingsPut ( [FromBody] MySettings mySettings)
+        public async Task<IActionResult> updateSettingsPut([FromBody] MySettings mySettings)
         {
             _context.MySettings.Update(mySettings);
             await _context.SaveChangesAsync();
@@ -46,5 +53,6 @@ namespace GnuOne.Controllers
         public void Delete(int id)
         {
         }
+
     }
 }
