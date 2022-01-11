@@ -4,8 +4,8 @@
     --button-color: #24AAC3;
     --button-h1-color: #043239;
     --getStartedSection-color: #0D5A69;
-    --light-turquoise: #BBE3F0;
-    --darker-turquoise: #7DB1BA;
+    --light-turquoise: #83D3EC;
+    --darker-turquoise: #0D5A69;
 }
 
 html, body {
@@ -21,13 +21,13 @@ body {
 main {
     display: grid;
     grid-template-columns: 0.5fr repeat(7,1fr) 0.5fr;
-    grid-template-rows: 4rem 1fr 1fr 1fr 1fr 1fr 4rem;
+    grid-template-rows: 4rem 4rem 1fr 1fr 1fr 1fr 4rem;
 
     .profile-wheel-container {
         grid-column-start: 6;
         grid-column-end: 9;
         grid-row-start: 3;
-        grid-row-end: 7;
+        grid-row-end: 5;
         justify-self: right;
     }
 
@@ -41,9 +41,12 @@ main {
 
     .search-bar {
         grid-column-start: 6;
-        grid-column-end: 8;
+        grid-column-end: 9;
         grid-row-start: 2;
         grid-row-end: 3;
-        justify-self: stretch;
+        justify-self: center;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
     }
 }

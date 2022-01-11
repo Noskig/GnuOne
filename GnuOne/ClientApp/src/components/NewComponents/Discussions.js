@@ -7,7 +7,8 @@ import trash from '../../icons/trash.svg'
 import done from '../../icons/done.svg'
 import edit from '../../icons/edit.svg'
 import DeleteDiscussionOverlay from './DeleteDiscussionOverlay'
-import Search from './Search'
+import Search from './Search';
+import "./discussion.css";
 
 
 
@@ -129,7 +130,7 @@ const Discussions = ({ routes }) => {
                                     </div>
                                 </>
 
-                                : < Link className="dicussion-content" to={{
+                                : < Link className="discussion-content" to={{
                                     pathname: `/profile/discussions/${discussion.ID}`, state: {
                                         discussionText: discussion.discussionText,
                                         Headline: discussion.Headline,
@@ -184,7 +185,7 @@ const Discussions = ({ routes }) => {
                             <div className="discussion-info">
                                 <h4>{discussion.numberOfPosts} posts on this topic</h4>
                                 <h4 className="createDate">{discussion.Date.slice(0, 19).replace('T', ' ').slice(0, 16)}</h4>
-                                <img alt="read-more" src={arrows} onClick={() => setReadMore(!readMore)} />
+                                <img className="read-more" alt="read-more" src={arrows} onClick={() => setReadMore(!readMore)} />
                             </div>
                         </div>
                     ) : 'oops kan inte nå api'}
