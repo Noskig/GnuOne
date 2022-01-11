@@ -124,8 +124,9 @@ namespace GnuOne.Controllers
             else
             {
                 friend.isFriend = true;
+                var myProfile = await _context.MyProfile.FirstOrDefaultAsync();
 
-                var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(_context, myInfo.Email, true);
+                var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(_context, myInfo.Email, true, myProfile);
                 bigListWithMyInfo.username = _settings.userName.ToString();
 
                 var jsonBigListObject = JsonConvert.SerializeObject(bigListWithMyInfo);

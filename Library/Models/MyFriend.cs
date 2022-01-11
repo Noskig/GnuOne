@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -32,6 +33,17 @@ namespace Library
             this.Email = bodymessage[1];
         }
 
+        public MyFriend(myProfile Profile)
+        {
+            
+            this.Email = Profile.Email;
+            this.userInfo = Profile.myUserInfo;
+            this.pictureID = Profile.pictureID;
+            this.tagOne = Profile.tagOne;
+            this.tagTwo = Profile.tagTwo;
+            this.tagThree = Profile.tagThree;
+
+        }
     }
 
 }

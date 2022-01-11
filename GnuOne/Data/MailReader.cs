@@ -357,6 +357,7 @@ namespace GnuOne.Data
         {
             var theirLists = JsonConvert.DeserializeObject<BigList>(decryptedMessage);
 
+
             var email = theirLists.FromEmail;
             var username = theirLists.username;
             var friend = context.MyFriends.Where(x => x.Email == email).FirstOrDefault();
@@ -366,6 +367,16 @@ namespace GnuOne.Data
             {
                 friend.isFriend = true;
                 friend.userName = username.ToString();
+
+                if (theirLists.myInfo != null)
+                {
+                    friend.userInfo = theirLists.myInfo.userInfo;
+                    friend.pictureID = theirLists.myInfo.pictureID;
+                    friend.tagOne = theirLists.myInfo.tagOne;
+                    friend.tagTwo = theirLists.myInfo.tagTwo;
+                    friend.tagThree = theirLists.myInfo.tagThree;
+                }
+
                 context.MyFriends.Update(friend);
                 var theirFriends = theirLists.MyFriends;
                 if (theirFriends is not null)
@@ -397,6 +408,8 @@ namespace GnuOne.Data
                     context.Posts.AddRangeAsync(theirPosts);
                     //context.SaveChanges();
                 }
+                
+
 
                 //if (!isSendBack)
                 //{

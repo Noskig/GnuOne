@@ -44,6 +44,15 @@ namespace GnuOne.Controllers
         [HttpPut]
         public async Task<IActionResult> PutMyProfile([FromBody]myProfile Profile)
         {
+            var myprofile = await _context.MyProfile.FirstOrDefaultAsync();
+
+            myprofile.myUserInfo = Profile.myUserInfo;
+            myprofile.pictureID = Profile.pictureID;
+            myprofile.tagOne = Profile.tagOne;
+            myprofile.tagTwo = Profile.tagTwo;  
+            myprofile.tagThree = Profile.tagThree;  
+            
+
             var myInfo = new MyFriend();
             myInfo.Email = _settings.Email;
             myInfo.userName = _settings.userName;
@@ -60,7 +69,7 @@ namespace GnuOne.Controllers
                 MailSender.SendObject(jsonProfileInfo, user.Email, _settings, "PutFriendsProfile");
 
             }
-            _context.MyProfile.Update(Profile); 
+            _context.MyProfile.Update(myprofile); 
             await _context.SaveChangesAsync(); 
 
             return Ok("Updated profile");
