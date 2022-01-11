@@ -4,7 +4,9 @@ import './friends.css'
 import PortContext from '../../contexts/portContext';
 import AddFriendOverlay from './AddFriendOverlay';
 import Search from './Search'
+
 import { Link } from 'react-router-dom';
+
 
 const Friends = () => {
 
@@ -85,9 +87,11 @@ const Friends = () => {
                 : <button className="new-friend" onClick={() => setShowOverlay(true)}> Add new friend </button>
             }
 
+
                 <ul className="friends-list">
                     {filteredFriends.map(friend => <li key={friend.ID}> <Link to={`/friendprofile/${friend.Email}`} >
                         <img className="friend-avatar" /> {friend.userName} </Link>
+
                     {friend.isFriend ? null : <button onClick={(e) => handleClick(e, friend)}>Accept friend</button>}
                 </li>)}
             </ul>

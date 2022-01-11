@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from 'react'
-import './overlay.css'
+import { useState, useEffect, useContext } from 'react';
+import './overlay.css';
 import PortContext from '../../contexts/portContext';
 
 

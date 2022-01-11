@@ -1,5 +1,5 @@
-﻿import PortContext from '../../contexts/portContext'
-import { useParams, useLocation } from 'react-router-dom'
+﻿import PortContext from '../../contexts/portContext';
+import { useParams, useLocation } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import trash from '../../icons/trash.svg'
 import done from '../../icons/done.svg'
