@@ -7,28 +7,28 @@ const FriendProfile = () => {
     const url = `https://localhost:${port}/api/myfriends/`
     const { email } = useParams()
     const [friends, setFriends] = useState()
-
  
  
 
-    //useEffect(() => {
-    //    fetchData()
-    //}, [email])
+    useEffect(() => {
+        fetchData()
+    }, [email])
 
-    //async function fetchData() {
-    //    console.log('fetching')
-    //    const response = await fetch(url, {
-    //        method: 'GET',
-    //        body: JSON.stringify({ Email: email }),
-    //        headers: {
-    //            "Content-type": "application/json; charset=UTF-8",
-    //        }
-    //    })
-    //    const friends = await response.json()
-    //    console.log(friends)
-    //    setFriends(friends);
+    async function fetchData() {
+        console.log('fetching')
+        console.log(email)
+        const response = await fetch(url, {
+            method: 'PATCH',
+            body: JSON.stringify(email),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            }
+        })
+        const friends = await response.json()
+        console.log(friends)
+        setFriends(friends);
        
-    //}
+    }
 
  
 
@@ -40,7 +40,7 @@ const FriendProfile = () => {
         <section className="">
 
             <h3>Friend's profile</h3>
-        
+            {friends?.MyFriend.userName}
 
         </section>
 
