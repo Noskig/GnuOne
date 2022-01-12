@@ -8,15 +8,14 @@ using System.Threading.Tasks;
 
 namespace Library.Models
 {
-    public class myprofile
+    public class myProfile
     { 
     
         [Key]
         public int ID { get; set; }
         public string Email { get; set; }
-        public string myUserInfo { get; set; }
+        public string? myUserInfo { get; set; } = "Write your bio here";
         public int pictureID { get; set; }
-        public standardpictures standardpictures { get; set; } 
         public int? tagOne { get; set; }
         public int? tagTwo { get; set; }
         public int? tagThree { get; set; }
