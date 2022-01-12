@@ -30,8 +30,6 @@ Man kan Get/Post/Put/Delete comments
 ///////////////////////////////////////////////////////////
 ATT GÖRA: (utan inbördes ordning)
 
-
-
 1.   Jag vill kunna hämta ner och installera programmet och köra det ifrån en webbrowser. (bittorrent eller iwantag.nu?)
 Skriva instruktion och testa att det går
 (Få första vännen och komma in i systemet. FRONTEND ruta som man skriver i mailen på den som man vill bli vän med)
@@ -43,82 +41,45 @@ Skriva instruktion och testa att det går
 2.    Jag vill kunna se vem som finns i systemet.
 Vill vi ha både publika och privata vänner?
 
-
 3.    Jag vill kunna lägga till vänner.
 -(FRONTEND)Skapa en process för detta när man har kommit in i systemet.
 -(FRONTEND notiser, knapp för accept/denied)
 
-
 6.    Gå igenom källkoden, dokumentera, städa, fundera på standard.
-
-
 
 7.    TESTA
 --Create, Edit, Delete, (FRONTEND, Read)
 --Create, Edit, Delete, (FRONTEND, Read)
 ---(Lägga till med FRONTEND)
 
--Try catch block på all sparning i controllers?
-
-
-
-
 --Nya funktioner
-
 8.    Föreslå nya funktioner 
 **Chatt  (LiveChatt i webben..  JS.. Gun.js Chat)
-
 9.    Fixa fel och införa ändringar
-
 -Göra om allt till samma standard. Namnsättning framförallt.(på börjad kanske klar)
 
 
 
 10. Resterade.
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
 **Dokumentera github. Text. Video. Göra en snygg förklaring. Guida Stig
 -Få prototyp redo, sen dokumentera V.1
-
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-
-
-
-
-
-
-
-????????
-*** Profil.
-
-*userInfo. Intressen(bool). Publik nyckel.
-
--Gömma sig i nätverken hos vänner. (bli osynlig för deras nätverk, inställning)
-
-
-**Posts som tas bort ska ligga kvar men bli deletat.
--Bool. IsDeleted på posts. true/false, renderas olika. posts-DTOdeletedpost/Frontend?
-
-
-
-*Söka/filtrera(Api?)
-????????
-
+Publik nyckel.
 
 
 4.    Jag vill ha en sida där jag kan se vilka inställningar som är gjorda och eventuellt ändra valda parametrar.
 -API som ändrar inställningar.
 --Username
 --Darkmode?
---Radera kontot?
 
 
 5.    Fixa till asymmetrisk kryptering/verifiering.
--Kolla vad Marcus har.
--- Vilken information ska krypteras? Mailen? 
--Maillösenord hashas in i databasen? (Secret key?)
--- Ska den 
+- Kolla vad Marcus har.
+--Vilken information ska krypteras? Mailen? 
+- Maillösenord hashas in i databasen? (Secret key?)
+
 
 -__Testa postman lite hejvilt_
 
@@ -130,6 +91,13 @@ Vill vi ha både publika och privata vänner?
 ///////////////////////////////////////////////////////////
 EXTRA-JOBB:
 ** vi har marcus som extra resurs
+** deletea konto
+- Foreach tabort vänner. 
+- Script för att ta bort databasen
+- Try catch block på all sparning i controllers?
+- Kunna blocka någon?
+
+(- Om vän är gömd för mitt nätverk. Ska mina vänner se hans post? username=unknown?)
 
 ///////////////////////////////////////////////////////////
 PROBLEM:
@@ -138,7 +106,8 @@ Skickar ett extra friendacceptmail tillbaka efter båda blivit vänn. Behöver i
 ///////////////////////////////////////////////////////////
 BEHÖVS TESTAS
 FriendRequest. -hänger alla id:n med på korrekt sätt? Discussion, posts osv..
-**Dubbel kolla alla foreach mailutskick loopar att de inte skickar till vänner man inte är vän med "(if (user.isFriend == false) { continue; })"
+** Dubbel kolla alla foreach mailutskick loopar att de inte skickar till vänner man inte är vän med "(if (user.isFriend == false) { continue; })"
+** Profil.
 
 ///////////////////////////////////////////////////////////
 KLART:
@@ -152,12 +121,18 @@ KLART:
 # standardbilder 5st
 # Intressen/Tags
 # Kunna visa sina favorit intressen på sin profil.
+*Vi vill kunna uppdatera myprofile, göra så att userinfon skickas till vänner (11/1)
 
 
 # Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. 5/1
 # Göra om i Myfriendscontrollern rad 82-88 till metod   Behöver gå ut ett mail till mina vänner att vännen tas bort 5/1
 # Fixa scriptet så det matchar den nya DB 7/1
 # Rätt information ska skickas ut när man blir vän också
+
+# Posts som tas bort ska ligga kvar men bli deletat.
+# Filtrera på tags
+# userInfo. Intressen(bool).
+# Gömma sig i nätverken hos vänner.
 
 ///////////////////////////////////////////////////////////
 FRÅGOR:

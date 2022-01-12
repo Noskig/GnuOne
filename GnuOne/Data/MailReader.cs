@@ -63,7 +63,7 @@ namespace GnuOne.Data
 
                             case "PostedPost":
 
-                                var doing = RecieveAndSavePost(decryptedMessage, _newContext);
+                                var doing = RecieveAndSavePost(decryptedMessage, _newContext, cleanEmailFrom, myInfo);
                                 if (doing == 1)
                                 {
                                     var doinga = ForwardPostToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardPost");
@@ -76,7 +76,7 @@ namespace GnuOne.Data
                                 }
 
                             case "ForwardPost":
-                                var doingb = RecieveAndSavePost(decryptedMessage, _newContext);
+                                var doingb = RecieveAndSavePost(decryptedMessage, _newContext, cleanEmailFrom, myInfo);
                                 if (doingb == 1)
                                 { break; }
                                 else
@@ -96,17 +96,17 @@ namespace GnuOne.Data
                                     break;
                                 }
 
-                            case "DeletePost":
-                                var deeding = ReceiveAndDeletePost(decryptedMessage, _newContext);
-                                if (deeding == 1)
-                                { 
-                                    var deeding1 = ForwardPostToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardDeletePost");
-                                    break; }
-                                else
-                                {
-                                    ///try again?
-                                    break;
-                                }
+                            //case "DeletePost":
+                            //    var deeding = ReceiveAndDeletePost(decryptedMessage, _newContext);
+                            //    if (deeding == 1)
+                            //    { 
+                            //        var deeding1 = ForwardPostToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardDeletePost");
+                            //        break; }
+                            //    else
+                            //    {
+                            //        ///try again?
+                            //        break;
+                            //    }
 
                             case "ForwardDeletePost":
                                 var deeding2 = ReceiveAndDeletePost(decryptedMessage, _newContext);
@@ -151,9 +151,19 @@ namespace GnuOne.Data
                                 var deedc = RecieveAndPutDiscussion(decryptedMessage, _newContext);
                                 break;
 
+
                             case "FriendRequest":
                                 var deedd = RecieveFriendRequest(decryptedMessage, _newContext);
                                 if (deedd == 1)
+                                { break; }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
+                            case "PutFriendsProfile":
+                                var deed3 = RecieveAndUpdateFriend(decryptedMessage, _newContext);
+                                if (deed3 == 1)
                                 { break; }
                                 else
                                 {
@@ -204,6 +214,18 @@ namespace GnuOne.Data
                                 if (deedj == 1) { break; }
                                 else { break; }
 
+                            
+
+                            case "FriendHiding":
+                                var deed4 = UpdateFriendHiding(decryptedMessage, _newContext, cleanEmailFrom);
+                                if (deed4 == 1) { break; }
+                                else { break; }
+
+                            case "FriendShowing":
+                                var deed5 = UpdateFriendShowing(decryptedMessage, _newContext, cleanEmailFrom);
+                                if (deed5 == 1) { break; }
+                                else { break; }
+
                             default:
                                 break;
                         }
@@ -223,7 +245,80 @@ namespace GnuOne.Data
             }
         }
 
+        private static int UpdateFriendShowing(string decryptedMessage, MariaContext context, string cleanEmailFrom)
+        {
+            var friendShowing = decryptedMessage;
+            var friend = context.MyFriends.Where(x => x.Email == cleanEmailFrom).FirstOrDefault();
 
+            if (friend != null)
+            {
+                friend.hideFriend = false;
+                context.MyFriends.Update(friend);
+                context.SaveChangesAsync().Wait();
+
+                var mySettings = context.MySettings.FirstOrDefault();
+
+                var friendfriend = new MyFriendsFriends(friend, mySettings.Email);
+                var jsonFriendFriend = JsonConvert.SerializeObject(friendfriend);
+                foreach (var user in context.MyFriends)
+                {
+                    MailSender.SendObject(jsonFriendFriend, user.Email, mySettings, "FriendGotAFriend");
+
+                }
+
+                return 1;
+            }
+
+            return -1;
+        }
+    
+
+        private static int UpdateFriendHiding(string decryptedMessage, MariaContext context, string cleanEmailFrom)
+        {
+            var friendHiding = decryptedMessage;
+
+            var friend = context.MyFriends.Where(x => x.Email == cleanEmailFrom).FirstOrDefault();
+            if (friend != null)
+            {
+                friend.hideFriend = true;
+                context.MyFriends.Update(friend);
+                context.SaveChangesAsync().Wait();
+
+                var mySettings = context.MySettings.FirstOrDefault();
+
+                var jsonFriend = JsonConvert.SerializeObject(friend);
+                foreach (var user in context.MyFriends)
+                {
+                    MailSender.SendObject(jsonFriend, user.Email, mySettings, "FriendsFriendGotRemoved");
+
+                }
+
+                return 1;
+            }
+
+            return -1;
+        }
+
+        private static int RecieveAndUpdateFriend(string decryptedMessage, MariaContext context)
+        {
+            var friendInfo = JsonConvert.DeserializeObject<MyFriend>(decryptedMessage);
+            if (friendInfo != null) 
+            {
+                var friend = context.MyFriends.Where(x => x.Email == friendInfo.Email).FirstOrDefault();
+                friend.userInfo = friendInfo.userInfo;
+                friend.pictureID = friendInfo.pictureID;
+                friend.tagOne = friendInfo.tagOne;
+                friend.tagTwo = friendInfo.tagTwo;
+                friend.tagThree = friendInfo.tagThree;
+
+                context.MyFriends.Update(friend);
+                context.SaveChangesAsync().Wait();
+                return 1;
+            }
+            return -1;
+        }
+
+        
         private static int ForwardPostToFriends(string decryptedMessage, MariaContext context, string fromEmail, string subject)
         {
             var mysettings = context.MySettings.FirstOrDefault();
@@ -232,6 +327,7 @@ namespace GnuOne.Data
             {
                 if (friend.Email != fromEmail)
                 {
+                    if (friend.isFriend == false) { continue; }
                     MailSender.SendObject(decryptedMessage, friend.Email, mysettings, subject);
                 }
             }
@@ -303,7 +399,10 @@ namespace GnuOne.Data
         {
             var mysettingsEmail = context.MySettings.Select(x => x.Email).Single();
 
-            var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(context, mysettingsEmail);
+            var myprofile = context.MyProfile.FirstOrDefault();
+
+
+            var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(context, mysettingsEmail, false,myprofile);
             var jsonBigList = JsonConvert.SerializeObject(bigListWithMyInfo);
             var mySettings = context.MySettings.FirstOrDefault();
             MailSender.SendObject(jsonBigList, toEmail, mySettings, "GiveBackInformation");
@@ -328,6 +427,7 @@ namespace GnuOne.Data
         {
             var theirLists = JsonConvert.DeserializeObject<BigList>(decryptedMessage);
 
+
             var email = theirLists.FromEmail;
             var username = theirLists.username;
             var friend = context.MyFriends.Where(x => x.Email == email).FirstOrDefault();
@@ -337,6 +437,16 @@ namespace GnuOne.Data
             {
                 friend.isFriend = true;
                 friend.userName = username.ToString();
+
+                if (theirLists.myInfo != null)
+                {
+                    friend.userInfo = theirLists.myInfo.userInfo;
+                    friend.pictureID = theirLists.myInfo.pictureID;
+                    friend.tagOne = theirLists.myInfo.tagOne;
+                    friend.tagTwo = theirLists.myInfo.tagTwo;
+                    friend.tagThree = theirLists.myInfo.tagThree;
+                }
+
                 context.MyFriends.Update(friend);
                 var theirFriends = theirLists.MyFriends;
                 if (theirFriends is not null)
@@ -368,6 +478,8 @@ namespace GnuOne.Data
                     context.Posts.AddRangeAsync(theirPosts);
                     //context.SaveChanges();
                 }
+                
+
 
                 //if (!isSendBack)
                 //{
@@ -455,13 +567,16 @@ namespace GnuOne.Data
             }
             return -1;
         }
-        private static int RecieveAndSavePost(string decryptedbody, MariaContext context)
+        private static int RecieveAndSavePost(string decryptedbody, MariaContext context, string Email, MySettings myInfo)
         {
             var post = JsonConvert.DeserializeObject<Post>(decryptedbody);
             if (post is not null)
             {
-                context.Posts.Add(post);
-                context.SaveChangesAsync().Wait();
+                if(Email != myInfo.Email)
+                {
+                    context.Posts.Add(post);
+                    context.SaveChangesAsync().Wait();
+                }
                 return 1;
             }
             return -1;
