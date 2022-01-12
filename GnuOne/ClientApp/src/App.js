@@ -11,6 +11,7 @@ import RouteWithSubRoutes from './components/NewComponents/RouteWithSubRoutes';
 function App() {
     return (
         <PortContext.Provider value={7261}>
+
             <Router>
                 <div className="App">
                     <Switch>
@@ -21,6 +22,7 @@ function App() {
                     </Switch>
                 </div>
             </Router>
+
         </PortContext.Provider>
     )
 }

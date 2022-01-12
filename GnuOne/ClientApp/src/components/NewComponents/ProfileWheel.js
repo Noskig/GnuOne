@@ -1,9 +1,10 @@
 ﻿import React, { useState } from 'react';
-import { Link, Switch } from 'react-router-dom';
+import { Link, Switch, useRouteMatch } from 'react-router-dom';
 import friends from '../../icons/friends.svg';
 import trash from '../../icons/trash.svg';
 import './profileWheel.min.css';
 import RouteWithSubRoutes from './RouteWithSubRoutes';
+
 
 
 //testar
@@ -12,35 +13,36 @@ function ProfileWheel({ routes }) {
     const [chosenPage, setChosenPage] = useState();
     const [active, setActive] = useState();
     const [done, setDone] = useState();
-
+    let match = useRouteMatch()
+    console.log(match)
     const menu = [
         {
-            path: '/profile/friends', // the url
+            path: `${match.url}/friends`, // the url
             img: friends, // the img that appears in the wheel
             id: 1
         },
         {
-            path: '/profile/bio',
+            path: `${match.url}/bio`,
             img: trash,
             id: 2
         },
         {
-            path: '/profile/messages',
+            path: `${match.url}/messages`,
             img: trash,
             id: 3
         },
         {
-            path: '/profile/settings',
+            path: `${match.url}/settings`,
             img: trash,
             id: 4
         },
         {
-            path: '/profile/discussions',
+            path: `${match.url}/discussions`,
             img: trash,
             id: 5
         },
         {
-            path: '/profile/testwheel',
+            path: `${match.url}/testwheel`,
             img: trash,
             id: 6
         },
