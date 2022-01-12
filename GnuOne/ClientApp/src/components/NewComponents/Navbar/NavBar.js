@@ -10,31 +10,21 @@ const NavBar = () => {
 
     return (
             <section>
-            <div className="navbar">
-                <ul id="menu">
-                    <a class="menu-button icon-plus" href="#menu" title="Show navigation"></a>
-                    <a class="menu-button icon-minus" href="#0" title="Hide navigation"></a>
-                    <li class="menu-item">
-                        <a href="#menu">
-                            <span class="fa fa-github"></span>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="#menu">
-                            <span class="fa fa-linkedin"></span>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="#menu">
-                            <span class="fa fa-instagram"></span>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="#menu">
-                            <span class="fa fa-twitter"></span>
-                        </a>
-                    </li>
-                </ul>
+                <div className="navbar">
+                     <img src={logo} alt="logo" />
+                     <div className="menu" >
+                     <ul className="elements">
+                        <li>
+                            <img className="avatar" src={avatar} alt="avatar" />
+                        </li>
+                        <li>
+                            <img className="messages" src={messages} alt="messages" />
+                        </li>
+                        <li>
+                            <img className="settings" src={settings} alt="settings" />
+                        </li>
+                        </ul>
+                    </div>
                 </div>
             </section>
         )
