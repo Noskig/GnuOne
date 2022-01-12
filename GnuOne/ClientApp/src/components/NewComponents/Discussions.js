@@ -78,6 +78,13 @@ const Discussions = ({ routes }) => {
         setActiveDiscussion(discussion.ID)
         setshowDeleteConfirm(true)
     }
+    function readmoreAndId(discussion) {
+        setActiveDiscussion(discussion.ID)
+        setReadMore(true)
+        if (readMore == true && activeDiscussion == discussion.ID) {
+            setReadMore(false)
+        }
+    }
 
     //SEARCH 
     function search(s) {
@@ -106,12 +113,12 @@ const Discussions = ({ routes }) => {
                 <div className="new-discussion-container">
                     {showOverlay
                         ? <>
-                            <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)} />
+                            <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)}/>
 
                             <AddDiscussionOverlay fetchData={fetchData} close={close} />
                         </>
                         :
-                        <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)} />
+                        <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)}/>
                     }
                 </div>
 
@@ -121,14 +128,14 @@ const Discussions = ({ routes }) => {
                         <div className="discussion" key={discussion.ID + discussion.userName}>
 
                             {editOpen && activeDiscussion === discussion.ID
-                                ? <>
+                                ? <div className="discussion-content">
                                     <h4 className="">{discussion.Headline}</h4>
                                     <div className={readMore ? "" : "hide"}>
 
                                         <textarea maxLength="500" value={discussionText} className="edit" onChange={(e) => setDiscussionText(e.target.value)} />
 
                                     </div>
-                                </>
+                                </div>
 
                                 : < Link className="discussion-content" to={{
                                     pathname: `/profile/discussions/${discussion.ID}`, state: {
@@ -141,7 +148,7 @@ const Discussions = ({ routes }) => {
                                     }
                                 }}>
                                     <h4 className="">{discussion.Headline}</h4>
-                                    <div className={readMore ? "" : "hide"}>
+                                    <div className={readMore && activeDiscussion == discussion.ID ? "" : "hide"}>
 
                                         <p className="text">{discussion.discussionText}</p>
 
@@ -152,7 +159,7 @@ const Discussions = ({ routes }) => {
                             }
 
 
-                            <div className="discussion-options">
+                            <div className={readMore && activeDiscussion == discussion.ID ? "discussion-options" : "discussion-options hide"}>
 
 
                                 {showDeleteConfirm && activeDiscussion === discussion.ID
@@ -183,9 +190,9 @@ const Discussions = ({ routes }) => {
 
 
                             <div className="discussion-info">
-                                <h4>{discussion.numberOfPosts} posts on this topic</h4>
+                                <h4>{discussion.numberOfPosts} posts:</h4>
                                 <h4 className="createDate">{discussion.Date.slice(0, 19).replace('T', ' ').slice(0, 16)}</h4>
-                                <img className="read-more" alt="read-more" src={arrows} onClick={() => setReadMore(!readMore)} />
+                                <img className={readMore && activeDiscussion == discussion.ID ? "read-more reverse-icon" : "read-more"} alt="read-more" src={arrows} onClick={() => readmoreAndId(discussion)} />
                             </div>
                         </div>
                     ) : 'oops kan inte nå api'}
