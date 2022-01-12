@@ -1,7 +1,7 @@
 ﻿import { useState, useEffect, useContext } from 'react'
 import PortContext from '../../contexts/portContext';
 import AddDiscussionOverlay from './AddDiscussionOverlay';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import arrows from '../../icons/arrows.svg'
 import trash from '../../icons/trash.svg'
 import done from '../../icons/done.svg'
@@ -26,7 +26,7 @@ const Discussions = ({ routes }) => {
     const [discussionText, setDiscussionText] = useState('')
     const [activeDiscussion, setActiveDiscussion] = useState('')
     const [editOpen, setEditOpen] = useState(false)
-
+    let match = useRouteMatch()
     //SEARCH 
     const [searchTerm, setSearchTerm] = useState('')
     const filteredDiscussions = filterDiscussions(discussions, searchTerm)
@@ -37,8 +37,7 @@ const Discussions = ({ routes }) => {
 
     useEffect(() => {
         fetchData()
-        console.log('i did it again')
-    }, [])
+    }, [myEmail])
 
     async function fetchData() {
         const response = await fetch(url)
@@ -47,14 +46,13 @@ const Discussions = ({ routes }) => {
 
         let filteredDisc = () => {
 
-            console.log('1: ' + discussions[0].Email)
-            console.log(myEmail)
-            console.log(friendEmail)
+            console.log('myEmail: ' + myEmail)
+            console.log('friendEmail: ' + friendEmail)
             if (discussions && (friendEmail === undefined)) {
                 return discussions.filter((disc) => {
 
                     if (disc.Email === myEmail) {
-                        console.log('1: ' + disc.Email, myEmail)
+                        console.log('displaying MY posts: ' + disc.Email, myEmail)
                         return disc
                     }
 
@@ -63,7 +61,7 @@ const Discussions = ({ routes }) => {
                 return discussions.filter((disc) => {
 
                     if (disc.Email === friendEmail) {
-                        console.log('2: ' + disc.Email, friendEmail)
+                        console.log('displaying FRIENDs posts: ' + disc.Email, friendEmail)
                         return disc
                     }
 
@@ -128,7 +126,7 @@ const Discussions = ({ routes }) => {
     }
 
     function filterDiscussions(discussions, searchTerm) {
-        return discussions?.filter((data) => {
+        return discussions.filter((data) => {
             if (searchTerm === "") {
                 return true
             } else if (data.Headline.toLowerCase().includes(searchTerm.toLowerCase())) {
@@ -174,7 +172,7 @@ const Discussions = ({ routes }) => {
                                 </div>
 
                                 : < Link className="discussion-content" to={{
-                                    pathname: `/profile/discussions/${discussion.ID}`, state: {
+                                    pathname: `${match.url}/${discussion.ID}`, state: {
                                         discussionText: discussion.discussionText,
                                         Headline: discussion.Headline,
                                         Date: discussion.Date,
