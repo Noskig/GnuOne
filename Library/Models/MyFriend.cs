@@ -22,8 +22,8 @@ namespace Library
         public int? tagOne { get; set; }
         public int? tagTwo { get; set; }
         public int? tagThree { get; set; }
-        public bool hideMe { get; set; }
-        public bool hideFriend { get; set; }
+        public bool hideMe { get; set; } = false;
+        public bool hideFriend { get; set; } = false;
 
         public MyFriend()
         {

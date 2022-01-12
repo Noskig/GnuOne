@@ -182,7 +182,7 @@ namespace GnuOne.Controllers
             return Ok();
         }
 
-        [HttpPatch]
+        [HttpPatch("{hide}")]
         public async Task<IActionResult> Visibility([FromBody] string email, bool hide)
         {
             var friend = await _context.MyFriends.Where(x => x.Email.Equals(email)).FirstOrDefaultAsync();

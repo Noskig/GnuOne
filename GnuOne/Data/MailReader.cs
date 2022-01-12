@@ -257,11 +257,13 @@ namespace GnuOne.Data
                 context.SaveChangesAsync().Wait();
 
                 var mySettings = context.MySettings.FirstOrDefault();
+                //friendfriend
 
-                var jsonFriend = JsonConvert.SerializeObject(friend);
+                var friendfriend = new MyFriendsFriends(friend, mySettings.Email);
+                var jsonFriendFriend = JsonConvert.SerializeObject(friendfriend);
                 foreach (var user in context.MyFriends)
                 {
-                    MailSender.SendObject(jsonFriend, user.Email, mySettings, "FriendGotAFriend");
+                    MailSender.SendObject(jsonFriendFriend, user.Email, mySettings, "FriendGotAFriend");
 
                 }
 
