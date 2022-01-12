@@ -38,48 +38,31 @@ Skriva instruktion och testa att det går
 --Text
 --Video
 
-2.    Jag vill kunna se vem som finns i systemet.
-Vill vi ha både publika och privata vänner?
 
-3.    Jag vill kunna lägga till vänner.
--(FRONTEND)Skapa en process för detta när man har kommit in i systemet.
--(FRONTEND notiser, knapp för accept/denied)
 
 6.    Gå igenom källkoden, dokumentera, städa, fundera på standard.
-
-7.    TESTA
---Create, Edit, Delete, (FRONTEND, Read)
---Create, Edit, Delete, (FRONTEND, Read)
----(Lägga till med FRONTEND)
 
 --Nya funktioner
 8.    Föreslå nya funktioner 
 **Chatt  (LiveChatt i webben..  JS.. Gun.js Chat)
+
 9.    Fixa fel och införa ändringar
 -Göra om allt till samma standard. Namnsättning framförallt.(på börjad kanske klar)
 
-
-
 10. Resterade.
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
 **Dokumentera github. Text. Video. Göra en snygg förklaring. Guida Stig
 -Få prototyp redo, sen dokumentera V.1
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
 
 Publik nyckel.
 
-
-4.    Jag vill ha en sida där jag kan se vilka inställningar som är gjorda och eventuellt ändra valda parametrar.
--API som ändrar inställningar.
---Username
---Darkmode?
 
 
 5.    Fixa till asymmetrisk kryptering/verifiering.
 - Kolla vad Marcus har.
 --Vilken information ska krypteras? Mailen? 
 - Maillösenord hashas in i databasen? (Secret key?)
-
 
 -__Testa postman lite hejvilt_
 
@@ -98,6 +81,8 @@ EXTRA-JOBB:
 - Kunna blocka någon?
 
 (- Om vän är gömd för mitt nätverk. Ska mina vänner se hans post? username=unknown?)
+(- Darkmode)
+( -API som ändrar inställningar. Vill man kunna ändra gmail?. Säkra upp).
 
 ///////////////////////////////////////////////////////////
 PROBLEM:
@@ -133,6 +118,10 @@ KLART:
 # Filtrera på tags
 # userInfo. Intressen(bool).
 # Gömma sig i nätverken hos vänner.
+# Jag vill ha en sida där jag kan se vilka inställningar som är gjorda och eventuellt ändra valda parametrar.
+# Jag vill kunna lägga till vänner.
+  -(FRONTEND)Skapa en process för detta när man har kommit in i systemet.
+  -(FRONTEND notiser, knapp för accept/denied)
 
 ///////////////////////////////////////////////////////////
 FRÅGOR:
