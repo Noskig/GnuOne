@@ -30,10 +30,9 @@ function MyProfile({ routes }) {
     }
     return (
         <MeContext.Provider value={myEmail}>
-        <main className="main">
+            <main className="main">
             <Navbar />
             <ProfileWheel routes={routes}/>
-            
             </main>
         </MeContext.Provider>
     )

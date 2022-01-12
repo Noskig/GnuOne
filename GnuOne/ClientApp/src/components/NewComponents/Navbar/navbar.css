@@ -1,37 +1,43 @@
 .navbar {
     display: flex;
+    flex-direction:row;
     justify-content: space-between;
-    padding: 0 1em;
-    width: 90vw;
-}
-.menu {
-    width: 3em;
+    align-items:center;
+
 }
 .elements {
     list-style: none;
-    
-    transition: transform 500ms;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
-
+li{
+    margin-left:0.5rem;
+}
 .avatar {
-    position:relative;
-}
-
-.elements li { 
-
-    height:20px ;
-    transition: transform 500ms;
-
+    z-index: 1;
 }
 .messages {
-    position: relative;
+    position:absolute;
     z-index: -1;
-    margin: 15px 11px;
 }
-
+.animation1 {
+    animation: messages 0.7s ease-in-out forwards;
+}
+@keyframes messages {
+    100% {
+        transform: translateX(-4rem)
+    }
+}
 .settings {
-    position: relative;
-    z-index: -1;
-    margin: 15px 11px;
+    position: absolute;
+    z-index: -2;
 }
-
+.animation2 {
+    animation: settings 0.7s ease-in-out forwards;
+}
+@keyframes settings{
+    100%{
+        transform:translateX(-8rem)
+    }
+}
