@@ -38,7 +38,7 @@ const Discussions = ({ routes }) => {
     useEffect(() => {
         fetchData()
         console.log('i did it again')
-    }, [])
+    }, [myEmail])
 
     async function fetchData() {
         const response = await fetch(url)
@@ -47,7 +47,6 @@ const Discussions = ({ routes }) => {
 
         let filteredDisc = () => {
 
-            console.log('1: ' + discussions[0].Email)
             console.log(myEmail)
             console.log(friendEmail)
             if (discussions && (friendEmail === undefined)) {
