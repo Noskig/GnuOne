@@ -165,7 +165,7 @@ const Discussions = ({ routes }) => {
 
                             {editOpen && activeDiscussion === discussion.ID
                                 ? <div className="discussion-content">
-                                    <h4 className="">{discussion.Headline}</h4>
+                                    <h4 className="headline">{discussion.Headline}</h4>
                                     <div className={readMore ? "" : "hide"}>
 
                                         <textarea maxLength="500" value={discussionText} className="edit" onChange={(e) => setDiscussionText(e.target.value)} />
@@ -183,7 +183,7 @@ const Discussions = ({ routes }) => {
                                         Email: discussion.Email
                                     }
                                 }}>
-                                    <h4 className="">{discussion.Headline}</h4>
+                                    <h4 className="headline">{discussion.Headline}</h4>
                                     <div className={readMore && activeDiscussion == discussion.ID ? "" : "hide"}>
 
                                         <p className="text">{discussion.discussionText}</p>
