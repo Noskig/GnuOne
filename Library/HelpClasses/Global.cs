@@ -81,14 +81,14 @@ CREATE TABLE IF NOT EXISTS `myfriends` (
   `pubKey` varchar(50) DEFAULT NULL,
   `userInfo` varchar(300) DEFAULT NULL,
   `pictureID` int(11) DEFAULT NULL,
-  `tagOne` varchar(20) DEFAULT NULL,
-  `tagTwo` varchar(20) DEFAULT NULL,
-  `tagThree` varchar(20) DEFAULT NULL,
+  `tagOne` int(11) DEFAULT NULL,
+  `tagTwo` int(11) DEFAULT NULL,
+  `tagThree` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `Email` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myfriends: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.myfriends: ~2 rows (ungefär)
 /*!40000 ALTER TABLE `myfriends` DISABLE KEYS */;
 /*!40000 ALTER TABLE `myfriends` ENABLE KEYS */;
 
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `myfriendsfriends` (
   PRIMARY KEY (`ID`),
   KEY `FK_myfriendsfriends_myfriends` (`myFriendEmail`),
   CONSTRAINT `FK_myfriendsfriends_myfriends` FOREIGN KEY (`myFriendEmail`) REFERENCES `myfriends` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 -- Dumpar data för tabell gnu.myfriendsfriends: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `myfriendsfriends` DISABLE KEYS */;
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `myprofile` (
   CONSTRAINT `FK_myprofile_tags` FOREIGN KEY (`tagOne`) REFERENCES `tags` (`ID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_myprofile_tags_2` FOREIGN KEY (`tagTwo`) REFERENCES `tags` (`ID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_myprofile_tags_3` FOREIGN KEY (`tagThree`) REFERENCES `tags` (`ID`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- Dumpar data för tabell gnu.myprofile: ~1 rows (ungefär)
 /*!40000 ALTER TABLE `myprofile` DISABLE KEYS */;
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `mysettings` (
   `Secret` varchar(75) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.mysettings: ~1 rows (ungefär)
+-- Dumpar data för tabell gnu.mysettings: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `mysettings` DISABLE KEYS */;
 /*!40000 ALTER TABLE `mysettings` ENABLE KEYS */;
 
