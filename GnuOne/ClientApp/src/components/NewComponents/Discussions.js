@@ -143,18 +143,18 @@ const Discussions = ({ routes }) => {
 
 
 
-
-                <div className="new-discussion-container">
+                {friendEmail === undefined
+                    ? <div className="new-discussion-container">
                     {showOverlay
                         ? <>
                             <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)}/>
-
                             <AddDiscussionOverlay fetchData={fetchData} close={close} />
-                        </>
-                        :
-                        <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)}/>
+                          </>
+                        : <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)}/>
                     }
-                </div>
+                      </div>
+                    : null}
+                
 
 
                 <div className="discussions-list">
