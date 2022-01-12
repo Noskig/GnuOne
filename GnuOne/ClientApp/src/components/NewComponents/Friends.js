@@ -87,9 +87,9 @@ const Friends = () => {
                 : <button className="new-friend" onClick={() => setShowOverlay(true)}> Add new friend </button>
             }
 
-
+                
                 <ul className="friends-list">
-                    {filteredFriends.map(friend => <li key={friend.ID}> <Link to={`/friendprofile/${friend.Email}`} >
+                    {filteredFriends.map(friend => <li key={friend.ID}> <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
                         <img className="friend-avatar" /> {friend.userName} </Link>
 
                     {friend.isFriend ? null : <button onClick={(e) => handleClick(e, friend)}>Accept friend</button>}

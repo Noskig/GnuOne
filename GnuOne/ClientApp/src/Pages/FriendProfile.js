@@ -1,49 +1,59 @@
 ﻿import { useParams } from "react-router-dom"
 import { useEffect, useState, useContext } from 'react'
 import PortContext from '../contexts/portContext';
+import FriendContext from '../contexts/friendContext'
+import MeContext from '../contexts/meContext'
+import ProfileWheel from '../components/NewComponents/ProfileWheel'
 
-const FriendProfile = () => {
+const FriendProfile = ({ routes }) => {
     const port = useContext(PortContext)
-    const url = `https://localhost:${port}/api/myfriends/`
+    const url = `https://localhost:${port}/api/`
     const { email } = useParams()
-    const [friends, setFriends] = useState()
- 
- 
+    const [friend, setFriend] = useState()
+    const [myEmail, setMyEmail] = useState('')
 
     useEffect(() => {
-        fetchData()
+        fetchFriend()
+        fetchMyEmail()
     }, [email])
 
-    async function fetchData() {
+    async function fetchFriend() {
         console.log('fetching')
         console.log(email)
-        const response = await fetch(url, {
+        const response = await fetch(url + 'myfriends', {
             method: 'PATCH',
-            body: JSON.stringify(email),
+            body: JSON.stringify(email + '@gmail.com'),
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
             }
         })
-        const friends = await response.json()
-        console.log(friends)
-        setFriends(friends);
-       
+        const friend = await response.json()
+        console.log(friend)
+        setFriend(friend);
+
     }
 
- 
-
-
-
+    console.log(friend)
+    async function fetchMyEmail() {
+        console.log('fetching')
+        const response = await fetch(url + 'settings')
+        const me = await response.json()
+        console.log(me)
+        const myEmail = me.email
+        console.log(myEmail)
+        setMyEmail(myEmail);
+    }
 
     return (
-
-        <section className="">
-
-            <h3>Friend's profile</h3>
-            {friends?.MyFriend.userName}
-
-        </section>
-
+        <MeContext.Provider value={myEmail}>
+            <FriendContext.Provider value={friend?.MyFriend.Email}>
+                <section className="">
+                    <h3>Friend's profile</h3>
+                    {friend?.MyFriend.userName}
+                    <ProfileWheel routes={routes} />
+            </section>
+        </FriendContext.Provider>
+        </MeContext.Provider>
     )
 }
 

@@ -12,6 +12,39 @@ const routes = [
     {
         path: '/friendprofile/:email',
         component: FriendProfile,
+        routes: [
+            {
+                // Also note how we added /home before the 
+                // actual page name just to create a complete path
+                path: '/friendprofile/:email/friends',
+                component: Friends,
+            },
+            {
+                path: '/friendprofile/:email/bio',
+                component: Bio,
+            },
+            {
+                path: '/friendprofile/:email/messages',
+                component: Messages,
+            },
+            {
+                path: '/friendprofile/:email/settings',
+                component: Settings,
+            },
+            {
+                path: '/friendprofile/:email/discussions/:id',
+                component: Posts,
+            },
+            {
+                path: '/friendprofile/:email/discussions',
+                component: Discussions,
+
+            },
+            {
+                path: '/friendprofile/:email/testwheel',
+                component: TestWheel,
+            },
+        ],
     },
     {
         path: '/profile',
