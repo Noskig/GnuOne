@@ -20,13 +20,7 @@ const FriendProfile = ({ routes }) => {
     async function fetchFriend() {
         console.log('fetching')
         console.log(email)
-        const response = await fetch(url + 'myfriends', {
-            method: 'PATCH',
-            body: JSON.stringify(email + '@gmail.com'),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            }
-        })
+        const response = await fetch(url + 'myfriends/' + email + '@gmail.com')
         const friend = await response.json()
         console.log(friend)
         setFriend(friend);
@@ -47,11 +41,11 @@ const FriendProfile = ({ routes }) => {
     return (
         <MeContext.Provider value={myEmail}>
             <FriendContext.Provider value={friend?.MyFriend.Email}>
-                <section className="">
-                    <h3>Friend's profile</h3>
-                    {friend?.MyFriend.userName}
+                <main className="main">
+              
                     <ProfileWheel routes={routes} />
-            </section>
+                    
+                    </main>
         </FriendContext.Provider>
         </MeContext.Provider>
     )

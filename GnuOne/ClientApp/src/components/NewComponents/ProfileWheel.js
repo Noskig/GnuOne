@@ -66,7 +66,7 @@ function ProfileWheel({ routes }) {
             <div className="profile-wheel-wrapper">
                 <ul className='profile-wheel'>
                     {menu.map((menuItem) => (
-                        <Link to={menuItem.path} onClick={() => handleClick(menuItem.id)} className={active && chosenPage === menuItem.id ? "chosen" : active ? "notChosen" : done && chosenPage === menuItem.id ? "initialPlace" : "notChosenAfter"} >
+                        <Link key={menuItem.id} to={menuItem.path} onClick={() => handleClick(menuItem.id)} className={active && chosenPage === menuItem.id ? "chosen" : active ? "notChosen" : done && chosenPage === menuItem.id ? "initialPlace" : "notChosenAfter"} >
                             <li key={menuItem.name}>
                                 <img alt="icon person" src={menuItem.img} />
                             </li>

@@ -13,7 +13,7 @@ const Friends = () => {
     const friendEmail = useContext(FriendContext)
     const myEmail = useContext(MeContext)
     const port = useContext(PortContext)
-    const url = `https://localhost:${port}/api/myfriends`
+    const url = `https://localhost:${port}/api/myfriends/`
     const [friendsList, setFriendsList] = useState([])
     const [showOverlay, setShowOverlay] = useState(false)
     //SEARCH 
