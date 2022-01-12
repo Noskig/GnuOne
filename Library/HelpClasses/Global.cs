@@ -13,7 +13,7 @@ namespace Welcome_Settings
 
 		public static string sql = @"-- --------------------------------------------------------
 -- Värd:                         127.0.0.1
--- Serverversion:                10.6.5-MariaDB - mariadb.org binary distribution
+-- Serverversion:                8.0.27 - MySQL Community Server - GPL
 -- Server-OS:                    Win64
 -- HeidiSQL Version:             11.3.0.6295
 -- --------------------------------------------------------
@@ -27,21 +27,21 @@ namespace Welcome_Settings
 
 
 -- Dumpar databasstruktur för gnu
-CREATE DATABASE IF NOT EXISTS `gnu` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE IF NOT EXISTS `gnu` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `gnu`;
 
 -- Dumpar struktur för tabell gnu.comments
 CREATE TABLE IF NOT EXISTS `comments` (
-  `ID` int(11) NOT NULL,
+  `ID` int NOT NULL,
   `Email` varchar(50) NOT NULL DEFAULT '',
   `userName` varchar(50) DEFAULT NULL,
   `Date` datetime DEFAULT NULL,
   `commentText` varchar(100) NOT NULL,
-  `postID` int(11) NOT NULL,
+  `postID` int NOT NULL,
   `postEmail` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`ID`,`Email`),
   KEY `FK_comments_posts` (`postID`,`postEmail`),
-  CONSTRAINT `FK_comments_posts` FOREIGN KEY (`postID`, `postEmail`) REFERENCES `posts` (`ID`, `Email`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `FK_comments_posts` FOREIGN KEY (`postID`, `postEmail`) REFERENCES `posts` (`ID`, `Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumpar data för tabell gnu.comments: ~0 rows (ungefär)
@@ -50,15 +50,15 @@ CREATE TABLE IF NOT EXISTS `comments` (
 
 -- Dumpar struktur för tabell gnu.discussions
 CREATE TABLE IF NOT EXISTS `discussions` (
-  `ID` int(11) NOT NULL,
+  `ID` int NOT NULL,
   `Email` varchar(50) NOT NULL DEFAULT '',
   `Headline` varchar(50) DEFAULT NULL,
   `discussionText` varchar(500) DEFAULT NULL,
   `userName` varchar(50) DEFAULT NULL,
   `Date` datetime DEFAULT NULL,
-  `tagOne` int(11) DEFAULT NULL,
-  `tagTwo` int(11) DEFAULT NULL,
-  `tagThree` int(11) DEFAULT NULL,
+  `tagOne` int DEFAULT NULL,
+  `tagTwo` int DEFAULT NULL,
+  `tagThree` int DEFAULT NULL,
   PRIMARY KEY (`ID`,`Email`),
   KEY `FK_discussions_tags` (`tagOne`),
   KEY `FK_discussions_tags_2` (`tagTwo`),
@@ -74,27 +74,29 @@ CREATE TABLE IF NOT EXISTS `discussions` (
 
 -- Dumpar struktur för tabell gnu.myfriends
 CREATE TABLE IF NOT EXISTS `myfriends` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ID` int NOT NULL AUTO_INCREMENT,
   `userName` varchar(50) DEFAULT NULL,
   `Email` varchar(50) NOT NULL,
   `IsFriend` bit(1) DEFAULT NULL,
   `pubKey` varchar(50) DEFAULT NULL,
   `userInfo` varchar(300) DEFAULT NULL,
-  `pictureID` int(11) DEFAULT NULL,
-  `tagOne` int(11) DEFAULT NULL,
-  `tagTwo` int(11) DEFAULT NULL,
-  `tagThree` int(11) DEFAULT NULL,
+  `pictureID` int DEFAULT NULL,
+  `tagOne` int DEFAULT NULL,
+  `tagTwo` int DEFAULT NULL,
+  `tagThree` int DEFAULT NULL,
+  `hideMe` bit(1) DEFAULT NULL,
+  `hideFriend` bit(1) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `Email` (`Email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myfriends: ~2 rows (ungefär)
+-- Dumpar data för tabell gnu.myfriends: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `myfriends` DISABLE KEYS */;
 /*!40000 ALTER TABLE `myfriends` ENABLE KEYS */;
 
 -- Dumpar struktur för tabell gnu.myfriendsfriends
 CREATE TABLE IF NOT EXISTS `myfriendsfriends` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ID` int NOT NULL AUTO_INCREMENT,
   `myFriendEmail` varchar(50) NOT NULL,
   `userName` varchar(50) DEFAULT NULL,
   `Email` varchar(50) DEFAULT NULL,
@@ -109,13 +111,13 @@ CREATE TABLE IF NOT EXISTS `myfriendsfriends` (
 
 -- Dumpar struktur för tabell gnu.myprofile
 CREATE TABLE IF NOT EXISTS `myprofile` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ID` int NOT NULL AUTO_INCREMENT,
   `Email` varchar(50) DEFAULT NULL,
   `myUserInfo` varchar(50) DEFAULT NULL,
-  `pictureID` int(11) DEFAULT NULL,
-  `tagOne` int(11) DEFAULT NULL,
-  `tagTwo` int(11) DEFAULT NULL,
-  `tagThree` int(11) DEFAULT NULL,
+  `pictureID` int DEFAULT NULL,
+  `tagOne` int DEFAULT NULL,
+  `tagTwo` int DEFAULT NULL,
+  `tagThree` int DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `FK_myprofile_tags` (`tagOne`),
   KEY `FK_myprofile_tags_2` (`tagTwo`),
@@ -127,13 +129,13 @@ CREATE TABLE IF NOT EXISTS `myprofile` (
   CONSTRAINT `FK_myprofile_tags_3` FOREIGN KEY (`tagThree`) REFERENCES `tags` (`ID`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myprofile: ~1 rows (ungefär)
+-- Dumpar data för tabell gnu.myprofile: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `myprofile` DISABLE KEYS */;
 /*!40000 ALTER TABLE `myprofile` ENABLE KEYS */;
 
 -- Dumpar struktur för tabell gnu.mysettings
 CREATE TABLE IF NOT EXISTS `mysettings` (
-  `ID` int(11) DEFAULT NULL,
+  `ID` int DEFAULT NULL,
   `Email` varchar(75) DEFAULT NULL,
   `Password` varchar(75) DEFAULT NULL,
   `userName` varchar(75) DEFAULT NULL,
@@ -146,12 +148,12 @@ CREATE TABLE IF NOT EXISTS `mysettings` (
 
 -- Dumpar struktur för tabell gnu.posts
 CREATE TABLE IF NOT EXISTS `posts` (
-  `ID` int(11) NOT NULL,
+  `ID` int NOT NULL,
   `Email` varchar(50) NOT NULL,
   `userName` varchar(50) NOT NULL DEFAULT '',
   `postText` varchar(1000) NOT NULL DEFAULT '',
   `Date` datetime NOT NULL,
-  `discussionID` int(11) NOT NULL,
+  `discussionID` int NOT NULL,
   `discussionEmail` varchar(50) NOT NULL,
   PRIMARY KEY (`ID`,`Email`),
   KEY `FK_posts_discussions` (`discussionID`,`discussionEmail`),
@@ -164,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
 
 -- Dumpar struktur för tabell gnu.standardpictures
 CREATE TABLE IF NOT EXISTS `standardpictures` (
-  `pictureID` int(11) NOT NULL AUTO_INCREMENT,
+  `pictureID` int NOT NULL AUTO_INCREMENT,
   `PictureName` varchar(50) DEFAULT NULL,
   `PictureSrc` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`pictureID`) USING BTREE
@@ -182,7 +184,7 @@ INSERT INTO `standardpictures` (`pictureID`, `PictureName`, `PictureSrc`) VALUES
 
 -- Dumpar struktur för tabell gnu.tags
 CREATE TABLE IF NOT EXISTS `tags` (
-  `ID` int(11) NOT NULL,
+  `ID` int NOT NULL,
   `tagName` varchar(50) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -214,7 +216,7 @@ INSERT INTO `tags` (`ID`, `tagName`) VALUES
 
 -- Dumpar struktur för tabell gnu.users
 CREATE TABLE IF NOT EXISTS `users` (
-  `ID` int(11) NOT NULL,
+  `ID` int NOT NULL,
   `userName` varchar(50) DEFAULT NULL,
   `Email` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE

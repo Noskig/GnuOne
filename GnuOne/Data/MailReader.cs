@@ -214,6 +214,18 @@ namespace GnuOne.Data
                                 if (deedj == 1) { break; }
                                 else { break; }
 
+                            
+
+                            case "FriendHiding":
+                                var deed4 = UpdateFriendHiding(decryptedMessage, _newContext, cleanEmailFrom);
+                                if (deed4 == 1) { break; }
+                                else { break; }
+
+                            case "FriendShowing":
+                                var deed5 = UpdateFriendShowing(decryptedMessage, _newContext, cleanEmailFrom);
+                                if (deed5 == 1) { break; }
+                                else { break; }
+
                             default:
                                 break;
                         }
@@ -231,6 +243,59 @@ namespace GnuOne.Data
                 }
                 client.Disconnect(true);
             }
+        }
+
+        private static int UpdateFriendShowing(string decryptedMessage, MariaContext context, string cleanEmailFrom)
+        {
+            var friendShowing = decryptedMessage;
+            var friend = context.MyFriends.Where(x => x.Email == cleanEmailFrom).FirstOrDefault();
+
+            if (friend != null)
+            {
+                friend.hideFriend = false;
+                context.MyFriends.Update(friend);
+                context.SaveChangesAsync().Wait();
+
+                var mySettings = context.MySettings.FirstOrDefault();
+
+                var jsonFriend = JsonConvert.SerializeObject(friend);
+                foreach (var user in context.MyFriends)
+                {
+                    MailSender.SendObject(jsonFriend, user.Email, mySettings, "FriendGotAFriend");
+
+                }
+
+                return 1;
+            }
+
+            return -1;
+        }
+    
+
+        private static int UpdateFriendHiding(string decryptedMessage, MariaContext context, string cleanEmailFrom)
+        {
+            var friendHiding = decryptedMessage;
+
+            var friend = context.MyFriends.Where(x => x.Email == cleanEmailFrom).FirstOrDefault();
+            if (friend != null)
+            {
+                friend.hideFriend = true;
+                context.MyFriends.Update(friend);
+                context.SaveChangesAsync().Wait();
+
+                var mySettings = context.MySettings.FirstOrDefault();
+
+                var jsonFriend = JsonConvert.SerializeObject(friend);
+                foreach (var user in context.MyFriends)
+                {
+                    MailSender.SendObject(jsonFriend, user.Email, mySettings, "FriendsFriendGotRemoved");
+
+                }
+
+                return 1;
+            }
+
+            return -1;
         }
 
         private static int RecieveAndUpdateFriend(string decryptedMessage, MariaContext context)

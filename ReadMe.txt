@@ -72,6 +72,9 @@ Vill vi ha både publika och privata vänner?
 
 -Gömma sig i nätverken hos vänner. (bli osynlig för deras nätverk, inställning)
 //bool var?
+- Behöver 2 bool i myFriends (me/youHiding)
+- Ändrar man på den så tas man bort/läggs till i friendsfriends
+- Se hans posts på väns discussion utan hans namn?
 
 ????????
 
@@ -101,6 +104,7 @@ EXTRA-JOBB:
 - Foreach tabort vänner. 
 - Script för att ta bort databasen
 - Try catch block på all sparning i controllers?
+- Kunna blocka någon?
 
 ///////////////////////////////////////////////////////////
 PROBLEM:

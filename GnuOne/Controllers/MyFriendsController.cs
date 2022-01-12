@@ -181,5 +181,31 @@ namespace GnuOne.Controllers
 
             return Ok();
         }
+
+        [HttpPatch]
+        public async Task<IActionResult> Visibility([FromBody] string email, bool hide)
+        {
+            var friend = await _context.MyFriends.Where(x => x.Email.Equals(email)).FirstOrDefaultAsync();
+
+            if (hide == true)
+            {
+                friend.hideMe = true;
+                _context.MyFriends.Update(friend);
+                await _context.SaveChangesAsync();
+
+                MailSender.SendObject("true", email, _settings, "FriendHiding");
+                return Ok($"You're now hiding from {friend.userName}'s network.");
+            }
+
+            else
+            {
+                friend.hideMe = false;
+                _context.MyFriends.Update(friend);
+                await _context.SaveChangesAsync();
+
+                MailSender.SendObject("false", email, _settings, "FriendShowing");
+                return Ok($"You're now visable for {friend.userName}'s network.");
+            }
+        }
     }
 }
