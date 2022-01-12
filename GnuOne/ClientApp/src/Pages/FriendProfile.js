@@ -41,11 +41,11 @@ const FriendProfile = ({ routes }) => {
     return (
         <MeContext.Provider value={myEmail}>
             <FriendContext.Provider value={friend?.MyFriend.Email}>
-                <section className="">
-                    <h3>Friend's profile</h3>
-                    {friend?.MyFriend.userName}
+                <main className="main">
+              
                     <ProfileWheel routes={routes} />
-            </section>
+                    
+                    </main>
         </FriendContext.Provider>
         </MeContext.Provider>
     )
