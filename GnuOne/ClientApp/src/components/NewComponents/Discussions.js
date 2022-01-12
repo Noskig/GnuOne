@@ -47,7 +47,7 @@ const Discussions = ({ routes }) => {
 
         let filteredDisc = () => {
 
-            console.log('1: ' + discussions[0].Email)
+           
             console.log(myEmail)
             console.log(friendEmail)
             if (discussions && (friendEmail === undefined)) {

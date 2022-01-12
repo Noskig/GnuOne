@@ -1,14 +1,15 @@
 .navbar {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     padding: 0 1em;
+    width: 90vw;
 }
 .menu {
     width: 3em;
 }
 .elements {
     list-style: none;
-    display: flex;
+    
     transition: transform 500ms;
 }
 
@@ -32,16 +33,5 @@
     position: relative;
     z-index: -1;
     margin: 15px 11px;
-}
-
-.elements:target>.avatar{
-    transform: rotate(-60deg) translateY(-150px) rotate(60deg);
-    transition-delay: 0.3s;
-}
-
-
-.elements:target > .settings {
-    transform: rotate(-60deg) translateY(-150px) rotate(60deg);
-    transition-delay: 0.3s;
 }
 

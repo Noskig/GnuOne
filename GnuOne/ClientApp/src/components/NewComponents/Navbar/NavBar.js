@@ -9,7 +9,7 @@ import "./navbar.css"
 const NavBar = () => {
 
     return (
-            <section>
+            
                 <div className="navbar">
                      <img src={logo} alt="logo" />
                      <div className="menu" >
@@ -26,7 +26,7 @@ const NavBar = () => {
                         </ul>
                     </div>
                 </div>
-            </section>
+            
         )
 }
 
