@@ -3,26 +3,44 @@ import { useState, useEffect, useContext } from 'react'
 import './friends.css'
 import PortContext from '../../contexts/portContext';
 import AddFriendOverlay from './AddFriendOverlay';
+import Search from './Search'
+import { Link } from 'react-router-dom';
+import FriendContext from '../../contexts/friendContext';
+import MeContext from '../../contexts/meContext';
 
 
 const Friends = () => {
-
-
+    const friendEmail = useContext(FriendContext)
+    const myEmail = useContext(MeContext)
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/myfriends`
     const [friendsList, setFriendsList] = useState([])
     const [showOverlay, setShowOverlay] = useState(false)
-
+    //SEARCH 
+    const [searchTerm, setSearchTerm] = useState('')
+    const filteredFriends = filterFriends(friendsList, searchTerm)
 
     useEffect(() => {
         fetchData()
     }, [])
 
     async function fetchData() {
-        const response = await fetch(url)
-        const friends = await response.json()
-        console.log(friends)
-        setFriendsList(friends)
+        if (friendEmail === undefined) {
+            const response = await fetch(url)
+            const friends = await response.json()
+            setFriendsList(friends)
+        } else {
+            const response = await fetch(url, {
+                method: 'PATCH',
+                body: JSON.stringify(friendEmail),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                }
+            })
+            const friend = await response.json()
+            const friendsfriends = friend.MyFriendsFriends
+            setFriendsList(friendsfriends)
+        }
     }
 
     const close = () => {
@@ -52,8 +70,25 @@ const Friends = () => {
         fetchData();
     }
 
-    return (
+    //SEARCH
+    function search(s) {
+        setSearchTerm(s)
+    }
 
+    function filterFriends(friendsList, searchTerm) {
+        return friendsList.filter((data) => {
+            if (searchTerm === "") {
+                return true
+            } else if (data.userName.toLowerCase().includes(searchTerm.toLowerCase())) {
+                return data
+            }
+
+        })
+    }
+
+    return (
+        <>
+            <Search search={search}/>
         <section className="friends-container">
 
             {showOverlay
@@ -65,14 +100,24 @@ const Friends = () => {
                 : <button className="new-friend" onClick={() => setShowOverlay(true)}> Add new friend </button>
             }
 
-            <ul className="friends-list">
-                {friendsList.map(friend => <li key={friend.ID}> <img className="friend-avatar" /> {friend.userName}
-                    {friend.isFriend ? null : <button onClick={(e) => handleClick(e, friend)}>Accept friend</button>}
+                
+                <ul className="friends-list">
+                    {filteredFriends.map(friend => <li key={friend.ID}>
+                        {friendEmail === undefined && friend.isFriend ? <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                            <img className="friend-avatar" /> {friend.userName} </Link>
+                            : friendEmail === undefined && !friend.isFriend
+                                ? <><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                    <img className="friend-avatar" /> {friend.userName} </Link> <button onClick={(e) => handleClick(e, friend)}>Accept friend</button> </>
+                                : <> <img className="friend-avatar" /> {friend.userName}
+                                    <button> Send friend request</button></>}
+                        
+
+                    
                 </li>)}
             </ul>
 
         </section>
-
+            </>
     )
 }
 

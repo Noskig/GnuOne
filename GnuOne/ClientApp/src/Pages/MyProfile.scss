@@ -4,12 +4,11 @@
     --button-color: #24AAC3;
     --button-h1-color: #043239;
     --getStartedSection-color: #0D5A69;
-    --light-turquoise: #BBE3F0;
-    --darker-turquoise: #7DB1BA;
+    --light-turquoise: #83D3EC;
+    --darker-turquoise: #0D5A69;
 }
 
-html,
-body {
+html, body {
     height: 100%;
     width: 100%;
 }
@@ -19,179 +18,35 @@ body {
     font-family: 'Saira', sans-serif;
 }
 
-.profile-wheel-container {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.profile-wheel-wrapper {
-    transform: scale(0.7);
-}
-
-
-
-
-.profile-wheel-lines-container {
-    width: 35em;
-    height: 35em;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.line {
-    position: absolute;
-    width: 20em;
-    height: 3px;
-    background-color: lightgray;
-    z-index: -1;
-}
-
-//=================================================================
-//top circle controler
-/// @param {Integer} $item-count - Number of items on the circle
-/// @param {Length} $circle-size - Large circle size
-/// @param {Length} $item-size - Single item size
-@mixin on-circle-about($item-count, $circle-size, $item-size) {
-    position: relative;
-    width: $circle-size;
-    height: $circle-size;
-    border-radius: 50%;
-    padding: 0;
-    list-style: none;
-
-    > .initialPlace, .chosen, .notChosen, .img-of-person {
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin: -($item-size / 2);
-        width: $item-size;
-        height: $item-size;
-
-        $angle: (360 / $item-count);
-        $rot: 0;
-
-        @for $i from 1 through $item-count {
-            &:nth-of-type(#{$i}) {
-                transform: rotate($rot * 1deg) translate($circle-size / 2.5) rotate($rot * -1deg);
-            }
-
-            $rot: $rot + $angle;
-        }
-    }
-
-    .line {
-        display: block;
-        position: absolute;
-
-        $angle: (360 / $item-count);
-        $rot: 0;
-
-        @for $i from 1 through $item-count {
-            &:nth-of-type(#{$i}) {
-                transform: rotate($rot * 1deg) translate($circle-size / 12);
-            }
-
-            $rot: $rot + $angle;
-        }
-    }
-
-    .notChosenAfter, .img-of-person {
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin: -($item-size / 2);
-        width: $item-size;
-        height: $item-size;
-
-        $angle: (360 / $item-count);
-        $rot: 0;
-
-        @for $i from 1 through $item-count {
-            &:nth-of-type(#{$i}) {
-                transform: rotate($rot * 1deg) translate($circle-size / 3.75) rotate($rot * -1deg);
-            }
-
-            $rot: $rot + $angle;
-        }
-    }
-}
-
-.profile-wheel {
-    @include on-circle-about($item-count: 6, $circle-size: 35em, $item-size: 8em);
-
-    .initialPlace, .chosen, .notChosen, .notChosenAfter, .img-of-person {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        max-width: 100%;
-        border-radius: 50%;
-        background-color: var(--darker-turquoise);
-    }
-}
-
-//animations for menu
-.notChosen {
-    text-decoration: none;
-    animation: menu-animation 1s ease-in forwards;
-}
-@keyframes menu-animation {
-    100% {
-        transform: translate(0em);
-    }
-}
-
-
-//=================================================================
-
-// MOBILE AND TABLET SCREENS
-
-// screen size below 1000px
-@media screen and (max-width: 1100px) {
+main {
+    display: grid;
+    grid-template-columns: 0.5fr repeat(7,1fr) 0.5fr;
+    grid-template-rows: 4rem 4rem 1fr 1fr 1fr 1fr 4rem;
 
     .profile-wheel-container {
-        flex-direction: column-reverse;
-        align-items: center;
+        grid-column-start: 6;
+        grid-column-end: 9;
+        grid-row-start: 3;
+        grid-row-end: 5;
+        justify-self: right;
     }
 
-    .profile-wheel-wrapper {
-        transform: scale(0.7);
-        height: 600px;
-    }
-}
-
-@media screen and (max-width: 800px) {
-
-    .profile-wheel-container {
-        flex-direction: column-reverse;
-        align-items: center;
+    .friends-container, .bio-container, .messages-container, .settings-container, .discussions-container {
+        grid-column-start: 2;
+        grid-column-end: 6;
+        grid-row-start: 2;
+        grid-row-end: 7;
+        justify-self: stretch;
     }
 
-    .profile-wheel-wrapper {
-        transform: scale(0.6);
-    }
-}
-
-// screen size bellow 700px
-@media screen and (max-width: 700px) {
-
-    .profile-wheel-wrapper {
-        transform: scale(0.5);
-        height: 450px;
-    }
-}
-
-// screen size below 500px
-@media screen and (max-width: 500px) {
-
-    .profile-wheel-wrapper {
-        transform: scale(0.4);
-        height: 320px;
-        margin-bottom: 2rem;
+    .search-bar {
+        grid-column-start: 6;
+        grid-column-end: 9;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        justify-self: center;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
     }
 }

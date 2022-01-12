@@ -33,7 +33,7 @@ namespace GnuOne.Controllers
         //[Route("api/[controller]/SendFriendRequest")]
         public async Task<IActionResult> PostSendFriendRequest([FromBody] MyFriend Email)
         {
-            
+
             var potentialnewfriend = new MyFriend();
             potentialnewfriend.Email = Email.Email;
 
@@ -44,7 +44,7 @@ namespace GnuOne.Controllers
             myInfo.isFriend = false; //vi har inte blivit vänner än
 
             var jsonMyInfoInObject = JsonConvert.SerializeObject(myInfo);
-            
+
             MailSender.SendObject(jsonMyInfoInObject, Email.Email, _settings, "FriendRequest");
 
             _context.MyFriends.Add(potentialnewfriend);
@@ -64,6 +64,24 @@ namespace GnuOne.Controllers
 
             return Ok(converted);
         }
+
+        /// <summary>
+        /// Hämtar vän och hans vänner
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        [HttpPatch]
+        public async Task<IActionResult> Get([FromBody] string email)
+        {
+            var friend = _context.MyFriends.Where(x => x.Email == email).FirstOrDefault();
+            var friendsfriends = _context.MyFriendsFriends.Where(x => x.myFriendEmail == email).ToList();
+
+            JsonFF jsonFF = new JsonFF(friend, friendsfriends);
+            var jsonFFSerialized = JsonConvert.SerializeObject(jsonFF);
+
+            return Ok(jsonFFSerialized);
+        }
+
         /// <summary>
         /// Svarar på en vänförfrågan
         /// </summary>
@@ -102,6 +120,8 @@ namespace GnuOne.Controllers
                 friend.isFriend = true;
 
                 var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(_context, myInfo.Email, true);
+                bigListWithMyInfo.username = _settings.userName.ToString();
+
                 var jsonBigListObject = JsonConvert.SerializeObject(bigListWithMyInfo);
 
                 MailSender.SendObject(jsonBigListObject, friend.Email, _settings, "AcceptedFriendRequest");

@@ -1,34 +1,3 @@
-﻿:root {
-    --navMenu-color: #111111;
-    --navLink-color: #4DBBCD;
-    --button-color: #24AAC3;
-    --button-h1-color: #043239;
-    --getStartedSection-color: #0D5A69;
-    --light-turquoise: #BBE3F0;
-    --darker-turquoise: #7DB1BA;
-}
-
-html,
-body {
-    height: 100%;
-    width: 100%;
-}
-
-body {
-    margin: 0;
-    font-family: 'Saira', sans-serif;
-}
-
-.profile-wheel-container {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.profile-wheel-wrapper {
-    transform: scale(0.7);
-}
-
-
 
 
 .profile-wheel-lines-container {
@@ -131,6 +100,25 @@ body {
         align-items: center;
         max-width: 100%;
         border-radius: 50%;
+    }
+
+    .notChosenAfter {
+        background-color: var(--darker-turquoise);
+    }
+
+    .notChosen {
+        background-color: var(--darker-turquoise);
+    }
+
+    .chosen {
+        background-color: var(--light-turquoise);
+    }
+
+    .initialPlace {
+        background-color: var(--light-turquoise);
+    }
+
+    .img-of-person {
         background-color: var(--darker-turquoise);
     }
 }
@@ -149,49 +137,3 @@ body {
 
 //=================================================================
 
-// MOBILE AND TABLET SCREENS
-
-// screen size below 1000px
-@media screen and (max-width: 1100px) {
-
-    .profile-wheel-container {
-        flex-direction: column-reverse;
-        align-items: center;
-    }
-
-    .profile-wheel-wrapper {
-        transform: scale(0.7);
-        height: 600px;
-    }
-}
-
-@media screen and (max-width: 800px) {
-
-    .profile-wheel-container {
-        flex-direction: column-reverse;
-        align-items: center;
-    }
-
-    .profile-wheel-wrapper {
-        transform: scale(0.6);
-    }
-}
-
-// screen size bellow 700px
-@media screen and (max-width: 700px) {
-
-    .profile-wheel-wrapper {
-        transform: scale(0.5);
-        height: 450px;
-    }
-}
-
-// screen size below 500px
-@media screen and (max-width: 500px) {
-
-    .profile-wheel-wrapper {
-        transform: scale(0.4);
-        height: 320px;
-        margin-bottom: 2rem;
-    }
-}

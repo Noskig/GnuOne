@@ -4,7 +4,6 @@
     display: flex;
     flex-direction: row;
     align-items: flex-end;
-    padding-left: 5em;
 }
 .search input {
     border: 1px rgb(255, 255, 255) solid;

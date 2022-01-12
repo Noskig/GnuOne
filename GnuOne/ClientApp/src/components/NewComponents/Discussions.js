@@ -7,12 +7,18 @@ import trash from '../../icons/trash.svg'
 import done from '../../icons/done.svg'
 import edit from '../../icons/edit.svg'
 import DeleteDiscussionOverlay from './DeleteDiscussionOverlay'
+import Search from './Search';
+import MeContext from '../../contexts/meContext';
+import FriendContext from '../../contexts/friendContext';
+import "./discussion.css";
+
 
 
 
 const Discussions = ({ routes }) => {
     const [discussions, setDiscussions] = useState([])
     const port = useContext(PortContext)
+    console.log(port)
     const url = `https://localhost:${port}/api/discussions/`
     const [showOverlay, setShowOverlay] = useState(false)
     const [showDeleteConfirm, setshowDeleteConfirm] = useState(false)
@@ -21,6 +27,13 @@ const Discussions = ({ routes }) => {
     const [activeDiscussion, setActiveDiscussion] = useState('')
     const [editOpen, setEditOpen] = useState(false)
 
+    //SEARCH 
+    const [searchTerm, setSearchTerm] = useState('')
+    const filteredDiscussions = filterDiscussions(discussions, searchTerm)
+    const myEmail = useContext(MeContext)
+    const friendEmail = useContext(FriendContext)
+    console.log(myEmail)
+    console.log(friendEmail)
 
     useEffect(() => {
         fetchData()
@@ -31,7 +44,34 @@ const Discussions = ({ routes }) => {
         const response = await fetch(url)
         const discussions = await response.json()
         console.log(discussions)
-        setDiscussions(discussions)
+
+        let filteredDisc = () => {
+
+            console.log('1: ' + discussions[0].Email)
+            console.log(myEmail)
+            console.log(friendEmail)
+            if (discussions && (friendEmail === undefined)) {
+                return discussions.filter((disc) => {
+
+                    if (disc.Email === myEmail) {
+                        console.log('1: ' + disc.Email, myEmail)
+                        return disc
+                    }
+
+                })
+            } else if (discussions && friendEmail) {
+                return discussions.filter((disc) => {
+
+                    if (disc.Email === friendEmail) {
+                        console.log('2: ' + disc.Email, friendEmail)
+                        return disc
+                    }
+
+                })
+            }
+        }
+        console.log(filteredDisc)
+        setDiscussions(filteredDisc)
     }
 
     const close = () => {
@@ -40,10 +80,10 @@ const Discussions = ({ routes }) => {
 
     //EDIT 
     function openEditDiscussion(e, discussion) {
-            e.preventDefault()
-            setActiveDiscussion(discussion.ID)
-            setEditOpen(true)
-            setDiscussionText(discussion.discussionText)
+        e.preventDefault()
+        setActiveDiscussion(discussion.ID)
+        setEditOpen(true)
+        setDiscussionText(discussion.discussionText)
     }
 
     async function confirmEditDiscussion(e, discussion) {
@@ -65,18 +105,42 @@ const Discussions = ({ routes }) => {
         setDiscussionText('')
     }
 
-        //DELETE 
-        const closeDeletion = () => {
-            setshowDeleteConfirm(false)
-        }
+    //DELETE 
+    const closeDeletion = () => {
+        setshowDeleteConfirm(false)
+    }
 
-        function openDeleteOverlay(discussion) {
-            setActiveDiscussion(discussion.ID)
-            setshowDeleteConfirm(true)
+    function openDeleteOverlay(discussion) {
+        setActiveDiscussion(discussion.ID)
+        setshowDeleteConfirm(true)
+    }
+    function readmoreAndId(discussion) {
+        setActiveDiscussion(discussion.ID)
+        setReadMore(true)
+        if (readMore == true && activeDiscussion == discussion.ID) {
+            setReadMore(false)
         }
+    }
 
-        return (
-            <>
+    //SEARCH 
+    function search(s) {
+        setSearchTerm(s)
+    }
+
+    function filterDiscussions(discussions, searchTerm) {
+        return discussions?.filter((data) => {
+            if (searchTerm === "") {
+                return true
+            } else if (data.Headline.toLowerCase().includes(searchTerm.toLowerCase())) {
+                return data
+            }
+
+        })
+    }
+
+    return (
+        <>
+            <Search search={search} />
             <section className="discussions-container">
 
 
@@ -85,31 +149,31 @@ const Discussions = ({ routes }) => {
                 <div className="new-discussion-container">
                     {showOverlay
                         ? <>
-                            <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)} />
+                            <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)}/>
 
                             <AddDiscussionOverlay fetchData={fetchData} close={close} />
                         </>
                         :
-                        <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)} />
+                        <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)}/>
                     }
                 </div>
 
 
                 <div className="discussions-list">
-                    {discussions ? discussions.map(discussion =>
+                    {filteredDiscussions ? filteredDiscussions.map(discussion =>
                         <div className="discussion" key={discussion.ID + discussion.userName}>
 
                             {editOpen && activeDiscussion === discussion.ID
-                                ?<>
-                            <h4 className="">{discussion.Headline}</h4>
-                            <div className={readMore ? "" : "hide"}>
+                                ? <div className="discussion-content">
+                                    <h4 className="">{discussion.Headline}</h4>
+                                    <div className={readMore ? "" : "hide"}>
 
-                                 <textarea maxLength="500" value={discussionText} className="edit" onChange={(e) => setDiscussionText(e.target.value)} />
+                                        <textarea maxLength="500" value={discussionText} className="edit" onChange={(e) => setDiscussionText(e.target.value)} />
 
-                            </div>
-                                </>
-                                
-                                : < Link className="dicussion-content" to={{
+                                    </div>
+                                </div>
+
+                                : < Link className="discussion-content" to={{
                                     pathname: `/profile/discussions/${discussion.ID}`, state: {
                                         discussionText: discussion.discussionText,
                                         Headline: discussion.Headline,
@@ -120,18 +184,18 @@ const Discussions = ({ routes }) => {
                                     }
                                 }}>
                                     <h4 className="">{discussion.Headline}</h4>
-                                    <div className={readMore ? "" : "hide"}>
+                                    <div className={readMore && activeDiscussion == discussion.ID ? "" : "hide"}>
 
                                         <p className="text">{discussion.discussionText}</p>
 
                                     </div>
                                 </Link>
-                                
-                                
-                                }
 
 
-                            <div className="discussion-options">
+                            }
+
+
+                            <div className={readMore && activeDiscussion == discussion.ID ? "discussion-options" : "discussion-options hide"}>
 
 
                                 {showDeleteConfirm && activeDiscussion === discussion.ID
@@ -153,7 +217,7 @@ const Discussions = ({ routes }) => {
                                     : <button onClick={(e) => openEditDiscussion(e, discussion)}>
                                         <img alt="edit" src={edit} />
                                     </button>
-                                   
+
                                 }
 
 
@@ -162,22 +226,17 @@ const Discussions = ({ routes }) => {
 
 
                             <div className="discussion-info">
-                                <h4>{discussion.numberOfPosts} posts on this topic</h4>
+                                <h4>{discussion.numberOfPosts} posts:</h4>
                                 <h4 className="createDate">{discussion.Date.slice(0, 19).replace('T', ' ').slice(0, 16)}</h4>
-                                <img alt="read-more" src={arrows} onClick={() => setReadMore(!readMore)} />
+                                <img className={readMore && activeDiscussion == discussion.ID ? "read-more reverse-icon" : "read-more"} alt="read-more" src={arrows} onClick={() => readmoreAndId(discussion)} />
                             </div>
                         </div>
                     ) : 'oops kan inte nå api'}
                 </div>
             </section>
-                {/*<Switch>
-                {routes.map((route, i) => (
-                    <RouteWithSubRoutes key={i} {...route} />
-                ))}
-            </Switch>*/}
-            </>
+        </>
 
-        )
-    }
+    )
+}
 
-    export default Discussions
+export default Discussions
