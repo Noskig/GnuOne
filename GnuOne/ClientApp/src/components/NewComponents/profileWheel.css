@@ -1,4 +1,5 @@
-﻿.profile-wheel-lines-container {
+
+.profile-wheel-lines-container {
   width: 35em;
   height: 35em;
   border-radius: 50%;
@@ -50,6 +51,7 @@
 }
 .profile-wheel > .initialPlace:nth-of-type(6), .profile-wheel .chosen:nth-of-type(6), .profile-wheel .notChosen:nth-of-type(6), .profile-wheel .img-of-person:nth-of-type(6) {
   transform: rotate(300deg) translate(14em) rotate(-300deg);
+
 }
 .profile-wheel .line {
   display: block;

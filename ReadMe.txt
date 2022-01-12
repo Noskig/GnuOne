@@ -29,8 +29,7 @@ Man kan Get/Post/Put/Delete comments
 
 ///////////////////////////////////////////////////////////
 ATT GÖRA: (utan inbördes ordning)
-Torsdag:
-Testa alla vänner och "nya" mailreadern
+
 
 
 1.   Jag vill kunna hämta ner och installera programmet och köra det ifrån en webbrowser. (bittorrent eller iwantag.nu?)
@@ -83,16 +82,29 @@ Vill vi ha både publika och privata vänner?
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-**Posts som tas bort ska ligga kvar men bli deletat.
--Bool. IsDeleted på posts. true/false, renderas olika. posts-DTOdeletedpost/Frontend?
+
+
+
+
+
+
+
+????????
+*** Profil.
+
+*userInfo. Intressen(bool). Publik nyckel.
 
 -Gömma sig i nätverken hos vänner. (bli osynlig för deras nätverk, inställning)
 
-*** Profil.
-*userInfo. Intressen(bool). Publik nyckel.
-** standardbilder 5st
-** Intressen/Tags
-** tags på inlägg
+
+**Posts som tas bort ska ligga kvar men bli deletat.
+-Bool. IsDeleted på posts. true/false, renderas olika. posts-DTOdeletedpost/Frontend?
+
+
+
+*Söka/filtrera(Api?)
+????????
+
 
 
 4.    Jag vill ha en sida där jag kan se vilka inställningar som är gjorda och eventuellt ändra valda parametrar.
@@ -137,7 +149,9 @@ KLART:
 # deleteFriend tar bort vännen, diskussioner, poster & vänsVänner. Åt båda hållet.
 # När man blir vän med någon. Behöver det gå ut ett mail till mina vänner med en som uppdaterar FriendsFriend 7/1
 # Bug #1. Lösning. När någon postar på min discussion. Behöver den posten studsa från min till alla mina vänner som har den diskussionen(alla).
-
+# standardbilder 5st
+# Intressen/Tags
+# Kunna visa sina favorit intressen på sin profil.
 
 
 # Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. 5/1
