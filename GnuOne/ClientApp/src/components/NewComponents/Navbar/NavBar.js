@@ -21,10 +21,10 @@ const NavBar = () => {
                 <li onClick={()=> setIsPressed(!isPressed)} className="avatar">
                         <img src={avatar} alt="avatar" />
                     </li>
-                <li className={isPressed ? "messages animation1" :"messages"}>
+                <li className={isPressed ? "messages out-animation1" :"messages in-animation1"}>
                         <img src={messages} alt="messages" />
                     </li>
-                <li className={isPressed ? "settings animation2" :"settings"}>
+                <li className={isPressed ? "settings out-animation2" :"settings in-animation2"}>
                         <img src={settings} alt="settings" />
                     </li>
                 </ul>
