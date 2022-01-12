@@ -91,7 +91,9 @@ namespace GnuOne.Data
                     allRelevantPosts.Add(post);
                 }
             }
-            var myFriends = _context.MyFriends.ToList();
+            var myFriends = _context.MyFriends.Where(x=> x.isFriend == true).ToList();
+
+
             var sendUsername = _context.MySettings.Select(x => x.userName).Single();
 
 
@@ -118,7 +120,7 @@ namespace GnuOne.Data
                     allRelevantPosts.Add(post);
                 }
             }
-            var myFriends = _context.MyFriends.ToList();
+            var myFriends = _context.MyFriends.Where(x => x.isFriend == true).ToList();
             var sendUsername = _context.MySettings.Select(x => x.userName).Single();
 
 

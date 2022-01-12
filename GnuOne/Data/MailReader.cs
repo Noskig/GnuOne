@@ -257,7 +257,6 @@ namespace GnuOne.Data
                 context.SaveChangesAsync().Wait();
 
                 var mySettings = context.MySettings.FirstOrDefault();
-                //friendfriend
 
                 var friendfriend = new MyFriendsFriends(friend, mySettings.Email);
                 var jsonFriendFriend = JsonConvert.SerializeObject(friendfriend);
@@ -328,6 +327,7 @@ namespace GnuOne.Data
             {
                 if (friend.Email != fromEmail)
                 {
+                    if (friend.isFriend == false) { continue; }
                     MailSender.SendObject(decryptedMessage, friend.Email, mysettings, subject);
                 }
             }
