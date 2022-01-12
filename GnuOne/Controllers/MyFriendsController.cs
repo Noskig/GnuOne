@@ -37,11 +37,17 @@ namespace GnuOne.Controllers
             var potentialnewfriend = new MyFriend();
             potentialnewfriend.Email = Email.Email;
 
+            var myProfile = await _context.MyProfile.FirstAsync();
             //skickar min information till vännen
             var myInfo = new MyFriend();
             myInfo.Email = _settings.Email;
             myInfo.userName = _settings.userName;
             myInfo.isFriend = false; //vi har inte blivit vänner än
+            myInfo.userInfo = myProfile.myUserInfo;
+            myInfo.pictureID = myProfile.pictureID;
+            myInfo.tagOne   =  myProfile.tagOne;  
+            myInfo.tagTwo = myProfile.tagTwo;
+            myInfo.tagThree = myProfile.tagThree;  
 
             var jsonMyInfoInObject = JsonConvert.SerializeObject(myInfo);
 
@@ -70,8 +76,8 @@ namespace GnuOne.Controllers
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        [HttpPatch]
-        public async Task<IActionResult> Get([FromBody] string email)
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetByEmail(string email)
         {
             var friend = _context.MyFriends.Where(x => x.Email == email).FirstOrDefault();
             var friendsfriends = _context.MyFriendsFriends.Where(x => x.myFriendEmail == email).ToList();
@@ -118,8 +124,9 @@ namespace GnuOne.Controllers
             else
             {
                 friend.isFriend = true;
+                var myProfile = await _context.MyProfile.FirstOrDefaultAsync();
 
-                var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(_context, myInfo.Email, true);
+                var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(_context, myInfo.Email, true, myProfile);
                 bigListWithMyInfo.username = _settings.userName.ToString();
 
                 var jsonBigListObject = JsonConvert.SerializeObject(bigListWithMyInfo);
@@ -173,6 +180,32 @@ namespace GnuOne.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPatch("{hide}")]
+        public async Task<IActionResult> Visibility([FromBody] string email, bool hide)
+        {
+            var friend = await _context.MyFriends.Where(x => x.Email.Equals(email)).FirstOrDefaultAsync();
+
+            if (hide == true)
+            {
+                friend.hideMe = true;
+                _context.MyFriends.Update(friend);
+                await _context.SaveChangesAsync();
+
+                MailSender.SendObject("true", email, _settings, "FriendHiding");
+                return Ok($"You're now hiding from {friend.userName}'s network.");
+            }
+
+            else
+            {
+                friend.hideMe = false;
+                _context.MyFriends.Update(friend);
+                await _context.SaveChangesAsync();
+
+                MailSender.SendObject("false", email, _settings, "FriendShowing");
+                return Ok($"You're now visable for {friend.userName}'s network.");
+            }
         }
     }
 }
