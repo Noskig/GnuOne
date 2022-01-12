@@ -54,20 +54,19 @@ Skriva instruktion och testa att det går
 **Dokumentera github. Text. Video. Göra en snygg förklaring. Guida Stig
 -Få prototyp redo, sen dokumentera V.1
 
-
 Publik nyckel.
-
-
 
 5.    Fixa till asymmetrisk kryptering/verifiering.
 - Kolla vad Marcus har.
 --Vilken information ska krypteras? Mailen? 
 - Maillösenord hashas in i databasen? (Secret key?)
 
--__Testa postman lite hejvilt_
 
 *APIsync för att synca discussion, post, vänner och vännersvänners ifall att nått skulle bli fel.
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+-Testa hej vilt med FRONTEND
 
 ----- Slutet av veckan.. En fungerande prototyp ------
 
@@ -134,3 +133,23 @@ TILL STIG:
 * Vad ska man kunna se?
 	# När man blir vänner, ska man kunna se alla varandras diskussioner, inlägg och kommentarer? Men även inlägg & kommentarer från andra, som inte är ens vänner? 
 * Om jag blir vän med Sam, då får jag hans vänner, men om han sen lägger till en vän efteråt, den vännen får inte jag? Sync-vänner-knapp i efterhand
+
+
+
+
+///kryptering
+
+
+alla användare har en private och publik key.
+
+mail krypteras med mottagarens public key.
+avkrypteras med deras private key.
+
+hur genereras nycklarna?
+var lägger man nycklarna?
+
+skickar man nyckeln i meddelande?
+
+Ta marcus -> vårt program.
+
+nycklarna. generea public. Gömma private.
