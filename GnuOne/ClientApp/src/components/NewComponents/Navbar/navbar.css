@@ -4,3 +4,68 @@
     justify-content: space-between;
     padding: 1em;
 }
+
+.open-settings {
+    display: flex;
+}
+
+#menu {
+    list-style:none;
+}
+
+.menu-button {
+    opacity: 0;
+    z-index: -1;
+    position: absolute;
+    overflow: hidden;
+    text-decoration: none;
+    background-size: 100%;
+}
+
+#menu:not(:target) > a:first-of-type,
+#menu:target > a:last-of-type {
+    opacity: 1;
+    z-index: 1;
+}
+
+#menu:not(:target) > .icon-plus:before,
+#menu:target > .icon-minus:before {
+    opacity: 1;
+}
+
+.menu-item {
+    position: absolute;
+    line-height: 5px;
+    border-radius: 50%;
+    top: 50px;
+    right: 30px;
+    transform: translate(0px, 0px);
+    transition: transform 500ms;
+    z-index: -2;
+    transition: .5s;
+}
+
+.menu-item:hover {
+     opacity: 0.5;
+     box-shadow: 0 5px 10px black;
+    }
+
+
+
+.menu-item a {
+    color: #fff;
+    position: relative;
+    top: 30%;
+    left: 0;
+    text-decoration: none;
+}
+
+#menu:target > .menu-item:nth-child(3) {
+    transform: rotate(-90deg) translateY(-110px) rotate(90deg);
+    transition-delay: 0.3s;
+}
+
+#menu:target > .menu-item:nth-child(4) {
+    transform: rotate(-90deg) translateY(-190px) rotate(90deg);
+    transition-delay: 0.3s;
+}
