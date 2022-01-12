@@ -1,4 +1,8 @@
 
+* {
+    text-decoration: none;
+    color: inherit;
+}
 ;root {
     --chosen-menu-page: 0;
 }
