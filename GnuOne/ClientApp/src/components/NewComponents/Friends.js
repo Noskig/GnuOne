@@ -13,7 +13,7 @@ const Friends = () => {
     const friendEmail = useContext(FriendContext)
     const myEmail = useContext(MeContext)
     const port = useContext(PortContext)
-    const url = `https://localhost:${port}/api/myfriends`
+    const url = `https://localhost:${port}/api/myfriends/`
     const [friendsList, setFriendsList] = useState([])
     const [showOverlay, setShowOverlay] = useState(false)
     //SEARCH 
@@ -30,13 +30,7 @@ const Friends = () => {
             const friends = await response.json()
             setFriendsList(friends)
         } else {
-            const response = await fetch(url, {
-                method: 'PATCH',
-                body: JSON.stringify(friendEmail),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                }
-            })
+            const response = await fetch(url + friendEmail)
             const friend = await response.json()
             const friendsfriends = friend.MyFriendsFriends
             setFriendsList(friendsfriends)
