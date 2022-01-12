@@ -74,6 +74,7 @@ namespace GnuOne.Controllers
 
 
             //skickar vidare till författaren
+
             MailSender.SendObject(jsonPost, post.discussionEmail, _settings, "PostedPost");
 
             //foreach (var user in _context.MyFriends)
@@ -139,6 +140,13 @@ namespace GnuOne.Controllers
         public async Task<IActionResult> DeletePost(int? id)
         {
             var post = await _context.Posts.FindAsync(id);
+
+            post.postText = "Deleted post";
+            post.userName = "Deleted post";
+
+            _context.Update(post);
+            await _context.SaveChangesAsync();
+            
             if (post == null)
             {
                 return NotFound();
@@ -149,9 +157,14 @@ namespace GnuOne.Controllers
             //skicka mail
             //deleta
 
+            //Markera som deleted (men ska inte tas bort.)
+            //En bool. 
+            //skickas till alla vänner. 
+
+
             var jsonPost = JsonConvert.SerializeObject(post);
 
-            MailSender.SendObject(jsonPost, post.discussionEmail, _settings, "DeletePost");
+            MailSender.SendObject(jsonPost, post.discussionEmail, _settings, "PutPost");
 
             //foreach (var user in _context.MyFriends)
             //{
@@ -159,8 +172,8 @@ namespace GnuOne.Controllers
             //    MailSender.SendObject(jsonPost, user.Email, _settings, "DeletePost");
             //}
 
-            _context.Remove(post);
-            await _context.SaveChangesAsync();
+            //_context.Remove(post);
+            //await _context.SaveChangesAsync();
             return Accepted(post);
         }
         private bool PostExists(int? id)

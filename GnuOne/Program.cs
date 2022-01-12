@@ -1,6 +1,7 @@
 using GnuOne.Data;
 using Library;
 using Library.HelpClasses;
+using Library.Models;
 using MailKit.Net.Pop3;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -65,9 +66,17 @@ while (keepGoing)
                 userName = username,
                 Secret = "secretkey"
             };
+            var profile = new myProfile
+            {
+                ID = 1,
+                Email = email,
+                pictureID = 1,
+                
+            };
             try
             {
-                await DbContext.MySettings.AddRangeAsync(settings);
+                await DbContext.MyProfile.AddAsync(profile);
+                await DbContext.MySettings.AddAsync(settings);
                 await DbContext.SaveChangesAsync();
             }
             catch (Exception ex)
