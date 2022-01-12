@@ -36,14 +36,14 @@ const DeleteDiscussionOverlay = (props) => {
     console.log(props)
 
     return (
-        <div className="" >
-            <section className="">
+        <div className="delete-overlay-background" >
+            <section className="delete-overlay-section">
 
-                <button className="close" onClick={close}>✖️</button>
-                <h4>Are you sure you want to delete this topic with all its content?</h4>
-                <div>
-                    <button className="button-close" onClick={close}> Cancel</button>
-                    <button className="button-delete" onClick={(e) => deleteDiscussion(e, props.discussionId)}>Confirm</button>
+                <button className="close button" onClick={close}>✖️</button>
+                <p className="conferm-text">Are you sure you want to delete this topic with all its content?</p>
+                <div className="button-container">
+                    <button className="button-close button" onClick={close}> Cancel</button>
+                    <button className="button-delete button" onClick={(e) => deleteDiscussion(e, props.discussionId)}>Confirm</button>
                 </div>
             </section>
         </div>
