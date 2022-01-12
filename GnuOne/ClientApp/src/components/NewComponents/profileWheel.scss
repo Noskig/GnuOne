@@ -1,11 +1,8 @@
 
 
-
-
-
 .profile-wheel-lines-container {
-    width: 17.5em;
-    height: 17.5em;
+    width: 35em;
+    height: 35em;
     border-radius: 50%;
     display: flex;
     flex-direction: column;
@@ -15,7 +12,7 @@
 
 .line {
     position: absolute;
-    width: 10em;
+    width: 20em;
     height: 3px;
     background-color: lightgray;
     z-index: -1;
@@ -94,7 +91,7 @@
 }
 
 .profile-wheel {
-    @include on-circle-about($item-count: 6, $circle-size: 17.5em, $item-size: 4em);
+    @include on-circle-about($item-count: 6, $circle-size: 35em, $item-size: 8em);
 
     .initialPlace, .chosen, .notChosen, .notChosenAfter, .img-of-person {
         display: flex;
@@ -103,6 +100,25 @@
         align-items: center;
         max-width: 100%;
         border-radius: 50%;
+    }
+
+    .notChosenAfter {
+        background-color: var(--darker-turquoise);
+    }
+
+    .notChosen {
+        background-color: var(--darker-turquoise);
+    }
+
+    .chosen {
+        background-color: var(--light-turquoise);
+    }
+
+    .initialPlace {
+        background-color: var(--light-turquoise);
+    }
+
+    .img-of-person {
         background-color: var(--darker-turquoise);
     }
 }
