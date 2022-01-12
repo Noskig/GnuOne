@@ -36,8 +36,10 @@ function Discussion(props) {
 
   async function getData() {
       const response = await fetch(url + 'discussions/' + id)
-    const data = await response.json()
-    console.log(data)
+      const data = await response.json()
+
+      console.log(data)
+      let hej = 
     setDataList(data);
     
   }

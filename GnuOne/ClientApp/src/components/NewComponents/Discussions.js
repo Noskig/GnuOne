@@ -8,13 +8,17 @@ import done from '../../icons/done.svg'
 import edit from '../../icons/edit.svg'
 import DeleteDiscussionOverlay from './DeleteDiscussionOverlay'
 import Search from './Search';
+import MeContext from '../../contexts/meContext';
+import FriendContext from '../../contexts/friendContext';
 import "./discussion.css";
+
 
 
 
 const Discussions = ({ routes }) => {
     const [discussions, setDiscussions] = useState([])
     const port = useContext(PortContext)
+    console.log(port)
     const url = `https://localhost:${port}/api/discussions/`
     const [showOverlay, setShowOverlay] = useState(false)
     const [showDeleteConfirm, setshowDeleteConfirm] = useState(false)
@@ -22,9 +26,14 @@ const Discussions = ({ routes }) => {
     const [discussionText, setDiscussionText] = useState('')
     const [activeDiscussion, setActiveDiscussion] = useState('')
     const [editOpen, setEditOpen] = useState(false)
+
     //SEARCH 
     const [searchTerm, setSearchTerm] = useState('')
     const filteredDiscussions = filterDiscussions(discussions, searchTerm)
+    const myEmail = useContext(MeContext)
+    const friendEmail = useContext(FriendContext)
+    console.log(myEmail)
+    console.log(friendEmail)
 
     useEffect(() => {
         fetchData()
@@ -35,7 +44,34 @@ const Discussions = ({ routes }) => {
         const response = await fetch(url)
         const discussions = await response.json()
         console.log(discussions)
-        setDiscussions(discussions)
+
+        let filteredDisc = () => {
+
+            console.log('1: ' + discussions[0].Email)
+            console.log(myEmail)
+            console.log(friendEmail)
+            if (discussions && (friendEmail === undefined)) {
+                return discussions.filter((disc) => {
+
+                    if (disc.Email === myEmail) {
+                        console.log('1: ' + disc.Email, myEmail)
+                        return disc
+                    }
+
+                })
+            } else if (discussions && friendEmail) {
+                return discussions.filter((disc) => {
+
+                    if (disc.Email === friendEmail) {
+                        console.log('2: ' + disc.Email, friendEmail)
+                        return disc
+                    }
+
+                })
+            }
+        }
+        console.log(filteredDisc)
+        setDiscussions(filteredDisc)
     }
 
     const close = () => {
@@ -92,7 +128,7 @@ const Discussions = ({ routes }) => {
     }
 
     function filterDiscussions(discussions, searchTerm) {
-        return discussions.filter((data) => {
+        return discussions?.filter((data) => {
             if (searchTerm === "") {
                 return true
             } else if (data.Headline.toLowerCase().includes(searchTerm.toLowerCase())) {
