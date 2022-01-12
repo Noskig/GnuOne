@@ -48,8 +48,6 @@ const Friends = () => {
             IsFriend: true
         }
         acceptRequest(newFriend)
-
-
     }
 
     async function acceptRequest(newFriend) {
