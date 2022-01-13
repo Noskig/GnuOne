@@ -44,15 +44,19 @@ namespace GnuOne.Controllers
             }
             return Ok("Couldnt find any discussion by this tag");
         }
-
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> Gettagname(int id)
+        {
+            var dis = _context.tags.Where(x => x.ID == id).Select(x => x.tagName).Single();
+            var json = JsonConvert.SerializeObject(dis);
+            return Ok(json);
+        }
 
         [HttpPost]
         public async Task<IActionResult> PostTags([FromBody] Tag tag)
         {
             _context.tags.Add(tag);
             await _context.SaveChangesAsync();
-
-
             return Ok();
         }
 
