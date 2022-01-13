@@ -19,6 +19,7 @@ It begins as an internproject to offer a different social platform that focus on
 Okay so where do I get started?
 1. 
 Create a Gmail-account 
+
 Put "Access for less secure apps" to on.
 
 https://myaccount.google.com/security?gar=1
