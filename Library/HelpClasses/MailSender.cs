@@ -36,6 +36,7 @@ namespace Library.HelpClasses
 
             var mailAddress = mySettings.Email;
             var password = mySettings.Password;
+            password = AesCryption.Decrypt(password, mySettings.Secret);
 
             MimeMessage message = new MimeMessage();
 
@@ -67,233 +68,34 @@ namespace Library.HelpClasses
             }
         }
 
-        public static void SendEmail(string email, string query, string? subject, MySettings mySettings)
-        {
-            if (subject == null)
-            {
-                subject = "Posting"; //?
-            }
-            var sw = new StringBuilder();
-            sw.Append(DateTime.Now.ToString() + "/()/");
-            sw.Append(subject);
-
-            string encrypt = AesCryption.Encrypt(query, mySettings.Secret);
-
-            var mailAddress = mySettings.Email;
-            var password = mySettings.Password;
-            MimeMessage message = new MimeMessage();
-            message.From.Add(new MailboxAddress(mySettings.userName, mailAddress));
-            message.To.Add(MailboxAddress.Parse(email));
-            message.Subject = sw.ToString();
-            message.Body = new TextPart("plain")
-            {
-                Text = $"{encrypt}XYXY/(/(XYXY7"
-            };
-            SmtpClient client = new SmtpClient();
-            try
-            {
-                client.CheckCertificateRevocation = false;
-                client.Connect("smtp.gmail.com", 465, true);
-                client.Authenticate(mailAddress, password);
-                client.Send(message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                client.Disconnect(true);
-                client.Dispose();
-            }
-        }
-        public static void SendAcceptedRequest(MySettings mySettings, string ToEmail, string myDiscussion, string myPost, string myFriend)
-        {
-            string subject = "AcceptedfriendRequest";
-            var sw = new StringBuilder();
-            sw.Append(DateTime.Now.ToString() + "/()/");
-            sw.Append(subject);
-            string username = mySettings.userName;
-            string mailAddress = mySettings.Email;
-
-            var password = mySettings.Password;
-            var crypt = new StringBuilder();
-
-            crypt.Append(mailAddress);
-            crypt.Append("/()/");
-            crypt.Append(myDiscussion);
-            crypt.Append("/()/");
-            crypt.Append(myPost);
-            crypt.Append("/()/");
-            crypt.Append(myFriend);
-            crypt.Append("/()/");
-            crypt.Append(username);
-
-            string encrypt = AesCryption.Encrypt(crypt.ToString(), mySettings.Secret);
-
-            var body = encrypt;
-
-            MimeMessage message = new MimeMessage();
-            message.From.Add(new MailboxAddress(username, mailAddress));
-            message.To.Add(MailboxAddress.Parse(ToEmail));
-            message.Subject = sw.ToString();
-            message.Body = new TextPart("plain")
-            {
-                Text = $"{body}XYXY/(/(XYXY7"
-            };
-
-            SmtpClient client = new SmtpClient();
-            try
-            {
-                client.CheckCertificateRevocation = false;
-                client.Connect("smtp.gmail.com", 465, true);
-                client.Authenticate(mailAddress, password);
-                client.Send(message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                client.Disconnect(true);
-                client.Dispose();
-            }
-        }
-
-        public static void SendBackData(MySettings mySettings, string ToEmail, string myDiscussion, string myPost, string myFriend)
-        {
-            string subject = "SendBackData";
-            var sw = new StringBuilder();
-            sw.Append(DateTime.Now.ToString() + "/()/");
-            sw.Append(subject);
-            string username = mySettings.userName;
-            string mailAddress = mySettings.Email;
-
-            var password = mySettings.Password;
-            var crypt = new StringBuilder();
-
-            crypt.Append(mailAddress);
-            crypt.Append("/()/");
-            crypt.Append(myDiscussion);
-            crypt.Append("/()/");
-            crypt.Append(myPost);
-            crypt.Append("/()/");
-            crypt.Append(myFriend);
-            crypt.Append("/()/");
-            crypt.Append(username);
-
-            string encrypt = AesCryption.Encrypt(crypt.ToString(), mySettings.Secret);
-
-            var body = encrypt;
-
-            MimeMessage message = new MimeMessage();
-            message.From.Add(new MailboxAddress(username, mailAddress));
-            message.To.Add(MailboxAddress.Parse(ToEmail));
-            message.Subject = sw.ToString();
-            message.Body = new TextPart("plain")
-            {
-                Text = $"{body}XYXY/(/(XYXY7"
-            };
-
-            SmtpClient client = new SmtpClient();
-            try
-            {
-                client.CheckCertificateRevocation = false;
-                client.Connect("smtp.gmail.com", 465, true);
-                client.Authenticate(mailAddress, password);
-                client.Send(message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                client.Disconnect(true);
-                client.Dispose();
-            }
-
-            
-        }
-        public static void SendFriendMail(MySettings mySettings, string ToEmail, string subject)
-        {
-            var sw = new StringBuilder();
-            sw.Append(DateTime.Now.ToString() + "/()/");
-            sw.Append(subject);
-
-            string username = mySettings.userName;
-            string mailAddress = mySettings.Email;
-            var crypt = new StringBuilder();
-
-            crypt.Append(username);
-            crypt.Append("/()/");
-            crypt.Append(mailAddress);
-
-            string encrypt = AesCryption.Encrypt(crypt.ToString(), mySettings.Secret);
-
-            var body = encrypt;
-
-            MimeMessage message = new MimeMessage();
-            message.From.Add(new MailboxAddress(username, mailAddress));
-            message.To.Add(MailboxAddress.Parse(ToEmail));
-            message.Subject = sw.ToString();
-            message.Body = new TextPart("plain")
-            {
-                Text = $"{body}XYXY/(/(XYXY7"
-            };
-            SmtpClient client = new SmtpClient();
-            try
-            {
-                client.CheckCertificateRevocation = false;
-                client.Connect("smtp.gmail.com", 465, true);
-                client.Authenticate(mailAddress, mySettings.Password);
-                client.Send(message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                client.Disconnect(true);
-                client.Dispose();
-            }
-        }
-
-        //public static void SendDeniedRequest(MySettings mySettings, string ToEmail)
+        //public static void SendEmail(string email, string query, string? subject, MySettings mySettings)
         //{
-        //    string subject = "DeniedfriendRequest";
+        //    if (subject == null)
+        //    {
+        //        subject = "Posting"; //?
+        //    }
         //    var sw = new StringBuilder();
         //    sw.Append(DateTime.Now.ToString() + "/()/");
         //    sw.Append(subject);
 
-        //    string username = mySettings.userName;
-        //    string mailAddress = mySettings.Email;
-        //    var crypt = new StringBuilder();
+        //    string encrypt = AesCryption.Encrypt(query, mySettings.Secret);
 
-        //    crypt.Append(username);
-        //    crypt.Append("/()/");
-        //    crypt.Append(mailAddress);
-
-        //    string encrypt = AesCryption.Encrypt(crypt.ToString(), mySettings.Secret);
-
-        //    var body = encrypt;
-
+        //    var mailAddress = mySettings.Email;
+        //    var password = mySettings.Password;
         //    MimeMessage message = new MimeMessage();
-        //    message.From.Add(new MailboxAddress(username, mailAddress));
-        //    message.To.Add(MailboxAddress.Parse(ToEmail));
+        //    message.From.Add(new MailboxAddress(mySettings.userName, mailAddress));
+        //    message.To.Add(MailboxAddress.Parse(email));
         //    message.Subject = sw.ToString();
         //    message.Body = new TextPart("plain")
         //    {
-        //        Text = $"{body}XYXY/(/(XYXY7"
+        //        Text = $"{encrypt}XYXY/(/(XYXY7"
         //    };
         //    SmtpClient client = new SmtpClient();
         //    try
         //    {
         //        client.CheckCertificateRevocation = false;
         //        client.Connect("smtp.gmail.com", 465, true);
-        //        client.Authenticate(mailAddress, mySettings.Password); 
+        //        client.Authenticate(mailAddress, password);
         //        client.Send(message);
         //    }
         //    catch (Exception e)
@@ -307,54 +109,5 @@ namespace Library.HelpClasses
         //    }
         //}
 
-
-
-
-
-        //    public static void DeleteFriend(MySettings mySettings, string ToEmail)
-        //    {
-        //        string subject = "deleteFriend";
-        //        var sw = new StringBuilder();
-        //        sw.Append(DateTime.Now.ToString() + "/()/");
-        //        sw.Append(subject);
-
-        //        string username = mySettings.userName;
-        //        string mailAddress = mySettings.Email;
-        //        var crypt = new StringBuilder();
-
-        //        crypt.Append(username);
-        //        crypt.Append("/()/");
-        //        crypt.Append(mailAddress);
-
-        //        string encrypt = AesCryption.Encrypt(crypt.ToString(), mySettings.Secret);
-        //        var body = encrypt;
-
-        //        MimeMessage message = new MimeMessage();
-        //        message.From.Add(new MailboxAddress(username, mailAddress));
-        //        message.To.Add(MailboxAddress.Parse(ToEmail));
-        //        message.Subject = sw.ToString();
-        //        message.Body = new TextPart("plain")
-        //        {
-        //            Text = $"{body}XYXY/(/(XYXY7"
-        //        };
-        //        SmtpClient client = new SmtpClient();
-        //        try
-        //        {
-        //            client.CheckCertificateRevocation = false;
-        //            client.Connect("smtp.gmail.com", 465, true);
-        //            client.Authenticate(mailAddress, mySettings.Password);
-        //            client.Send(message);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Console.WriteLine(e.Message);
-        //        }
-        //        finally
-        //        {
-        //            client.Disconnect(true);
-        //            client.Dispose();
-        //        }
-        //    }
-        //    }
     }
 }

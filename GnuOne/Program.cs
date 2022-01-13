@@ -6,6 +6,7 @@ using MailKit.Net.Pop3;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Text;
 using Welcome_Settings;
 
 /// <summary>
@@ -55,25 +56,28 @@ while (keepGoing)
             var email = Console.ReadLine();
             Console.Write("EmailPassword: ");
             var password = pwMask.pwMasker();
+           ; ///hårdkordad
             Console.Write("\n");
             Console.Write("choose your username: ");
             var username = Console.ReadLine();
-
+            var secretk = RandomKey();
+            password = AesCryption.Encrypt(password, "secretkey"); //ska bytas
             var settings = new MySettings
             {
                 ID = 1,
                 Email = email,
                 Password = password,
                 userName = username,
-                Secret = "secretkey"
+                Secret = "secretkey" //private public keys behövs
             };
             var profile = new myProfile
             {
                 ID = 1,
                 Email = email,
                 pictureID = 1,
-                
             };
+
+
             try
             {
                 await DbContext.MyProfile.AddAsync(profile);
@@ -158,7 +162,7 @@ var loop1Task = Task.Run(async () =>
         {
             Console.WriteLine(ex.Message);
         }
-    await Task.Delay(10000);
+        await Task.Delay(10000);
     }
 });
 app.Run();
@@ -273,4 +277,25 @@ static void SetValueRecursively(string sectionPathKey, dynamic? jsonObject, stri
         // we've got to the end of the tree, set the value
         jsonObject[currentSection] = value;
     }
+}
+static string RandomKey()
+{
+    List<Char> letters = new List<Char>() { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'y' };
+
+    List<int> myRndNr = new List<int>();
+
+    Random random = new Random();
+    for (int i = 0; i < 10; i++)
+    {
+        int value = random.Next(1, 22);
+        myRndNr.Add(value);
+    }
+    StringBuilder sw = new StringBuilder();
+    foreach (var item in myRndNr)
+    {
+
+        sw.Append(letters[item]);
+
+    }
+    return sw.ToString();
 }
