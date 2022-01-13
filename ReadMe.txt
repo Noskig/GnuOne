@@ -41,10 +41,13 @@ Skriva instruktion och testa att det går
 2.    Jag vill kunna se vem som finns i systemet.
 Vill vi ha både publika och privata vänner?
 
+<<<<<<< Updated upstream
 3.    Jag vill kunna lägga till vänner.
 -(FRONTEND)Skapa en process för detta när man har kommit in i systemet.
 -(FRONTEND notiser, knapp för accept/denied)
 
+=======
+>>>>>>> Stashed changes
 6.    Gå igenom källkoden, dokumentera, städa, fundera på standard.
 
 7.    TESTA
