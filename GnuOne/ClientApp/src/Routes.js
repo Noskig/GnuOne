@@ -1,11 +1,10 @@
 ﻿import MyProfile from './Pages/MyProfile';
 import FriendProfile from './Pages/FriendProfile';
-import Friends from './components/NewComponents/Friends';
+import Friends from './components/NewComponents/Friends/Friends';
 import Bio from './components/NewComponents/Bio';
 import Messages from './components/NewComponents/Messages';
 import Settings from './components/NewComponents/Settings';
-import Discussions from './components/NewComponents/Discussions';
-import TestWheel from './components/NewComponents/NewWheelTest';
+import Discussions from './components/NewComponents/Discussions/Discussions';
 import Posts from './components/NewComponents/Posts';
 
 const routes = [
@@ -40,10 +39,6 @@ const routes = [
                 component: Discussions,
 
             },
-            {
-                path: '/friendprofile/:email/testwheel',
-                component: TestWheel,
-            },
         ],
     },
     {
@@ -76,10 +71,6 @@ const routes = [
                 path: '/profile/discussions',
                 component: Discussions,
 
-            },
-            {
-                path: '/profile/testwheel',
-                component: TestWheel,
             },
         ],
     },

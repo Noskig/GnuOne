@@ -21,7 +21,7 @@ body {
 main {
   display: grid;
   grid-template-columns: 0.5fr repeat(7, 1fr) 0.5fr;
-  grid-template-rows: 6rem 4rem 1fr 1fr 1fr 1fr 4rem;
+  grid-template-rows: 7rem 3rem 1fr 1fr 1fr;
 }
 main .profile-wheel-container {
   grid-column-start: 7;
@@ -33,7 +33,7 @@ main .profile-wheel-container {
 main .friends-container, main .bio-container, main .messages-container, main .settings-container, main .discussions-container {
   grid-column-start: 2;
   grid-column-end: 6;
-  grid-row-start: 2;
+  grid-row-start: 3;
   grid-row-end: 5;
   justify-self: stretch;
 }

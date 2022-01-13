@@ -1,12 +1,11 @@
 ﻿import "./deleteDiscussionOverlay.css"
-import PortContext from '../../contexts/portContext';
+import PortContext from '../../../../contexts/portContext';
 import { useContext } from 'react'
 
 
 const DeleteDiscussionOverlay = (props) => {
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/discussions`
-
 
     function fetchData() {
         props.fetchData()

@@ -4,7 +4,7 @@ import { useEffect, useState, useContext } from 'react';
 import trash from '../../icons/trash.svg'
 import done from '../../icons/done.svg'
 import edit from '../../icons/edit.svg'
-import Search from './Search'
+import Search from './Search/Search'
 
 
 const Posts = () => {

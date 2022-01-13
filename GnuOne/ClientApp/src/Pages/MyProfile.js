@@ -2,7 +2,7 @@
 import { Link, Switch } from 'react-router-dom';
 import MeContext from '../contexts/meContext'
 import PortContext from '../contexts/portContext'
-import ProfileWheel from '../components/NewComponents/ProfileWheel';
+import ProfileWheel from '../components/NewComponents/MenuWheel/ProfileWheel';
 import "./MyProfile.min.css";
 
 import Navbar from '../components/NewComponents/Navbar/NavBar';

@@ -3,7 +3,8 @@ import { useEffect, useState, useContext } from 'react'
 import PortContext from '../contexts/portContext';
 import FriendContext from '../contexts/friendContext'
 import MeContext from '../contexts/meContext'
-import ProfileWheel from '../components/NewComponents/ProfileWheel'
+import ProfileWheel from '../components/NewComponents/MenuWheel/ProfileWheel'
+import Navbar from '../components/NewComponents/Navbar/NavBar';
 
 const FriendProfile = ({ routes }) => {
     const port = useContext(PortContext)
@@ -24,7 +25,6 @@ const FriendProfile = ({ routes }) => {
         const friend = await response.json()
         console.log(friend)
         setFriend(friend);
-
     }
 
     console.log(friend)
@@ -42,9 +42,8 @@ const FriendProfile = ({ routes }) => {
         <MeContext.Provider value={myEmail}>
             <FriendContext.Provider value={friend?.MyFriend.Email}>
                 <main className="main">
-              
+                    <Navbar />
                     <ProfileWheel routes={routes} />
-                    
                     </main>
         </FriendContext.Provider>
         </MeContext.Provider>

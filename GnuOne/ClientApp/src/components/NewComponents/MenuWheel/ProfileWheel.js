@@ -1,9 +1,9 @@
 ﻿import React, { useState } from 'react';
 import { Link, Switch, useRouteMatch } from 'react-router-dom';
-import friends from '../../icons/friends.svg';
-import trash from '../../icons/trash.svg';
+import friends from '../../../icons/friends.svg';
+import trash from '../../../icons/trash.svg';
 import './profileWheel.min.css';
-import RouteWithSubRoutes from './RouteWithSubRoutes';
+import RouteWithSubRoutes from '../RouteWithSubRoutes';
 
 
 

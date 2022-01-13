@@ -1,15 +1,15 @@
 ﻿import { useState, useEffect, useContext } from 'react'
-import PortContext from '../../contexts/portContext';
-import AddDiscussionOverlay from './AddDiscussionOverlay';
+import PortContext from '../../../contexts/portContext';
+import AddDiscussionOverlay from './DiscussionOverlay/AddDiscussionOverlay';
 import { Link, useRouteMatch } from 'react-router-dom';
-import arrows from '../../icons/arrows.svg'
-import trash from '../../icons/trash.svg'
-import done from '../../icons/done.svg'
-import edit from '../../icons/edit.svg'
-import DeleteDiscussionOverlay from './DeleteDiscussionOverlay'
-import Search from './Search';
-import MeContext from '../../contexts/meContext';
-import FriendContext from '../../contexts/friendContext';
+import arrows from '../../../icons/arrows.svg';
+import trash from '../../../icons/trash.svg'
+import done from '../../../icons/done.svg'
+import edit from '../../../icons/edit.svg'
+import DeleteDiscussionOverlay from './DeleteDiscussionOverlay/DeleteDiscussionOverlay'
+import Search from '../Search/Search';
+import MeContext from '../../../contexts/meContext';
+import FriendContext from '../../../contexts/friendContext';
 import "./discussion.css";
 
 
