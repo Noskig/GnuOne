@@ -1,6 +1,6 @@
 ﻿import { useState, useEffect, useContext } from 'react'
 import './addFriendOverlay.css'
-import PortContext from '../../contexts/portContext';
+import PortContext from '../../../contexts/portContext';
 
 
 const AddFriendOverlay = (props) => {

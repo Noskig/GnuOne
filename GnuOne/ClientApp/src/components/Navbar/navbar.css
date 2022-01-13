@@ -1,0 +1,66 @@
+.navbar {
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+    align-items:center;
+
+}
+.elements {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+li{
+    margin-left:0.5rem;
+}
+.avatar {
+    z-index: 1;
+}
+.messages {
+    position:absolute;
+    z-index: -1;
+}
+.settings {
+    position: absolute;
+    z-index: -2;
+}
+.out-animation1 {
+    animation: messages 0.6s ease-in forwards;
+}
+.out-animation2 {
+    animation: settings 0.6s ease-in forwards;
+}
+.in-animation1 {
+    animation: messages2 0.6s ease-out forwards;
+}
+.in-animation2 {
+    animation: settings2 0.6s ease-out forwards;
+}
+@keyframes messages {
+    100% {
+        transform: translateX(-4rem)
+    }
+}
+@keyframes settings{
+    100%{
+        transform:translateX(-8rem)
+    }
+}
+@keyframes messages2 {
+    from {
+        transform: translateX(-4rem)
+    }
+    to {
+        transform: translateX(0rem)
+    }
+}
+
+@keyframes settings2 {
+    from {
+        transform: translateX(-8rem)
+    }
+    to {
+        transform: translateX(0rem)
+    }
+}

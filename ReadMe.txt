@@ -62,21 +62,12 @@ Vill vi ha både publika och privata vänner?
 
 10. Resterade.
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
 **Dokumentera github. Text. Video. Göra en snygg förklaring. Guida Stig
 -Få prototyp redo, sen dokumentera V.1
-
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-????????
- Publik nyckel.
 
--Gömma sig i nätverken hos vänner. (bli osynlig för deras nätverk, inställning)
-//bool var?
-- Behöver 2 bool i myFriends (me/youHiding)
-- Ändrar man på den så tas man bort/läggs till i friendsfriends
-- Se hans posts på väns discussion utan hans namn?
+Publik nyckel.
 
-????????
 
 4.    Jag vill ha en sida där jag kan se vilka inställningar som är gjorda och eventuellt ändra valda parametrar.
 -API som ändrar inställningar.
@@ -105,6 +96,8 @@ EXTRA-JOBB:
 - Script för att ta bort databasen
 - Try catch block på all sparning i controllers?
 - Kunna blocka någon?
+
+(- Om vän är gömd för mitt nätverk. Ska mina vänner se hans post? username=unknown?)
 
 ///////////////////////////////////////////////////////////
 PROBLEM:
@@ -139,6 +132,7 @@ KLART:
 # Posts som tas bort ska ligga kvar men bli deletat.
 # Filtrera på tags
 # userInfo. Intressen(bool).
+# Gömma sig i nätverken hos vänner.
 
 ///////////////////////////////////////////////////////////
 FRÅGOR:

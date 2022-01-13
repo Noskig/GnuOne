@@ -36,12 +36,22 @@ namespace GnuOne.Controllers
         }
 
 
-        //public async Task<IActionResult> PutPost(int? id, Post post)
         // PUT api/<SettingController>/5
         [HttpPut]
         public async Task<IActionResult> updateSettingsPut([FromBody] MySettings mySettings)
         {
             _context.MySettings.Update(mySettings);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPut("{username}")]
+        public async Task<IActionResult> updateSettingsPut([FromBody] string username)
+        {
+            var settings = await _context.MySettings.FirstOrDefaultAsync();
+            settings.userName = username;
+            _context.MySettings.Update(settings);
             await _context.SaveChangesAsync();
 
             return Ok();

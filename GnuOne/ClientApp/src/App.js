@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import PortContext from './contexts/portContext'
 import routes from './Routes';
-import RouteWithSubRoutes from './components/NewComponents/RouteWithSubRoutes';
+import RouteWithSubRoutes from './components/RouteWithSubRoutes';
 
 function App() {
     return (

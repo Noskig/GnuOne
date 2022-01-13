@@ -1,7 +1,8 @@
-:root {
+﻿:root {
     --border-color: rgb(136, 128, 135)
 }
-.newTopicWrapper div button {
+
+.button {
     border: 0px;
     padding: 0.5em 1.5em;
     color: white;
@@ -10,32 +11,35 @@
     background: rgb(90,68,105);
     background: linear-gradient(90deg, rgba(90,68,105,1) 0%, rgba(16,27,77,1) 71%, rgba(16,27,77,1) 100%, rgba(16,27,77,1) 100%);
     padding: 0.5em;
-    margin: 0.5em;
     align-self: flex-end;
+    margin:1rem 1rem 1rem;
 }
 
-p{
+.conferm-text {
+    padding:2rem 2rem 2rem;
     margin-block-end: 0rem;
     margin-block-start: 0rem;
+    color: black;
 }
-.newTopicWrapper {
-    position: fixed;
-      background-color: rgba(247, 245, 245, 0.67);
-      height: 100vh;
-      width: 100vw;
-      top: 0em;
-      left: 0em;
-      z-index: 5;
-      display: flex;
-      justify-content: center;
-      align-items: center;  
-} 
 
-.makeNewTopic  {
+.delete-overlay-background {
+    position: fixed;
+    background-color: rgba(247, 245, 245, 0.67);
+    height: 100vh;
+    width: 100vw;
+    top: 0em;
+    left: 0em;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-overlay-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2em 1.5em 2em 1.5em;
+    padding: 1rem 1rem 1rem 1rem;
     border: 1px rgb(136, 128, 135) solid;
     border-radius: 10px;
     background: white;
@@ -45,7 +49,7 @@ p{
     display: flex;
     justify-content: center;
 }
-.newTopicWrapper .makeNewTopic .close{
+
+.newTopicWrapper .makeNewTopic .close {
     align-self: flex-end;
 }
-
