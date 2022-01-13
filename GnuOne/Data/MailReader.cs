@@ -232,6 +232,7 @@ namespace GnuOne.Data
 
                         // Flaggar meddelandet att det skall tas bort.
                         client.Inbox.AddFlags(mail, MessageFlags.Deleted, true);  //false? testa
+                        /*Backup.BackupDatabase();*/ // Backar upp dB
                     }
 
                     //Spammail kmr hit och tas bort

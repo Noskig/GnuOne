@@ -54,7 +54,8 @@ while (keepGoing)
             Console.Write("Write your Email: ");
             var email = Console.ReadLine();
             Console.Write("EmailPassword: ");
-            var password = Console.ReadLine();
+            var password = pwMask.pwMasker();
+            Console.Write("\n");
             Console.Write("choose your username: ");
             var username = Console.ReadLine();
 
