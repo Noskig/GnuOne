@@ -1,4 +1,5 @@
 ﻿using GnuOne.Data;
+using GnuOne.Data.dto;
 using Library;
 using Library.HelpClasses;
 using Library.Models;
@@ -55,10 +56,23 @@ namespace GnuOne.Controllers
                 }
             }
 
+            var dtoList = new List<DtoDiscussion>();
+            var AllPost = await _context.Posts.ToListAsync();
 
-            var converted = JsonConvert.SerializeObject(listaDiscussion);
+            ///för se hur många posts sitter under varje discussion
+            foreach (var disc in listaDiscussion)
+            {
+                
+                var dto = new DtoDiscussion(disc);
+                int numberOfPost = AllPost.Where(x => x.discussionID == disc.ID).Count();
+                dto.numberOfPosts = numberOfPost;
+                dtoList.Add(dto);
 
-            return Ok(converted);
+            }
+
+            var converted = JsonConvert.SerializeObject(dtoList);
+
+            return Ok(dtoList);
         }
 
       
