@@ -4,10 +4,10 @@ import PortContext from '../../contexts/portContext';
 
 
 const AddFriendOverlay = (props) => {
-    const [email, setEmail] = useState('')
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/myfriends`
-
+    const newFriendEmail = props.email || null
+    const [email, setEmail] = useState(newFriendEmail ? newFriendEmail : '')
 
     useEffect(() => {
         fetchData()
@@ -51,7 +51,11 @@ const AddFriendOverlay = (props) => {
         <div className="add-friend-overlay">
             <div className="add-friend">
                 <button className="close" onClick={close}>✖️</button>
-                <input type="text" placeholder={"Email..."} onChange={e => setEmail(e.target.value)} />
+                {
+                    newFriendEmail
+                        ? <h3>You are about to send a friend request to {props.userName}</h3>
+                        : <input type="text" placeholder={"Email..."} onChange={e => setEmail(e.target.value)} />
+                }
                 <button type="button" onClick={(e) => handleClick(e)}>Send friend request</button>
             </div>
         </div>
