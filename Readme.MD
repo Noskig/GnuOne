@@ -2,7 +2,8 @@ Welcome to the Gnu Project!
 
 Reading through the guided code will help you learn about the project and how to use it.
 
-Visit http://iwantag.nu/
+Visit
+http://iwantag.nu/
 
 Database structure
 
@@ -34,6 +35,4 @@ Login with the same username & password as Heidi
 
 ![step2](https://user-images.githubusercontent.com/72744280/149352266-787206cb-60c6-4e3d-badb-8586cded2498.JPG)
 
-
-
-
+Check out the inbox for your Gmail, it crashes when it is not empty or if there are emails that are not related to the program.
