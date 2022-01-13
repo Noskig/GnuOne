@@ -2,9 +2,10 @@
 import { Link, Switch } from 'react-router-dom';
 import MeContext from '../contexts/meContext'
 import PortContext from '../contexts/portContext'
-import ProfileWheel from '../components/NewComponents/ProfileWheel';
+import ProfileWheel from '../components/MenuWheel/ProfileWheel';
 import "./MyProfile.min.css";
 
+import Navbar from '../components/Navbar/NavBar';
 
 
 //testar
@@ -29,10 +30,9 @@ function MyProfile({ routes }) {
     }
     return (
         <MeContext.Provider value={myEmail}>
-        <main className="main">
-
+            <main className="main">
+            <Navbar />
             <ProfileWheel routes={routes}/>
-            
             </main>
         </MeContext.Provider>
     )
