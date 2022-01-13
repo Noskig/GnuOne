@@ -2,6 +2,7 @@
 import { Link, Switch, useRouteMatch } from 'react-router-dom';
 import friends from '../../icons/friends.svg';
 import trash from '../../icons/trash.svg';
+import messages from '../../icons/messagesNavbar.svg'
 import './profileWheel.min.css';
 import RouteWithSubRoutes from '../RouteWithSubRoutes';
 
@@ -23,12 +24,12 @@ function ProfileWheel({ routes }) {
         },
         {
             path: `${match.url}/bio`,
-            img: trash,
+            img: ,
             id: 2
         },
         {
             path: `${match.url}/messages`,
-            img: trash,
+            img: messages,
             id: 3
         },
         {
