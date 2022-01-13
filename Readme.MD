@@ -3,6 +3,7 @@ Welcome to the Gnu Project!
 Reading through the guided code will help you learn about the project and how to use it.
 
 Visit
+
 http://iwantag.nu/
 
 Database structure
@@ -24,6 +25,7 @@ https://myaccount.google.com/security?gar=1
 
 
 2.Install Heidi
+
 https://www.heidisql.com/
 
 
