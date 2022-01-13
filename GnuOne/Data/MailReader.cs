@@ -7,7 +7,9 @@ using MailKit.Net.Pop3;
 using MailKit.Search;
 using MailKit.Security;
 using Newtonsoft.Json;
+using System.Text;
 using System.Text.Json;
+using Welcome_Settings;
 
 namespace GnuOne.Data
 {
@@ -16,6 +18,8 @@ namespace GnuOne.Data
         public static async void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
         {
             var myInfo = _newContext.MySettings.First();
+
+
 
             using (var client = new ImapClient()) //**** new ProtocolLogger("imap.log")) om vi vill logga
             {
@@ -35,6 +39,7 @@ namespace GnuOne.Data
                     var emailFrom = message.From.ToString();
                     string cleanEmailFrom = SkrubbaMailAdress(emailFrom);
 
+                    //var fromPubKey = _newContext.MyFriends.Where(x => x.Email == cleanEmailFrom).Select(x => x.pubKey).Single();
 
                     var subject = message.Subject;
                     string body = message.GetTextBody(MimeKit.Text.TextFormat.Plain);
@@ -44,6 +49,8 @@ namespace GnuOne.Data
                     if (subject.Contains("/()/"))
                     {
                         Sub = subject.Split("/()/");
+
+
                         string decryptedMessage = AesCryption.Decrypt(splittedBody[0], myInfo.Secret);
                         string[] Data = decryptedMessage.Split("\"");
 
@@ -227,6 +234,22 @@ namespace GnuOne.Data
                                 if (deed5 == 1) { break; }
                                 else { break; }
 
+
+                            case "TestMail":
+
+                                var jsonCrypt = JsonConvert.DeserializeObject<MegaCrypt>(decryptedMessage);
+
+                                
+                                var theirpub = Global.MyPublickey;
+                                var myprivate = Global.ericPrivateKey;
+
+                                jsonCrypt.RSADecryptIt(theirpub, myprivate);
+
+
+
+                                Console.WriteLine(jsonCrypt.body);
+
+                                break;
                             default:
                                 break;
                         }

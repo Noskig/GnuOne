@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
+using GnuOne.Data;
+using Library.HelpClasses;
+using Welcome_Settings;
 
 namespace Library.HelpClasses
 {
@@ -20,6 +23,30 @@ namespace Library.HelpClasses
         /// <param name="subject"></param>
         /// 
 
+        //string? recieverpublickey
+
+        public static void TestSend(string jsonObject, string email, MySettings _settings, string subject)
+        {
+
+            var jsoncrypted = new MegaCrypt(jsonObject);
+
+            //genera nycklar
+
+
+            var publickey = Global.ericPublicKey;
+            var privatekey = Global.MyPrivatekey;
+
+            jsoncrypted.RSAEncryptIt(privatekey, publickey);
+
+            var body = jsoncrypted.aesKey + ";;;" + jsoncrypted.body + ";;;" + jsoncrypted.signature;
+
+        
+
+
+            body = AesCryption.Encrypt(body, _settings.Secret);
+
+            SendEmail(_settings, email, subject, body);
+        }
 
         public static void SendObject(string jsonObject, string email, MySettings _settings, string subject)
         {
@@ -214,7 +241,7 @@ namespace Library.HelpClasses
                 client.Dispose();
             }
 
-            
+
         }
         public static void SendFriendMail(MySettings mySettings, string ToEmail, string subject)
         {
