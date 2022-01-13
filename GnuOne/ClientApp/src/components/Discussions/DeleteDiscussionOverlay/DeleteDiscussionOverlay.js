@@ -1,5 +1,5 @@
 ﻿import "./deleteDiscussionOverlay.css"
-import PortContext from '../../../../contexts/portContext';
+import PortContext from '../../../contexts/portContext';
 import { useContext } from 'react'
 
 

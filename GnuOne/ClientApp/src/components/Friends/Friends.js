@@ -1,12 +1,12 @@
 ﻿
 import { useState, useEffect, useContext } from 'react'
 import './friends.css'
-import PortContext from '../../../contexts/portContext';
+import PortContext from '../../contexts/portContext';
 import AddFriendOverlay from './AddFriendOverlay/AddFriendOverlay';
 import Search from '../Search/Search'
 import { Link } from 'react-router-dom';
-import FriendContext from '../../../contexts/friendContext';
-import MeContext from '../../../contexts/meContext';
+import FriendContext from '../../contexts/friendContext';
+import MeContext from '../../contexts/meContext';
 
 
 const Friends = () => {

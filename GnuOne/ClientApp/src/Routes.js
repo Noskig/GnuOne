@@ -1,11 +1,11 @@
 ﻿import MyProfile from './Pages/MyProfile';
 import FriendProfile from './Pages/FriendProfile';
-import Friends from './components/NewComponents/Friends/Friends';
-import Bio from './components/NewComponents/Bio';
-import Messages from './components/NewComponents/Messages';
-import Settings from './components/NewComponents/Settings';
-import Discussions from './components/NewComponents/Discussions/Discussions';
-import Posts from './components/NewComponents/Posts';
+import Friends from './components/Friends/Friends';
+import Bio from './components/Bio/Bio';
+import Messages from './components/Messages/Messages';
+import Settings from './components/Settings/Settings';
+import Discussions from './components/Discussions/Discussions';
+import Posts from './components/Posts';
 
 const routes = [
     {

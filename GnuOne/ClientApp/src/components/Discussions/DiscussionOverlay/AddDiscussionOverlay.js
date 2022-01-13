@@ -1,6 +1,6 @@
 ﻿import { useState, useEffect, useContext } from 'react'
 import './addDiscussionOverlay.css'
-import PortContext from '../../../../contexts/portContext';
+import PortContext from '../../../contexts/portContext';
 
 
 const AddDiscussionOverlay = (props) => {

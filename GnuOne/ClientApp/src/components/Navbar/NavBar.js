@@ -1,9 +1,9 @@
 ﻿import React from 'react';
 import { useState } from 'react';
-import logo from '../../../icons/Logo.svg'
-import avatar from '../../../icons/useravatar.svg'
-import settings from '../../../icons/settings.svg'
-import messages from '../../../icons/messagesNavbar.svg'
+import logo from '../../icons/Logo.svg'
+import avatar from '../../icons/useravatar.svg'
+import settings from '../../icons/settings.svg'
+import messages from '../../icons/messagesNavbar.svg'
 import "./navbar.css"
 
 

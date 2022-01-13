@@ -3,8 +3,8 @@ import { useEffect, useState, useContext } from 'react'
 import PortContext from '../contexts/portContext';
 import FriendContext from '../contexts/friendContext'
 import MeContext from '../contexts/meContext'
-import ProfileWheel from '../components/NewComponents/MenuWheel/ProfileWheel'
-import Navbar from '../components/NewComponents/Navbar/NavBar';
+import ProfileWheel from '../components/MenuWheel/ProfileWheel'
+import Navbar from '../components/Navbar/NavBar';
 
 const FriendProfile = ({ routes }) => {
     const port = useContext(PortContext)
