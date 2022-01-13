@@ -56,17 +56,22 @@ Skriva instruktion och testa att det går
 
 Publik nyckel.
 
-5.    Fixa till asymmetrisk kryptering/verifiering.
-- Kolla vad Marcus har.
+5. Fixa till asymmetrisk kryptering/verifiering.
+
 --Vilken information ska krypteras? Mailen? 
 - Maillösenord hashas in i databasen? (Secret key?)
 
 
 *APIsync för att synca discussion, post, vänner och vännersvänners ifall att nått skulle bli fel.
+-Backup
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 
 -Testa hej vilt med FRONTEND
+
+Generera nycklar
+//https://www.c-sharpcorner.com/article/generating-publicprivate-keys-in-c-sharp-and-net/
+
 
 ----- Slutet av veckan.. En fungerande prototyp ------
 
