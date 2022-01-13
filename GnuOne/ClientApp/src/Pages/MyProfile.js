@@ -5,6 +5,7 @@ import PortContext from '../contexts/portContext'
 import ProfileWheel from '../components/NewComponents/ProfileWheel';
 import "./MyProfile.min.css";
 
+import Navbar from '../components/NewComponents/Navbar/NavBar';
 
 
 //testar
@@ -29,10 +30,9 @@ function MyProfile({ routes }) {
     }
     return (
         <MeContext.Provider value={myEmail}>
-        <main className="main">
-
+            <main className="main">
+            <Navbar />
             <ProfileWheel routes={routes}/>
-            
             </main>
         </MeContext.Provider>
     )

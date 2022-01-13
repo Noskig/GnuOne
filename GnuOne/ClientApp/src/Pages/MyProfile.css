@@ -21,7 +21,7 @@ body {
 main {
   display: grid;
   grid-template-columns: 0.5fr repeat(7, 1fr) 0.5fr;
-  grid-template-rows: 4rem 4rem 1fr 1fr 1fr;
+  grid-template-rows: 6rem 4rem 1fr 1fr 1fr 1fr 4rem;
 }
 main .profile-wheel-container {
   grid-column-start: 7;
@@ -46,4 +46,11 @@ main .search-bar {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+main .navbar {
+  grid-column-start: 2;
+  grid-column-end: 9;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  justify-self: stretch;
 }
