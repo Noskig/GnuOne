@@ -153,3 +153,32 @@ skickar man nyckeln i meddelande?
 Ta marcus -> vårt program.
 
 nycklarna. generea public. Gömma private.
+
+
+
+
+GnuOne
+
+Welcome to the Gnu Project!
+
+Reading through the guided code will help you learn about the project and how to use it.
+
+Visit http://iwantag.nu/
+
+Story behind this project
+
+It begins as an internproject to offer a different social platform that focus on being independent of third parties.
+
+Okay so where do I get started?
+1. 
+Create a Gmail-account 
+Put "Access for less secure apps" to on.
+https://myaccount.google.com/security?gar=1
+2.
+Install Heidi
+https://www.heidisql.com/
+3.
+Run 
+ 
+Login with the same username & password as Heidi
+ 
