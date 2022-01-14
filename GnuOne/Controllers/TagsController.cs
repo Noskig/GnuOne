@@ -24,7 +24,7 @@ namespace GnuOne.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTags()
         {
-            var tags = _context.tags.ToListAsync();
+            var tags = await _context.tags.ToListAsync();
             if (tags is not null)
             {
                 var jsonTags = JsonConvert.SerializeObject(tags);
