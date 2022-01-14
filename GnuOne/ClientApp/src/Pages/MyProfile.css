@@ -30,12 +30,19 @@ main .profile-wheel-container {
   grid-row-end: 5;
   justify-self: right;
 }
-main .friends-container, main .bio-container, main .messages-container, main .settings-container, main .discussions-container {
+main .bio-container, main .messages-container, main .settings-container, main .discussions-container {
   grid-column-start: 2;
   grid-column-end: 6;
   grid-row-start: 3;
   grid-row-end: 5;
   justify-self: stretch;
+}
+main .friends-container {
+  grid-column-start: 2;
+  grid-column-end: 6;
+  grid-row-start: 3;
+  grid-row-end: 5;
+  justify-self: center;
 }
 main .search-bar {
   grid-column-start: 6;

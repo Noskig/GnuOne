@@ -16,13 +16,16 @@ const Friends = () => {
     const url = `https://localhost:${port}/api/myfriends/`
     const [friendsList, setFriendsList] = useState([])
     const [showOverlay, setShowOverlay] = useState(false)
+    const [disabled, setDisabled] = useState(false)
+    const [activeFriend, setActiveFriend] = useState(null)
+
     //SEARCH 
     const [searchTerm, setSearchTerm] = useState('')
     const filteredFriends = filterFriends(friendsList, searchTerm)
 
     useEffect(() => {
         fetchData()
-    }, [])
+    }, [friendEmail])
 
     async function fetchData() {
         if (friendEmail === undefined) {
@@ -39,7 +42,15 @@ const Friends = () => {
 
     const close = () => {
         setShowOverlay(false)
+        setDisabled(false)
     }
+
+    const openOverlay = (id) => {
+        setShowOverlay(true)
+        setDisabled(true)
+        setActiveFriend(id)
+    }
+
 
     function handleClick(e, friend) {
         e.preventDefault()
@@ -48,6 +59,8 @@ const Friends = () => {
             IsFriend: true
         }
         acceptRequest(newFriend)
+
+
     }
 
     async function acceptRequest(newFriend) {
@@ -80,19 +93,22 @@ const Friends = () => {
 
     return (
         <>
-            <Search search={search}/>
-        <section className="friends-container">
+            <Search search={search} />
+            <section className="friends-container">
+                {friendEmail === undefined
+                    ?
+                    <>{showOverlay
+                        ? <>
+                            <button className="new-friend" disabled={disabled}>Add new friend</button>
+                            <AddFriendOverlay fetchData={fetchData} close={close} />
+                        </>
 
-            {showOverlay
-                ? <>
-                    <button className="new-friend" disabled="true">Add new friend</button>
-                    <AddFriendOverlay fetchData={fetchData} close={close} />
-                </>
+                        : <button className="new-friend" onClick={openOverlay}> Add new friend </button>
+                    }</>
+                    : null
+                }
 
-                : <button className="new-friend" onClick={() => setShowOverlay(true)}> Add new friend </button>
-            }
 
-                
                 <ul className="friends-list">
                     {filteredFriends.map(friend => <li key={friend.ID}>
                         {friendEmail === undefined && friend.isFriend ? <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
@@ -101,15 +117,24 @@ const Friends = () => {
                                 ? <><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
                                     <img className="friend-avatar" /> {friend.userName} </Link> <button onClick={(e) => handleClick(e, friend)}>Accept friend</button> </>
                                 : <> <img className="friend-avatar" /> {friend.userName}
-                                    <button> Send friend request</button></>}
-                        
+                                    {showOverlay
+                                        ? <>
+                                            <button disabled={disabled}>Send friend request</button>
+                                            {activeFriend === friend.ID
+                                                ? <AddFriendOverlay fetchData={fetchData} close={close} email={friend.Email} userName={friend.userName} />
+                                                : null
+                                            }
+                                        </>
 
-                    
-                </li>)}
-            </ul>
+                                        : <button onClick={() => openOverlay(friend.ID)}> Send friend request</button>
+                                    }</>}
 
-        </section>
-            </>
+
+
+                    </li>)}
+                </ul>
+            </section>
+        </>
     )
 }
 

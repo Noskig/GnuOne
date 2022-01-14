@@ -11,19 +11,14 @@
     flex-direction: row;
     align-items: center;
 }
-li{
-    margin-left:0.5rem;
-}
 .avatar {
     z-index: 1;
 }
 .messages {
     position:absolute;
-    z-index: -1;
 }
 .settings {
     position: absolute;
-    z-index: -2;
 }
 .out-animation1 {
     animation: messages 0.6s ease-in forwards;
