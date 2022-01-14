@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useContext } from 'react';
 import { Link, Switch, useRouteMatch } from 'react-router-dom';
 import friends from '../../icons/friends.svg';
 import trash from '../../icons/trash.svg';
@@ -9,15 +9,16 @@ import avatar from '../../icons/bio.svg'
 
 import './profileWheel.min.css';
 import RouteWithSubRoutes from '../RouteWithSubRoutes';
+import WheelContext from '../../contexts/WheelContext'
 
 
 
 //testar
 function ProfileWheel({ routes }) {
 
-    const [chosenPage, setChosenPage] = useState();
-    const [active, setActive] = useState();
-    const [done, setDone] = useState();
+
+    const { chosenPage, setChosenPage, active, setActive, done, setDone} = useContext(WheelContext);
+    
     let match = useRouteMatch()
     console.log(match)
     const menu = [

@@ -22,7 +22,7 @@ const Friends = () => {
 
     useEffect(() => {
         fetchData()
-    }, [])
+    }, [myEmail])
 
     async function fetchData() {
         if (friendEmail === undefined) {
