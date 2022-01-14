@@ -4,16 +4,16 @@ using Library.HelpClasses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Welcome_Settings;
 
-
-//namespace GnuOne.Controllers
-//{
-//    [Route("api/[controller]")]
-//    [ApiController]
-//    public class CommentsController : ControllerBase
-//    {
-//        private readonly ApiContext _context;
-//        private readonly MySettings _settings;
+namespace GnuOne.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CommentsController : ControllerBase
+    {
+        private readonly ApiContext _context;
+        private readonly MySettings _settings;
 
 //        public CommentsController(ApiContext context)
 //        {
@@ -56,33 +56,51 @@ using Newtonsoft.Json;
 //            return Ok(converted);
 //        }
 
-//        // POST: api/Comments
-//        /// <summary>
-//        /// Lägger upp en kommentar och skickar ut mail
-//        /// </summary>
-//        /// <param name="comment"></param>
-//        /// <returns></returns>
-//        [HttpPost]
-//        public async Task<IActionResult> PostComment([FromBody] Comment comment)
-//        {
-//            comment.Date = DateTime.Now;
-       
-//            DateTime foo = DateTime.Now;
-//            long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
-//            comment.ID = Convert.ToInt32(unixTime);
-//            comment.Email = _settings.Email;
-//            var query = comment.SendComments();
-//            //skickar ut mail
-//            foreach (var user in _context.MyFriends)
-//            {
-//                if (user.isFriend == false) { continue; }
-//                MailSender.SendEmail(user.Email, query, "Post", _settings);
-//            }
-//            _context.Add(comment);
-//            await _context.SaveChangesAsync();
+        // POST: api/Comments
+        /// <summary>
+        /// Lägger upp en kommentar och skickar ut mail
+        /// </summary>
+        /// <param name="comment"></param>
+        /// <returns></returns>
+        //[HttpPost]
+        //public async Task<IActionResult> PostComment([FromBody] Comment comment)
+        //{
+        //    comment.Date = DateTime.Now;
 
-//            return CreatedAtAction("GetComment", new { id = comment.ID }, comment);
-//        }
+        //    DateTime foo = DateTime.Now;
+        //    long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
+        //    comment.ID = Convert.ToInt32(unixTime);
+        //    comment.Email = _settings.Email;
+        //    var query = comment.SendComments();
+        //    //skickar ut mail
+        //    foreach (var user in _context.MyFriends)
+        //    {
+        //        if (user.isFriend == false) { continue; }
+        //        MailSender.SendEmail(user.Email, query, "Post", _settings);
+        //    }
+        //    _context.Add(comment);
+        //    await _context.SaveChangesAsync();
+
+        //    return CreatedAtAction("GetComment", new { id = comment.ID }, comment);
+        //}
+        [HttpPost]
+        public async Task<IActionResult> PostComment([FromBody] string comment)
+        {
+
+            var megacrypt = new MegaCrypt(comment);
+            megacrypt.RSAEncryptIt(Global.MyPrivatekey, Global.ericPublicKey);
+
+            var jsoncrypt = JsonConvert.SerializeObject(megacrypt);
+
+
+
+            MailSender.SendObject(jsoncrypt, "mailconsolejonatan@gmail.com", _settings, "TestMail");
+
+
+
+
+            return Ok("GetComment");
+        }
 
 //        // PUT: api/Comments
 //        /// <summary>
