@@ -68,7 +68,7 @@ Check out the inbox for your Gmail, it crashes when it is not empty or if there 
 
 <h3>MyFriends</h3>
 <h5>/api/myFriends</h5>
-<b>Get:</b> Returns all the user’s friends in JSON format.<br>
+<b>Get:</b> Returns all the users friends in JSON format.<br>
 <b>Get:</b> Takes an email as a parameter and returns the friend and his friends.<br>
 <b>Post:</b> Takes an email as an input and sends a friend request.<br>
 <b>Put:</b> This is used for replying to an incoming friend request. Send the mail you want to answer to and isFriend: true/false. If you accept the request your information and relevant data will be sent to your new friend who’ll in turn send back his relevant data to you.
