@@ -57,6 +57,18 @@ namespace GnuOne.Controllers
             return Ok();
         }
 
+        //https://localhost:7261/api/Settings/true Restores the DB!
+        [HttpPatch("{GetBackUp}")]
+        public IActionResult BackUpDB(bool GetBackUp)
+        {
+            if (GetBackUp == true)
+            {
+                Backup.GetBackUp();
+                return Ok("Your information is successfully restored.");
+            }
+            return BadRequest("Something didn work out...");
+        }
+
         // DELETE api/<SettingController>/5
         //kanske ta bort konto?
         [HttpDelete("{id}")]
