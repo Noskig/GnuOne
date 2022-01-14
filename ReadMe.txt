@@ -38,53 +38,40 @@ Skriva instruktion och testa att det går
 --Text
 --Video
 
-2.    Jag vill kunna se vem som finns i systemet.
-Vill vi ha både publika och privata vänner?
 
-3.    Jag vill kunna lägga till vänner.
--(FRONTEND)Skapa en process för detta när man har kommit in i systemet.
--(FRONTEND notiser, knapp för accept/denied)
 
 6.    Gå igenom källkoden, dokumentera, städa, fundera på standard.
-
-7.    TESTA
---Create, Edit, Delete, (FRONTEND, Read)
---Create, Edit, Delete, (FRONTEND, Read)
----(Lägga till med FRONTEND)
 
 --Nya funktioner
 8.    Föreslå nya funktioner 
 **Chatt  (LiveChatt i webben..  JS.. Gun.js Chat)
+
 9.    Fixa fel och införa ändringar
 -Göra om allt till samma standard. Namnsättning framförallt.(på börjad kanske klar)
 
-
-
 10. Resterade.
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
 **Dokumentera github. Text. Video. Göra en snygg förklaring. Guida Stig
 -Få prototyp redo, sen dokumentera V.1
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 Publik nyckel.
 
+5. Fixa till asymmetrisk kryptering/verifiering.
 
-4.    Jag vill ha en sida där jag kan se vilka inställningar som är gjorda och eventuellt ändra valda parametrar.
--API som ändrar inställningar.
---Username
---Darkmode?
-
-
-5.    Fixa till asymmetrisk kryptering/verifiering.
-- Kolla vad Marcus har.
 --Vilken information ska krypteras? Mailen? 
 - Maillösenord hashas in i databasen? (Secret key?)
 
 
--__Testa postman lite hejvilt_
-
 *APIsync för att synca discussion, post, vänner och vännersvänners ifall att nått skulle bli fel.
+-Backup
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+-Testa hej vilt med FRONTEND
+
+Generera nycklar
+//https://www.c-sharpcorner.com/article/generating-publicprivate-keys-in-c-sharp-and-net/
+
 
 ----- Slutet av veckan.. En fungerande prototyp ------
 
@@ -98,6 +85,8 @@ EXTRA-JOBB:
 - Kunna blocka någon?
 
 (- Om vän är gömd för mitt nätverk. Ska mina vänner se hans post? username=unknown?)
+(- Darkmode)
+( -API som ändrar inställningar. Vill man kunna ändra gmail?. Säkra upp).
 
 ///////////////////////////////////////////////////////////
 PROBLEM:
@@ -133,6 +122,10 @@ KLART:
 # Filtrera på tags
 # userInfo. Intressen(bool).
 # Gömma sig i nätverken hos vänner.
+# Jag vill ha en sida där jag kan se vilka inställningar som är gjorda och eventuellt ändra valda parametrar.
+# Jag vill kunna lägga till vänner.
+  -(FRONTEND)Skapa en process för detta när man har kommit in i systemet.
+  -(FRONTEND notiser, knapp för accept/denied)
 
 ///////////////////////////////////////////////////////////
 FRÅGOR:
@@ -145,3 +138,52 @@ TILL STIG:
 * Vad ska man kunna se?
 	# När man blir vänner, ska man kunna se alla varandras diskussioner, inlägg och kommentarer? Men även inlägg & kommentarer från andra, som inte är ens vänner? 
 * Om jag blir vän med Sam, då får jag hans vänner, men om han sen lägger till en vän efteråt, den vännen får inte jag? Sync-vänner-knapp i efterhand
+
+
+
+
+///kryptering
+
+
+alla användare har en private och publik key.
+
+mail krypteras med mottagarens public key.
+avkrypteras med deras private key.
+
+hur genereras nycklarna?
+var lägger man nycklarna?
+
+skickar man nyckeln i meddelande?
+
+Ta marcus -> vårt program.
+
+nycklarna. generea public. Gömma private.
+
+
+
+
+GnuOne
+
+Welcome to the Gnu Project!
+
+Reading through the guided code will help you learn about the project and how to use it.
+
+Visit http://iwantag.nu/
+
+Story behind this project
+
+It begins as an internproject to offer a different social platform that focus on being independent of third parties.
+
+Okay so where do I get started?
+1. 
+Create a Gmail-account 
+Put "Access for less secure apps" to on.
+https://myaccount.google.com/security?gar=1
+2.
+Install Heidi
+https://www.heidisql.com/
+3.
+Run 
+ 
+Login with the same username & password as Heidi
+ 

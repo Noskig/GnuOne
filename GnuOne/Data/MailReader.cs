@@ -13,9 +13,12 @@ namespace GnuOne.Data
 {
     public static class MailReader
     {
+
         public static async void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
         {
             var myInfo = _newContext.MySettings.First();
+
+            var pass = AesCryption.Decrypt(myInfo.Password, myInfo.Secret);
 
             using (var client = new ImapClient()) //**** new ProtocolLogger("imap.log")) om vi vill logga
             {
@@ -23,7 +26,7 @@ namespace GnuOne.Data
                 client.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
                 client.Connect("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect); //****
                 client.AuthenticationMechanisms.Remove("XOAUTH2");
-                client.Authenticate(myInfo.Email, myInfo.Password);                                                 //vad händer om man har fel lösen?
+                client.Authenticate(myInfo.Email, pass);                                                 //vad händer om man har fel lösen?
                 client.Inbox.Open(FolderAccess.ReadWrite);
 
 
@@ -67,8 +70,9 @@ namespace GnuOne.Data
                                 if (doing == 1)
                                 {
                                     var doinga = ForwardPostToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardPost");
-                                    break; 
+                                    break;
                                 }
+                                
                                 else
                                 {
                                     ///try again?
@@ -126,7 +130,7 @@ namespace GnuOne.Data
                                 if (deedb == 1)
                                 {
                                     var doinga = ForwardPostToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardPutPost");
-                                    break; 
+                                    break;
                                 }
                                 else
                                 {
@@ -214,7 +218,7 @@ namespace GnuOne.Data
                                 if (deedj == 1) { break; }
                                 else { break; }
 
-                            
+
 
                             case "FriendHiding":
                                 var deed4 = UpdateFriendHiding(decryptedMessage, _newContext, cleanEmailFrom);
@@ -232,6 +236,7 @@ namespace GnuOne.Data
 
                         // Flaggar meddelandet att det skall tas bort.
                         client.Inbox.AddFlags(mail, MessageFlags.Deleted, true);  //false? testa
+                        /*Backup.BackupDatabase();*/ // Backar upp dB
                     }
 
                     //Spammail kmr hit och tas bort
@@ -242,6 +247,8 @@ namespace GnuOne.Data
                     }
                 }
                 client.Disconnect(true);
+
+                //backupdatabase();
             }
         }
 
@@ -271,7 +278,7 @@ namespace GnuOne.Data
 
             return -1;
         }
-    
+
 
         private static int UpdateFriendHiding(string decryptedMessage, MariaContext context, string cleanEmailFrom)
         {
@@ -302,7 +309,7 @@ namespace GnuOne.Data
         private static int RecieveAndUpdateFriend(string decryptedMessage, MariaContext context)
         {
             var friendInfo = JsonConvert.DeserializeObject<MyFriend>(decryptedMessage);
-            if (friendInfo != null) 
+            if (friendInfo != null)
             {
                 var friend = context.MyFriends.Where(x => x.Email == friendInfo.Email).FirstOrDefault();
                 friend.userInfo = friendInfo.userInfo;
@@ -318,7 +325,7 @@ namespace GnuOne.Data
             return -1;
         }
 
-        
+
         private static int ForwardPostToFriends(string decryptedMessage, MariaContext context, string fromEmail, string subject)
         {
             var mysettings = context.MySettings.FirstOrDefault();
@@ -402,7 +409,7 @@ namespace GnuOne.Data
             var myprofile = context.MyProfile.FirstOrDefault();
 
 
-            var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(context, mysettingsEmail, false,myprofile);
+            var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(context, mysettingsEmail, false, myprofile);
             var jsonBigList = JsonConvert.SerializeObject(bigListWithMyInfo);
             var mySettings = context.MySettings.FirstOrDefault();
             MailSender.SendObject(jsonBigList, toEmail, mySettings, "GiveBackInformation");
@@ -478,7 +485,7 @@ namespace GnuOne.Data
                     context.Posts.AddRangeAsync(theirPosts);
                     //context.SaveChanges();
                 }
-                
+
 
 
                 //if (!isSendBack)
@@ -537,9 +544,12 @@ namespace GnuOne.Data
             var post = JsonConvert.DeserializeObject<Post>(decryptedMessage);
             if (post is not null)
             {
-                context.Update(post);
-                context.SaveChangesAsync().Wait();
-                return 1;
+                if (CheckIfIHaveDiscussion(post, context))
+                {
+                    context.Update(post);
+                    context.SaveChangesAsync().Wait();
+                    return 1;
+                }
             }
             return -1;
         }
@@ -549,11 +559,21 @@ namespace GnuOne.Data
             var post = JsonConvert.DeserializeObject<Post>(decryptedMessage);
             if (post is not null)
             {
-                context.Remove(post);
-                context.SaveChangesAsync().Wait();
-                return 1;
+                if (CheckIfIHaveDiscussion(post, context))
+                {
+                    context.Remove(post);
+                    context.SaveChangesAsync().Wait();
+                    return 1;
+                }
             }
             return -1;
+        }
+
+        private static bool CheckIfIHaveDiscussion(Post post, MariaContext context)
+        {
+            var anyDisc = context.Discussions.Where(x => x.ID == post.discussionID).Any();
+
+            return anyDisc;
         }
 
         private static int RecieveAndDeleteDiscussion(string decryptedMessage, MariaContext context)
@@ -572,19 +592,22 @@ namespace GnuOne.Data
             var post = JsonConvert.DeserializeObject<Post>(decryptedbody);
             if (post is not null)
             {
-                if(Email != myInfo.Email)
+                if (CheckIfIHaveDiscussion(post, context))
                 {
-                    context.Posts.Add(post);
-                    context.SaveChangesAsync().Wait();
+                    if (Email != myInfo.Email)
+                    {
+                        context.Posts.Add(post);
+                        context.SaveChangesAsync().Wait();
+                    }
+                    return 1;
                 }
-                return 1;
             }
             return -1;
         }
 
         private static int RecieveAndSaveDiscussion(string decryptedbody, MariaContext context)
         {
-            ///kanske try?
+
 
             var discussion = JsonConvert.DeserializeObject<Discussion>(decryptedbody);
             if (discussion is not null)
