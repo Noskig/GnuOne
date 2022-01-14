@@ -13,9 +13,12 @@ namespace GnuOne.Data
 {
     public static class MailReader
     {
+
         public static async void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
         {
             var myInfo = _newContext.MySettings.First();
+
+            var pass = AesCryption.Decrypt(myInfo.Password, myInfo.Secret);
 
             using (var client = new ImapClient()) //**** new ProtocolLogger("imap.log")) om vi vill logga
             {
@@ -23,7 +26,7 @@ namespace GnuOne.Data
                 client.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
                 client.Connect("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect); //****
                 client.AuthenticationMechanisms.Remove("XOAUTH2");
-                client.Authenticate(myInfo.Email, myInfo.Password);                                                 //vad händer om man har fel lösen?
+                client.Authenticate(myInfo.Email, pass);                                                 //vad händer om man har fel lösen?
                 client.Inbox.Open(FolderAccess.ReadWrite);
 
 
@@ -233,6 +236,7 @@ namespace GnuOne.Data
 
                         // Flaggar meddelandet att det skall tas bort.
                         client.Inbox.AddFlags(mail, MessageFlags.Deleted, true);  //false? testa
+                        /*Backup.BackupDatabase();*/ // Backar upp dB
                     }
 
                     //Spammail kmr hit och tas bort
