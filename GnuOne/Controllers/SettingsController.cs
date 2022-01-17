@@ -68,12 +68,32 @@ namespace GnuOne.Controllers
         [HttpPut("username")]
         public async Task<IActionResult> updateSettingsPut([FromBody] string username)
         {
+            var oldUsername = _settings.userName;
             _settings.userName = username;
             _context.MySettings.Update(_settings);
             await _context.SaveChangesAsync();
 
+            var jsonUsername = JsonConvert.SerializeObject(username);
             await BigList.UpdateUsername(_context, username, _settings.Email);
-            //skicka mail
+
+            var emailList = new List<string>();
+            foreach (var friend in _context.MyFriends)
+            {
+                MailSender.SendObject(jsonUsername, friend.Email, _settings, "UpdatedUsername");
+                emailList.Add(friend.Email);
+            }
+
+            foreach (var friendsFriend in _context.MyFriendsFriends.Where(x => x.userName == oldUsername))
+            {
+                friendsFriend.userName = username;
+                _context.Update(friendsFriend);
+
+                if (!emailList.Contains(friendsFriend.Email))
+                {
+                    MailSender.SendObject(jsonUsername, friendsFriend.Email, _settings, "UpdatedFriendsFriendsUsername");
+                }
+            }
+
 
             return Ok();
         }
