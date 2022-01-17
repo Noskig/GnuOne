@@ -111,12 +111,13 @@ const Friends = () => {
 
                 <ul className="friends-list">
                     {filteredFriends.map(friend => <li key={friend.ID}>
-                        {friendEmail === undefined && friend.isFriend ? <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                        {friendEmail === undefined && friend.isFriend
+                            ? <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
                             <img className="friend-avatar" /> {friend.userName} </Link>
                             : friendEmail === undefined && !friend.isFriend
                                 ? <><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
                                     <img className="friend-avatar" /> {friend.userName} </Link> <button onClick={(e) => handleClick(e, friend)}>Accept friend</button> </>
-                                : <> <img className="friend-avatar" /> {friend.userName}
+                                : <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} > <img className="friend-avatar" /> {friend.userName}
                                     {showOverlay
                                         ? <>
                                             <button disabled={disabled}>Send friend request</button>
@@ -127,7 +128,7 @@ const Friends = () => {
                                         </>
 
                                         : <button onClick={() => openOverlay(friend.ID)}> Send friend request</button>
-                                    }</>}
+                                    }</Link>}
 
 
 
