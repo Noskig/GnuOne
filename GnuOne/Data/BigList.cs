@@ -24,11 +24,12 @@ namespace GnuOne.Data
             myInfo = myInformation; 
         }
 
-        public static async Task<int> UpdateUsername(ApiContext context, string newUsername, string email)
+        public static async Task<int> UpdateUsername(ApiContext context, string newUsername, string oldUsername, string email)
         {
             var myDiscussions = await context.Discussions.Where(x => x.Email == email).ToListAsync();
             var myPosts = await context.Posts.Where(x => x.Email == email).ToListAsync();
             var myComments = await context.Comments.Where(x => x.Email == email).ToListAsync();
+            var myUserfriendsFriend = await context.MyFriendsFriends.Where(x => x.userName == oldUsername).ToListAsync();
 
             foreach (var discussion in myDiscussions)
             {
@@ -44,10 +45,14 @@ namespace GnuOne.Data
             {
                 comment.userName = newUsername;
             }
-
-            context.Discussions.UpdateRange(myDiscussions);
+            foreach (var friendFriend in myUserfriendsFriend)
+            {
+                friendFriend.userName = newUsername;
+            }
+                context.Discussions.UpdateRange(myDiscussions);
             context.Posts.UpdateRange(myPosts);
             context.Comments.UpdateRange(myComments);
+            context.MyFriendsFriends.UpdateRange(myUserfriendsFriend);
             await context.SaveChangesAsync();
 
             return 1;

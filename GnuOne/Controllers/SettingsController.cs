@@ -74,7 +74,7 @@ namespace GnuOne.Controllers
             await _context.SaveChangesAsync();
 
             var jsonUsername = JsonConvert.SerializeObject(username);
-            await BigList.UpdateUsername(_context, username, _settings.Email);
+            await BigList.UpdateUsername(_context, username, oldUsername, _settings.Email);
 
             var emailList = new List<string>();
             foreach (var friend in _context.MyFriends)
@@ -83,11 +83,9 @@ namespace GnuOne.Controllers
                 emailList.Add(friend.Email);
             }
 
-            foreach (var friendsFriend in _context.MyFriendsFriends.Where(x => x.userName == oldUsername))
+            var myFriendsFriendsList = _context.MyFriendsFriends.Where(x => x.userName != username).ToList();
+            foreach (var friendsFriend in myFriendsFriendsList)
             {
-                friendsFriend.userName = username;
-                _context.Update(friendsFriend);
-
                 if (!emailList.Contains(friendsFriend.Email))
                 {
                     MailSender.SendObject(jsonUsername, friendsFriend.Email, _settings, "UpdatedFriendsFriendsUsername");
