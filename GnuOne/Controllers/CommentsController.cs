@@ -15,46 +15,46 @@ namespace GnuOne.Controllers
         private readonly ApiContext _context;
         private readonly MySettings _settings;
 
-//        public CommentsController(ApiContext context)
-//        {
-//            _context = context;
-//            _settings = _context.MySettings.First();
+        //        public CommentsController(ApiContext context)
+        //        {
+        //            _context = context;
+        //            _settings = _context.MySettings.First();
 
-//        }
-//        // GET: api/Comments
-//        /// <summary>
-//        /// Hämtar kommentarer från DB. Konverterar dom till JSON och skickar tillbaka requesten.
-//        /// </summary>
-//        /// <returns></returns>
-//        [HttpGet]
-//        public async Task<IActionResult> GetComments()
-//        {
-//            var lista = await _context.Comments.ToListAsync();
-//            var converted = JsonConvert.SerializeObject(lista);
+        //        }
+        //        // GET: api/Comments
+        //        /// <summary>
+        //        /// Hämtar kommentarer från DB. Konverterar dom till JSON och skickar tillbaka requesten.
+        //        /// </summary>
+        //        /// <returns></returns>
+        //        [HttpGet]
+        //        public async Task<IActionResult> GetComments()
+        //        {
+        //            var lista = await _context.Comments.ToListAsync();
+        //            var converted = JsonConvert.SerializeObject(lista);
 
-//            return Ok(converted);
-//        }
+        //            return Ok(converted);
+        //        }
 
-//        // GET: api/Comments/5
-//        /// <summary>
-//        /// Hämtar information på ett specifikt ID
-//        /// </summary>
-//        /// <param name="id"></param>
-//        /// <returns></returns>
-//        [HttpGet("{id}")]
-//        public async Task<IActionResult> GetComment(int? id)
-//        {
+        //        // GET: api/Comments/5
+        //        /// <summary>
+        //        /// Hämtar information på ett specifikt ID
+        //        /// </summary>
+        //        /// <param name="id"></param>
+        //        /// <returns></returns>
+        //        [HttpGet("{id}")]
+        //        public async Task<IActionResult> GetComment(int? id)
+        //        {
 
-//            var comment = await _context.Comments.Where(x => x.ID == id).ToListAsync();
-//            if (comment.Count == 0)
-//            {
-//                return NotFound();
-//            }
+        //            var comment = await _context.Comments.Where(x => x.ID == id).ToListAsync();
+        //            if (comment.Count == 0)
+        //            {
+        //                return NotFound();
+        //            }
 
-//            var converted = JsonConvert.SerializeObject(comment);
+        //            var converted = JsonConvert.SerializeObject(comment);
 
-//            return Ok(converted);
-//        }
+        //            return Ok(converted);
+        //        }
 
         // POST: api/Comments
         /// <summary>
@@ -101,7 +101,8 @@ namespace GnuOne.Controllers
 
             return Ok("GetComment");
         }
-
+    }
+}
 //        // PUT: api/Comments
 //        /// <summary>
 //        /// Ändrar en kommentar
