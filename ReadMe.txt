@@ -67,7 +67,7 @@ Publik nyckel.
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 //comments
--fetch post, comments hänger med
+-Gör nya cases för comments (postedcomment etc)
 
 //setting
 
@@ -134,6 +134,8 @@ KLART:
 *Vi vill kunna uppdatera myprofile, göra så att userinfon skickas till vänner (11/1)
 # Darkmode. 
 # användarnamn. Ändra så att det hänger med hela vägen.
+# CommentsControler
+# fetch post, comments hänger med
 
 
 # Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. 5/1

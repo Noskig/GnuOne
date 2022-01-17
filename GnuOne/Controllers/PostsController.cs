@@ -51,7 +51,11 @@ namespace GnuOne.Controllers
                 return NotFound();
             }
 
-            return Ok(post);
+            var commentList = await _context.Comments.Where(x => x.postID == post.ID).ToListAsync();
+
+            var dto = new PostDTO(post, commentList);
+
+            return Ok(dto);
         }
 
         // POST: api/Posts
@@ -111,19 +115,10 @@ namespace GnuOne.Controllers
             }
 
 
-            //hittar gamla texten för att skicka med 
-            //och hitta den unika kommentaren i databasen hos de andra användare
-            //var oldtext = await _context.Posts.Where(x => x.ID == post.ID).Select(x => x.postText).FirstOrDefaultAsync();
-
             var jsonPost = JsonConvert.SerializeObject(post);
 
             MailSender.SendObject(jsonPost, post.discussionEmail, _settings, "PutPost");
 
-            //foreach (var user in _context.MyFriends)
-            //{
-            //    if (user.isFriend == false) { continue; }
-            //    MailSender.SendObject(jsonPost, user.Email, _settings, "PutPost");
-            //}
             _context.Update(post);
             await _context.SaveChangesAsync();
 
