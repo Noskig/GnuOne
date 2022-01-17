@@ -71,7 +71,10 @@ Publik nyckel.
 
 //setting
 -användarnamn. Ändra så att det hänger med hela vägen.
--Darkmode. 
+- Skicka ut till alla vänner
+- Skicka ut till vänners vänner
+- Uppdatera på discussions, posts och comments
+
 --profil
 -bio uppdateras
 -tag   
@@ -106,7 +109,7 @@ EXTRA-JOBB:
 - Kunna blocka någon?
 
 (- Om vän är gömd för mitt nätverk. Ska mina vänner se hans post? username=unknown?)
-(- Darkmode)
+
 ( -API som ändrar inställningar. Vill man kunna ändra gmail?. Säkra upp).
 
 ///////////////////////////////////////////////////////////
@@ -132,6 +135,7 @@ KLART:
 # Intressen/Tags
 # Kunna visa sina favorit intressen på sin profil.
 *Vi vill kunna uppdatera myprofile, göra så att userinfon skickas till vänner (11/1)
+# Darkmode. 
 
 
 # Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. 5/1
