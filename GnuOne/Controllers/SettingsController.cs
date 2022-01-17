@@ -35,6 +35,17 @@ namespace GnuOne.Controllers
             return NotFound();
         }
 
+        [HttpGet("{darkmode}")]
+        public async Task<IActionResult> Get(bool darkMode)
+        {
+            var settings = await _context.MySettings.FirstOrDefaultAsync();
+            settings.DarkMode = darkMode;
+
+            _context.MySettings.Update(settings);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
 
         // PUT api/<SettingController>/5
         [HttpPut]

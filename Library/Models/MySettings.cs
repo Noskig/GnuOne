@@ -13,5 +13,6 @@ namespace Library
         public string Password { get; set; }
         public string userName { get; set; }
         public string Secret{ get; set; }
+        public bool DarkMode { get; set; } = false;
     }
 }
