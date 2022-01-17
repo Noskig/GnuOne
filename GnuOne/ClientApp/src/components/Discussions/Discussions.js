@@ -6,6 +6,7 @@ import arrows from '../../icons/arrows.svg';
 import trash from '../../icons/trash.svg'
 import done from '../../icons/done.svg'
 import edit from '../../icons/edit.svg'
+import Save from '../../icons/save-this.svg'
 import DeleteDiscussionOverlay from './DeleteDiscussionOverlay/DeleteDiscussionOverlay'
 import Search from '../Search/Search.js';
 import MeContext from '../../contexts/meContext';
@@ -27,6 +28,7 @@ const Discussions = ({ routes }) => {
     const [activeDiscussion, setActiveDiscussion] = useState('')
     const [editOpen, setEditOpen] = useState(false)
     let match = useRouteMatch()
+
     //SEARCH 
     const [searchTerm, setSearchTerm] = useState('')
     const filteredDiscussions = filterDiscussions(discussions, searchTerm)
@@ -137,6 +139,8 @@ const Discussions = ({ routes }) => {
         })
     }
 
+    // function som sparar en topic
+
     return (
         <>
             <Search search={search} />
@@ -196,6 +200,11 @@ const Discussions = ({ routes }) => {
 
                             <div className={readMore && activeDiscussion == discussion.ID ? "discussion-options" : "discussion-options hide"}>
 
+                               {/* knappen måste kalla på en function som postar informationen om den här topicen till database */}
+                                <button className="save">
+                                    <img alt="save" src={Save} />
+                                </button>
+                                {/*============================================================================================= */}
 
                                 {showDeleteConfirm && activeDiscussion === discussion.ID
                                     ? <>
@@ -209,6 +218,7 @@ const Discussions = ({ routes }) => {
                                         <img alt="delete" src={trash} />
                                     </button>
                                 }
+   
                                 {editOpen && activeDiscussion === discussion.ID ?
                                     <button onClick={(e) => confirmEditDiscussion(e, discussion)}>
                                         <img alt="done" src={done} />

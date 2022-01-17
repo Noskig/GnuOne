@@ -6,6 +6,7 @@ import Messages from './components/Messages/Messages';
 import Settings from './components/Settings/Settings';
 import Discussions from './components/Discussions/Discussions';
 import Posts from './components/Posts';
+import Saved from './components/Saved/Saved';
 
 const routes = [
     {
@@ -70,6 +71,11 @@ const routes = [
             {
                 path: '/profile/discussions',
                 component: Discussions,
+
+            },
+            {
+                path: '/profile/saved',
+                component: Saved,
 
             },
         ],

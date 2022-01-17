@@ -1,11 +1,11 @@
 ﻿import React, { useState, useContext } from 'react';
 import { Link, Switch, useRouteMatch } from 'react-router-dom';
 import friends from '../../icons/friends.svg';
-import trash from '../../icons/trash.svg';
 import messages from '../../icons/messages.svg';
 import file from '../../icons/file.svg';
 import settings from '../../icons/settings-normal.svg';
-import avatar from '../../icons/bio.svg'
+import avatar from '../../icons/bio.svg';
+import saved from '../../icons/saved.svg';
 
 import './profileWheel.min.css';
 import RouteWithSubRoutes from '../RouteWithSubRoutes';
@@ -48,8 +48,8 @@ function ProfileWheel({ routes }) {
             id: 5
         },
         {
-            path: `${match.url}/testwheel`,
-            img: trash,
+            path: `${match.url}/saved`,
+            img: saved,
             id: 6
         },
     ];

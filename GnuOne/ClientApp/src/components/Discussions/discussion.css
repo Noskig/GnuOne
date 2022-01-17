@@ -4,7 +4,7 @@
     color:white;
     margin-top:0.5rem;
     display:grid;
-    grid-template-columns:auto auto 6rem;
+    grid-template-columns:auto auto 7rem;
     grid-template-rows:auto auto;
     padding:1rem 1rem 1rem;
     border-radius:15px ;

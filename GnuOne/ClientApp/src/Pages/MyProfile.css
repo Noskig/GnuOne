@@ -30,7 +30,7 @@ main .profile-wheel-container {
   grid-row-end: 5;
   justify-self: right;
 }
-main .bio-container, main .messages-container, main .settings-container, main .discussions-container {
+main .bio-container, main .messages-container, main .settings-container, main .discussions-container, main .saved-section {
   grid-column-start: 2;
   grid-column-end: 6;
   grid-row-start: 3;
