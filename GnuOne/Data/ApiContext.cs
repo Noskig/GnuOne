@@ -20,5 +20,7 @@ namespace GnuOne.Data
         public DbSet<myProfile> MyProfile { get; set; }
         public DbSet<standardpictures> Standardpictures { get; set; }
 
+        //hej
     }
 }
+
