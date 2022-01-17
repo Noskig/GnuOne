@@ -32,6 +32,7 @@ const Friends = () => {
             //get my own friends
             const response = await fetch(url)
             const friends = await response.json()
+            console.log(friends)
             setFriendsList(friends)
         } else {
             //get my friend's friends
@@ -52,6 +53,7 @@ const Friends = () => {
                 if (newList.includes(friendsfriend.Email)) {
                     friendsfriend.alreadyFriend = true
                 }
+               
             })
             console.log(friendsfriends, filteredFriendsfriends)
             setFriendsList(filteredFriendsfriends)
@@ -128,35 +130,65 @@ const Friends = () => {
                     : null
                 }
 
-
                 <ul className="friends-list">
-                    {filteredFriends.map(friend => <li key={friend.ID}>
-                        {friendEmail === undefined && friend.isFriend
-                            ? <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
-                                <img className="friend-avatar" /> {friend.userName}
-                            </Link>
-                            : friendEmail === undefined && !friend.isFriend
-                            ? <><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
-                                    <img className="friend-avatar" /> {friend.userName}
-                                </Link>
-                                <button onClick={(e) => handleClick(e, friend)}>Accept friend</button> </>
-                            :  <><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
-                                    <img className="friend-avatar" /> {friend.userName}
-                                </Link>
-                                    <>{
-                                        friend.alreadyFriend
+                <h3>Friends</h3>
+                    {filteredFriends.map(friend =><>
+                    {
+                        friendEmail === undefined && !friend.isFriend
+                            ? null
+                            : <li key={friend.ID}>
+                                {friendEmail === undefined && friend.isFriend
+                                    ? <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                        <img className="friend-avatar" /> {friend.userName}
+                                    </Link>
+                                    : friendEmail === undefined && !friend.isFriend && friend.userName
+                                        ? <><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                            <img className="friend-avatar" /> {friend.userName}
+                                        </Link>
+                                            <button onClick={(e) => handleClick(e, friend)}>Accept friend</button> </>
+                                        : friendEmail === undefined && !friend.isFriend && !friend.userName
                                             ? null
-                                            : <>{showOverlay
-                                                ? <><button disabled={disabled}>Send friend request</button>
-                                                    {activeFriend === friend.ID
-                                                        ? <AddFriendOverlay fetchData={fetchData} close={close} email={friend.Email} userName={friend.userName} />
-                                                        : null
-                                                    }</>
-                                                : <button onClick={() => openOverlay(friend.ID)}> Send friend request</button>
-                                            }</>
-                                        }</>                                       
-                                    </>}
-                    </li>)}
+
+                                            : <><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                                <img className="friend-avatar" /> {friend.userName}
+                                            </Link>
+                                                <>{
+                                                    friend.alreadyFriend
+                                                        ? null
+                                                        : <>{showOverlay
+                                                            ? <><button disabled={disabled}>Send friend request</button>
+                                                                {activeFriend === friend.ID
+                                                                    ? <AddFriendOverlay fetchData={fetchData} close={close} email={friend.Email} userName={friend.userName} />
+                                                                    : null
+                                                                }</>
+                                                            : <button onClick={() => openOverlay(friend.ID)}> Send friend request</button>
+                                                        }</>
+                                                }</>
+                                            </>}
+                            </li>
+                    }
+                    </>)}
+                    {friendEmail === undefined
+                        ?<> <h3>New friend requests</h3>
+                            {filteredFriends.map(friend => <>
+                                {!friend.isFriend && friend.userName
+                                    ? <li key={friend.ID}>
+                                        {friend.userName}
+                                    </li>
+                                    : null}
+                            </>)}
+                            <h3>Sent friend requests</h3>
+                            {filteredFriends.map(friend => <>
+                                {!friend.isFriend && !friend.userName 
+                                    ? <li key={friend.ID}>
+                                        {friend.Email}
+                                      </li>
+                                : null}
+                             </>)}
+                        </>
+                        : null
+                        }
+                   
                 </ul>
             </section>
         </>
