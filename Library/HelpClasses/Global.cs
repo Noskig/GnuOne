@@ -242,7 +242,7 @@ CREATE TABLE IF NOT EXISTS `myprofile` (
   CONSTRAINT `FK_myprofile_tags_3` FOREIGN KEY (`tagThree`) REFERENCES `tags` (`ID`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myprofile: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.myprofile: ~1 rows (ungefär)
 /*!40000 ALTER TABLE `myprofile` DISABLE KEYS */;
 /*!40000 ALTER TABLE `myprofile` ENABLE KEYS */;
 
@@ -252,10 +252,11 @@ CREATE TABLE IF NOT EXISTS `mysettings` (
   `Email` varchar(75) DEFAULT NULL,
   `Password` varchar(75) DEFAULT NULL,
   `userName` varchar(75) DEFAULT NULL,
-  `Secret` varchar(75) DEFAULT NULL
+  `Secret` varchar(75) DEFAULT NULL,
+  `DarkMode` bit(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.mysettings: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.mysettings: ~1 rows (ungefär)
 /*!40000 ALTER TABLE `mysettings` DISABLE KEYS */;
 /*!40000 ALTER TABLE `mysettings` ENABLE KEYS */;
 
