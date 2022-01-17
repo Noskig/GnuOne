@@ -230,6 +230,16 @@ namespace GnuOne.Data
                                 if (deed5 == 1) { break; }
                                 else { break; }
 
+                            case "UpdatedUsername":
+                                var deed6 = UpdateFriendsUsername(decryptedMessage, _newContext, cleanEmailFrom, myInfo);
+                                if (deed6 == 1) { break; }
+                                else { break; }
+
+                            case "UpdatedFriendsFriendsUsername":
+                                var deed7 = UpdateFriendsFriendsUsername(decryptedMessage, _newContext, cleanEmailFrom);
+                                if (deed7 == 1) { break; }
+                                else { break; }
+
                             default:
                                 break;
                         }
@@ -250,6 +260,100 @@ namespace GnuOne.Data
 
                 //backupdatabase();
             }
+        }
+
+        private static int UpdateFriendsFriendsUsername(string decryptedMessage, MariaContext context, string cleanEmailFrom)
+        {
+            var friendsFriendsPosts = context.Posts.Where(x => x.Email == cleanEmailFrom).ToList();
+            var friendsFriendsComments = context.Comments.Where(x => x.Email == cleanEmailFrom).ToList();
+            var newUsername = JsonConvert.DeserializeObject<string>(decryptedMessage);
+            var friendFriendUsername = context.MyFriendsFriends.Where(x => x.Email == cleanEmailFrom).ToList();
+
+            if (friendsFriendsPosts.Count() > 0)
+            {
+                foreach (var post in friendsFriendsPosts)
+                {
+                    post.userName = newUsername;
+                }
+
+                context.Posts.UpdateRange(friendsFriendsPosts);
+                context.SaveChangesAsync().Wait();
+            }
+
+            if (friendsFriendsComments.Count() > 0)
+            {
+                foreach (var comment in friendsFriendsComments)
+                {
+                    comment.userName = newUsername;
+                }
+
+                context.Comments.UpdateRange(friendsFriendsComments);
+                context.SaveChangesAsync().Wait();
+            }
+
+            foreach (var friendFriend in friendFriendUsername)
+            {
+                friendFriend.userName = newUsername;
+            }
+
+            context.MyFriendsFriends.UpdateRange(friendFriendUsername);
+            context.SaveChangesAsync().Wait();
+
+            return 1;
+        }
+
+        private static int UpdateFriendsUsername(string decryptedMessage, MariaContext context, string cleanEmailFrom, MySettings mySettings)
+        {
+            var myDiscussions = context.Discussions.Where(x => x.Email == cleanEmailFrom).ToList();
+            var myPosts = context.Posts.Where(x => x.Email == cleanEmailFrom).ToList();
+            var myComments = context.Comments.Where(x => x.Email == cleanEmailFrom).ToList();
+            var newUsername = JsonConvert.DeserializeObject<string>(decryptedMessage);
+            var friendFriendUsername = context.MyFriendsFriends.Where(x => x.Email == cleanEmailFrom).ToList();
+
+            var friend = context.MyFriends.Where(x => x.Email == cleanEmailFrom).FirstOrDefault();
+            friend.userName = newUsername;
+            context.MyFriends.Update(friend);
+            context.SaveChangesAsync().Wait();
+
+            foreach (var discussion in myDiscussions)
+            {
+                discussion.userName = newUsername;
+            }
+
+            foreach (var post in myPosts)
+            {
+                post.userName = newUsername;
+            }
+
+            foreach (var comment in myComments)
+            {
+                comment.userName = newUsername;
+            }
+
+            foreach (var friendFriend in friendFriendUsername)
+            {
+                friendFriend.userName = newUsername;
+            }
+            context.MyFriendsFriends.UpdateRange(friendFriendUsername);
+            context.SaveChangesAsync().Wait();
+
+            context.Discussions.UpdateRange(myDiscussions);
+            context.SaveChangesAsync().Wait();
+
+            context.Posts.UpdateRange(myPosts);
+            context.SaveChangesAsync().Wait();
+
+            context.Comments.UpdateRange(myComments);
+            context.SaveChangesAsync().Wait();
+
+            //string[] message = new string[] { decryptedMessage, cleanEmailFrom };
+            //var jsonMessage = JsonConvert.SerializeObject(message);
+            //foreach (var friendd in context.MyFriends)
+            //{
+            //    MailSender.SendObject(jsonMessage, friendd.Email, mySettings, "UpdateFriendsFriendUsername");
+            //}
+
+            return 1;
         }
 
         private static int UpdateFriendShowing(string decryptedMessage, MariaContext context, string cleanEmailFrom)
