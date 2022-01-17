@@ -66,6 +66,27 @@ Publik nyckel.
 -Backup
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
+//comments
+-fetch post, comments hänger med
+
+//setting
+-användarnamn. Ändra så att det hänger med hela vägen.
+-Darkmode. 
+--profil
+-bio uppdateras
+-tag   
+-bild  
+
+//bookmarking
+
+//Notification på första sidan
+
+
+//chatt?
+
+frågor stig
+-Email display på sin egen profil? på andras?
+-
 
 -Testa hej vilt med FRONTEND
 
