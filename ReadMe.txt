@@ -70,10 +70,7 @@ Publik nyckel.
 -fetch post, comments hänger med
 
 //setting
--användarnamn. Ändra så att det hänger med hela vägen.
-- Skicka ut till alla vänner
-- Skicka ut till vänners vänner
-- Uppdatera på discussions, posts och comments
+
 
 --profil
 -bio uppdateras
@@ -136,6 +133,7 @@ KLART:
 # Kunna visa sina favorit intressen på sin profil.
 *Vi vill kunna uppdatera myprofile, göra så att userinfon skickas till vänner (11/1)
 # Darkmode. 
+# användarnamn. Ändra så att det hänger med hela vägen.
 
 
 # Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. 5/1
