@@ -24,22 +24,22 @@
     position:absolute;
 }
 .out-animation1 {
-    animation: messages 0.5s ease-in forwards;
+    animation: messages 0.6s ease-in forwards;
 }
 .out-animation2 {
-    animation: settings 0.4s ease-in forwards;
+    animation: settings 0.6s ease-in forwards;
 }
 .out-animation3 {
-    animation: profile 0.4s ease-in forwards;
+    animation: profile 0.6s ease-in forwards;
 }
 .in-animation1 {
     animation: messages2 0.6s ease-out forwards;
 }
 .in-animation2 {
-    animation: settings2 0.4s ease-out forwards;
+    animation: settings2 0.6s ease-out forwards;
 }
 .in-animation3 {
-    animation: profile2 0.2s ease-out forwards;
+    animation: profile2 0.6s ease-out forwards;
 }
 @keyframes messages {
     100% {
