@@ -36,6 +36,14 @@ namespace GnuOne.Controllers
         }
 
         [HttpGet("{darkmode}")]
+        public async Task<IActionResult> GetMode()
+        {
+            var darkModeJson = JsonConvert.SerializeObject(_settings.DarkMode);
+
+            return Ok(darkModeJson);
+        }
+
+        [HttpPut("{darkmode}")]
         public async Task<IActionResult> Get(bool darkMode)
         {
             var settings = await _context.MySettings.FirstOrDefaultAsync();
@@ -57,13 +65,15 @@ namespace GnuOne.Controllers
             return Ok();
         }
 
-        [HttpPut("{username}")]
+        [HttpPut("username")]
         public async Task<IActionResult> updateSettingsPut([FromBody] string username)
         {
-            var settings = await _context.MySettings.FirstOrDefaultAsync();
-            settings.userName = username;
-            _context.MySettings.Update(settings);
+            _settings.userName = username;
+            _context.MySettings.Update(_settings);
             await _context.SaveChangesAsync();
+
+            await BigList.UpdateUsername(_context, username, _settings.Email);
+            //skicka mail
 
             return Ok();
         }
