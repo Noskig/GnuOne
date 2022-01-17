@@ -29,16 +29,36 @@ const Friends = () => {
 
     async function fetchData() {
         if (friendEmail === undefined) {
+            //get my own friends
             const response = await fetch(url)
             const friends = await response.json()
             setFriendsList(friends)
         } else {
-            const response = await fetch(url + friendEmail)
-            const friend = await response.json()
+            //get my friend's friends
+            const responseOne = await fetch(url + friendEmail)
+            const friend = await responseOne.json()
             const friendsfriends = friend.MyFriendsFriends
-            setFriendsList(friendsfriends)
+
+            //get my own friends for filtering purposes... 
+            const responseTwo = await fetch(url)
+            const allFriends = await responseTwo.json()
+
+            let filteredFriendsfriends = friendsfriends.filter(friendsfriend => friendsfriend.Email !== myEmail)
+
+            filteredFriendsfriends.forEach(friendsfriend => {
+                let newList = allFriends.map(friend => friend.Email)
+                console.log(newList)
+             
+                if (newList.includes(friendsfriend.Email)) {
+                    friendsfriend.alreadyFriend = true
+                }
+            })
+            console.log(friendsfriends, filteredFriendsfriends)
+            setFriendsList(filteredFriendsfriends)
         }
     }
+
+  
 
     const close = () => {
         setShowOverlay(false)
@@ -113,25 +133,29 @@ const Friends = () => {
                     {filteredFriends.map(friend => <li key={friend.ID}>
                         {friendEmail === undefined && friend.isFriend
                             ? <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
-                            <img className="friend-avatar" /> {friend.userName} </Link>
+                                <img className="friend-avatar" /> {friend.userName}
+                            </Link>
                             : friendEmail === undefined && !friend.isFriend
-                                ? <><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
-                                    <img className="friend-avatar" /> {friend.userName} </Link> <button onClick={(e) => handleClick(e, friend)}>Accept friend</button> </>
-                                : <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} > <img className="friend-avatar" /> {friend.userName}
-                                    {showOverlay
-                                        ? <>
-                                            <button disabled={disabled}>Send friend request</button>
-                                            {activeFriend === friend.ID
-                                                ? <AddFriendOverlay fetchData={fetchData} close={close} email={friend.Email} userName={friend.userName} />
-                                                : null
-                                            }
-                                        </>
-
-                                        : <button onClick={() => openOverlay(friend.ID)}> Send friend request</button>
-                                    }</Link>}
-
-
-
+                            ? <><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                    <img className="friend-avatar" /> {friend.userName}
+                                </Link>
+                                <button onClick={(e) => handleClick(e, friend)}>Accept friend</button> </>
+                            :  <><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                    <img className="friend-avatar" /> {friend.userName}
+                                </Link>
+                                    <>{
+                                        friend.alreadyFriend
+                                            ? null
+                                            : <>{showOverlay
+                                                ? <><button disabled={disabled}>Send friend request</button>
+                                                    {activeFriend === friend.ID
+                                                        ? <AddFriendOverlay fetchData={fetchData} close={close} email={friend.Email} userName={friend.userName} />
+                                                        : null
+                                                    }</>
+                                                : <button onClick={() => openOverlay(friend.ID)}> Send friend request</button>
+                                            }</>
+                                        }</>                                       
+                                    </>}
                     </li>)}
                 </ul>
             </section>
