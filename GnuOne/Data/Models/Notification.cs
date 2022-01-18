@@ -9,6 +9,10 @@
         public string mail { get; set; }
         public int counter { get; set; }
 
+        public Notification()
+        {
+
+        }
         public Notification(string _messageType, string _mail, string info)
         {
             this.messageType = _messageType;

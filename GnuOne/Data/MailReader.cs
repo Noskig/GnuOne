@@ -672,15 +672,9 @@ namespace GnuOne.Data
                     context.Posts.AddRangeAsync(theirPosts);
                     //context.SaveChanges();
                 }
-
-                context.SaveChangesAsync().Wait();
-
                 var notification = new Notification("FriendRequestAccepted", friend.Email, friend.userName);
                 context.Notifications.Add(notification);
                 context.SaveChangesAsync().Wait();
-
-
-
                 return 1;
             }
             return -1;
@@ -694,13 +688,11 @@ namespace GnuOne.Data
             {
                 var myfriend = context.MyFriends.Where(x => x.Email == notNewFriend.Email).FirstOrDefault();
                 context.MyFriends.Remove(myfriend);
+                var notification = new Notification("FriendRequestDenied", myfriend.Email, myfriend.userName);
+                context.Notifications.Add(notification);
                 context.SaveChangesAsync().Wait();
                 return 1;
             }
-
-            var notification = new Notification("FriendRequestDenied", notNewFriend.Email, notNewFriend.userName);
-            context.Notifications.Add(notification);
-            context.SaveChangesAsync().Wait();
             return -1;
         }
 
@@ -711,12 +703,12 @@ namespace GnuOne.Data
             if (potentialfriend is not null)
             {
                 context.MyFriends.Add(potentialfriend);
+                var notification = new Notification("FriendRequestRecieved", potentialfriend.Email, potentialfriend.userName);
+                context.Notifications.Add(notification);
                 context.SaveChangesAsync().Wait();
                 return 1;
             }
-            var notification = new Notification("FriendRequestRecieved", potentialfriend.Email, potentialfriend.userName);
-            context.Notifications.Add(notification);
-            context.SaveChangesAsync().Wait();
+           
 
             return -1;
             //notification.messageType = "FriendRequest";
