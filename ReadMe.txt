@@ -18,20 +18,23 @@ Skriva instruktion och testa att det går
 
 ___Agenda__
 
-//comments
--Gör nya cases för comments (postedcomment etc)
-
 --profil
 -bio uppdateras
 -bild  
--tag .. gör det till strängar
 
 
 //bookmarking
 
+-tabell med Idn som är bookmaarked
+
+
 //Notification på första sidan
-- På sina egna.  
+- Vänförfrågan
+--Accepterad
+
+- På sina egna disc, posts.  
 - De man har bookmarkat
+
 - ligger kvar? till en start
 
 _____A_____
@@ -89,8 +92,8 @@ KLART:
 #användarnamn. Ändra så att det hänger med hela vägen.
 
 18/1
-
-
+# Gör nya cases för comments (postedcomment etc) - Testat enkelt
+# 
 
 
 # Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. 5/1
