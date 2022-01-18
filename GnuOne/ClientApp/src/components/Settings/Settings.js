@@ -10,9 +10,9 @@ const Settings = () => {
     // för när jag gör bilder 
     // const [picture, setPic] = useState('')
      
-    const port = useContext(PortContext)
+    const port = useContext(PortContext);
 
-    const url = `https://localhost:${port}/api/myprofile`
+    const url = `https://localhost:${port}/api/myprofile`;
 
     useEffect(() => {
         fetchData()
