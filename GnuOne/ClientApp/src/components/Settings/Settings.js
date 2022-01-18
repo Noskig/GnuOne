@@ -1,5 +1,13 @@
 ﻿import React, { useState, useEffect, useContext } from 'react';
 import PortContext from '../../contexts/portContext';
+import "./settings.css";
+
+
+import Img1 from "../../Image/BeerGuy.jpg";
+import Img2 from "../../Image/Flanders.png";
+import Img3 from "../../Image/Nelson.jpg";
+import Img4 from "../../Image/Ralph.jpg";
+import Img5 from "../../Image/SideShow-Bob.jpg";
 
 const Settings = () => {
     //changing user info 
@@ -86,7 +94,7 @@ const Settings = () => {
             </div>
             <div className={chosenTab === "Profile" ? "Profile " : "Profile hide"}>
                 <textarea type="text" value={userinfo} onChange={e => setUsername(e.target.value)}></textarea>
-                <button type="button" onClick={(e) => handleClick(e)}>change</button>
+
                 <form>
                     <select onChange={(e) => setchosenTags1(e.target.value)} >
                         {pulledTags.map(tags =>
@@ -111,9 +119,15 @@ const Settings = () => {
                     </select>
                     <button type="button" onClick={(e) => handleClick(e)}>change</button>
                 </form>
+                <div className="change-img-container">
+                    <img src={Img1} />
+                    <img src={Img2} />
+                    <img src={Img3} />
+                    <img src={Img4} />
+                    <img src={Img5} />
+                </div>
             </div>
             <div className={chosenTab === "Safty" ? "Safety " : "Safty hide"}>
-
             </div>
             <div className={chosenTab === "Notifications" ? "Notifications " : "Notifications hide"}>
 
