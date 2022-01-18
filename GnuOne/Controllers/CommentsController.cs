@@ -77,7 +77,7 @@ namespace GnuOne.Controllers
             var postDiscussionId = await _context.Posts.Where(x => x.ID == comment.postID).Select(x => x.discussionID).SingleAsync();
             var authorEmail = await _context.Discussions.Where(x => x.ID == postDiscussionId).Select(x => x.Email).SingleAsync();
 
-            MailSender.SendObject(jsonComment, authorEmail, _settings, "PostedComment");
+            MailSender.SendObject(jsonComment, authorEmail, _settings, "PostComment");
 
             await _context.Comments.AddAsync(comment);
             await _context.SaveChangesAsync();
