@@ -60,6 +60,8 @@ Frågor Stig
 EXTRA-JOBB:
 ** vi har marcus som extra resurs
 
+*bookmarks borde tas bort när posten eller discussion deletas
+
 ** deletea konto
 - Foreach tabort vänner. 
 - Script för att ta bort databasen

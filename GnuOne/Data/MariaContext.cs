@@ -27,6 +27,7 @@ namespace GnuOne.Data
         public DbSet<Tag> Tags { get; set; }
         public DbSet<myProfile> MyProfile { get; set; }
         public DbSet<standardpictures> Standardpictures { get; set; }
+        public DbSet<Bookmark> Bookmarks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
