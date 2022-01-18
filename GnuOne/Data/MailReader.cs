@@ -171,10 +171,10 @@ namespace GnuOne.Data
                                 break;
 
                             case "PutComment":
-                                var deeed1 = RecieveAndSaveComment(decryptedMessage, _newContext, myInfo);
+                                var deeed1 = RecieveAndPutComment(decryptedMessage, _newContext, myInfo);
                                 if (deeed1 == 1)
                                 {
-                                    var doinga = ForwardToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardPutPost");
+                                    var doinga = ForwardToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardPutComment");
                                     break;
                                 }
                                 else
@@ -182,26 +182,19 @@ namespace GnuOne.Data
 
                             case "ForwardPutComment":
 
-                                var deeed2 = RecieveAndSaveComment(decryptedMessage, _newContext, myInfo);
+                                var deeed2 = RecieveAndPutComment(decryptedMessage, _newContext, myInfo);
                                 if (deeed2 == 1)
-                                {
-                                    break;
-                                }
+                                {break;}
                                 else
-                                {
-                                    ///try again?
-                                    break;
-                                }
+                                {break;}
 
                             case "FriendRequest":
                                 var deedd = RecieveFriendRequest(decryptedMessage, _newContext);
                                 if (deedd == 1)
                                 { break; }
                                 else
-                                {
-                                    ///try again?
-                                    break;
-                                }
+                                {break;}
+
                             case "PutFriendsProfile":
                                 var deed3 = RecieveAndUpdateFriend(decryptedMessage, _newContext);
                                 if (deed3 == 1)
@@ -297,6 +290,24 @@ namespace GnuOne.Data
 
                 //backupdatabase();
             }
+        }
+
+        private static int RecieveAndPutComment(string decryptedMessage, MariaContext context, MySettings myinfo)
+        {
+            var comment = JsonConvert.DeserializeObject<Comment>(decryptedMessage);
+            if (comment is not null)
+            {
+                if (CheckifIHavePost(comment, context))
+                {
+                    if (comment.Email != myinfo.Email)
+                    {
+                        context.Update(comment);
+                        context.SaveChangesAsync().Wait();
+                    }
+                    return 1;
+                }
+            }
+            return -1;
         }
 
         private static int RecieveAndSaveComment(string decryptedMessage, MariaContext context, MySettings myinfo)
