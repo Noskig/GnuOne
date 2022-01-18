@@ -131,7 +131,7 @@ const Friends = () => {
                 }
                 <h3> friends </h3>
                 <ul className="friends-list">
-                    {filteredFriends.map(friend => {
+                    {filteredFriends.map(friend =>
                         friendEmail === undefined && friend.isFriend
                             ? <li key={friend.ID}><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
                                 <img className="friend-avatar" /> <h2 className="userName"> {friend.userName} </h2> </Link>
@@ -154,62 +154,49 @@ const Friends = () => {
                                     }</>
                                 </li>
                                 : null
-                    })} </ul>
+                    )} </ul>
 
+                {friendEmail === undefined
+                    ? <>
                 <h3>new friend requests</h3>
-                <ul>
-
-                    {/*friendEmail === undefined && !friend.isFriend*/}
-                    {/*? <>*/}
-                    {/*    <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >*/}
-                    {/*        <img className="friend-avatar" /> <div className="req-details">  <h4><strong>{friend.userName} </strong>  ({friend.Email.substring(0, friend.Email.lastIndexOf("@"))}) </h4>  </div></Link>  <p>Pending Request</p> <button className="accept-friend" onClick={(e) => handleClick(e, friend)}>Accept friend</button> </>*/}
-                    {/*: <> <img className="friend-avatar" /> {friend.userName}*/}
-                    {/*    {showOverlay*/}
-                    {/*        ? <>*/}
-                    {/*            <button disabled={disabled}>Send friend request</button>*/}
-                    {/*            {activeFriend === friend.ID*/}
-                    {/*                ? <AddFriendOverlay fetchData={fetchData} close={close} email={friend.Email} userName={friend.userName} />*/}
-                    {/*                : null*/}
-                    {/*            }*/}
-                                            
-                    {friendEmail === undefined
-                        ? 
-                            {filteredFriends.map(friend => <>
-                                {!friend.isFriend && friend.userName
-                                    ? <li key={friend.ID}>
-                                        <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
-                                            <img className="friend-avatar" />
-                                            <div className="req-details">  <h4><strong>{friend.userName} </strong>
-                                                ({friend.Email.substring(0, friend.Email.lastIndexOf("@"))}) </h4>  </div></Link>
-                                        <p>Pending Request</p>
-                                        <button className="accept-friend" onClick={(e) => handleClick(e, friend)}>Accept friend</button>
-                                    </li>
-                                    : null}
-                            </>)}
-                        
-                        : null} </ul>
-
-                            <h3 key="maybe-friends">Sent friend requests</h3>
-                <ul>
-
-                    {friendEmail === undefined
-                        ?
+                        <ul className="friends-list">
                             {filteredFriends.map(friend => 
-                                {!friend.isFriend && !friend.userName
-                                    ? <li key={friend.ID}>
-                                         <img className="friend-avatar" />
-                                            <div className="req-details">  <h4><strong>{friend.userName} </strong>
+                                !friend.isFriend && friend.userName
+                                ? <li key={friend.ID}>
+                                    <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                        <img className="friend-avatar" />
+                                        <div className="req-details">  <h4><strong>{friend.userName} </strong>
+                                            ({friend.Email.substring(0, friend.Email.lastIndexOf("@"))}) </h4>  </div></Link>
+                                    <p>Pending Request</p>
+                                    <button className="accept-friend" onClick={(e) => handleClick(e, friend)}>Accept friend</button>
+                                </li>
+                                : null
+                            )}
+                        
+                        </ul>
+
+                        <h3 key="maybe-friends">Sent friend requests</h3>
+                        <ul className="friends-list">
+
+                    
+                            {filteredFriends.map(friend => 
+                                !friend.isFriend && !friend.userName
+                                ? <li key={friend.ID}>
+                                    <img className="friend-avatar" />
+                                    <div className="req-details">  <h4><strong>{friend.userName} </strong>
                                         ({friend.Email.substring(0, friend.Email.lastIndexOf("@"))}) </h4>
                                     </div>
-                                        <p>Pending Request</p> 
-                                    </li>
-                                    : null}
+                                    <p>Pending Request</p>
+                                </li>
+                                : null
                             )}
-                       
-                        : null
-                    }
 
-                </ul>
+
+                        </ul>
+                    </>
+                    : null }
+
+            
             </section>
         </>
     )
