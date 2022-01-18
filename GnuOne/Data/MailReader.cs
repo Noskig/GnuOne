@@ -219,7 +219,7 @@ namespace GnuOne.Data
 
                             case "AcceptedFriendRequest":
                                 //var deedf = await Task.Run(() => ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false, myInfo.Email));
-                                var deedf = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false, myInfo.Email);
+                                var deedf = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false, myInfo.Email, subject);
                                 if (deedf == 1)
                                 {
                                     //await Task.Run(() => GiveBackMyInformation(_newContext, emailFrom));
@@ -229,7 +229,7 @@ namespace GnuOne.Data
                                 else { break; }
 
                             case "GiveBackInformation":
-                                var deedg = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, true, myInfo.Email);
+                                var deedg = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, true, myInfo.Email, subject);
                                 if (deedg == 1) { break; }
                                 else { break; }
 
@@ -617,7 +617,7 @@ namespace GnuOne.Data
 
         }
 
-        private static int ReceieveInfoAndAcceptFriend(string decryptedMessage, MariaContext context, bool isSendBack, string myEmail)
+        private static int ReceieveInfoAndAcceptFriend(string decryptedMessage, MariaContext context, bool isSendBack, string myEmail, string subject)
         {
             var theirLists = JsonConvert.DeserializeObject<BigList>(decryptedMessage);
 
@@ -672,9 +672,12 @@ namespace GnuOne.Data
                     context.Posts.AddRangeAsync(theirPosts);
                     //context.SaveChanges();
                 }
-                var notification = new Notification("FriendRequestAccepted", friend.Email, friend.userName);
-                context.Notifications.Add(notification);
-                context.SaveChangesAsync().Wait();
+                if(subject == "AcceptedFriendRequest")
+                {
+                    var notification = new Notification("FriendRequestAccepted", friend.Email, friend.userName);
+                    context.Notifications.Add(notification);
+                    context.SaveChangesAsync().Wait();
+                }
                 return 1;
             }
             return -1;
