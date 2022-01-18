@@ -82,7 +82,7 @@ namespace GnuOne.Controllers
             await _context.Comments.AddAsync(comment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("PostedComment", new { id = comment.ID }, comment);
+            return CreatedAtAction("PostComment", new { id = comment.ID }, comment);
         }
 
         //[HttpPost]
@@ -124,8 +124,10 @@ namespace GnuOne.Controllers
             {
                 return NotFound();
             }
+            comment.Date = DateTime.Now;
 
             var jsonComment = JsonConvert.SerializeObject(comment);
+
             var postDiscussionId = await _context.Posts.Where(x => x.ID == comment.postID).Select(x => x.discussionID).SingleAsync();
             var authorEmail = await _context.Discussions.Where(x => x.ID == postDiscussionId).Select(x => x.Email).SingleAsync();
 
