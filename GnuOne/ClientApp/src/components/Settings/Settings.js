@@ -12,16 +12,17 @@ import Img5 from "../../Image/SideShow-Bob.jpg";
 const Settings = () => {
     //changing user info 
     const [chosenTab, setChosenTab] = useState();
-    const [userName, setUsername] = useState('');
-    const [userinfo, setUserInfo] = useState();
+    const [userinfo, setUserInfo] = useState("");
     //============================================
 
-    // ändra/välja bilder 
+    // ändra/välja tags
     const [pulledTags, setTags] = useState([]);
-    const [chosentag1, setchosenTags1] = useState();
-    const [chosentag2, setchosenTags2] = useState();
-    const [chosentag3, setchosenTags3] = useState();
+    const [chosenTag1, setChosenTags1] = useState();
+    const [chosenTag2, setChosenTags2] = useState();
+    const [chosenTag3, setChosenTags3] = useState();
 
+    // ändra bilder 
+    const [chosenImg, setChosenImg] = useState();
      
     const port = useContext(PortContext);
 
@@ -36,19 +37,22 @@ const Settings = () => {
         const response = await fetch(url)
         const profile = await response.json()
         console.log(profile);
-        setUserInfo(profile.myUserInfo);
+        setUserInfo(profile);
+        setChosenTags1(profile.tagOne);
+        setChosenTags2(profile.tagTwo);
+        setChosenTags3(profile.tagThree);
     }
 
     function handleClick(e) {
         e.preventDefault()
         let newUserName = {
-            myUserInfo: userName,
-            pictureID: 1,
-            tagOne: Number(chosentag1),
-            tagTwo: Number(chosentag2),
-            tagThree: Number(chosentag3),
+            myUserInfo: userinfo,
+            pictureID: Number(chosenImg),
+            tagOne: Number(chosenTag1),
+            tagTwo: Number(chosenTag2),
+            tagThree: Number(chosenTag3),
         }
-        if (userName === "") {
+        if (userinfo === "") {
             alert("Fill the missing fields please")
         }
         else {
@@ -78,6 +82,7 @@ const Settings = () => {
     }
 
     //=================================================================
+
     return (
 
         <section className="settings-container">
@@ -92,25 +97,27 @@ const Settings = () => {
             <div className={chosenTab === "Account" ? "Account " : "Account hide"}>
 
             </div>
-            <div className={chosenTab === "Profile" ? "Profile " : "Profile hide"}>
-                <textarea type="text" value={userinfo} onChange={e => setUsername(e.target.value)}></textarea>
 
+            {userinfo ?
+                
+            <div className={chosenTab === "Profile" ? "Profile " : "Profile hide"}>
+                    <textarea value={userinfo.myUserInfo} type="text" onChange={e => setUserInfo(e.target.value)}/>
                 <form>
-                    <select onChange={(e) => setchosenTags1(e.target.value)} >
+                    <select onChange={(e) => setChosenTags1(e.target.value)} >
                         {pulledTags.map(tags =>
                             <option key={tags.ID + tags.tagName} value={tags.ID} >
                                 {tags.tagName}
                             </option>
                         )}
                     </select>
-                    <select onChange={(e) => setchosenTags2(e.target.value)} >
+                    <select onChange={(e) => setChosenTags2(e.target.value)} >
                         {pulledTags.map(tags =>
                             <option key={tags.ID + tags.tagName} value={tags.ID} >
                                 {tags.tagName}
                             </option>
                         )}
                     </select>
-                    <select onChange={(e) => setchosenTags3(e.target.value)} >
+                    <select onChange={(e) => setChosenTags3(e.target.value)} >
                         {pulledTags.map(tags =>
                             <option key={tags.ID + tags.tagName} value={tags.ID} >
                                 {tags.tagName}
@@ -120,18 +127,25 @@ const Settings = () => {
                     <button type="button" onClick={(e) => handleClick(e)}>change</button>
                 </form>
                 <div className="change-img-container">
-                    <img src={Img1} />
-                    <img src={Img2} />
-                    <img src={Img3} />
-                    <img src={Img4} />
-                    <img src={Img5} />
+                    <img onClick={() => setChosenImg(1)} src={Img1} />
+                    <img onClick={() => setChosenImg(2)} src={Img2} />
+                    <img onClick={() => setChosenImg(3)} src={Img3} />
+                    <img onClick={() => setChosenImg(4)} src={Img4} />
+                    <img onClick={() => setChosenImg(5)} src={Img5} />
                 </div>
             </div>
+
+                :"nothing to see"}
+
+
             <div className={chosenTab === "Safty" ? "Safety " : "Safty hide"}>
+
             </div>
+
             <div className={chosenTab === "Notifications" ? "Notifications " : "Notifications hide"}>
 
             </div>
+
         </section>
     )
 }
