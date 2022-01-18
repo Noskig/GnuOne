@@ -24,6 +24,39 @@ namespace GnuOne.Data
             myInfo = myInformation; 
         }
 
+        public static async Task<int> UpdateUsername(ApiContext context, string newUsername, string oldUsername, string email)
+        {
+            var myDiscussions = await context.Discussions.Where(x => x.Email == email).ToListAsync();
+            var myPosts = await context.Posts.Where(x => x.Email == email).ToListAsync();
+            var myComments = await context.Comments.Where(x => x.Email == email).ToListAsync();
+            var myUserfriendsFriend = await context.MyFriendsFriends.Where(x => x.userName == oldUsername).ToListAsync();
+
+            foreach (var discussion in myDiscussions)
+            {
+                discussion.userName = newUsername;
+            }
+
+            foreach (var post in myPosts)
+            {
+                post.userName = newUsername;
+            }
+
+            foreach (var comment in myComments)
+            {
+                comment.userName = newUsername;
+            }
+            foreach (var friendFriend in myUserfriendsFriend)
+            {
+                friendFriend.userName = newUsername;
+            }
+                context.Discussions.UpdateRange(myDiscussions);
+            context.Posts.UpdateRange(myPosts);
+            context.Comments.UpdateRange(myComments);
+            context.MyFriendsFriends.UpdateRange(myUserfriendsFriend);
+            await context.SaveChangesAsync();
+
+            return 1;
+        }
 
         public static BigList FillingBigListWithMyInfo(ApiContext _context, string myEmail, bool isApi, myProfile profile)
         {
