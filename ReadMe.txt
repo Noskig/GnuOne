@@ -23,20 +23,32 @@ ___Agenda__
 -bild  
 
 
-//bookmarking
 
--tabell med Idn som är bookmaarked
 
 
 //Notification på första sidan
+
+Räknare - Som håller koll på hur många saker som skett på inlägget.
+
+Olika färger för lästa och ej lästa
+
 - Vänförfrågan
+-- Fått vänförfrågan
 --Accepterad
 
 - På sina egna disc, posts.  
-- De man har bookmarkat
+-- Mina disc, någon har postat
+-- Mina Posts. Någon har kommenterat
+
+- De inläggen man har bookmarkat
+--Någon postat eller commenterat där
 
 - ligger kvar? till en start
+--Shiftat färg?
+--Rensa knapp. (Delete all)
 
+
+*Uppdater picture location i MariaDB
 _____A_____
 
 Frågor Stig
@@ -95,7 +107,7 @@ KLART:
 
 18/1
 # Gör nya cases för comments (postedcomment etc) - Testat enkelt
-# 
+# Bookmarking - En grund (kanske klar)
 
 
 # Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. 5/1

@@ -41,6 +41,7 @@ namespace GnuOne.Controllers
             return Ok(json);
         }
 
+
         [HttpPut]
         public async Task<IActionResult> PutMyProfile([FromBody]myProfile Profile)
         {

@@ -1,0 +1,59 @@
+﻿using GnuOne.Data;
+using Library;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace GnuOne.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class NotificationsController : ControllerBase
+    {
+        private readonly ApiContext _context;
+        private readonly MySettings _settings;
+        public NotificationsController(ApiContext context)
+        {
+            _context = context;
+            _settings = _context.MySettings.First();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var notications = _context.Notifications.ToListAsync();
+
+            //reset räknare på dom har?
+            return Ok();
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int? id)
+        {
+            //Ändrar has been read
+            return Ok();
+        }
+        [HttpPatch]
+        public async Task<IActionResult> Patch(int? id)
+        {
+            var notification = await _context.Notifications.FindAsync(id);
+            notification.counter = 0;
+            _context.Notifications.Update(notification);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+        [HttpDelete]
+        public async Task<IActionResult> DeleteSingle(int? id)
+        {
+            //delete på ID 
+            return Ok();
+        }
+        [HttpDelete("{Delete}")]
+        public async Task<IActionResult> DeleteSingle()
+        {
+            //Rensa alla
+            return Ok();
+        }
+
+    }
+}

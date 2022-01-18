@@ -1,4 +1,5 @@
-﻿using Library;
+﻿using GnuOne.Data.Models;
+using Library;
 using Library.HelpClasses;
 using Library.Models;
 using MailKit;
@@ -672,14 +673,17 @@ namespace GnuOne.Data
                     //context.SaveChanges();
                 }
 
-
-
-                //if (!isSendBack)
-                //{
-
-                //}
                 context.SaveChangesAsync().Wait();
-                //context.SaveChangesAsync();
+
+                var notification = new Notification();
+                notification.messageType = "FriendAccepted";
+                notification.mail = friend.Email;
+                notification.info = friend.userName;
+                context.Notifications.Add(notification);
+                context.SaveChangesAsync().Wait();
+                
+
+
                 return 1;
             }
             return -1;
@@ -790,6 +794,8 @@ namespace GnuOne.Data
                     {
                         context.Posts.Add(post);
                         context.SaveChangesAsync().Wait();
+
+                        //Ökar räknare 
                     }
                     return 1;
                 }
