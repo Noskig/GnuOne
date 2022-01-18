@@ -11,6 +11,8 @@ import Search from '../Search/Search.js';
 import MeContext from '../../contexts/meContext';
 import FriendContext from '../../contexts/friendContext';
 import "./discussion.css";
+import share from '../../icons/share.svg'
+import bookmark from '../../icons/bookmark.svg'
 
 
 
@@ -196,28 +198,42 @@ const Discussions = ({ routes }) => {
 
                             <div className={readMore && activeDiscussion == discussion.ID ? "discussion-options" : "discussion-options hide"}>
 
-
-                                {showDeleteConfirm && activeDiscussion === discussion.ID
+                                {friendEmail === undefined
                                     ? <>
-                                        <button>
-                                            <img alt="delete" src={trash} />
-                                        </button>
-                                        <DeleteDiscussionOverlay fetchData={fetchData} close={closeDeletion} discussionId={activeDiscussion} />
-                                    </>
-                                    :
-                                    <button onClick={() => openDeleteOverlay(discussion)}>
-                                        <img alt="delete" src={trash} />
-                                    </button>
-                                }
-                                {editOpen && activeDiscussion === discussion.ID ?
-                                    <button onClick={(e) => confirmEditDiscussion(e, discussion)}>
-                                        <img alt="done" src={done} />
-                                    </button>
-                                    : <button onClick={(e) => openEditDiscussion(e, discussion)}>
-                                        <img alt="edit" src={edit} />
-                                    </button>
+                                        {showDeleteConfirm && activeDiscussion === discussion.ID
+                                            ? <>
+                                                <button>
+                                                    <img alt="delete" src={trash} />
+                                                </button>
+                                                <DeleteDiscussionOverlay fetchData={fetchData} close={closeDeletion} discussionId={activeDiscussion} />
+                                            </>
+                                            :
+                                            <button onClick={() => openDeleteOverlay(discussion)}>
+                                                <img alt="delete" src={trash} />
+                                            </button>
+                                        }
+                                        {editOpen && activeDiscussion === discussion.ID ?
+                                            <button onClick={(e) => confirmEditDiscussion(e, discussion)}>
+                                                <img alt="done" src={done} />
+                                            </button>
+                                            : <button onClick={(e) => openEditDiscussion(e, discussion)}>
+                                                <img alt="edit" src={edit} />
+                                            </button>
 
+                                        }
+                                    </>
+
+
+                                    : <>
+                                        <button>
+                                            <img alt="bookmark" src={bookmark} />
+                                        </button>
+                                        <button>
+                                            <img alt="share" src={share} />
+                                        </button>
+                                    </>
                                 }
+                              
 
 
 
