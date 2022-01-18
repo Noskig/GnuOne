@@ -21,12 +21,11 @@ ___Agenda__
 //comments
 -Gör nya cases för comments (postedcomment etc)
 
-
-
 --profil
 -bio uppdateras
--tag .. gör det till strängar
 -bild  
+-tag .. gör det till strängar
+
 
 //bookmarking
 

@@ -69,10 +69,10 @@ namespace GnuOne.Data
                                 var doing = RecieveAndSavePost(decryptedMessage, _newContext, cleanEmailFrom, myInfo);
                                 if (doing == 1)
                                 {
-                                    var doinga = ForwardPostToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardPost");
+                                    var doinga = ForwardToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardPost");
                                     break;
                                 }
-                                
+
                                 else
                                 {
                                     ///try again?
@@ -129,7 +129,7 @@ namespace GnuOne.Data
                                 var deedb = ReceiveAndPutPost(decryptedMessage, _newContext);
                                 if (deedb == 1)
                                 {
-                                    var doinga = ForwardPostToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardPutPost");
+                                    var doinga = ForwardToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardPutPost");
                                     break;
                                 }
                                 else
@@ -155,6 +155,43 @@ namespace GnuOne.Data
                                 var deedc = RecieveAndPutDiscussion(decryptedMessage, _newContext);
                                 break;
 
+                            case "PostComment":
+                                var deed9 = RecieveAndSaveComment(decryptedMessage, _newContext, myInfo);
+                                if (deed9 == 1)
+                                {
+                                    var doing91 = ForwardToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardComment");
+                                }
+                                break;
+
+                            case "ForwardComment":
+
+                                var deeed = RecieveAndSaveComment(decryptedMessage, _newContext, myInfo);
+                                if (deeed == 1)
+                                { break; }
+                                break;
+
+                            case "PutComment":
+                                var deeed1 = RecieveAndSaveComment(decryptedMessage, _newContext, myInfo);
+                                if (deeed1 == 1)
+                                {
+                                    var doinga = ForwardToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardPutPost");
+                                    break;
+                                }
+                                else
+                                {break;}
+
+                            case "ForwardPutComment":
+
+                                var deeed2 = RecieveAndSaveComment(decryptedMessage, _newContext, myInfo);
+                                if (deeed2 == 1)
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    ///try again?
+                                    break;
+                                }
 
                             case "FriendRequest":
                                 var deedd = RecieveFriendRequest(decryptedMessage, _newContext);
@@ -259,6 +296,26 @@ namespace GnuOne.Data
                 client.Disconnect(true);
 
                 //backupdatabase();
+            }
+        }
+
+        private static int RecieveAndSaveComment(string decryptedMessage, MariaContext context, MySettings myinfo)
+        {
+            {
+                var comment = JsonConvert.DeserializeObject<Comment>(decryptedMessage);
+                if (comment is not null)
+                {
+                    if (CheckifIHavePost(comment, context))
+                    {
+                        if (comment.Email != myinfo.Email)
+                        {
+                            context.Comments.Add(comment);
+                            context.SaveChangesAsync().Wait();
+                        }
+                        return 1;
+                    }
+                }
+                return -1;
             }
         }
 
@@ -430,7 +487,7 @@ namespace GnuOne.Data
         }
 
 
-        private static int ForwardPostToFriends(string decryptedMessage, MariaContext context, string fromEmail, string subject)
+        private static int ForwardToFriends(string decryptedMessage, MariaContext context, string fromEmail, string subject)
         {
             var mysettings = context.MySettings.FirstOrDefault();
 
@@ -444,6 +501,20 @@ namespace GnuOne.Data
             }
             return 1;
 
+        }
+        private static int ForwardCommentToFriends(string decryptedMessage, MariaContext context, string fromEmail, string subject)
+        {
+            var mysettings = context.MySettings.FirstOrDefault();
+
+            foreach (var friend in context.MyFriends)
+            {
+                if (friend.Email != fromEmail)
+                {
+                    if (friend.isFriend == false) { continue; }
+                    MailSender.SendObject(decryptedMessage, friend.Email, mysettings, subject);
+                }
+            }
+            return 1;
         }
 
         private static int UpdateFriendFriends(string decryptedMessage, MariaContext context)
@@ -678,6 +749,12 @@ namespace GnuOne.Data
             var anyDisc = context.Discussions.Where(x => x.ID == post.discussionID).Any();
 
             return anyDisc;
+        }
+        private static bool CheckifIHavePost(Comment commment, MariaContext context)
+        {
+            var anyPost = context.Posts.Where(x => x.ID == commment.postID).Any();
+
+            return anyPost;
         }
 
         private static int RecieveAndDeleteDiscussion(string decryptedMessage, MariaContext context)
