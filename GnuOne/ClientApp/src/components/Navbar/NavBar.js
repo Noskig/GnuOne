@@ -4,6 +4,8 @@ import logo from '../../icons/Logo.svg'
 import avatar from '../../icons/useravatar.svg'
 import settings from '../../icons/settings.svg'
 import messages from '../../icons/messagesNavbar.svg'
+import profile from '../../icons/Gnu 220.png'
+
 import "./navbar.css"
 import WheelContext from '../../contexts/WheelContext'
 
@@ -46,7 +48,13 @@ const NavBar = () => {
                     <Link to="/profile/settings"  onClick={() => handleClick(4)}>
                         <img src={settings} alt="settings" />
                     </Link>
-               </li>
+                </li>
+
+                <li className={isPressed ? "profile out-animation3" : "profile in-animation3"}>
+                    <Link to="/profile" onClick={() => handleClick(0)}>
+                        <img className="profile-picture" src={profile} alt="profile" />
+                    </Link>
+                </li>
                     
                 </ul>
             </div>
