@@ -49,18 +49,18 @@ const Friends = () => {
             filteredFriendsfriends.forEach(friendsfriend => {
                 let newList = allFriends.map(friend => friend.Email)
                 console.log(newList)
-             
+
                 if (newList.includes(friendsfriend.Email)) {
                     friendsfriend.alreadyFriend = true
                 }
-               
+
             })
             console.log(friendsfriends, filteredFriendsfriends)
             setFriendsList(filteredFriendsfriends)
         }
     }
 
-  
+
 
     const close = () => {
         setShowOverlay(false)
@@ -131,25 +131,25 @@ const Friends = () => {
                 }
 
                 <ul className="friends-list">
-                <h3>Friends</h3>
-                    {filteredFriends.map(friend =><>
-                    {
-                        friendEmail === undefined && !friend.isFriend
-                            ? null
-                            : <li key={friend.ID}>
-                                {friendEmail === undefined && friend.isFriend
-                                    ? <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
-                                        <img className="friend-avatar" /> {friend.userName}
-                                    </Link>
-                                    : friendEmail === undefined && !friend.isFriend && friend.userName
-                                        ? <><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                    <h3 key="friends">Friends</h3>
+                    {filteredFriends.map(friend => <>
+                        {
+                            friendEmail === undefined && !friend.isFriend
+                                ? null
+                                : <li key={friend.ID}>
+                                    {friendEmail === undefined && friend.isFriend
+                                        ? <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
                                             <img className="friend-avatar" /> {friend.userName}
                                         </Link>
-                                            <button onClick={(e) => handleClick(e, friend)}>Accept friend</button> </>
-                                        : friendEmail === undefined && !friend.isFriend && !friend.userName
-                                            ? null
-
-                                            : <><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                        //: friendEmail === undefined && !friend.isFriend && friend.userName
+                                        //    ? <><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                        //        <img className="friend-avatar" /> {friend.userName}
+                                        //    </Link>
+                                        //        <button onClick={(e) => handleClick(e, friend)}>Accept friend</button> </>
+                                        //: friendEmail === undefined && !friend.isFriend && !friend.userName
+                                        //    ? null
+                                        : friendEmail !== undefined
+                                            ? <><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
                                                 <img className="friend-avatar" /> {friend.userName}
                                             </Link>
                                                 <>{
@@ -164,31 +164,37 @@ const Friends = () => {
                                                             : <button onClick={() => openOverlay(friend.ID)}> Send friend request</button>
                                                         }</>
                                                 }</>
-                                            </>}
-                            </li>
-                    }
+                                            </>
+                                            : null}
+                                </li>
+                        }
                     </>)}
                     {friendEmail === undefined
-                        ?<> <h3>New friend requests</h3>
+                        ? <> <h3 key="new-friends">New friend requests</h3>
                             {filteredFriends.map(friend => <>
                                 {!friend.isFriend && friend.userName
                                     ? <li key={friend.ID}>
-                                        {friend.userName}
+                                        <><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                            <img className="friend-avatar" /> {friend.userName}
+                                        </Link>
+                                            <button onClick={(e) => handleClick(e, friend)}>Accept friend</button>
+                                        </>
+
                                     </li>
                                     : null}
                             </>)}
-                            <h3>Sent friend requests</h3>
+                            <h3 key="maybe-friends">Sent friend requests</h3>
                             {filteredFriends.map(friend => <>
-                                {!friend.isFriend && !friend.userName 
+                                {!friend.isFriend && !friend.userName
                                     ? <li key={friend.ID}>
                                         {friend.Email}
-                                      </li>
-                                : null}
-                             </>)}
+                                    </li>
+                                    : null}
+                            </>)}
                         </>
                         : null
-                        }
-                   
+                    }
+
                 </ul>
             </section>
         </>
