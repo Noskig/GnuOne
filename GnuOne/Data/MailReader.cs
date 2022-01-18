@@ -675,13 +675,10 @@ namespace GnuOne.Data
 
                 context.SaveChangesAsync().Wait();
 
-                var notification = new Notification();
-                notification.messageType = "FriendAccepted";
-                notification.mail = friend.Email;
-                notification.info = friend.userName;
+                var notification = new Notification("FriendRequestAccepted", friend.Email, friend.userName);
                 context.Notifications.Add(notification);
                 context.SaveChangesAsync().Wait();
-                
+
 
 
                 return 1;
@@ -700,6 +697,10 @@ namespace GnuOne.Data
                 context.SaveChangesAsync().Wait();
                 return 1;
             }
+
+            var notification = new Notification("FriendRequestDenied", notNewFriend.Email, notNewFriend.userName);
+            context.Notifications.Add(notification);
+            context.SaveChangesAsync().Wait();
             return -1;
         }
 
@@ -713,8 +714,14 @@ namespace GnuOne.Data
                 context.SaveChangesAsync().Wait();
                 return 1;
             }
-            return -1;
+            var notification = new Notification("FriendRequestRecieved", potentialfriend.Email, potentialfriend.userName);
+            context.Notifications.Add(notification);
+            context.SaveChangesAsync().Wait();
 
+            return -1;
+            //notification.messageType = "FriendRequest";
+            //notification.mail = potentialfriend.Email;
+            //notification.info = potentialfriend.userName;
         }
 
         private static int RecieveAndPutDiscussion(string decryptedMessage, MariaContext context)
