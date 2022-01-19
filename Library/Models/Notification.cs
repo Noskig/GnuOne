@@ -20,11 +20,12 @@
             this.mail = _mail;
             this.info = info;   
         }
-        public Notification(string _messageType, string _mail, int infoID)
+        public Notification(string _messageType, string _mail, string info, int infoID)
         {
             this.messageType = _messageType;
             this.mail = _mail;
             this.infoID = infoID;
+            this.info = info;
         }
     }
 }

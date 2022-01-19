@@ -14,7 +14,8 @@ namespace Library.Models.DTOs
         public int? ID { get; set; }
         public string Headline { get; set; }
         public int? Counter { get; set; }
-      
+        public string? userName { get; set; }
+
 
         public NotificationDTO(Notification notification, Discussion? discussion)
         {
@@ -35,6 +36,7 @@ namespace Library.Models.DTOs
             Type = sub;
             Headline = myFriend.Email;
             ID = myFriend.ID;
+            userName = myFriend.userName;
         }
         //public NotificationDTO(Notification notification, MyFriend? myFriend)
         //{

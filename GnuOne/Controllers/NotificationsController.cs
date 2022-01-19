@@ -55,11 +55,11 @@ namespace GnuOne.Controllers
                         NotificationDTO friender1 = new NotificationDTO(friend1, item.messageType);
                         listOfDtos.Add(friender1);
                         break;
-                    case "FriendRequestDenied":
-                        MyFriend friend2 = _context.MyFriends.Where(x => x.Email == item.mail).FirstOrDefault();
-                        NotificationDTO friender2 = new NotificationDTO(friend2, item.messageType);
-                        listOfDtos.Add(friender2);
-                        break;
+                    //case "FriendRequestDenied":
+                    //    MyFriend friend2 = _context.MyFriends.Where(x => x.Email == item.mail).FirstOrDefault();
+                    //    NotificationDTO friender2 = new NotificationDTO(friend2, item.messageType);
+                    //    listOfDtos.Add(friender2);
+                    //    break;
                     default:
                         break;
                 }
