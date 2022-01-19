@@ -23,7 +23,6 @@ const Settings = () => {
 
     // ändra bilder 
     const [chosenImg, setChosenImg] = useState();
-    const [markedImage, setMarkedImage] = useState();
      
     const port = useContext(PortContext);
 
@@ -38,10 +37,22 @@ const Settings = () => {
         const response = await fetch(url)
         const profile = await response.json()
         console.log(profile);
-        setUserInfo(profile);
-        setChosenTags1(profile.tagOne);
-        setChosenTags2(profile.tagTwo);
-        setChosenTags3(profile.tagThree);
+
+        const responseTwo = await fetch('https://localhost:7261/api/tags');
+        const tags = await responseTwo.json()
+        console.log(tags)
+
+        let tag1 = tags.filter(tag => tag.ID === profile[0].tagOne)
+        let tag2 = tags.filter(tag => tag.ID === profile[0].tagTwo)
+        let tag3 = tags.filter(tag => tag.ID === profile[0].tagThree)
+        console.log(tag1[0], tag2[0], tag3[0]);
+        profile[0].firstTag = tag1[0] ? tag1[0].tagName : null
+        profile[0].secondTag = tag2[0] ? tag2[0].tagName : null
+        profile[0].thirdTag = tag3[0] ? tag3[0].tagName : null
+        setUserInfo(profile[0]);
+        setChosenTags1(profile[0].tagOne);
+        setChosenTags2(profile[0].tagTwo);
+        setChosenTags3(profile[0].tagThree);
     }
 
     function handleClick(e) {
@@ -59,11 +70,12 @@ const Settings = () => {
         else {
             addNewUserName(newUserName)
         }
-        console.log(userinfo);
     }
 
     async function addNewUserName(newUserName) {
+        console.log(newUserName)
         await fetch(url, {
+
             method: 'PUT',
             body: JSON.stringify(newUserName),
             headers: {
@@ -98,14 +110,26 @@ const Settings = () => {
             <div className={chosenTab === "Account" ? "Account " : "Account hide"}>
 
             </div>
-
-            {userinfo ?
                 
             <div className={chosenTab === "Profile" ? "Profile " : "Profile hide"}>
                     <textarea value={userinfo.myUserInfo} type="text" onChange={e => setUserInfo(e.target.value)}/>
                     <form>
 
                     <select onChange={(e) => setChosenTags1(e.target.value)} >
+                            <option>
+                                {userinfo.firstTag}
+                            </option>
+                            {pulledTags.map(tags =>
+                            <option key={tags.ID + tags.tagName} value={tags.ID} >
+                                {tags.tagName}
+                            </option>
+                        )}
+                        </select>
+
+                        <select onChange={(e) => setChosenTags2(e.target.value)} >
+                            <option>
+                                {userinfo.secondTag}
+                            </option>
                         {pulledTags.map(tags =>
                             <option key={tags.ID + tags.tagName} value={tags.ID} >
                                 {tags.tagName}
@@ -113,15 +137,10 @@ const Settings = () => {
                         )}
                         </select>
 
-                    <select onChange={(e) => setChosenTags2(e.target.value)} >
-                        {pulledTags.map(tags =>
-                            <option key={tags.ID + tags.tagName} value={tags.ID} >
-                                {tags.tagName}
+                        <select onChange={(e) => setChosenTags3(e.target.value)} >
+                            <option>
+                                {userinfo.thirdTag}
                             </option>
-                        )}
-                        </select>
-
-                    <select onChange={(e) => setChosenTags3(e.target.value)} >
                         {pulledTags.map(tags =>
                             <option key={tags.ID + tags.tagName} value={tags.ID} >
                                 {tags.tagName}
@@ -132,17 +151,16 @@ const Settings = () => {
                     </form>
 
                     <div className="change-img-container">
-                        <img className={markedImage == 1 ? "markedImage" : ""} onClick={() => setChosenImg(1), () => setMarkedImage(1)} src={Img1} />
-                        <img className={markedImage == 2 ? "markedImage" : ""} onClick={() => setChosenImg(2), () => setMarkedImage(2)} src={Img2} />
-                        <img className={markedImage == 3 ? "markedImage" : ""} onClick={() => setChosenImg(3), () => setMarkedImage(3)} src={Img3} />
-                        <img className={markedImage == 4 ? "markedImage" : ""} onClick={() => setChosenImg(4), () => setMarkedImage(4)} src={Img4} />
-                        <img className={markedImage == 5 ? "markedImage" : ""} onClick={() => setChosenImg(5), () => setMarkedImage(5)} src={Img5} />
+                        <img className={chosenImg == 1 ? "markedImage" : ""} onClick={() => setChosenImg(1)} src={Img1} />
+                        <img className={chosenImg == 2 ? "markedImage" : ""} onClick={() => setChosenImg(2)} src={Img2} />
+                        <img className={chosenImg == 3 ? "markedImage" : ""} onClick={() => setChosenImg(3)} src={Img3} />
+                        <img className={chosenImg == 4 ? "markedImage" : ""} onClick={() => setChosenImg(4)} src={Img4} />
+                        <img className={chosenImg == 5 ? "markedImage" : ""} onClick={() => setChosenImg(5)} src={Img5} />
                     </div>
 
                     <button type="button" onClick={(e) => handleClick(e)}>change</button>
             </div>
 
-                :"nothing to see"}
 
 
             <div className={chosenTab === "Safty" ? "Safety " : "Safty hide"}>
