@@ -219,7 +219,7 @@ namespace GnuOne.Data
 
                             case "AcceptedFriendRequest":
                                 //var deedf = await Task.Run(() => ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false, myInfo.Email));
-                                var deedf = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false, myInfo.Email, subject);
+                                var deedf = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false, myInfo.Email, Sub[1]);
                                 if (deedf == 1)
                                 {
                                     //await Task.Run(() => GiveBackMyInformation(_newContext, emailFrom));
@@ -229,7 +229,7 @@ namespace GnuOne.Data
                                 else { break; }
 
                             case "GiveBackInformation":
-                                var deedg = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, true, myInfo.Email, subject);
+                                var deedg = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, true, myInfo.Email, Sub[1]);
                                 if (deedg == 1) { break; }
                                 else { break; }
 
