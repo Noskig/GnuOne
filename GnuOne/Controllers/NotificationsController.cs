@@ -53,7 +53,7 @@ namespace GnuOne.Controllers
             }
 
 
-            var json = JsonConvert.SerializeObject(notications);
+            var json = JsonConvert.SerializeObject(listOfDtos);
             return Ok(json);
         }
         [HttpPut("{id}")]
