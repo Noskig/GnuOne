@@ -145,7 +145,7 @@ const Friends = () => {
                     }</>
                     : null
                 }
-                <h3> My friends </h3>
+                <h3> My friends 🤝🏻 </h3>
                 <ul className="friends-list">
                     {filteredFriends.map(friend =>
                         friendEmail === undefined && friend.isFriend
@@ -182,7 +182,7 @@ const Friends = () => {
 
                 {friendEmail === undefined
                     ? <>
-                <h3>New friend requests</h3>
+                        <h3>New friend requests 🙍</h3>
                         <ul className="friends-list">
                             {filteredFriends.map(friend => 
                                 !friend.isFriend && friend.userName
@@ -198,7 +198,7 @@ const Friends = () => {
                         
                         </ul>
 
-                        <h3 key="maybe-friends">Sent friend requests</h3>
+                        <h3 key="maybe-friends">Sent friend requests 🖅</h3>
                         <ul className="friends-list">
                             {filteredFriends.map(friend => 
                                 !friend.isFriend && !friend.userName && friendsList

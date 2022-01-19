@@ -31,7 +31,7 @@ const NavBar = () => {
     return (
           
             <div className="navbar">
-                <img src={logo} alt="logo" />
+            <Link to="/" onClick={() => handleClick(0)}> <img src={logo} alt="logo" /> </Link>
 
             <ul className="elements">
                <li onClick={()=> setIsPressed(!isPressed)} className="avatar">

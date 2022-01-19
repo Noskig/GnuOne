@@ -82,7 +82,8 @@
     width: 100%;
 }
 
-.friends-list > li .accept-friend {
+.friends-list > li .accept-friend , 
+.friends-container > .new-friend{
     margin: 0.5em;
     border-radius: 5px;
     border-style: solid;
@@ -90,7 +91,8 @@
     box-shadow: #a19a9a 0px 0px 2px 1px;
 }
 
-    .friends-list > li .accept-friend:hover {
+    .friends-list > li .accept-friend:hover, 
+    .friends-container > .new-friend:hover {
         cursor: pointer;
         color: white;
         background: var(--light-turquoise);
@@ -119,8 +121,9 @@ h2 {
 .friends-list > li .pending {
     margin: 0.5em;
     border-radius: 5px;
-    box-shadow: #a19a9a 0px 0px 2px 1px;
+    /*box-shadow: #a19a9a 0px 0px 2px 1px;*/
     max-width: 5em;
     height: fit-content;
-    background-color: #83d3ec;
+    /*background-color: #83d3ec;*/
+    font-weight: 800;
 }
