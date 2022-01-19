@@ -339,8 +339,8 @@ namespace GnuOne.Data
                                 }
                             }
                             context.SaveChangesAsync().Wait();
-                            return 1;
                         }
+                        return 1;
                     }
                 }
                 return -1;
