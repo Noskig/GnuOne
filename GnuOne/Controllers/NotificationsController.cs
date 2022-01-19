@@ -27,6 +27,8 @@ namespace GnuOne.Controllers
             var notications = await _context.Notifications.Where(x => x.hasBeenRead == false).ToListAsync();
             //ändra hasbeenread == true  vart & när?
 
+            //Ändra i dto
+
             List<NotificationDTO> listOfDtos = new List<NotificationDTO>();
             
             foreach (var item in notications)
@@ -43,11 +45,15 @@ namespace GnuOne.Controllers
                         NotificationDTO d = new NotificationDTO(item, c);
                         listOfDtos.Add(d);
                         break;
-                    default:
+                    case "FriendRequestAccpeted":
                         MyFriend friend = _context.MyFriends.Where(x => x.Email == item.mail).FirstOrDefault();
-                        NotificationDTO friender = new NotificationDTO(item, friend);
+                        NotificationDTO friender = new NotificationDTO(friend, item.messageType);
                         listOfDtos.Add(friender);
-
+                        break;
+                    default:
+                        //MyFriend friend = _context.MyFriends.Where(x => x.Email == item.mail).FirstOrDefault();
+                        //NotificationDTO friender = new NotificationDTO(item, friend, sub);
+                        //listOfDtos.Add(friender);
                         break;
                 }
             }

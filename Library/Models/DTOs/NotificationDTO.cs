@@ -9,27 +9,50 @@ namespace Library.Models.DTOs
 {
     public class NotificationDTO
     {
-        public MyFriend? MyFriend { get; set; }
-        public string? friendMethod { get; set; }
-        public Discussion? Discussion { get; set; }
-        public int? discussionCounter { get; set; }
-        public Post? Post { get; set; }
-        public int? postCounter { get; set; }
+        //public MyFriend? MyFriend { get; set; }
+        public string Type { get; set; }
+        public int? ID { get; set; }
+        public string Headline { get; set; }
+        public int? Counter { get; set; }
+      
 
-        public NotificationDTO(Notification notification, Discussion discussion)
+        public NotificationDTO(Notification notification, Discussion? discussion)
         {
-            Discussion = discussion;
-            discussionCounter = notification.counter;
+            Type = "discussion";
+            Headline = discussion.Headline;
+            ID = discussion.ID;
+            Counter = notification.counter;
         }
-        public NotificationDTO(Notification notification, Post post)
+        public NotificationDTO(Notification notification, Post? post)
         {
-            Post = post;
-            postCounter = notification.counter;
+            Type = "post";
+            Headline = post.postText;
+            ID = post.ID;
+            Counter = notification.counter;
         }
-        public NotificationDTO(Notification notification, MyFriend myFriend)
+        public NotificationDTO(MyFriend? myFriend, string sub)
         {
-            MyFriend = myFriend;
-            friendMethod = notification.messageType;
+            Type = sub;
+            Headline = myFriend.Email;
+            ID = myFriend.ID;
         }
+        //public NotificationDTO(Notification notification, MyFriend? myFriend)
+        //{
+        //    Type = "friend";
+        //    Headline = notification.messageType;
+        //    ID = post.ID;
+        //    Counter = notification.counter;
+        //}
+        //public NotificationDTO(Notification notification, Post post)
+        //{
+        //    Post = post;
+        //    postCounter = notification.counter;
+        //}
+        //public NotificationDTO(Notification notification, MyFriend myFriend)
+        //{
+        //    MyFriend = myFriend;
+        //    friendMethod = notification.messageType;
+        //}
     }
 }
+
