@@ -1,8 +1,11 @@
 ﻿using GnuOne.Data;
+using GnuOne.Data.Models;
 using Library;
+using Library.Models.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace GnuOne.Controllers
 {
@@ -21,10 +24,37 @@ namespace GnuOne.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var notications = _context.Notifications.ToListAsync();
+            var notications = await _context.Notifications.Where(x => x.hasBeenRead == false).ToListAsync();
+            //ändra hasbeenread == true  vart & när?
 
-            //reset räknare på dom har?
-            return Ok();
+            List<NotificationDTO> listOfDtos = new List<NotificationDTO>();
+            
+            foreach (var item in notications)
+            {
+                switch (item.messageType)
+                {
+                    case "Post":
+                        Discussion b = _context.Discussions.Where(x => x.ID == item.infoID).FirstOrDefault();
+                        NotificationDTO a = new NotificationDTO(item, b);
+                        listOfDtos.Add(a);  
+                        break;
+                    case "Comment":
+                        Post c = _context.Posts.Where(x => x.ID == item.infoID).FirstOrDefault();
+                        NotificationDTO d = new NotificationDTO(item, c);
+                        listOfDtos.Add(d);
+                        break;
+                    default:
+                        MyFriend friend = _context.MyFriends.Where(x => x.Email == item.mail).FirstOrDefault();
+                        NotificationDTO friender = new NotificationDTO(item, friend);
+                        listOfDtos.Add(friender);
+
+                        break;
+                }
+            }
+
+
+            var json = JsonConvert.SerializeObject(notications);
+            return Ok(json);
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int? id)

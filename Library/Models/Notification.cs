@@ -5,9 +5,10 @@
         public int ID { get; set; }
         public bool hasBeenRead { get; set; } = false;
         public string messageType { get; set; }
-        public string info { get; set; }
+        public string? info { get; set; }
+        public int? infoID { get; set; }
         public string mail { get; set; }
-        public int counter { get; set; }
+        public int counter { get; set; } = 1;
 
         public Notification()
         {
@@ -18,6 +19,12 @@
             this.messageType = _messageType;
             this.mail = _mail;
             this.info = info;   
+        }
+        public Notification(string _messageType, string _mail, int infoID)
+        {
+            this.messageType = _messageType;
+            this.mail = _mail;
+            this.infoID = infoID;
         }
     }
 }
