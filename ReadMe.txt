@@ -22,21 +22,11 @@ ___Agenda__
 -bio uppdateras
 -bild  
 
-
-//bookmarking
-
--tabell med Idn som är bookmaarked
+- De inläggen man har bookmarkat
+--Någon postat eller commenterat där
 
 
-//Notification på första sidan
-- Vänförfrågan
---Accepterad
-
-- På sina egna disc, posts.  
-- De man har bookmarkat
-
-- ligger kvar? till en start
-
+*Uppdater picture location i MariaDB
 _____A_____
 
 Frågor Stig
@@ -59,6 +49,8 @@ Frågor Stig
 ///////////////////////////////////////////////////////////
 EXTRA-JOBB:
 ** vi har marcus som extra resurs
+
+*bookmarks borde tas bort när posten eller discussion deletas
 
 ** deletea konto
 - Foreach tabort vänner. 
@@ -93,8 +85,19 @@ KLART:
 
 18/1
 # Gör nya cases för comments (postedcomment etc) - Testat enkelt
-# 
+# Bookmarking - En grund (kanske klar)
 
+19/1
+# Notification på första sidan
+# - Vänförfrågan
+  --Fått vänförfrågan
+  --Accepterad
+  -På sina egna disc, posts.   
+  --Mina disc, någon har postat
+  --Mina Posts. Någon har kommenterat
+  --Delete all
+  --Delete Single
+  -Räknare
 
 # Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. 5/1
 # Göra om i Myfriendscontrollern rad 82-88 till metod   Behöver gå ut ett mail till mina vänner att vännen tas bort 5/1
