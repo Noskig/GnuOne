@@ -322,21 +322,23 @@ namespace GnuOne.Data
                         if (comment.Email != myinfo.Email)
                         {
                             context.Comments.Add(comment);
-                            context.SaveChangesAsync().Wait();
+                            if (myinfo.Email == comment.postEmail)
+                            {
 
-                            if (context.Notifications.Where(x => x.infoID == comment.postID && x.hasBeenRead == false).Any())
-                            {
-                                var a = context.Notifications.Where(x => x.infoID == comment.postID && x.hasBeenRead == false).FirstOrDefault();
-                                a.counter++;
-                            }
-                            else
-                            {
-                                Notification not = new Notification("Comment", comment.Email, comment.postID);
-                                context.Notifications.Add(not);
+                                if (context.Notifications.Where(x => x.infoID == comment.postID && x.hasBeenRead == false).Any())
+                                {
+                                    var a = context.Notifications.Where(x => x.infoID == comment.postID && x.hasBeenRead == false).FirstOrDefault();
+                                    a.counter++;
+                                }
+                                else
+                                {
+                                    Notification not = new Notification("Comment", comment.Email, comment.postID);
+                                    context.Notifications.Add(not);
+                                }
                             }
                             context.SaveChangesAsync().Wait();
+                            return 1;
                         }
-                        return 1;
                     }
                 }
                 return -1;
@@ -807,20 +809,22 @@ namespace GnuOne.Data
                     if (Email != myInfo.Email)
                     {
                         context.Posts.Add(post);
-
-                        if (context.Notifications.Where(x => x.infoID == post.discussionID && x.hasBeenRead == false).Any())
+                        if(myInfo.Email == post.discussionEmail)
                         {
-                            var a = context.Notifications.Where(x => x.infoID == post.discussionID && x.hasBeenRead == false).FirstOrDefault();
-                            a.counter++;
-                        }
-                        else
-                        {
-                            Notification not = new Notification("Post", Email, post.discussionID);
-                            context.Notifications.Add(not);
+                            if (context.Notifications.Where(x => x.infoID == post.discussionID && x.hasBeenRead == false).Any())
+                            {
+                                var a = context.Notifications.Where(x => x.infoID == post.discussionID && x.hasBeenRead == false).FirstOrDefault();
+                                a.counter++;
+                            }
+                            else
+                            {
+                                Notification not = new Notification("Post", Email, post.discussionID);
+                                context.Notifications.Add(not);
+                            }
                         }
                         context.SaveChangesAsync().Wait();
+                        return 1;
                     }
-                    return 1;
                 }
             }
             return -1;
