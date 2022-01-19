@@ -143,6 +143,16 @@ t4s4XYEbPC7CPtH0SiVAFiSRVkL99fcEBtTcY3biHLFgiTmAvPL4Ww==
 CREATE DATABASE IF NOT EXISTS `gnu` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `gnu`;
 
+-- Dumpar struktur för tabell gnu.bookmarks
+CREATE TABLE IF NOT EXISTS `bookmarks` (
+  `ID` int(11) NOT NULL,
+  `Email` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumpar data för tabell gnu.bookmarks: ~0 rows (ungefär)
+/*!40000 ALTER TABLE `bookmarks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bookmarks` ENABLE KEYS */;
+
 -- Dumpar struktur för tabell gnu.comments
 CREATE TABLE IF NOT EXISTS `comments` (
   `ID` int(11) NOT NULL,
@@ -154,10 +164,10 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `postEmail` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`ID`,`Email`),
   KEY `FK_comments_posts` (`postID`,`postEmail`),
-  CONSTRAINT `FK_comments_posts` FOREIGN KEY (`postID`, `postEmail`) REFERENCES `posts` (`ID`, `Email`)
+  CONSTRAINT `FK_comments_posts` FOREIGN KEY (`postID`, `postEmail`) REFERENCES `posts` (`ID`, `Email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.comments: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.comments: ~7 rows (ungefär)
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 
@@ -178,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `discussions` (
   KEY `FK_discussions_tags_3` (`tagThree`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.discussions: ~1 rows (ungefär)
+-- Dumpar data för tabell gnu.discussions: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `discussions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `discussions` ENABLE KEYS */;
 
@@ -198,9 +208,9 @@ CREATE TABLE IF NOT EXISTS `myfriends` (
   `hideFriend` bit(1) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `Email` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myfriends: ~1 rows (ungefär)
+-- Dumpar data för tabell gnu.myfriends: ~2 rows (ungefär)
 /*!40000 ALTER TABLE `myfriends` DISABLE KEYS */;
 /*!40000 ALTER TABLE `myfriends` ENABLE KEYS */;
 
@@ -213,9 +223,9 @@ CREATE TABLE IF NOT EXISTS `myfriendsfriends` (
   PRIMARY KEY (`ID`),
   KEY `FK_myfriendsfriends_myfriends` (`myFriendEmail`),
   CONSTRAINT `FK_myfriendsfriends_myfriends` FOREIGN KEY (`myFriendEmail`) REFERENCES `myfriends` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myfriendsfriends: ~2 rows (ungefär)
+-- Dumpar data för tabell gnu.myfriendsfriends: ~3 rows (ungefär)
 /*!40000 ALTER TABLE `myfriendsfriends` DISABLE KEYS */;
 /*!40000 ALTER TABLE `myfriendsfriends` ENABLE KEYS */;
 
@@ -235,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `myprofile` (
   KEY `FK_myprofile_standardpictures` (`pictureID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myprofile: ~1 rows (ungefär)
+-- Dumpar data för tabell gnu.myprofile: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `myprofile` DISABLE KEYS */;
 /*!40000 ALTER TABLE `myprofile` ENABLE KEYS */;
 
@@ -263,9 +273,9 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `counter` int(11) NOT NULL DEFAULT 0,
   `infoID` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.notifications: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.notifications: ~2 rows (ungefär)
 /*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
 /*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 
@@ -283,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   CONSTRAINT `FK_posts_discussions` FOREIGN KEY (`discussionID`, `discussionEmail`) REFERENCES `discussions` (`ID`, `Email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.posts: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.posts: ~6 rows (ungefär)
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 

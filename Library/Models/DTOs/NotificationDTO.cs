@@ -9,9 +9,10 @@ namespace Library.Models.DTOs
 {
     public class NotificationDTO
     {
-        //public MyFriend? MyFriend { get; set; }
+        public int ID { get; set; }
         public string Type { get; set; }
-        public int? ID { get; set; }
+        public bool hasBeenRead { get; set; }
+        public int? infoID { get; set; }
         public string Headline { get; set; }
         public int? Counter { get; set; }
         public string? userName { get; set; }
@@ -19,24 +20,33 @@ namespace Library.Models.DTOs
 
         public NotificationDTO(Notification notification, Discussion? discussion)
         {
+            ID = notification.ID;
             Type = "discussion";
             Headline = discussion.Headline;
-            ID = discussion.ID;
+            infoID = discussion.ID;
             Counter = notification.counter;
+            hasBeenRead = notification.hasBeenRead;
         }
         public NotificationDTO(Notification notification, Post? post)
         {
+            ID = notification.ID;
+
             Type = "post";
             Headline = post.postText;
-            ID = post.ID;
+            infoID = post.ID;
             Counter = notification.counter;
+            hasBeenRead = notification.hasBeenRead;
+
         }
-        public NotificationDTO(MyFriend? myFriend, string sub)
+        public NotificationDTO(Notification notification ,MyFriend? myFriend, string sub)
         {
+            ID = notification.ID;
             Type = sub;
             Headline = myFriend.Email;
-            ID = myFriend.ID;
+            //infoID = myFriend.ID;
             userName = myFriend.userName;
+            hasBeenRead = notification.hasBeenRead;
+            
         }
         //public NotificationDTO(Notification notification, MyFriend? myFriend)
         //{
