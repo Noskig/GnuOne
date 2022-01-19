@@ -21,13 +21,14 @@ const Discussions = ({ routes }) => {
     const [discussions, setDiscussions] = useState([])
     const port = useContext(PortContext)
     console.log(port)
-    const url = `https://localhost:${port}/api/discussions/`
+    const url = `https://localhost:${port}/api/`
     const [showOverlay, setShowOverlay] = useState(false)
     const [showDeleteConfirm, setshowDeleteConfirm] = useState(false)
     const [readMore, setReadMore] = useState(false);
     const [discussionText, setDiscussionText] = useState('')
     const [activeDiscussion, setActiveDiscussion] = useState('')
     const [editOpen, setEditOpen] = useState(false)
+    const [tagsReady, setTagsReady] = useState(false)
     let match = useRouteMatch()
     //SEARCH 
     const [searchTerm, setSearchTerm] = useState('')
@@ -43,37 +44,47 @@ const Discussions = ({ routes }) => {
     }, [myEmail])
 
     async function fetchData() {
-        const response = await fetch(url)
+        const response = await fetch(url + 'discussions/')
         const discussions = await response.json()
         console.log(discussions)
 
-        let filteredDisc = () => {
+        ////GET TAGS 
+        //const responseTwo = await fetch(url + 'tags')
+        //const tags = await responseTwo.json()
+        //console.log(tags)
+        //discussions.forEach(discussion => {
+        //    let discussionTags = tags.filter(tag => tag.ID === discussion.tagOne || tag.ID === discussion.tagTwo || tag.ID === discussion.tagThree)
+        //    console.log(discussionTags)
+        //    discussion.firstTag = discussionTags[0] ? discussionTags[0].tagName : null
+        //    discussion.secondTag = discussionTags[1] ? discussionTags[1].tagName : null
+        //    discussion.thirdTag = discussionTags[2] ? discussionTags[2].tagName : null
+        //})
+        ////end
 
+        //SHOW ONLY MY OR MY FRIENDS DISCUSSIONS
+        let filteredDisc = () => {
             console.log('myEmail: ' + myEmail)
             console.log('friendEmail: ' + friendEmail)
             if (discussions && (friendEmail === undefined)) {
                 return discussions.filter((disc) => {
-
                     if (disc.Email === myEmail) {
-                        console.log('displaying MY posts: ' + disc.Email, myEmail)
+                        console.log('displaying MY discussions: ' + disc.Email, myEmail)
                         return disc
                     }
-
                 })
             } else if (discussions && friendEmail) {
                 return discussions.filter((disc) => {
-
                     if (disc.Email === friendEmail) {
-                        console.log('displaying FRIENDs posts: ' + disc.Email, friendEmail)
+                        console.log('displaying FRIENDs discussions: ' + disc.Email, friendEmail)
                         return disc
                     }
-
                 })
             }
         }
         console.log(filteredDisc)
         setDiscussions(filteredDisc)
     }
+
 
     const close = () => {
         setShowOverlay(false)
@@ -93,7 +104,7 @@ const Discussions = ({ routes }) => {
         if (discussion.discussionText !== discussionText) {
             discussion.discussionText = discussionText
             console.log(discussion)
-            await fetch(url + discussion.ID, {
+            await fetch(url + 'discussions/' + discussion.ID, {
                 method: 'PUT',
                 body: JSON.stringify(discussion),
                 headers: {
@@ -244,6 +255,7 @@ const Discussions = ({ routes }) => {
                                 <h4>{discussion.numberOfPosts} posts:</h4>
                                 <h4 className="createDate">{discussion.Date.slice(0, 19).replace('T', ' ').slice(0, 16)}</h4>
                                 <img className={readMore && activeDiscussion == discussion.ID ? "read-more reverse-icon" : "read-more"} alt="read-more" src={arrows} onClick={() => readmoreAndId(discussion)} />
+                                <div className="discussion-tags">{discussion.tags.map(tag => <h4 key={discussion.tags.indexOf(tag)}># {tag} </h4> )} </div>
                             </div>
                         </div>
                     ) : 'oops kan inte nå api'}

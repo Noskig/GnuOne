@@ -61,7 +61,7 @@ namespace GnuOne.Controllers
             return Ok(converted);
         }
 
-      
+
         //Skickar in ett id (tag)
 
 
@@ -80,6 +80,24 @@ namespace GnuOne.Controllers
             if (discussion == null)
             {
                 return NotFound();
+            }
+            var taglista = await _context.tags.ToListAsync();
+
+            if (discussion.tagOne is not null)
+            {
+                var tagOne = taglista.Where(x => x.ID == discussion.tagOne).Select(x => x.tagName).Single();
+                discussion.tags.Add(tagOne);
+            }
+            if (discussion.tagTwo is not null)
+            {
+                var tagTwo = taglista.Where(y => y.ID == discussion.tagTwo).Select(x => x.tagName).Single();
+                discussion.tags.Add(tagTwo);
+
+            }
+            if (discussion.tagThree is not null)
+            {
+                var tagThree = taglista.Where(z => z.ID == discussion.tagThree).Select(x => x.tagName).Single();
+                discussion.tags.Add(tagThree);
             }
 
             var postlist = await _context.Posts.Where(x => x.discussionID == id).ToListAsync();
