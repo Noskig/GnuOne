@@ -691,7 +691,7 @@ namespace GnuOne.Data
             {
                 var myfriend = context.MyFriends.Where(x => x.Email == notNewFriend.Email).FirstOrDefault();
                 context.MyFriends.Remove(myfriend);
-                var notification = new Notification("FriendRequestDenied", myfriend.Email, myfriend.userName);
+                var notification = new Notification("FriendRequestDenied", notNewFriend.Email, notNewFriend.userName);
                 context.Notifications.Add(notification);
                 context.SaveChangesAsync().Wait();
                 return 1;
