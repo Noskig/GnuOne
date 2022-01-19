@@ -3,13 +3,14 @@
 }
 
 .friends-list {
-    padding: 2rem;
+    padding-top:2rem;
+    padding-bottom:1rem;
+    padding-left:2rem;
+    padding-right:2rem;
     background: #167D8F;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
     max-width: 25rem;
 }
 
@@ -23,6 +24,8 @@
     border-radius:5px;
     text-align:center;
     height: 4em;
+    margin-bottom:1rem
+
 }
 
 .friends-container {
