@@ -72,8 +72,12 @@ namespace GnuOne.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int? id)
         {
-            //Ändrar has been read
-            return Ok();
+            var a = _context.Notifications.Where(x => x.ID == id).FirstOrDefault();
+            a.hasBeenRead = true;
+            a.counter = 0;
+            _context.Notifications.Update(a);
+            await _context.SaveChangesAsync();
+            return Ok("Its been seen");
         }
         [HttpPatch]
         public async Task<IActionResult> Patch(int? id)
@@ -85,17 +89,30 @@ namespace GnuOne.Controllers
 
             return Ok();
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSingle(int? id)
         {
-            //delete på ID 
-            return Ok();
+            
+            var a  = _context.Notifications.Where(x => x.ID == id).FirstOrDefault();
+            if(a is null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                _context.Notifications.Remove(a);
+                await _context.SaveChangesAsync();
+                return Ok("Notification has been deleted");
+            }
+          
         }
-        [HttpDelete("{Delete}")]
-        public async Task<IActionResult> DeleteSingle()
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAll()
         {
-            //Rensa alla
-            return Ok();
+            var a = await _context.Notifications.ToListAsync();
+            _context.Notifications.RemoveRange(a);
+            await _context.SaveChangesAsync();
+            return Ok("All notifications has been deleted");
         }
 
     }
