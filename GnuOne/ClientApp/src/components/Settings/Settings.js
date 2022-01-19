@@ -129,7 +129,8 @@ const Settings = () => {
                         )}
                         </select>
 
-                </form>
+                    </form>
+
                     <div className="change-img-container">
                         <img className={markedImage == 1 ? "markedImage" : ""} onClick={() => setChosenImg(1), () => setMarkedImage(1)} src={Img1} />
                         <img className={markedImage == 2 ? "markedImage" : ""} onClick={() => setChosenImg(2), () => setMarkedImage(2)} src={Img2} />

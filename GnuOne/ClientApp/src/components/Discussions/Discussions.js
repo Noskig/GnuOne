@@ -6,12 +6,13 @@ import arrows from '../../icons/arrows.svg';
 import trash from '../../icons/trash.svg'
 import done from '../../icons/done.svg'
 import edit from '../../icons/edit.svg'
-import Save from '../../icons/save-this.svg'
 import DeleteDiscussionOverlay from './DeleteDiscussionOverlay/DeleteDiscussionOverlay'
 import Search from '../Search/Search.js';
 import MeContext from '../../contexts/meContext';
 import FriendContext from '../../contexts/friendContext';
 import "./discussion.css";
+import share from '../../icons/share.svg'
+import bookmark from '../../icons/bookmark.svg'
 
 
 
@@ -20,13 +21,14 @@ const Discussions = ({ routes }) => {
     const [discussions, setDiscussions] = useState([])
     const port = useContext(PortContext)
     console.log(port)
-    const url = `https://localhost:${port}/api/discussions/`
+    const url = `https://localhost:${port}/api/`
     const [showOverlay, setShowOverlay] = useState(false)
     const [showDeleteConfirm, setshowDeleteConfirm] = useState(false)
     const [readMore, setReadMore] = useState(false);
     const [discussionText, setDiscussionText] = useState('')
     const [activeDiscussion, setActiveDiscussion] = useState('')
     const [editOpen, setEditOpen] = useState(false)
+    const [tagsReady, setTagsReady] = useState(false)
     let match = useRouteMatch()
 
     //SEARCH 
@@ -43,37 +45,47 @@ const Discussions = ({ routes }) => {
     }, [myEmail])
 
     async function fetchData() {
-        const response = await fetch(url)
+        const response = await fetch(url + 'discussions/')
         const discussions = await response.json()
         console.log(discussions)
 
-        let filteredDisc = () => {
+        ////GET TAGS 
+        //const responseTwo = await fetch(url + 'tags')
+        //const tags = await responseTwo.json()
+        //console.log(tags)
+        //discussions.forEach(discussion => {
+        //    let discussionTags = tags.filter(tag => tag.ID === discussion.tagOne || tag.ID === discussion.tagTwo || tag.ID === discussion.tagThree)
+        //    console.log(discussionTags)
+        //    discussion.firstTag = discussionTags[0] ? discussionTags[0].tagName : null
+        //    discussion.secondTag = discussionTags[1] ? discussionTags[1].tagName : null
+        //    discussion.thirdTag = discussionTags[2] ? discussionTags[2].tagName : null
+        //})
+        ////end
 
+        //SHOW ONLY MY OR MY FRIENDS DISCUSSIONS
+        let filteredDisc = () => {
             console.log('myEmail: ' + myEmail)
             console.log('friendEmail: ' + friendEmail)
             if (discussions && (friendEmail === undefined)) {
                 return discussions.filter((disc) => {
-
                     if (disc.Email === myEmail) {
-                        console.log('displaying MY posts: ' + disc.Email, myEmail)
+                        console.log('displaying MY discussions: ' + disc.Email, myEmail)
                         return disc
                     }
-
                 })
             } else if (discussions && friendEmail) {
                 return discussions.filter((disc) => {
-
                     if (disc.Email === friendEmail) {
-                        console.log('displaying FRIENDs posts: ' + disc.Email, friendEmail)
+                        console.log('displaying FRIENDs discussions: ' + disc.Email, friendEmail)
                         return disc
                     }
-
                 })
             }
         }
         console.log(filteredDisc)
         setDiscussions(filteredDisc)
     }
+
 
     const close = () => {
         setShowOverlay(false)
@@ -93,7 +105,7 @@ const Discussions = ({ routes }) => {
         if (discussion.discussionText !== discussionText) {
             discussion.discussionText = discussionText
             console.log(discussion)
-            await fetch(url + discussion.ID, {
+            await fetch(url + 'discussions/' + discussion.ID, {
                 method: 'PUT',
                 body: JSON.stringify(discussion),
                 headers: {
@@ -200,34 +212,42 @@ const Discussions = ({ routes }) => {
 
                             <div className={readMore && activeDiscussion == discussion.ID ? "discussion-options" : "discussion-options hide"}>
 
-                               {/* knappen måste kalla på en function som postar informationen om den här topicen till database */}
-                                <button className="save">
-                                    <img alt="save" src={Save} />
-                                </button>
-                                {/*============================================================================================= */}
-
-                                {showDeleteConfirm && activeDiscussion === discussion.ID
+                                {friendEmail === undefined
                                     ? <>
-                                        <button>
-                                            <img alt="delete" src={trash} />
-                                        </button>
-                                        <DeleteDiscussionOverlay fetchData={fetchData} close={closeDeletion} discussionId={activeDiscussion} />
-                                    </>
-                                    :
-                                    <button onClick={() => openDeleteOverlay(discussion)}>
-                                        <img alt="delete" src={trash} />
-                                    </button>
-                                }
-   
-                                {editOpen && activeDiscussion === discussion.ID ?
-                                    <button onClick={(e) => confirmEditDiscussion(e, discussion)}>
-                                        <img alt="done" src={done} />
-                                    </button>
-                                    : <button onClick={(e) => openEditDiscussion(e, discussion)}>
-                                        <img alt="edit" src={edit} />
-                                    </button>
+                                        {showDeleteConfirm && activeDiscussion === discussion.ID
+                                            ? <>
+                                                <button>
+                                                    <img alt="delete" src={trash} />
+                                                </button>
+                                                <DeleteDiscussionOverlay fetchData={fetchData} close={closeDeletion} discussionId={activeDiscussion} />
+                                            </>
+                                            :
+                                            <button onClick={() => openDeleteOverlay(discussion)}>
+                                                <img alt="delete" src={trash} />
+                                            </button>
+                                        }
+                                        {editOpen && activeDiscussion === discussion.ID ?
+                                            <button onClick={(e) => confirmEditDiscussion(e, discussion)}>
+                                                <img alt="done" src={done} />
+                                            </button>
+                                            : <button onClick={(e) => openEditDiscussion(e, discussion)}>
+                                                <img alt="edit" src={edit} />
+                                            </button>
 
+                                        }
+                                    </>
+
+
+                                    : <>
+                                        <button>
+                                            <img alt="bookmark" src={bookmark} />
+                                        </button>
+                                        <button>
+                                            <img alt="share" src={share} />
+                                        </button>
+                                    </>
                                 }
+                              
 
 
 
@@ -238,6 +258,7 @@ const Discussions = ({ routes }) => {
                                 <h4>{discussion.numberOfPosts} posts:</h4>
                                 <h4 className="createDate">{discussion.Date.slice(0, 19).replace('T', ' ').slice(0, 16)}</h4>
                                 <img className={readMore && activeDiscussion == discussion.ID ? "read-more reverse-icon" : "read-more"} alt="read-more" src={arrows} onClick={() => readmoreAndId(discussion)} />
+                                <div className="discussion-tags">{discussion.tags.map(tag => <h4 key={discussion.tags.indexOf(tag)}># {tag} </h4> )} </div>
                             </div>
                         </div>
                     ) : 'oops kan inte nå api'}

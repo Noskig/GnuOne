@@ -5,6 +5,7 @@
   --button-h1-color: #043239;
   --getStartedSection-color: #0D5A69;
   --light-turquoise: #83D3EC;
+  --light-turquoise-two: #167D8F;
   --darker-turquoise: #0D5A69;
 }
 
@@ -30,7 +31,7 @@ main .profile-wheel-container {
   grid-row-end: 5;
   justify-self: right;
 }
-main .bio-container, main .messages-container, main .settings-container, main .discussions-container, main .saved-section {
+main .bio-container, main .messages-container, main .settings-container, main .discussions-container, main .saved-section, main .posts-container {
   grid-column-start: 2;
   grid-column-end: 6;
   grid-row-start: 3;

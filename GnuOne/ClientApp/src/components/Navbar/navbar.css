@@ -20,11 +20,17 @@
 .settings {
     position: absolute;
 }
+.profile {
+    position:absolute;
+}
 .out-animation1 {
     animation: messages 0.6s ease-in forwards;
 }
 .out-animation2 {
     animation: settings 0.6s ease-in forwards;
+}
+.out-animation3 {
+    animation: profile 0.6s ease-in forwards;
 }
 .in-animation1 {
     animation: messages2 0.6s ease-out forwards;
@@ -32,19 +38,27 @@
 .in-animation2 {
     animation: settings2 0.6s ease-out forwards;
 }
+.in-animation3 {
+    animation: profile2 0.6s ease-out forwards;
+}
 @keyframes messages {
     100% {
-        transform: translateX(-4rem)
+        transform: translateX(-3rem)
     }
 }
 @keyframes settings{
     100%{
-        transform:translateX(-8rem)
+        transform:translateX(-6rem)
+    }
+}
+@keyframes profile {
+    100% {
+        transform: translateX(-9.4rem)
     }
 }
 @keyframes messages2 {
     from {
-        transform: translateX(-4rem)
+        transform: translateX(-3rem)
     }
     to {
         transform: translateX(0rem)
@@ -53,9 +67,23 @@
 
 @keyframes settings2 {
     from {
-        transform: translateX(-8rem)
+        transform: translateX(-6rem)
     }
     to {
         transform: translateX(0rem)
     }
+}
+
+@keyframes profile2 {
+    from {
+        transform: translateX(-9.4rem)
+    }
+
+    to {
+        transform: translateX(0rem)
+    }
+}
+
+ul li a .profile-picture { 
+    width:48px;
 }

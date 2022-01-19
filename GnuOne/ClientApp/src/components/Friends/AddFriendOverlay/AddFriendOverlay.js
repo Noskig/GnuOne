@@ -1,30 +1,33 @@
 ﻿import { useState, useEffect, useContext } from 'react'
 import './addFriendOverlay.css'
 import PortContext from '../../../contexts/portContext';
-
+import FriendContext from '../../../contexts/friendContext';
+import MeContext from '../../../contexts/meContext';
 
 const AddFriendOverlay = (props) => {
     const [email, setEmail] = useState('')
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/myfriends`
+    const friendEmail = useContext(FriendContext)
+    const myEmail = useContext(MeContext)
 
+    //useEffect(() => {
+    //    fetchData()
+    //}, [])
 
-    useEffect(() => {
-        fetchData()
-    }, [])
-
-    function handleClick(e) {
+    function handleClick(e, email) {
         e.preventDefault()
         let newFriend = {
             Email: email
         }
 
-        if (email === "") {
-            alert("Email field cannot be left empty")
-        }
-        else {
+        //if (email === "") {
+
+        //    /*alert("Email field cannot be left empty")*/
+        //}
+        //else {
             sendFriendRequest(newFriend)
-        }
+       /* }*/
 
     }
 
@@ -51,8 +54,20 @@ const AddFriendOverlay = (props) => {
         <div className="add-friend-overlay">
             <div className="add-friend">
                 <button className="close" onClick={close}>✖️</button>
-                <input type="text" placeholder={"Email..."} onChange={e => setEmail(e.target.value)} />
-                <button type="button" onClick={(e) => handleClick(e)}>Send friend request</button>
+                {
+                    friendEmail === undefined
+                        ? <>
+                            <input type="text" placeholder={"Email..."} onChange={e => setEmail(e.target.value)} />
+                            <button type="button" onClick={(e) => handleClick(e, email)}>Send friend request</button>
+
+                        </>
+                        : <>
+                            <h3>You are about to send a friend request to {props.userName} </h3>
+                            <button type="button" onClick={(e) => handleClick(e, props.email)}>Send friend request</button>
+
+                            </>
+                }
+               
             </div>
         </div>
     )
