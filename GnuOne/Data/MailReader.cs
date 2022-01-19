@@ -676,8 +676,8 @@ namespace GnuOne.Data
                 {
                     var notification = new Notification("FriendRequestAccepted", friend.Email, friend.userName);
                     context.Notifications.Add(notification);
-                    context.SaveChangesAsync().Wait();
                 }
+                context.SaveChangesAsync().Wait();
                 return 1;
             }
             return -1;
