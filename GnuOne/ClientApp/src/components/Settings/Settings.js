@@ -3,11 +3,11 @@ import PortContext from '../../contexts/portContext';
 import "./settings.css";
 
 
-import Img1 from "../../Image/BeerGuy.jpg";
-import Img2 from "../../Image/Flanders.png";
-import Img3 from "../../Image/Nelson.jpg";
-import Img4 from "../../Image/Ralph.jpg";
-import Img5 from "../../Image/SideShow-Bob.jpg";
+import Img1 from "../../Image/1.jpg";
+import Img2 from "../../Image/2.png";
+import Img3 from "../../Image/3.jpg";
+import Img4 from "../../Image/4.jpg";
+import Img5 from "../../Image/5.jpg";
 
 const Settings = () => {
     //changing user info 

@@ -10,5 +10,9 @@
   {
     "outputFile": "ClientApp/src/components/NewComponents/profileWheel.css",
     "inputFile": "ClientApp/src/components/NewComponents/profileWheel.scss"
+  },
+  {
+    "outputFile": "ClientApp/src/components/MenuWheel/profileWheel.css",
+    "inputFile": "ClientApp/src/components/MenuWheel/profileWheel.scss"
   }
 ]

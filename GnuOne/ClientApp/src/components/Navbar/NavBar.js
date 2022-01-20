@@ -5,19 +5,20 @@ import avatar from '../../icons/useravatar.svg'
 import settings from '../../icons/settings.svg'
 import messages from '../../icons/messagesNavbar.svg'
 import profile from '../../icons/Gnu 220.png'
-
-import "./navbar.css"
+import ProfilePicContext from '../../contexts/profilePicContext'
 import WheelContext from '../../contexts/WheelContext'
+import "./navbar.css"
+import images from '../../Image';
 
 
 const NavBar = () => {
-
     const [isPressed, setIsPressed] = useState(false);
-   
     const { setChosenPage, setActive,  setDone } = useContext(WheelContext);
-
+    const picID = useContext(ProfilePicContext);
+    console.log(picID)
+    const avatar = images[`Img${picID}`]
+ 
     function handleClick(id) {
-
         setChosenPage(id);
         setActive(true);
         setTimeout(animationEnd, 500)
@@ -34,8 +35,8 @@ const NavBar = () => {
             <Link to="/" onClick={() => handleClick(0)}> <img src={logo} alt="logo" /> </Link>
 
             <ul className="elements">
-               <li onClick={()=> setIsPressed(!isPressed)} className="avatar">
-                  <img src={avatar} alt="avatar" />
+                <li onClick={() => setIsPressed(!isPressed)} className="avatar">
+                    <img src={avatar} alt="avatar" />
                </li>
                     
                 <li className={isPressed ? "messages out-animation1" :"messages in-animation1"}>
