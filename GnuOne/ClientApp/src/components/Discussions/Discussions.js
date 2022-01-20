@@ -31,6 +31,10 @@ const Discussions = ({ routes }) => {
     const [tagsReady, setTagsReady] = useState(false)
     let match = useRouteMatch()
 
+    //save 
+    const [discussionID, setDiscussionID] = useState();
+    const [discussionEmail, setDiscussionEmail] = useState();
+
     //SEARCH 
     const [searchTerm, setSearchTerm] = useState('')
     const filteredDiscussions = filterDiscussions(discussions, searchTerm)
@@ -117,7 +121,31 @@ const Discussions = ({ routes }) => {
         setEditOpen(false)
         setDiscussionText('')
     }
+    //fucntions to save bookmarks
 
+
+
+
+    async function saveToBookmarks(saved) {
+        await fetch('https://localhost:7261/api/bookmarks',{
+            method: 'POST',
+            body: JSON.stringify(saved),
+            headers: {
+                "Content-type": "application/json",
+            }
+        })
+    }
+
+    function sendEmailAndId(discussion) {
+        let saved = {
+            ID: discussion.ID,
+            Email: discussion.Email,
+        }
+        saveToBookmarks(saved);
+    }
+
+
+    //=================================================
     //DELETE 
     const closeDeletion = () => {
         setshowDeleteConfirm(false)
@@ -239,7 +267,7 @@ const Discussions = ({ routes }) => {
 
 
                                     : <>
-                                        <button>
+                                        <button onClick={() => sendEmailAndId(discussion)}>
                                             <img alt="bookmark" src={bookmark} />
                                         </button>
                                         <button>
@@ -247,10 +275,7 @@ const Discussions = ({ routes }) => {
                                         </button>
                                     </>
                                 }
-                              
-
-
-
+                             
                             </div>
 
 

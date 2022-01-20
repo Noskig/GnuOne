@@ -1,4 +1,7 @@
-﻿namespace Library
+﻿
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Library
 {
     public class DiscussionDTO
     {
@@ -11,11 +14,15 @@
         public int? tagOne { get; set; }
         public int? tagTwo { get; set; }
         public int? tagThree { get; set; }
+        //[NotMapped]
+        public List<string>? tags { get; set; } = new List<string>();
+
+
+
 
 
         public List<Post> posts { get; set; }
         
-        public List<string>? tags { get; set; } = new List<string>();
         public DiscussionDTO()
         {
 

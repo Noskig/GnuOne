@@ -93,7 +93,8 @@
 .profile-wheel {
     @include on-circle-about($item-count: 6, $circle-size: 35em, $item-size: 8em);
 
- .chosen, .notChosen, .notChosenAfter, .img-of-person {
+ 
+    .chosen, .notChosen, .notChosenAfter, .img-of-person {
         display: flex;
         flex-direction: column;
         justify-content: center;
