@@ -1,4 +1,5 @@
-﻿using Library;
+﻿using GnuOne.Data.Models;
+using Library;
 using Library.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,9 @@ namespace GnuOne.Data
         public DbSet<Tag> tags { get; set; }
         public DbSet<myProfile> MyProfile { get; set; }
         public DbSet<standardpictures> Standardpictures { get; set; }
+
+        public DbSet<Bookmark> Bookmarks { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         //hej
     }

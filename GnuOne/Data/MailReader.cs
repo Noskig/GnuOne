@@ -1,4 +1,5 @@
-﻿using Library;
+﻿using GnuOne.Data.Models;
+using Library;
 using Library.HelpClasses;
 using Library.Models;
 using MailKit;
@@ -218,7 +219,7 @@ namespace GnuOne.Data
 
                             case "AcceptedFriendRequest":
                                 //var deedf = await Task.Run(() => ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false, myInfo.Email));
-                                var deedf = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false, myInfo.Email);
+                                var deedf = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false, myInfo.Email, Sub[1]);
                                 if (deedf == 1)
                                 {
                                     //await Task.Run(() => GiveBackMyInformation(_newContext, emailFrom));
@@ -228,7 +229,7 @@ namespace GnuOne.Data
                                 else { break; }
 
                             case "GiveBackInformation":
-                                var deedg = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, true, myInfo.Email);
+                                var deedg = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, true, myInfo.Email, Sub[1]);
                                 if (deedg == 1) { break; }
                                 else { break; }
 
@@ -321,6 +322,22 @@ namespace GnuOne.Data
                         if (comment.Email != myinfo.Email)
                         {
                             context.Comments.Add(comment);
+                            if (myinfo.Email == comment.postEmail)
+                            {
+
+                                if (context.Notifications.Where(x => x.infoID == comment.postID && x.hasBeenRead == false).Any())
+                                {
+                                    var a = context.Notifications.Where(x => x.infoID == comment.postID && x.hasBeenRead == false).FirstOrDefault();
+                                    a.info = comment.userName;
+                                    context.Notifications.Update(a);
+                                    a.counter++;
+                                }
+                                else
+                                {
+                                    Notification not = new Notification("Comment", comment.Email, comment.userName, comment.postID);
+                                    context.Notifications.Add(not);
+                                }
+                            }
                             context.SaveChangesAsync().Wait();
                         }
                         return 1;
@@ -616,7 +633,7 @@ namespace GnuOne.Data
 
         }
 
-        private static int ReceieveInfoAndAcceptFriend(string decryptedMessage, MariaContext context, bool isSendBack, string myEmail)
+        private static int ReceieveInfoAndAcceptFriend(string decryptedMessage, MariaContext context, bool isSendBack, string myEmail, string subject)
         {
             var theirLists = JsonConvert.DeserializeObject<BigList>(decryptedMessage);
 
@@ -671,15 +688,12 @@ namespace GnuOne.Data
                     context.Posts.AddRangeAsync(theirPosts);
                     //context.SaveChanges();
                 }
-
-
-
-                //if (!isSendBack)
-                //{
-
-                //}
+                if(subject == "AcceptedFriendRequest")
+                {
+                    var notification = new Notification("FriendRequestAccepted", friend.Email, friend.userName);
+                    context.Notifications.Add(notification);
+                }
                 context.SaveChangesAsync().Wait();
-                //context.SaveChangesAsync();
                 return 1;
             }
             return -1;
@@ -693,6 +707,8 @@ namespace GnuOne.Data
             {
                 var myfriend = context.MyFriends.Where(x => x.Email == notNewFriend.Email).FirstOrDefault();
                 context.MyFriends.Remove(myfriend);
+                var notification = new Notification("FriendRequestDenied", notNewFriend.Email, notNewFriend.userName);
+                context.Notifications.Add(notification);
                 context.SaveChangesAsync().Wait();
                 return 1;
             }
@@ -706,11 +722,17 @@ namespace GnuOne.Data
             if (potentialfriend is not null)
             {
                 context.MyFriends.Add(potentialfriend);
+                var notification = new Notification("FriendRequestRecieved", potentialfriend.Email, potentialfriend.userName);
+                context.Notifications.Add(notification);
                 context.SaveChangesAsync().Wait();
                 return 1;
             }
-            return -1;
+           
 
+            return -1;
+            //notification.messageType = "FriendRequest";
+            //notification.mail = potentialfriend.Email;
+            //notification.info = potentialfriend.userName;
         }
 
         private static int RecieveAndPutDiscussion(string decryptedMessage, MariaContext context)
@@ -789,9 +811,24 @@ namespace GnuOne.Data
                     if (Email != myInfo.Email)
                     {
                         context.Posts.Add(post);
+                        if(myInfo.Email == post.discussionEmail)
+                        {
+                            if (context.Notifications.Where(x => x.infoID == post.discussionID && x.hasBeenRead == false).Any())
+                            {
+                                var a = context.Notifications.Where(x => x.infoID == post.discussionID && x.hasBeenRead == false).FirstOrDefault();
+                                a.info = post.userName;
+                                context.Notifications.Update(a);
+                                a.counter++;
+                            }
+                            else
+                            {
+                                Notification not = new Notification("Post", Email, post.userName, post.discussionID); //
+                                context.Notifications.Add(not);
+                            }
+                        }
                         context.SaveChangesAsync().Wait();
+                        return 1;
                     }
-                    return 1;
                 }
             }
             return -1;

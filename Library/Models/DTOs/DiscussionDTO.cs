@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Library
 {
     public class DiscussionDTO
@@ -9,6 +11,14 @@ namespace Library
         public string discussionText { get; set; }
         public string userName { get; set; }
         public DateTime Date { get; set; }
+        public int? tagOne { get; set; }
+        public int? tagTwo { get; set; }
+        public int? tagThree { get; set; }
+        //[NotMapped]
+        public List<string>? tags { get; set; } = new List<string>();
+
+
+
 
         public List<Post> posts { get; set; }
 
@@ -24,6 +34,9 @@ namespace Library
             this.userName = discussion.userName;
             this.Date = discussion.Date;
             this.Email = discussion.Email;
+            this.tagOne = discussion.tagOne;
+            this.tagTwo = discussion.tagTwo;    
+            this.tagThree = discussion.tagThree;    
 
             this.posts = posts;
         }

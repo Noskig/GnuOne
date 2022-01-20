@@ -36,7 +36,7 @@ namespace GnuOne.Controllers
         }
 
         [HttpGet("{darkmode}")]
-        public async Task<IActionResult> GetMode()
+        public async Task<IActionResult> Getmode()
         {
             var darkModeJson = JsonConvert.SerializeObject(_settings.DarkMode);
 
@@ -44,7 +44,7 @@ namespace GnuOne.Controllers
         }
 
         [HttpPut("{darkmode}")]
-        public async Task<IActionResult> Get(bool darkMode)
+        public async Task<IActionResult> Put(bool darkMode)
         {
             var settings = await _context.MySettings.FirstOrDefaultAsync();
             settings.DarkMode = darkMode;
