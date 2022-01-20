@@ -338,6 +338,29 @@ namespace GnuOne.Data
                                     context.Notifications.Add(not);
                                 }
                             }
+
+                            var bookmarklist = context.Bookmarks.ToList();
+                            foreach (var bookmark in bookmarklist)
+                            {
+                                if (bookmark.ID == comment.postID && myinfo.Email != comment.postEmail)
+                                {
+                                    if (context.Notifications.Where(x => x.infoID == comment.postID && x.hasBeenRead == false).Any())
+                                    {
+                                        var a = context.Notifications.Where(x => x.infoID == comment.postID && x.hasBeenRead == false).FirstOrDefault();
+                                        a.info = comment.userName;
+                                        context.Notifications.Update(a);
+                                        a.counter++;
+                                    }
+                                    else
+                                    {
+                                        Notification bookmarknot = new Notification("Comment", comment.Email, comment.userName, comment.postID);
+                                        context.Notifications.Add(bookmarknot);
+                                    }
+                                    
+
+                                }
+                            }
+
                             context.SaveChangesAsync().Wait();
                         }
                         return 1;
@@ -822,13 +845,38 @@ namespace GnuOne.Data
                             }
                             else
                             {
-                                Notification not = new Notification("Post", Email, post.userName, post.discussionID); //
+                                Notification not = new Notification("Post", Email, post.userName, post.discussionID); 
                                 context.Notifications.Add(not);
                             }
                         }
+                        var bookmarklist = context.Bookmarks.ToList();
+                        foreach (var bookmark in bookmarklist)
+                        {
+                            if (bookmark.ID == post.discussionID && myInfo.Email != post.discussionEmail)
+                            {
+                                if (context.Notifications.Where(x => x.infoID == post.discussionID && x.hasBeenRead == false).Any())
+                                {
+                                    var a = context.Notifications.Where(x => x.infoID == post.discussionID && x.hasBeenRead == false).FirstOrDefault();
+                                    a.info = post.userName;
+                                    context.Notifications.Update(a);
+                                    a.counter++;
+                                }
+                                else
+                                {
+                                    Notification bookmarknot = new Notification("Post", Email, post.userName, post.discussionID);
+
+                                    context.Notifications.Add(bookmarknot);
+                                }
+                            }
+
+                        }
+                        
+
+
                         context.SaveChangesAsync().Wait();
-                        return 1;
+                        
                     }
+                    return 1;
                 }
             }
             return -1;
