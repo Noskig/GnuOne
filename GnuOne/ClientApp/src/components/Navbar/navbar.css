@@ -13,6 +13,11 @@
 }
 .avatar {
     z-index: 1;
+    background: var(--darker-turquoise);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .avatar > img {
     width: 3.5rem;
