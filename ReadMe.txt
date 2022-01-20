@@ -22,30 +22,8 @@ ___Agenda__
 -bio uppdateras
 -bild  
 
-
-
-
-
-//Notification på första sidan
-
-Räknare - Som håller koll på hur många saker som skett på inlägget.
-
-Olika färger för lästa och ej lästa
-
-- Vänförfrågan
--- Fått vänförfrågan
---Accepterad
-
-- På sina egna disc, posts.  
--- Mina disc, någon har postat
--- Mina Posts. Någon har kommenterat
-
 - De inläggen man har bookmarkat
 --Någon postat eller commenterat där
-
-- ligger kvar? till en start
---Shiftat färg?
---Rensa knapp. (Delete all)
 
 
 *Uppdater picture location i MariaDB
@@ -109,6 +87,17 @@ KLART:
 # Gör nya cases för comments (postedcomment etc) - Testat enkelt
 # Bookmarking - En grund (kanske klar)
 
+19/1
+# Notification på första sidan
+# - Vänförfrågan
+  --Fått vänförfrågan
+  --Accepterad
+  -På sina egna disc, posts.   
+  --Mina disc, någon har postat
+  --Mina Posts. Någon har kommenterat
+  --Delete all
+  --Delete Single
+  -Räknare
 
 # Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. 5/1
 # Göra om i Myfriendscontrollern rad 82-88 till metod   Behöver gå ut ett mail till mina vänner att vännen tas bort 5/1
