@@ -18,15 +18,10 @@ Skriva instruktion och testa att det går
 
 ___Agenda__
 
---profil
--bio uppdateras
--bild  
+** Generera nycklar https://www.c-sharpcorner.com/article/generating-publicprivate-keys-in-c-sharp-and-net/
+- pubkey i profile
+- private key någonstans. (antagligen i en fil.. kan börja med att ha den i DBn)
 
-- De inläggen man har bookmarkat
---Någon postat eller commenterat där
-
-
-*Uppdater picture location i MariaDB
 _____A_____
 
 Frågor Stig
@@ -36,10 +31,8 @@ Frågor Stig
 -------------
 /////// Allmänt fixing
 
-** Generera nycklar https://www.c-sharpcorner.com/article/generating-publicprivate-keys-in-c-sharp-and-net/
-- pubkey i profile
-- private key någonstans. (antagligen i en fil.. kan börja med att ha den i DBn)
 
+*Uppdater picture location i MariaDB
 
 //chatt?
 
@@ -98,6 +91,11 @@ KLART:
   --Delete all
   --Delete Single
   -Räknare
+
+  20/1
+  *Notification
+  *Bookmarks
+
 
 # Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. 5/1
 # Göra om i Myfriendscontrollern rad 82-88 till metod   Behöver gå ut ett mail till mina vänner att vännen tas bort 5/1
