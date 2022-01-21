@@ -1,5 +1,5 @@
 ﻿import PortContext from '../contexts/portContext';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, Link, useRouteMatch } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import trash from '../icons/trash.svg'
 import done from '../icons/done.svg'
@@ -10,6 +10,7 @@ import share from '../icons/share.svg'
 import cancel from '../icons/x.svg'
 import bookmark from '../icons/bookmark.svg'
 import MeContext from '../contexts/meContext';
+
 
 const Posts = () => {
     const myEmail = useContext(MeContext)
@@ -26,6 +27,7 @@ const Posts = () => {
     const { id } = useParams();
     let location = useLocation();
     let discussionInfo = location.state
+    let match = useRouteMatch()
 
     //SEARCH 
     const [searchTerm, setSearchTerm] = useState('')
@@ -207,7 +209,7 @@ return (
                     {/*</div>*/}
                     <div className="post-info">
                         <h4>{filteredPosts.length} posts on this topic</h4>
-                        <h4 className="createDate">{discussionInfo.Date.slice(0, 16).replace('T', ' ')}</h4>
+                        {/*<h4 className="createDate">{discussionInfo.Date.slice(0, 16).replace('T', ' ')}</h4>*/}
 
                     </div>
 
@@ -225,7 +227,17 @@ return (
                             : null}
                         {editOpen && activePost === post.id
                             ? <textarea className="text" maxLength="500" value={postText} className="edit" onChange={(e) => setPostText(e.target.value)} />
-                            : <p className="text">{post.postText}</p>
+                            : <Link className="discussion-content" to={{
+                                pathname: `${match.url}/post/${post.id}`, state: {
+                                    postText: post.postText,
+                                    Date: post.date,
+                                    userName: post.userName,
+                                    /*numberOfPosts: post.numberOfPosts,*/
+                                    Email: post.email
+                                }
+                            }}>
+                                <p className="text">{post.postText}</p>
+                                </Link>
                         }
 
                         <div className="post-options">

@@ -10,7 +10,6 @@
 }
 
 
-
 html, body {
     height: 100%;
     width: 100%;
@@ -34,39 +33,39 @@ main {
         justify-self: right;
     }
 
-        .bio-container, .messages-container, .settings-container, .discussions-container, .saved-section, .posts-container {
-            grid-column-start: 2;
-            grid-column-end: 6;
-            grid-row-start: 3;
-            grid-row-end: 5;
-            justify-self: stretch;
-        }
-
-        .friends-container {
-            grid-column-start: 2;
-            grid-column-end: 6;
-            grid-row-start: 3;
-            grid-row-end: 5;
-            justify-self: center;
-        }
-
-        .search-bar {
-            grid-column-start: 6;
-            grid-column-end: 9;
-            grid-row-start: 2;
-            grid-row-end: 3;
-            justify-self: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .navbar {
-            grid-column-start: 2;
-            grid-column-end: 9;
-            grid-row-start: 1;
-            grid-row-end: 2;
-            justify-self: stretch;
-        }
+    .bio-container, .messages-container, .settings-container, .discussions-container, .saved-section, .posts-container, .comments-container {
+        grid-column-start: 2;
+        grid-column-end: 6;
+        grid-row-start: 3;
+        grid-row-end: 5;
+        justify-self: stretch;
     }
+
+    .friends-container {
+        grid-column-start: 2;
+        grid-column-end: 6;
+        grid-row-start: 3;
+        grid-row-end: 5;
+        justify-self: center;
+    }
+
+    .search-bar {
+        grid-column-start: 6;
+        grid-column-end: 9;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        justify-self: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .navbar {
+        grid-column-start: 2;
+        grid-column-end: 9;
+        grid-row-start: 1;
+        grid-row-end: 2;
+        justify-self: stretch;
+    }
+}
  
