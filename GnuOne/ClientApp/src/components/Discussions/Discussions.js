@@ -39,7 +39,7 @@ const Discussions = ({ routes }) => {
     const [searchTerm, setSearchTerm] = useState('')
     const filteredDiscussions = filterDiscussions(discussions, searchTerm)
     const myEmail = useContext(MeContext)
-    const friendEmail = useContext(FriendContext)
+    const { friendEmail } = useContext(FriendContext)
     console.log(myEmail)
     console.log(friendEmail)
 

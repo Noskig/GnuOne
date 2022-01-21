@@ -12,7 +12,8 @@ import WheelContext from '../../contexts/WheelContext'
 
 
 const Friends = () => {
-    const friendEmail = useContext(FriendContext)
+    const { friendEmail } = useContext(FriendContext)
+    console.log(friendEmail)
     const myEmail = useContext(MeContext)
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/myfriends/`
@@ -34,12 +35,14 @@ const Friends = () => {
         if (friendEmail === undefined) {
             //get my own friends
             const response = await fetch(url)
+            console.log('im here')
             const friends = await response.json()
             console.log(friends)
             setFriendsList(friends)
         } else {
             //get my friend's friends
             const responseOne = await fetch(url + friendEmail)
+            console.log('i fucked up')
             const friend = await responseOne.json()
             const friendsfriends = friend.MyFriendsFriends
 

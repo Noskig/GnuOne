@@ -1,17 +1,21 @@
 ﻿import React, { useState, useEffect, useContext } from 'react';
+import ProfilePicContext from '../../contexts/profilePicContext';
 import PortContext from '../../contexts/portContext';
 import "./settings.css";
 
 
-import Img1 from "../../Image/BeerGuy.jpg";
-import Img2 from "../../Image/Flanders.png";
-import Img3 from "../../Image/Nelson.jpg";
-import Img4 from "../../Image/Ralph.jpg";
-import Img5 from "../../Image/SideShow-Bob.jpg";
+import Img1 from "../../Image/1.jpg";
+import Img2 from "../../Image/2.png";
+import Img3 from "../../Image/3.jpg";
+import Img4 from "../../Image/4.jpg";
+import Img5 from "../../Image/5.jpg";
 
 const Settings = () => {
+    const { profilePic, setProfilePic } = useContext(ProfilePicContext);
+
     //changing user info 
     const [chosenTab, setChosenTab] = useState();
+    const [profile, setProfile] = useState({});
     const [userinfo, setUserInfo] = useState("");
     //============================================
 
@@ -49,7 +53,8 @@ const Settings = () => {
         profile[0].firstTag = tag1[0] ? tag1[0].tagName : null
         profile[0].secondTag = tag2[0] ? tag2[0].tagName : null
         profile[0].thirdTag = tag3[0] ? tag3[0].tagName : null
-        setUserInfo(profile[0]);
+        setProfile(profile[0])
+        setUserInfo(profile[0].myUserInfo);
         setChosenTags1(profile[0].tagOne);
         setChosenTags2(profile[0].tagTwo);
         setChosenTags3(profile[0].tagThree);
@@ -68,7 +73,9 @@ const Settings = () => {
             alert("Fill the missing fields please")
         }
         else {
+            console.log(newUserName)
             addNewUserName(newUserName)
+            setProfilePic(chosenImg)
         }
     }
 
@@ -112,12 +119,12 @@ const Settings = () => {
             </div>
                 
             <div className={chosenTab === "Profile" ? "Profile " : "Profile hide"}>
-                    <textarea value={userinfo.myUserInfo} type="text" onChange={e => setUserInfo(e.target.value)}/>
+                    <textarea value={userinfo} type="text" onChange={e => setUserInfo(e.target.value)}/>
                     <form>
 
                     <select onChange={(e) => setChosenTags1(e.target.value)} >
                             <option>
-                                {userinfo.firstTag}
+                                {profile.firstTag}
                             </option>
                             {pulledTags.map(tags =>
                             <option key={tags.ID + tags.tagName} value={tags.ID} >
@@ -128,7 +135,7 @@ const Settings = () => {
 
                         <select onChange={(e) => setChosenTags2(e.target.value)} >
                             <option>
-                                {userinfo.secondTag}
+                                {profile.secondTag}
                             </option>
                         {pulledTags.map(tags =>
                             <option key={tags.ID + tags.tagName} value={tags.ID} >
@@ -139,7 +146,7 @@ const Settings = () => {
 
                         <select onChange={(e) => setChosenTags3(e.target.value)} >
                             <option>
-                                {userinfo.thirdTag}
+                                {profile.thirdTag}
                             </option>
                         {pulledTags.map(tags =>
                             <option key={tags.ID + tags.tagName} value={tags.ID} >
@@ -163,7 +170,7 @@ const Settings = () => {
 
 
 
-            <div className={chosenTab === "Safty" ? "Safety " : "Safty hide"}>
+            <div className={chosenTab === "Safety" ? "Safety " : "Safety hide"}>
 
             </div>
 

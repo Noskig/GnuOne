@@ -4,21 +4,25 @@ import friends from '../../icons/friends.svg';
 import messages from '../../icons/messages.svg';
 import file from '../../icons/file.svg';
 import settings from '../../icons/settings-normal.svg';
-import avatar from '../../icons/bio.svg';
+import bio from '../../icons/bio.svg';
 import saved from '../../icons/saved.svg';
-
 import './profileWheel.min.css';
 import RouteWithSubRoutes from '../RouteWithSubRoutes';
 import WheelContext from '../../contexts/WheelContext'
-
-
+import ProfilePicContext from '../../contexts/profilePicContext'
+import MeContext from '../../contexts/meContext'
+import FriendContext from '../../contexts/friendContext'
+import images from '../../Image';
 
 //testar
 function ProfileWheel({ routes }) {
-
-
-    const { chosenPage, setChosenPage, active, setActive, done, setDone} = useContext(WheelContext);
-    
+    const myEmail = useContext(MeContext);
+    const { friendEmail, friendImg } = useContext(FriendContext)
+    const { chosenPage, setChosenPage, active, setActive, done, setDone } = useContext(WheelContext);
+    const { profilePic } = useContext(ProfilePicContext);
+    console.log(profilePic)
+    const avatar = friendEmail === undefined ? images[`Img${profilePic}`] : images[`Img${friendImg}`]
+    console.log(friendEmail)
     let match = useRouteMatch()
     console.log(match)
     const menu = [
@@ -29,7 +33,7 @@ function ProfileWheel({ routes }) {
         },
         {
             path: `${match.url}/bio`,
-            img: avatar,
+            img: bio,
             id: 2
         },
         {
@@ -79,7 +83,7 @@ function ProfileWheel({ routes }) {
                         </Link>
                     ))}
                     <a className="img-of-person" >
-                        <img alt="img of person" src={friends} />
+                        <img alt="img of person" src={avatar} />
                     </a>
                     {console.log(active, chosenPage)}
                     <div className="profile-wheel-lines-container">

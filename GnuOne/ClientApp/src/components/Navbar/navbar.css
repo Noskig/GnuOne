@@ -13,9 +13,21 @@
 }
 .avatar {
     z-index: 1;
+    background: var(--darker-turquoise);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+.avatar > img {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    border: 2px solid var(--darker-turquoise);
+}
+
 .messages {
-    position:absolute;
+    position: absolute;
 }
 .settings {
     position: absolute;

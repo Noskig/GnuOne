@@ -6,7 +6,7 @@ import done from '../../icons/share.svg'
 import edit from '../../icons/trash.svg'
 
 const Bio = () => {
-    const friendEmail = useContext(FriendContext)
+    const { friendEmail } = useContext(FriendContext)
     const myEmail = useContext(MeContext)
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/`
