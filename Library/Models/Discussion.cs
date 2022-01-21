@@ -23,6 +23,7 @@ namespace Library
         public int? tagOne { get; set; }
         public int? tagTwo { get; set; }
         public int? tagThree { get; set; }
+        [NotMapped]
         public int? sumOfPosts { get; set; }
         [NotMapped]
         public List<string>? tags { get; set; } = new List<string>();

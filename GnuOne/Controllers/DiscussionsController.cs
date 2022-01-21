@@ -55,13 +55,8 @@ namespace GnuOne.Controllers
                 }
 
                 discussion.sumOfPosts = await _context.Posts.Where(x => x.discussionID == discussion.ID).CountAsync();
-                //DiscussionWithPostSumDTO dWPost = new DiscussionWithPostSumDTO(discussion, a);
             }
 
-
-
-            //hämta antal poster på varje diskussion.
-            //var a = _context.Posts.Count();
             return Ok(listaDiscussion);
         }
 
