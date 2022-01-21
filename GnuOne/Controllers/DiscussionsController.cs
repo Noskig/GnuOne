@@ -2,6 +2,7 @@
 using Library;
 using Library.HelpClasses;
 using Library.Models;
+using Library.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -51,14 +52,17 @@ namespace GnuOne.Controllers
                 {
                     var tagThree = taglista.Where(z => z.ID == discussion.tagThree).Select(x => x.tagName).Single();
                     discussion.tags.Add(tagThree);
-
                 }
+
+                discussion.sumOfPosts = await _context.Posts.Where(x => x.discussionID == discussion.ID).CountAsync();
+                //DiscussionWithPostSumDTO dWPost = new DiscussionWithPostSumDTO(discussion, a);
             }
 
 
-            var converted = JsonConvert.SerializeObject(listaDiscussion);
 
-            return Ok(converted);
+            //hämta antal poster på varje diskussion.
+            //var a = _context.Posts.Count();
+            return Ok(listaDiscussion);
         }
 
       
