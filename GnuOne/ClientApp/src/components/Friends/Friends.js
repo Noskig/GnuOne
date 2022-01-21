@@ -23,6 +23,8 @@ const Friends = () => {
     const [activeFriend, setActiveFriend] = useState(null)
     const { setChosenPage, setActive, setDone } = useContext(WheelContext);
 
+
+
     //SEARCH 
     const [searchTerm, setSearchTerm] = useState('')
     const filteredFriends = filterFriends(friendsList, searchTerm)
@@ -87,8 +89,6 @@ const Friends = () => {
             IsFriend: true
         }
         acceptRequest(newFriend)
-
-
     }
 
     function wheelReset(id) {
@@ -116,6 +116,56 @@ const Friends = () => {
         fetchData();
     }
 
+    // hide from friends friends 
+
+    async function hideFromFriendsFriends(email) {
+        await fetch(`https://localhost:${port}/api/myfriends/true`, {
+
+            method: 'PATCH',
+            body: JSON.stringify(email),
+            headers: {
+                "Content-type": "application/json",
+            }
+        })
+        console.log(email)
+        fetchData()
+    }
+
+    async function unHideFromFriendsFriends(email) {
+        await fetch(`https://localhost:${port}/api/myfriends/false`, {
+
+            method: 'PATCH',
+            body: JSON.stringify(email),
+            headers: {
+                "Content-type": "application/json",
+            }
+        })
+        console.log(email)
+        fetchData()
+    }
+
+    // du är så jobbig
+
+    function getOutOnClick(friend){
+        let noMoreNiceGuy = {
+            isFriend: false,
+            Email: friend.Email,
+        }
+        goodBye(noMoreNiceGuy)
+    }
+
+    async function goodBye(noMoreNiceGuy) {
+        await fetch(`https://localhost:${port}/api/myfriends`, {
+
+            method: 'PUT',
+            body: JSON.stringify(noMoreNiceGuy),
+            headers: {
+                "Content-type": "application/json",
+            }
+        })
+        console.log(noMoreNiceGuy)
+        fetchData()
+    }
     //SEARCH
     function search(s) {
         setSearchTerm(s)
@@ -128,7 +178,6 @@ const Friends = () => {
             } else if (data.userName.toLowerCase().includes(searchTerm.toLowerCase())) {
                 return data
             }
-
         })
     }
 
@@ -143,7 +192,6 @@ const Friends = () => {
                             <button className="new-friend" disabled={disabled}>Add new friend</button>
                             <AddFriendOverlay fetchData={fetchData} close={close} />
                         </>
-
                         : <button className="new-friend" onClick={openOverlay}> Add new friend </button>
                     }</>
                     : null
@@ -151,6 +199,7 @@ const Friends = () => {
                 <h3> My friends 🤝🏻 </h3>
                 <ul className="friends-list">
                     {filteredFriends.map(friend =>
+                        //dina vänner
                         friendEmail === undefined && friend.isFriend
                             ? <li key={friend.ID}>
                                 <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} onClick={() => wheelReset(0)} >
@@ -159,7 +208,21 @@ const Friends = () => {
                                     </div>
                                     <h2 className="userName"> {friend.userName} </h2>
                                 </Link>
-                              </li>
+                                {/*hide friend*/}
+                                {friend.hideMe == 0 ? 
+                                <button onClick={ () => hideFromFriendsFriends(friend.Email) }>
+                                    Hide friend
+                                </button>
+                                :
+                                <button onClick={() => unHideFromFriendsFriends(friend.Email)}>
+                                    show friend
+                                </button>
+                                }
+                                <button onClick={() => getOutOnClick(friend)}>
+                                    remove friend
+                                </button>
+                            </li>
+                            //din vänners vänner
                             : friendEmail !== undefined
                                 ? <li key={friend.ID}><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
                                     <div className="friend-icon">
@@ -182,7 +245,6 @@ const Friends = () => {
                                 </li>
                                 : null
                     )} </ul>
-
                 {friendEmail === undefined
                     ? <>
                         <h3>New friend requests 🙍</h3>
@@ -191,7 +253,7 @@ const Friends = () => {
                                 !friend.isFriend && friend.userName
                                 ? <li key={friend.ID}>
                                     <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
-                                            <div className="friend-icon"> <img src={avatar} />  </div>
+                                            <div className="friend-icon"> <img src={avatar}/></div>
                                             <h2 className="userName">{friend.userName}</h2>
                                     </Link>
                                     <button className="accept-friend" onClick={(e) => handleClick(e, friend)}>Accept friend</button>
@@ -210,18 +272,13 @@ const Friends = () => {
                                             <div className="friend-icon"> <img src={avatar} />  </div>
                                             <h2 className="userName">{ friend.Email.substring(0, friend.Email.lastIndexOf("@")) }</h2>
                                         </Link>
-                                        
                                             <div className="pending">Pending request</div>
                                 </li>
                                 : null
                             )}
-
-
                         </ul>
                     </>
                     : null }
-
-            
             </section>
         </>
     )

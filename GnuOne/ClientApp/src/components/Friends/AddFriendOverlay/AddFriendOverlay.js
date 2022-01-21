@@ -2,14 +2,12 @@
 import './addFriendOverlay.css'
 import PortContext from '../../../contexts/portContext';
 import FriendContext from '../../../contexts/friendContext';
-import MeContext from '../../../contexts/meContext';
 
 const AddFriendOverlay = (props) => {
     const [email, setEmail] = useState('')
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/myfriends`
-    const friendEmail = useContext(FriendContext)
-    const myEmail = useContext(MeContext)
+    const {friendEmail} = useContext(FriendContext)
 
     //useEffect(() => {
     //    fetchData()

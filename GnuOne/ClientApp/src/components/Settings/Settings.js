@@ -106,77 +106,54 @@ const Settings = () => {
     return (
 
         <section className="settings-container">
+            <h1>Settings</h1>
+            <textarea value={userinfo} type="text" onChange={e => setUserInfo(e.target.value)}/>
+            <form>
 
-            <h3>Settings</h3>
-            <div className="navbar-setting-container">
-                <button onClick={() => setChosenTab("Account")}><p>Account</p></button>
-                <button onClick={() => setChosenTab("Profile")}><p>Profile</p></button>
-                <button onClick={() => setChosenTab("Safety")}><p>Safty and privacy</p></button>
-                <button onClick={() => setChosenTab("Notifications")}><p>Notifications</p></button>
-            </div>
-            <div className={chosenTab === "Account" ? "Account " : "Account hide"}>
+            <select onChange={(e) => setChosenTags1(e.target.value)} >
+                    <option>
+                        {profile.firstTag}
+                    </option>
+                    {pulledTags.map(tags =>
+                    <option key={tags.ID + tags.tagName} value={tags.ID} >
+                        {tags.tagName}
+                    </option>
+                )}
+                </select>
 
-            </div>
-                
-            <div className={chosenTab === "Profile" ? "Profile " : "Profile hide"}>
-                    <textarea value={userinfo} type="text" onChange={e => setUserInfo(e.target.value)}/>
-                    <form>
+                <select onChange={(e) => setChosenTags2(e.target.value)} >
+                    <option>
+                        {profile.secondTag}
+                    </option>
+                {pulledTags.map(tags =>
+                    <option key={tags.ID + tags.tagName} value={tags.ID} >
+                        {tags.tagName}
+                    </option>
+                )}
+                </select>
 
-                    <select onChange={(e) => setChosenTags1(e.target.value)} >
-                            <option>
-                                {profile.firstTag}
-                            </option>
-                            {pulledTags.map(tags =>
-                            <option key={tags.ID + tags.tagName} value={tags.ID} >
-                                {tags.tagName}
-                            </option>
-                        )}
-                        </select>
+                <select onChange={(e) => setChosenTags3(e.target.value)} >
+                    <option>
+                        {profile.thirdTag}
+                    </option>
+                {pulledTags.map(tags =>
+                    <option key={tags.ID + tags.tagName} value={tags.ID} >
+                        {tags.tagName}
+                    </option>
+                )}
+                </select>
 
-                        <select onChange={(e) => setChosenTags2(e.target.value)} >
-                            <option>
-                                {profile.secondTag}
-                            </option>
-                        {pulledTags.map(tags =>
-                            <option key={tags.ID + tags.tagName} value={tags.ID} >
-                                {tags.tagName}
-                            </option>
-                        )}
-                        </select>
+            </form>
 
-                        <select onChange={(e) => setChosenTags3(e.target.value)} >
-                            <option>
-                                {profile.thirdTag}
-                            </option>
-                        {pulledTags.map(tags =>
-                            <option key={tags.ID + tags.tagName} value={tags.ID} >
-                                {tags.tagName}
-                            </option>
-                        )}
-                        </select>
-
-                    </form>
-
-                    <div className="change-img-container">
-                        <img className={chosenImg == 1 ? "markedImage" : ""} onClick={() => setChosenImg(1)} src={Img1} />
-                        <img className={chosenImg == 2 ? "markedImage" : ""} onClick={() => setChosenImg(2)} src={Img2} />
-                        <img className={chosenImg == 3 ? "markedImage" : ""} onClick={() => setChosenImg(3)} src={Img3} />
-                        <img className={chosenImg == 4 ? "markedImage" : ""} onClick={() => setChosenImg(4)} src={Img4} />
-                        <img className={chosenImg == 5 ? "markedImage" : ""} onClick={() => setChosenImg(5)} src={Img5} />
-                    </div>
-
-                    <button type="button" onClick={(e) => handleClick(e)}>change</button>
+            <div className="change-img-container">
+                <img className={chosenImg == 1 ? "markedImage" : ""} onClick={() => setChosenImg(1)} src={Img1} />
+                <img className={chosenImg == 2 ? "markedImage" : ""} onClick={() => setChosenImg(2)} src={Img2} />
+                <img className={chosenImg == 3 ? "markedImage" : ""} onClick={() => setChosenImg(3)} src={Img3} />
+                <img className={chosenImg == 4 ? "markedImage" : ""} onClick={() => setChosenImg(4)} src={Img4} />
+                <img className={chosenImg == 5 ? "markedImage" : ""} onClick={() => setChosenImg(5)} src={Img5} />
             </div>
 
-
-
-            <div className={chosenTab === "Safety" ? "Safety " : "Safety hide"}>
-
-            </div>
-
-            <div className={chosenTab === "Notifications" ? "Notifications " : "Notifications hide"}>
-
-            </div>
+            <button type="button" onClick={(e) => handleClick(e)}>change</button>
 
         </section>
     )
