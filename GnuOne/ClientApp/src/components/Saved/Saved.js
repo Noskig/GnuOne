@@ -3,13 +3,9 @@ import PortContext from '../../contexts/portContext';
 import AddDiscussionOverlay from '../Discussions/DiscussionOverlay/AddDiscussionOverlay';
 import { Link, useRouteMatch } from 'react-router-dom';
 import arrows from '../../icons/arrows.svg';
-import trash from '../../icons/trash.svg'
-import done from '../../icons/done.svg'
-import edit from '../../icons/edit.svg'
 import DeleteDiscussionOverlay from '../Discussions/DeleteDiscussionOverlay/DeleteDiscussionOverlay';
 import Search from '../Search/Search.js';
 import MeContext from '../../contexts/meContext';
-import share from '../../icons/share.svg'
 import bookmark from '../../icons/bookmark.svg'
 
 
@@ -21,7 +17,6 @@ const Saved = ({ routes }) => {
     console.log(port)
     const url = `https://localhost:${port}/api/`
     const [showOverlay, setShowOverlay] = useState(false)
-    const [showDeleteConfirm, setshowDeleteConfirm] = useState(false)
     const [readMore, setReadMore] = useState(false);
     const [discussionText, setDiscussionText] = useState('')
     const [activeDiscussion, setActiveDiscussion] = useState('')
@@ -72,7 +67,29 @@ const Saved = ({ routes }) => {
             }
         })
     }
-    // function som sparar en topic
+    // function som tar bort en topic som är sparad
+
+
+    async function saveToBookmarks(Deleted) {
+        await fetch('https://localhost:7261/api/bookmarks', {
+            method: 'DELETE',
+            body: JSON.stringify(Deleted),
+            headers: {
+                "Content-type": "application/json",
+            }
+        })
+        console.log(Deleted)
+    }
+
+
+    function sendId(discussion) {
+        let Deleted = {
+            ID: discussion.ID,
+            Email: discussion.Email,
+        }
+        saveToBookmarks(Deleted);
+    }
+
     return (
         <>
             <Search search={search} />
@@ -104,7 +121,7 @@ const Saved = ({ routes }) => {
                                 </div>
 
                                 : < Link className="discussion-content" to={{
-                                    pathname: `${match.url}/${discussion.ID}`, state: {
+                                    pathname: `/friendprofile/${discussion.Email.substring(0, discussion.Email.lastIndexOf("@"))}/discussions/${discussion.ID}`, state: {
                                         discussionText: discussion.discussionText,
                                         Headline: discussion.Headline,
                                         Date: discussion.Date,
@@ -123,7 +140,7 @@ const Saved = ({ routes }) => {
                             }
                             <div className={readMore && activeDiscussion == discussion.ID ? "discussion-options" : "discussion-options hide"}>
                                 <>
-                                    <button>
+                                    <button onClick={() => sendId(discussion)}>
                                         <img alt="bookmark" src={bookmark} />
                                     </button>
                                 </>

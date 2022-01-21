@@ -121,10 +121,8 @@ const Discussions = ({ routes }) => {
         setEditOpen(false)
         setDiscussionText('')
     }
+
     //fucntions to save bookmarks
-
-
-
 
     async function saveToBookmarks(saved) {
         await fetch('https://localhost:7261/api/bookmarks',{
@@ -178,8 +176,6 @@ const Discussions = ({ routes }) => {
 
         })
     }
-
-    // function som sparar en topic
 
     return (
         <>
