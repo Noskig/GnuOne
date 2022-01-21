@@ -13,6 +13,7 @@ function MyProfile({ routes }) {
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/settings/`
     const [myEmail, setMyEmail] = useState('')
+  
 
     useEffect(() => {
         fetchData()

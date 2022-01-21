@@ -22,6 +22,7 @@ const Friends = () => {
     const [disabled, setDisabled] = useState(false)
     const [activeFriend, setActiveFriend] = useState(null)
     const { setChosenPage, setActive, setDone } = useContext(WheelContext);
+    const [darkMode, setDarkMode] = useState(true)
 
     //SEARCH 
     const [searchTerm, setSearchTerm] = useState('')
