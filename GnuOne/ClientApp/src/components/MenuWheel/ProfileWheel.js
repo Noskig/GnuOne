@@ -19,9 +19,9 @@ function ProfileWheel({ routes }) {
     const myEmail = useContext(MeContext);
     const { friendEmail, friendImg } = useContext(FriendContext)
     const { chosenPage, setChosenPage, active, setActive, done, setDone } = useContext(WheelContext);
-    const picID = useContext(ProfilePicContext);
-    console.log(picID)
-    const avatar = friendEmail === undefined ? images[`Img${picID}`] : images[`Img${friendImg}`]
+    const { profilePic } = useContext(ProfilePicContext);
+    console.log(profilePic)
+    const avatar = friendEmail === undefined ? images[`Img${profilePic}`] : images[`Img${friendImg}`]
     console.log(friendEmail)
     let match = useRouteMatch()
     console.log(match)

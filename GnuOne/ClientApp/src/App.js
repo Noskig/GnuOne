@@ -33,7 +33,7 @@ function App() {
 
     return (
         <PortContext.Provider value={7261}>
-            <ProfilePicContext.Provider value={profilePic}>
+            <ProfilePicContext.Provider value={{ profilePic, setProfilePic }}>
                 <WheelContext.Provider value={{ chosenPage, setChosenPage, active, setActive, done, setDone }} >
                     <Router>
                         <div className="App">

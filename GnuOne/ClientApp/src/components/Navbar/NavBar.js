@@ -14,9 +14,9 @@ import images from '../../Image';
 const NavBar = () => {
     const [isPressed, setIsPressed] = useState(false);
     const { setChosenPage, setActive,  setDone } = useContext(WheelContext);
-    const picID = useContext(ProfilePicContext);
-    console.log(picID)
-    const avatar = images[`Img${picID}`]
+    const { profilePic } = useContext(ProfilePicContext);
+    console.log(profilePic)
+    const avatar = images[`Img${profilePic}`]
  
     function handleClick(id) {
         setChosenPage(id);
@@ -36,7 +36,7 @@ const NavBar = () => {
 
             <ul className="elements">
                 <li onClick={() => setIsPressed(!isPressed)} className="avatar">
-                    {picID && avatar? <img src={avatar} alt="avatar" /> :null} 
+                    {profilePic && avatar? <img src={avatar} alt="avatar" /> :null} 
                </li>
                     
                 <li className={isPressed ? "messages out-animation1" :"messages in-animation1"}>
