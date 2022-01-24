@@ -29,20 +29,6 @@ textarea {
     background: white;
 }
 
-/*.inputWrapper {
-    display: flex;
-    justify-content: center;
-}*/
-
-/*.newTopic {
-    align-self: center;
-    padding: 0.5em;
-    margin: 0.5em;
-    border-radius: 9px;
-    box-shadow: 2px 3px 7px rgb(226 226 226);
-    border: 2px rgb(136, 128, 135) solid;
-}*/
-
     .new-discussion-box > input, .new-discussion-box > textarea {
         width: 30em;
         padding: 0.5em;
@@ -54,28 +40,29 @@ textarea {
 
     .new-discussion-box button {
         border: 0px;
+        background:var(--darker-turquoise);
         padding: 0.5em 1.5em;
         color: white;
-        border-radius: 80px;
+        border-radius: 10px;
         box-shadow: 2px 3px 7px rgb(226 226 226);
-        background: rgb(90,68,105);
-        background: linear-gradient(90deg, rgba(90,68,105,1) 0%, rgba(16,27,77,1) 71%, rgba(16,27,77,1) 100%, rgba(16,27,77,1) 100%);
         padding: 0.5em;
         margin: 0.5em;
         align-self: flex-end;
+        cursor:pointer;
     }
 
-    .new-discussion-overlay > .close {
-        background: none;
-        box-shadow: none;
+    .new-discussion-overlay  .close {
+      background: none;
+      box-shadow: none;
+      
     }
 
 .new-discussion-box > .close:hover {
-    background: none;
+    
 }
 
 
-.new-discussion-box > button:hover {
+.new-discussion-box > .button:hover {
     color: white;
     background: rgb(146,135,154);
     background: linear-gradient(90deg, rgba(146,135,154,1) 0%, rgba(72,88,164,1) 44%, rgba(0,19,111,1) 100%);

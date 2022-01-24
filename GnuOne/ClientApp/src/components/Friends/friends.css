@@ -47,7 +47,8 @@
 }
 
     .friends-list > li a:hover {
-        text-decoration:underline;
+        text-decoration: underline;
+        text-decoration-color: #167d8f;
         text-underline-offset:auto;
     }
 
@@ -61,7 +62,8 @@
 
     .friends-list > li a h2 {
         padding: 0em 0.5em;
-        font-weight:400;
+        font-weight: 400;
+        color: #167d8f;
     }
 
 .friends-list > li a h4 {
