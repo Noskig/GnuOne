@@ -2,7 +2,7 @@
 {
     public class Message
     {
-        public int ID { get; set; }
+        public Guid ID { get; set; } = new Guid();
         public string messageText { get; set; }
 
         public DateTime Sent { get; set; }
