@@ -12,6 +12,12 @@
     border: solid;
 }
 
+.change-theme {
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+}
+
 /* The switch - the box around the slider */
 .switch {
     position: relative;

@@ -120,7 +120,6 @@ const Settings = () => {
     async function changeTheme(theme) {
         console.log(theme)
         await fetch(`https://localhost:${port}/api/settings/${theme}`, {
-
             method: 'PUT',
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
@@ -191,10 +190,10 @@ const Settings = () => {
                     <img className={chosenImg == 4 ? "markedImage" : ""} onClick={() => setChosenImg(4)} src={Img4} />
                     <img className={chosenImg == 5 ? "markedImage" : ""} onClick={() => setChosenImg(5)} src={Img5} />
                 </div>
-                <div>
-               <h3> Dark mode: </h3>
+                <div className="change-theme">
+               <h3> Dark mode </h3>
                 <label class="switch">
-                    <input type="checkbox" defaultChecked={DM} onChange={()=>setDM(!DM)}/>
+                    <input type="checkbox" defaultChecked={DM} onClick={()=>setDM(!DM)}/>
                     <span class="slider"></span>
                     </label>
                     </div>
