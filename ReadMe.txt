@@ -41,7 +41,9 @@ Frågor Stig
 
 *Uppdater picture location i MariaDB
 
-//chatt?
+*DM
+	-Krypteras?
+	-Notification?
 
 *Backup
 - För när man byter dator. (vi behöver få över den filen till den nya datorn)
