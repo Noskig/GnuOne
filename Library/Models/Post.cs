@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,8 @@ namespace Library
         public DateTime Date { get; set; }
         public int discussionID { get; set; }
         public string discussionEmail { get; set; }
+        [NotMapped]
+        public int numberOfComments { get; set; }
 
         public string SendPost()
         {

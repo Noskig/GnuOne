@@ -25,6 +25,8 @@ namespace Library
         public int? tagThree { get; set; }
         [NotMapped]
         public List<string>? tags { get; set; } = new List<string>();
+        [NotMapped]
+        public int? numberOfPosts { get; set; }
 
 
         public string SendDiscussion()

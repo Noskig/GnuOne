@@ -12,6 +12,7 @@ namespace GnuOne.Data
         public int discussionID { get; set; }
         public string discussionEmail { get; set; }
         public List<Comment> comments { get; set; }
+        public int numberOfComments { get; set; }
 
         public PostDTO()
         {
@@ -28,6 +29,7 @@ namespace GnuOne.Data
             this.discussionID = post.discussionID;
             this.discussionEmail = post.discussionEmail;
             this.comments = comments;
+            numberOfComments = comments.Count;
         }
     }
 }

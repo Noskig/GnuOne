@@ -34,6 +34,8 @@ namespace GnuOne.Controllers
             var listaDiscussion = _context.Discussions.ToList();
             var taglista = _context.tags.ToList();
 
+            var posts = _context.Posts.ToList();
+
             foreach (var discussion in listaDiscussion)
             {
                 if (discussion.tagOne is not null)
@@ -51,8 +53,10 @@ namespace GnuOne.Controllers
                 {
                     var tagThree = taglista.Where(z => z.ID == discussion.tagThree).Select(x => x.tagName).Single();
                     discussion.tags.Add(tagThree);
-
                 }
+
+                discussion.numberOfPosts = posts.Where(x => x.discussionID == discussion.ID).Count();
+
             }
 
 
@@ -100,11 +104,17 @@ namespace GnuOne.Controllers
                     discussion.tags.Add(tagThree);
                 }
 
+            var commentList = await _context.Comments.ToListAsync();
+
             var postlist = await _context.Posts.Where(x => x.discussionID == id).ToListAsync();
+            foreach (var post in postlist)
+            {
+                post.numberOfComments = commentList.Where(x => x.postID == post.ID).Count();
+            }
             //var commentList = await _context.Comments.Where(x => x.postID == id).ToListAsync();
 
             var dto = new DiscussionDTO(discussion, postlist);
-
+            dto.numberOfPosts = postlist.Count;
             return Ok(dto);
         }
 

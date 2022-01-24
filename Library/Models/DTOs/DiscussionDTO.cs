@@ -15,7 +15,10 @@ namespace Library
         public int? tagTwo { get; set; }
         public int? tagThree { get; set; }
         //[NotMapped]
+       
         public List<string>? tags { get; set; } = new List<string>();
+        [NotMapped]
+        public int numberOfPosts { get; set; }
 
 
 
