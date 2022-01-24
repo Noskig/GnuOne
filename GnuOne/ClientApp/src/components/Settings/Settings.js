@@ -1,6 +1,8 @@
 ﻿import React, { useState, useEffect, useContext } from 'react';
 import ProfilePicContext from '../../contexts/profilePicContext';
 import PortContext from '../../contexts/portContext';
+import ThemeContext from '../../contexts/themeContext';
+
 import "./settings.css";
 
 
@@ -12,6 +14,8 @@ import Img5 from "../../Image/5.jpg";
 
 const Settings = () => {
     const { profilePic, setProfilePic } = useContext(ProfilePicContext);
+    const { darkMode, setDarkMode } = useContext(ThemeContext)
+    const [DM, setDM] = useState()
 
     //changing user info 
     const [chosenTab, setChosenTab] = useState();
@@ -27,7 +31,7 @@ const Settings = () => {
 
     // ändra bilder 
     const [chosenImg, setChosenImg] = useState();
-     
+
     const port = useContext(PortContext);
 
     const url = `https://localhost:${port}/api/myprofile`;
@@ -35,7 +39,8 @@ const Settings = () => {
     useEffect(() => {
         fetchData();
         fetchTags();
-    },[])
+
+    }, [])
 
     async function fetchData() {
         const response = await fetch(url)
@@ -58,6 +63,13 @@ const Settings = () => {
         setChosenTags1(profile[0].tagOne);
         setChosenTags2(profile[0].tagTwo);
         setChosenTags3(profile[0].tagThree);
+        setChosenImg(profile[0].pictureID)
+
+        const responseThree = await fetch('https://localhost:7261/api/settings');
+        const settings = await responseThree.json()
+        console.log(settings)
+        setDM(settings.darkMode)
+
     }
 
     function handleClick(e) {
@@ -69,6 +81,7 @@ const Settings = () => {
             tagTwo: Number(chosenTag2),
             tagThree: Number(chosenTag3),
         }
+
         if (userinfo === "") {
             alert("Fill the missing fields please")
         }
@@ -76,6 +89,7 @@ const Settings = () => {
             console.log(newUserName)
             addNewUserName(newUserName)
             setProfilePic(chosenImg)
+            changeTheme(DM)
         }
     }
 
@@ -103,44 +117,56 @@ const Settings = () => {
 
     //=================================================================
 
+    async function changeTheme(theme) {
+        console.log(theme)
+        await fetch(`https://localhost:${port}/api/settings/${theme}`, {
+            method: 'PUT',
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            }
+        })
+        setDarkMode(theme)
+    }
+
+
     return (
 
         <section className="settings-container">
             <h1>Settings</h1>
-            <textarea value={userinfo} type="text" onChange={e => setUserInfo(e.target.value)}/>
+            <textarea value={userinfo} type="text" onChange={e => setUserInfo(e.target.value)} />
             <form>
 
-            <select onChange={(e) => setChosenTags1(e.target.value)} >
+                <select onChange={(e) => setChosenTags1(e.target.value)} >
                     <option>
                         {profile.firstTag}
                     </option>
                     {pulledTags.map(tags =>
-                    <option key={tags.ID + tags.tagName} value={tags.ID} >
-                        {tags.tagName}
-                    </option>
-                )}
+                        <option key={tags.ID + tags.tagName} value={tags.ID} >
+                            {tags.tagName}
+                        </option>
+                    )}
                 </select>
 
                 <select onChange={(e) => setChosenTags2(e.target.value)} >
                     <option>
                         {profile.secondTag}
                     </option>
-                {pulledTags.map(tags =>
-                    <option key={tags.ID + tags.tagName} value={tags.ID} >
-                        {tags.tagName}
-                    </option>
-                )}
+                    {pulledTags.map(tags =>
+                        <option key={tags.ID + tags.tagName} value={tags.ID} >
+                            {tags.tagName}
+                        </option>
+                    )}
                 </select>
 
                 <select onChange={(e) => setChosenTags3(e.target.value)} >
                     <option>
                         {profile.thirdTag}
                     </option>
-                {pulledTags.map(tags =>
-                    <option key={tags.ID + tags.tagName} value={tags.ID} >
-                        {tags.tagName}
-                    </option>
-                )}
+                    {pulledTags.map(tags =>
+                        <option key={tags.ID + tags.tagName} value={tags.ID} >
+                            {tags.tagName}
+                        </option>
+                    )}
                 </select>
 
             </form>
@@ -152,8 +178,14 @@ const Settings = () => {
                 <img className={chosenImg == 4 ? "markedImage" : ""} onClick={() => setChosenImg(4)} src={Img4} />
                 <img className={chosenImg == 5 ? "markedImage" : ""} onClick={() => setChosenImg(5)} src={Img5} />
             </div>
-
-            <button type="button" onClick={(e) => handleClick(e)}>change</button>
+            <div className="change-theme">
+                <h3> Dark mode </h3>
+                <label class="switch">
+                    <input type="checkbox" defaultChecked={DM} onClick={() => setDM(!DM)} />
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <button type="button" onClick={(e) => handleClick(e)}>Save changes</button>
 
         </section>
     )

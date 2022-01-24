@@ -13,7 +13,7 @@ import images from '../../Image';
 
 const NavBar = () => {
     const [isPressed, setIsPressed] = useState(false);
-    const { setChosenPage, setActive,  setDone } = useContext(WheelContext);
+    const { setChosenPage, setActive, setDone } = useContext(WheelContext);
     const { profilePic } = useContext(ProfilePicContext);
     console.log(profilePic)
     const avatar = images[`Img${profilePic}`]
@@ -33,7 +33,6 @@ const NavBar = () => {
           
             <div className="navbar">
             <Link to="/" onClick={() => handleClick(0)}> <img src={logo} alt="logo" /> </Link>
-
             <ul className="elements">
                 <li onClick={() => setIsPressed(!isPressed)} className="avatar">
                     {profilePic && avatar? <img src={avatar} alt="avatar" /> :null} 

@@ -212,7 +212,7 @@ const Discussions = ({ routes }) => {
                                     </div>
                                 </div>
 
-                                : < Link className="discussion-content" to={{
+                                : <Link className="discussion-content" to={{
                                     pathname: `${match.url}/${discussion.ID}`, state: {
                                         discussionText: discussion.discussionText,
                                         Headline: discussion.Headline,

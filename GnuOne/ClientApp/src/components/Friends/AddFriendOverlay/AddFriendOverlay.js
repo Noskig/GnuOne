@@ -7,7 +7,7 @@ const AddFriendOverlay = (props) => {
     const [email, setEmail] = useState('')
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/myfriends`
-    const {friendEmail} = useContext(FriendContext)
+    const { friendEmail } = useContext(FriendContext)
 
     //useEffect(() => {
     //    fetchData()
