@@ -61,14 +61,11 @@ const Friends = () => {
                 if (newList.includes(friendsfriend.Email)) {
                     friendsfriend.alreadyFriend = true
                 }
-
             })
             console.log(friendsfriends, filteredFriendsfriends)
             setFriendsList(filteredFriendsfriends)
         }
     }
-
-        
 
     const close = () => {
         setShowOverlay(false)
@@ -157,7 +154,7 @@ const Friends = () => {
     async function goodBye(noMoreNiceGuy) {
         await fetch(`https://localhost:${port}/api/myfriends`, {
 
-            method: 'PUT',
+            method: 'DELETE',
             body: JSON.stringify(noMoreNiceGuy),
             headers: {
                 "Content-type": "application/json",
@@ -166,7 +163,9 @@ const Friends = () => {
         console.log(noMoreNiceGuy)
         fetchData()
     }
+
     //SEARCH
+
     function search(s) {
         setSearchTerm(s)
     }
