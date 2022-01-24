@@ -18,11 +18,7 @@ Skriva instruktion och testa att det går
 
 ___Agenda__
 
-**DM
---Meddelande
--Från, meddelande, till, tid.
--Sorteras på sin vän
--Sparas i maria.
+
 
 ** Generera nycklar https://www.c-sharpcorner.com/article/generating-publicprivate-keys-in-c-sharp-and-net/
 - pubkey i profile
@@ -103,9 +99,16 @@ KLART:
   --Delete Single
   -Räknare
 
-  20/1
+20/1
   *Notification
   *Bookmarks
+
+24/1
+#DM
+	-Från, meddelande, till, tid.
+	-Sorteras på sin vän
+	-Sparas i maria.
+	-tas bort om man tar bort vännen
 
 
 # Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. 5/1
