@@ -175,7 +175,7 @@ const Friends = () => {
         return friendsList.filter((data) => {
             if (searchTerm === "") {
                 return true
-            } else if (data.userName.toLowerCase().includes(searchTerm.toLowerCase())) {
+            } else if (data.userName?.toLowerCase().includes(searchTerm.toLowerCase())) {
                 return data
             }
         })
