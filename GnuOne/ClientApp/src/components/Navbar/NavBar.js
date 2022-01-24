@@ -7,7 +7,6 @@ import messages from '../../icons/messagesNavbar.svg'
 import profile from '../../icons/Gnu 220.png'
 import ProfilePicContext from '../../contexts/profilePicContext'
 import WheelContext from '../../contexts/WheelContext'
-import ThemeContext from '../../contexts/themeContext';
 import "./navbar.css"
 import images from '../../Image';
 
@@ -15,7 +14,6 @@ import images from '../../Image';
 const NavBar = () => {
     const [isPressed, setIsPressed] = useState(false);
     const { setChosenPage, setActive, setDone } = useContext(WheelContext);
-    const { darkMode, setDarkMode } = useContext(ThemeContext)
     const { profilePic } = useContext(ProfilePicContext);
     console.log(profilePic)
     const avatar = images[`Img${profilePic}`]
@@ -35,7 +33,6 @@ const NavBar = () => {
           
             <div className="navbar">
             <Link to="/" onClick={() => handleClick(0)}> <img src={logo} alt="logo" /> </Link>
-            {darkMode ? <button onClick={() => setDarkMode(false)}>Lights on</button> : <button onClick={()=>setDarkMode(true)}>Lights off</button>}
             <ul className="elements">
                 <li onClick={() => setIsPressed(!isPressed)} className="avatar">
                     {profilePic && avatar? <img src={avatar} alt="avatar" /> :null} 
