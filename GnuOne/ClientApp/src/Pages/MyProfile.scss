@@ -5,8 +5,10 @@
     --button-h1-color: #043239;
     --getStartedSection-color: #0D5A69;
     --light-turquoise: #83D3EC;
+    --light-turquoise-two: #167D8F;
     --darker-turquoise: #0D5A69;
 }
+
 
 html, body {
     height: 100%;
@@ -15,7 +17,7 @@ html, body {
 
 body {
     margin: 0;
-    font-family: 'Saira', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 main {
@@ -31,7 +33,7 @@ main {
         justify-self: right;
     }
 
-    .bio-container, .messages-container, .settings-container, .discussions-container {
+    .bio-container, .messages-container, .settings-container, .discussions-container, .saved-section, .posts-container, .comments-container {
         grid-column-start: 2;
         grid-column-end: 6;
         grid-row-start: 3;

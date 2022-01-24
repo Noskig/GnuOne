@@ -93,7 +93,13 @@
 .profile-wheel {
     @include on-circle-about($item-count: 6, $circle-size: 35em, $item-size: 8em);
 
-    .initialPlace, .chosen, .notChosen, .notChosenAfter, .img-of-person {
+    li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .chosen, .notChosen, .notChosenAfter, .img-of-person {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -116,10 +122,20 @@
 
     .initialPlace {
         background-color: var(--light-turquoise);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .img-of-person {
         background-color: var(--darker-turquoise);
+
+        img {
+            height: 90%;
+            width: 90%;
+            border-radius: 50%;
+        }
     }
 }
 

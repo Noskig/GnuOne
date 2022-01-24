@@ -40,7 +40,7 @@ const FriendProfile = ({ routes }) => {
 
     return (
         <MeContext.Provider value={myEmail}>
-            <FriendContext.Provider value={friend?.MyFriend.Email}>
+            <FriendContext.Provider value={{ friendEmail: friend?.MyFriend.Email, friendImg: friend?.MyFriend.pictureID }}>
                 <main className="main">
                     <Navbar />
                     <ProfileWheel routes={routes} />

@@ -4,7 +4,7 @@ import MeContext from '../contexts/meContext'
 import PortContext from '../contexts/portContext'
 import ProfileWheel from '../components/MenuWheel/ProfileWheel';
 import "./MyProfile.min.css";
-
+import FriendContext from '../contexts/friendContext'
 import Navbar from '../components/Navbar/NavBar';
 
 
@@ -13,6 +13,7 @@ function MyProfile({ routes }) {
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/settings/`
     const [myEmail, setMyEmail] = useState('')
+  
 
     useEffect(() => {
         fetchData()
@@ -30,10 +31,14 @@ function MyProfile({ routes }) {
     }
     return (
         <MeContext.Provider value={myEmail}>
-            <main className="main">
-            <Navbar />
-            <ProfileWheel routes={routes}/>
-            </main>
+            <FriendContext.Provider value={{ friendEmail: undefined, friendImg: undefined }}>
+
+                <main className="main">
+                    <Navbar />
+                    <ProfileWheel routes={routes} />
+                </main>
+            </FriendContext.Provider>
+
         </MeContext.Provider>
     )
 }

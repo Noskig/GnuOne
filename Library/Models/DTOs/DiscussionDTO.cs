@@ -23,8 +23,9 @@ namespace Library
 
 
 
-        public List<Post> posts { get; set; }
 
+        public List<Post> posts { get; set; }
+        
         public DiscussionDTO()
         {
 
@@ -38,9 +39,9 @@ namespace Library
             this.Date = discussion.Date;
             this.Email = discussion.Email;
             this.tagOne = discussion.tagOne;
-            this.tagTwo = discussion.tagTwo;    
-            this.tagThree = discussion.tagThree;    
-
+            this.tagTwo = discussion.tagTwo;
+            this.tagThree = discussion.tagThree;
+            this.tags = discussion.tags;
             this.posts = posts;
         }
 

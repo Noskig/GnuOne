@@ -1,5 +1,4 @@
-
-.profile-wheel-lines-container {
+﻿.profile-wheel-lines-container {
   width: 35em;
   height: 35em;
   border-radius: 50%;
@@ -51,7 +50,6 @@
 }
 .profile-wheel > .initialPlace:nth-of-type(6), .profile-wheel .chosen:nth-of-type(6), .profile-wheel .notChosen:nth-of-type(6), .profile-wheel .img-of-person:nth-of-type(6) {
   transform: rotate(300deg) translate(14em) rotate(-300deg);
-
 }
 .profile-wheel .line {
   display: block;
@@ -102,7 +100,12 @@
 .profile-wheel .notChosenAfter:nth-of-type(6), .profile-wheel .img-of-person:nth-of-type(6) {
   transform: rotate(300deg) translate(9.3333333333em) rotate(-300deg);
 }
-.profile-wheel .initialPlace, .profile-wheel .chosen, .profile-wheel .notChosen, .profile-wheel .notChosenAfter, .profile-wheel .img-of-person {
+.profile-wheel li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.profile-wheel .chosen, .profile-wheel .notChosen, .profile-wheel .notChosenAfter, .profile-wheel .img-of-person {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -121,9 +124,18 @@
 }
 .profile-wheel .initialPlace {
   background-color: var(--light-turquoise);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .profile-wheel .img-of-person {
   background-color: var(--darker-turquoise);
+}
+.profile-wheel .img-of-person img {
+  height: 90%;
+  width: 90%;
+  border-radius: 50%;
 }
 
 .notChosen {

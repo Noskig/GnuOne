@@ -6,6 +6,8 @@ import Messages from './components/Messages/Messages';
 import Settings from './components/Settings/Settings';
 import Discussions from './components/Discussions/Discussions';
 import Posts from './components/Posts';
+import Saved from './components/Saved/Saved';
+import Comments from './components/Comments'
 
 const routes = [
     {
@@ -29,6 +31,10 @@ const routes = [
             {
                 path: '/friendprofile/:email/settings',
                 component: Settings,
+            },
+            {
+                path: '/friendprofile/:email/discussions/:id/post/:id',
+                component: Comments,
             },
             {
                 path: '/friendprofile/:email/discussions/:id',
@@ -64,12 +70,21 @@ const routes = [
                 component: Settings,
             },
             {
+                path: '/profile/discussions/:id/post/:id',
+                component: Comments,
+            },
+            {
                 path: '/profile/discussions/:id',
                 component: Posts,
             },
             {
                 path: '/profile/discussions',
                 component: Discussions,
+
+            },
+            {
+                path: '/profile/saved',
+                component: Saved,
 
             },
         ],

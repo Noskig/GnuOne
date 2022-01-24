@@ -7,10 +7,13 @@ import Search from '../Search/Search'
 import { Link } from 'react-router-dom';
 import FriendContext from '../../contexts/friendContext';
 import MeContext from '../../contexts/meContext';
+import avatar from '../../icons/avatar-plain.svg'
+import WheelContext from '../../contexts/WheelContext'
 
 
 const Friends = () => {
-    const friendEmail = useContext(FriendContext)
+    const { friendEmail } = useContext(FriendContext)
+    console.log(friendEmail)
     const myEmail = useContext(MeContext)
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/myfriends/`
@@ -18,6 +21,10 @@ const Friends = () => {
     const [showOverlay, setShowOverlay] = useState(false)
     const [disabled, setDisabled] = useState(false)
     const [activeFriend, setActiveFriend] = useState(null)
+    const { setChosenPage, setActive, setDone } = useContext(WheelContext);
+    const [darkMode, setDarkMode] = useState(true)
+
+
 
     //SEARCH 
     const [searchTerm, setSearchTerm] = useState('')
@@ -29,14 +36,35 @@ const Friends = () => {
 
     async function fetchData() {
         if (friendEmail === undefined) {
+            //get my own friends
             const response = await fetch(url)
+            console.log('im here')
             const friends = await response.json()
+            console.log(friends)
             setFriendsList(friends)
         } else {
-            const response = await fetch(url + friendEmail)
-            const friend = await response.json()
+            //get my friend's friends
+            const responseOne = await fetch(url + friendEmail)
+            console.log('i fucked up')
+            const friend = await responseOne.json()
             const friendsfriends = friend.MyFriendsFriends
-            setFriendsList(friendsfriends)
+
+            //get my own friends for filtering purposes... 
+            const responseTwo = await fetch(url)
+            const allFriends = await responseTwo.json()
+
+            let filteredFriendsfriends = friendsfriends.filter(friendsfriend => friendsfriend.Email !== myEmail)
+
+            filteredFriendsfriends.forEach(friendsfriend => {
+                let newList = allFriends.map(friend => friend.Email)
+                console.log(newList)
+
+                if (newList.includes(friendsfriend.Email)) {
+                    friendsfriend.alreadyFriend = true
+                }
+            })
+            console.log(friendsfriends, filteredFriendsfriends)
+            setFriendsList(filteredFriendsfriends)
         }
     }
 
@@ -59,8 +87,19 @@ const Friends = () => {
             IsFriend: true
         }
         acceptRequest(newFriend)
+    }
 
+    function wheelReset(id) {
 
+        setChosenPage(id);
+        setActive(true);
+        setTimeout(animationEnd, 1)
+    }
+
+    function animationEnd() {
+
+        setActive(false)
+        setDone(true)
     }
 
     async function acceptRequest(newFriend) {
@@ -75,7 +114,59 @@ const Friends = () => {
         fetchData();
     }
 
+    // hide from friends friends 
+
+    async function hideFromFriendsFriends(email) {
+        await fetch(`https://localhost:${port}/api/myfriends/true`, {
+
+            method: 'PATCH',
+            body: JSON.stringify(email),
+            headers: {
+                "Content-type": "application/json",
+            }
+        })
+        console.log(email)
+        fetchData()
+    }
+
+    async function unHideFromFriendsFriends(email) {
+        await fetch(`https://localhost:${port}/api/myfriends/false`, {
+
+            method: 'PATCH',
+            body: JSON.stringify(email),
+            headers: {
+                "Content-type": "application/json",
+            }
+        })
+        console.log(email)
+        fetchData()
+    }
+
+    // du är så jobbig
+
+    function getOutOnClick(friend){
+        let noMoreNiceGuy = {
+            isFriend: false,
+            Email: friend.Email,
+        }
+        goodBye(noMoreNiceGuy)
+    }
+
+    async function goodBye(noMoreNiceGuy) {
+        await fetch(`https://localhost:${port}/api/myfriends`, {
+
+            method: 'DELETE',
+            body: JSON.stringify(noMoreNiceGuy),
+            headers: {
+                "Content-type": "application/json",
+            }
+        })
+        console.log(noMoreNiceGuy)
+        fetchData()
+    }
+
     //SEARCH
+
     function search(s) {
         setSearchTerm(s)
     }
@@ -87,7 +178,6 @@ const Friends = () => {
             } else if (data.userName.toLowerCase().includes(searchTerm.toLowerCase())) {
                 return data
             }
-
         })
     }
 
@@ -102,37 +192,93 @@ const Friends = () => {
                             <button className="new-friend" disabled={disabled}>Add new friend</button>
                             <AddFriendOverlay fetchData={fetchData} close={close} />
                         </>
-
                         : <button className="new-friend" onClick={openOverlay}> Add new friend </button>
                     }</>
                     : null
                 }
-
-
+                <h3> My friends 🤝🏻 </h3>
                 <ul className="friends-list">
-                    {filteredFriends.map(friend => <li key={friend.ID}>
-                        {friendEmail === undefined && friend.isFriend ? <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
-                            <img className="friend-avatar" /> {friend.userName} </Link>
-                            : friendEmail === undefined && !friend.isFriend
-                                ? <><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
-                                    <img className="friend-avatar" /> {friend.userName} </Link> <button onClick={(e) => handleClick(e, friend)}>Accept friend</button> </>
-                                : <> <img className="friend-avatar" /> {friend.userName}
-                                    {showOverlay
-                                        ? <>
-                                            <button disabled={disabled}>Send friend request</button>
-                                            {activeFriend === friend.ID
-                                                ? <AddFriendOverlay fetchData={fetchData} close={close} email={friend.Email} userName={friend.userName} />
-                                                : null
-                                            }
-                                        </>
+                    {filteredFriends.map(friend =>
+                        //dina vänner
+                        friendEmail === undefined && friend.isFriend
+                            ? <li key={friend.ID}>
+                                <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} onClick={() => wheelReset(0)} >
+                                    <div className="friend-icon">
+                                        <img src={avatar} />
+                                    </div>
+                                    <h2 className="userName"> {friend.userName} </h2>
+                                </Link>
+                                {/*hide friend*/}
+                                {friend.hideMe == 0 ? 
+                                <button onClick={ () => hideFromFriendsFriends(friend.Email) }>
+                                    Hide friend
+                                </button>
+                                :
+                                <button onClick={() => unHideFromFriendsFriends(friend.Email)}>
+                                    show friend
+                                </button>
+                                }
+                                <button onClick={() => getOutOnClick(friend)}>
+                                    remove friend
+                                </button>
+                            </li>
+                            //din vänners vänner
+                            : friendEmail !== undefined
+                                ? <li key={friend.ID}><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                    <div className="friend-icon">
+                                        <img src={avatar} />
+                                    </div>
+                                    <h2 className="userName">{friend.userName} </h2>
+                                </Link>
+                                    <>{
+                                        friend.alreadyFriend
+                                            ? null
+                                            : <>{showOverlay
+                                                ? <><button disabled={disabled}>Send friend request</button>
+                                                    {activeFriend === friend.ID
+                                                        ? <AddFriendOverlay fetchData={fetchData} close={close} email={friend.Email} userName={friend.userName} />
+                                                        : null
+                                                    }</>
+                                                : <button className="accept-friend" onClick={() => openOverlay(friend.ID)}> Send friend request</button>
+                                            }</>
+                                    }</>
+                                </li>
+                                : null
+                    )} </ul>
+                {friendEmail === undefined
+                    ? <>
+                        <h3>New friend requests 🙍</h3>
+                        <ul className="friends-list">
+                            {filteredFriends.map(friend => 
+                                !friend.isFriend && friend.userName
+                                ? <li key={friend.ID}>
+                                    <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                            <div className="friend-icon"> <img src={avatar}/></div>
+                                            <h2 className="userName">{friend.userName}</h2>
+                                    </Link>
+                                    <button className="accept-friend" onClick={(e) => handleClick(e, friend)}>Accept friend</button>
+                                </li>
+                                : null
+                            )}
+                        
+                        </ul>
 
-                                        : <button onClick={() => openOverlay(friend.ID)}> Send friend request</button>
-                                    }</>}
-
-
-
-                    </li>)}
-                </ul>
+                        <h3 key="maybe-friends">Sent friend requests 🖅</h3>
+                        <ul className="friends-list">
+                            {filteredFriends.map(friend => 
+                                !friend.isFriend && !friend.userName && friendsList
+                                ? <li key={friend.ID}>
+                                        <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                            <div className="friend-icon"> <img src={avatar} />  </div>
+                                            <h2 className="userName">{ friend.Email.substring(0, friend.Email.lastIndexOf("@")) }</h2>
+                                        </Link>
+                                            <div className="pending">Pending request</div>
+                                </li>
+                                : null
+                            )}
+                        </ul>
+                    </>
+                    : null }
             </section>
         </>
     )

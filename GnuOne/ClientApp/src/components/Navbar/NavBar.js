@@ -4,18 +4,21 @@ import logo from '../../icons/Logo.svg'
 import avatar from '../../icons/useravatar.svg'
 import settings from '../../icons/settings.svg'
 import messages from '../../icons/messagesNavbar.svg'
-import "./navbar.css"
+import profile from '../../icons/Gnu 220.png'
+import ProfilePicContext from '../../contexts/profilePicContext'
 import WheelContext from '../../contexts/WheelContext'
+import "./navbar.css"
+import images from '../../Image';
 
 
 const NavBar = () => {
-
     const [isPressed, setIsPressed] = useState(false);
-   
-    const { setChosenPage, setActive,  setDone } = useContext(WheelContext);
-
+    const { setChosenPage, setActive, setDone } = useContext(WheelContext);
+    const { profilePic } = useContext(ProfilePicContext);
+    console.log(profilePic)
+    const avatar = images[`Img${profilePic}`]
+ 
     function handleClick(id) {
-
         setChosenPage(id);
         setActive(true);
         setTimeout(animationEnd, 500)
@@ -29,11 +32,10 @@ const NavBar = () => {
     return (
           
             <div className="navbar">
-                <img src={logo} alt="logo" />
-
+            <Link to="/" onClick={() => handleClick(0)}> <img src={logo} alt="logo" /> </Link>
             <ul className="elements">
-               <li onClick={()=> setIsPressed(!isPressed)} className="avatar">
-                  <img src={avatar} alt="avatar" />
+                <li onClick={() => setIsPressed(!isPressed)} className="avatar">
+                    {profilePic && avatar? <img src={avatar} alt="avatar" /> :null} 
                </li>
                     
                 <li className={isPressed ? "messages out-animation1" :"messages in-animation1"}>
@@ -46,7 +48,13 @@ const NavBar = () => {
                     <Link to="/profile/settings"  onClick={() => handleClick(4)}>
                         <img src={settings} alt="settings" />
                     </Link>
-               </li>
+                </li>
+
+                <li className={isPressed ? "profile out-animation3" : "profile in-animation3"}>
+                    <Link to="/profile" onClick={() => handleClick(0)}>
+                        <img className="profile-picture" src={profile} alt="profile" />
+                    </Link>
+                </li>
                     
                 </ul>
             </div>

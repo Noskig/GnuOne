@@ -1,98 +1,86 @@
 ﻿import { useState, useContext, useEffect } from "react"
 import PortContext from '../../contexts/portContext';
+import MeContext from '../../contexts/meContext';
+import FriendContext from '../../contexts/friendContext';
 import done from '../../icons/share.svg'
 import edit from '../../icons/trash.svg'
-
-//A WHOLE MESS GÖR KLART NÄR BACKEND HAR FIXAT
+import './bio.css'
 
 const Bio = () => {
+    const { friendEmail } = useContext(FriendContext)
+    const myEmail = useContext(MeContext)
     const port = useContext(PortContext)
-    const url = `https://localhost:${port}/api/myfriends`
-    const [showTextArea, setShowTextArea] = useState()
-    const [activeTextArea, setActiveTextArea] = useState()
-    let testInfo = {
-        about: "hej jag heter johanna och bor i gamlestaden",
-        more: "jag fyller år om 20 dagar"
-    }
-    const [userInfo, setUserInfo] = useState(testInfo)
+    const url = `https://localhost:${port}/api/`
+    const [profile, setProfile] = useState()
+    const [tagList, setTagList] = useState()
 
 
+    useEffect(() => {
+        fetchData()
 
-    //useEffect(() => {
-    //    fetchData()
-    //}, [])
+    }, [myEmail])
 
-    //async function fetchData() {
-    //    const response = await fetch(url)
-    //    const userInfo = await response.json()
-    //    console.log(userInfo)
-    //    setUserInfo(userInfo)
-    //}
+    useEffect(() => {
+        getTags()
+    }, [profile])
 
-    function handleClick(e, info) {
-        e.preventDefault()
-        let updatedInfo = {
-            about: info.about,
-            more: info.more
+    async function fetchData() {
+        console.log(friendEmail, myEmail)
+
+        if (friendEmail === undefined) {
+            //get my own profile
+            const response = await fetch(url + 'myprofile')
+            const me = await response.json()
+            console.log(me[0])
+            setProfile(me[0])
+
+        } else {
+            //get my friend's profile
+            const responseOne = await fetch(url + 'myfriends/' + friendEmail)
+            const friend = await responseOne.json()
+            console.log(friend.MyFriend)
+            setProfile(friend.MyFriend)
+
         }
-        updateInfo(updatedInfo)
     }
 
-    async function updateInfo(updatedInfo) {
-        console.log(updatedInfo)
-        await fetch(url, {
-            method: 'PUT',
-            body: JSON.stringify(updatedInfo),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            }
-        })
-        /*fetchData();*/
+    async function getTags() {
+        if (profile) {
+            console.log(profile)
+            const response = await fetch(url + 'tags')
+            const tags = await response.json()
+            console.log(tags)
+            console.log(profile.tagOne)
+            let userTags = tags.filter(tag => tag.ID === profile.tagOne || tag.ID === profile.tagTwo || tag.ID === profile.tagThree)
+            console.log(userTags)
+            setTagList(userTags)
+        }
     }
-    function openEditArea(area) {
-        setActiveTextArea(area)
-        setShowTextArea(area)
-    }
-    let testArray = ['intresseOne', 'intejag', 'intresseTwo', 'Email'];
 
-    let newArray = testArray.filter(item => { if (item.includes('intresse')) { return item } } )
 
-    console.log(newArray)
 
     return (
 
         <section className="bio-container">
-            {userInfo ?
-                <>
-                    <div>
-                        <h3>about me</h3>
-                        {activeTextArea && showTextArea === userInfo.about ? <img onClick={handleClick} src={done} />
-                            : <img onClick={() => openEditArea(userInfo.about)} src={edit} />}
-                    </div>
-                    {activeTextArea && showTextArea === userInfo.about ? <textarea rows="3"></textarea>
-                        : <p>{userInfo.about}</p>}
 
-                    <div>
-                        <h3>more info</h3>
-                        <img onClick={() => openEditArea(userInfo.more)} src={edit} />
-                    </div>
+            {profile ? <><h3> about me </h3>
+                <p> {profile.userInfo || profile.myUserInfo}</p>
+
+                <h3> my interests </h3>
+                <ul>
                     {
-                        activeTextArea && showTextArea === userInfo.more ?
-                        <form>
-                            <input type="checkbox" id="interestOne" name="interestOne" value="cats" />
-                            <label for="interestOne"> I like cats</label>
-                            <input type="checkbox" id="interestTwo" name="interestTwo" value="music" />
-                            <label for="interestTwo"> I like music</label>
-                            <input type="checkbox" id="interestThree" name="interestThree" value="politics" />
-                            <label for="interestThree"> I like politics</label>
-                            <input type="submit" value="Submit" />
-                            </form>
-                            : <p>{newArray.map(interest => <p>{interest}</p>)}</p>
+                        tagList?.map(tag => <li key={tag.ID}>
+                            {tag.tagName}
+                        </li>)
                     }
-                   
-                </>
-                : 'nothing to see here'}
+                </ul>
 
+                <h3> public key </h3>
+                <p> {profile.pubKey || profile.Secret}</p>
+
+                <h3> contact me </h3>
+                <p>{profile.Email}</p></>
+                : "loading..."}
 
 
         </section>
