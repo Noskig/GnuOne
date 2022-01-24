@@ -43,7 +43,8 @@ namespace GnuOne.Controllers
             return Ok(jsonDtoList);
         }
 
-        [HttpGet]
+        [HttpGet("dm")]
+
         public async Task<IActionResult> GetFriendsMessages([FromBody] MyFriend friend)
         {
             var friendsMessages = await _context.Messages.Where(x => x.From == friend.Email).OrderBy(x => x.Sent).ToListAsync();
@@ -64,15 +65,18 @@ namespace GnuOne.Controllers
         {
             if (message == null)
             {
-                return BadRequest("No message could be sent");
+                return BadRequest("it seems like you didn't include a message");
             }
             message.Sent = DateTime.Now;
+
+            _context.Messages.Add(message);
+            await _context.SaveChangesAsync();
 
             var jsonMessage = JsonConvert.SerializeObject(message);
 
             MailSender.SendObject(jsonMessage, message.To, _settings, "DirectMessage");
 
-            return Ok();
+            return Ok("Message Sent");
         }
 
     }
