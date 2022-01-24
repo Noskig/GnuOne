@@ -126,7 +126,7 @@ t4s4XYEbPC7CPtH0SiVAFiSRVkL99fcEBtTcY3biHLFgiTmAvPL4Ww==
 
 		public static string sql = @"-- --------------------------------------------------------
 -- Värd:                         127.0.0.1
--- Serverversion:                10.6.3-MariaDB - mariadb.org binary distribution
+-- Serverversion:                10.6.5-MariaDB - mariadb.org binary distribution
 -- Server-OS:                    Win64
 -- HeidiSQL Version:             11.3.0.6295
 -- --------------------------------------------------------
@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   CONSTRAINT `FK_comments_posts` FOREIGN KEY (`postID`, `postEmail`) REFERENCES `posts` (`ID`, `Email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.comments: ~7 rows (ungefär)
+-- Dumpar data för tabell gnu.comments: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 
@@ -192,6 +192,20 @@ CREATE TABLE IF NOT EXISTS `discussions` (
 /*!40000 ALTER TABLE `discussions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `discussions` ENABLE KEYS */;
 
+-- Dumpar struktur för tabell gnu.messages
+CREATE TABLE IF NOT EXISTS `messages` (
+  `ID` int(11) NOT NULL,
+  `Sent` datetime DEFAULT NULL,
+  `From` varchar(50) DEFAULT NULL,
+  `To` varchar(50) DEFAULT NULL,
+  `messageText` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumpar data för tabell gnu.messages: ~0 rows (ungefär)
+/*!40000 ALTER TABLE `messages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `messages` ENABLE KEYS */;
+
 -- Dumpar struktur för tabell gnu.myfriends
 CREATE TABLE IF NOT EXISTS `myfriends` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -208,9 +222,9 @@ CREATE TABLE IF NOT EXISTS `myfriends` (
   `hideFriend` bit(1) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `Email` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myfriends: ~2 rows (ungefär)
+-- Dumpar data för tabell gnu.myfriends: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `myfriends` DISABLE KEYS */;
 /*!40000 ALTER TABLE `myfriends` ENABLE KEYS */;
 
@@ -223,9 +237,9 @@ CREATE TABLE IF NOT EXISTS `myfriendsfriends` (
   PRIMARY KEY (`ID`),
   KEY `FK_myfriendsfriends_myfriends` (`myFriendEmail`),
   CONSTRAINT `FK_myfriendsfriends_myfriends` FOREIGN KEY (`myFriendEmail`) REFERENCES `myfriends` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myfriendsfriends: ~3 rows (ungefär)
+-- Dumpar data för tabell gnu.myfriendsfriends: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `myfriendsfriends` DISABLE KEYS */;
 /*!40000 ALTER TABLE `myfriendsfriends` ENABLE KEYS */;
 
@@ -273,9 +287,9 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `counter` int(11) NOT NULL DEFAULT 0,
   `infoID` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.notifications: ~2 rows (ungefär)
+-- Dumpar data för tabell gnu.notifications: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
 /*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 
@@ -293,7 +307,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   CONSTRAINT `FK_posts_discussions` FOREIGN KEY (`discussionID`, `discussionEmail`) REFERENCES `discussions` (`ID`, `Email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.posts: ~6 rows (ungefär)
+-- Dumpar data för tabell gnu.posts: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 
