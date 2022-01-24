@@ -18,9 +18,20 @@ Skriva instruktion och testa att det går
 
 ___Agenda__
 
+**DM
+--Meddelande
+-Från, meddelande, till, tid.
+-Sorteras på sin vän
+-Sparas i maria.
+
 ** Generera nycklar https://www.c-sharpcorner.com/article/generating-publicprivate-keys-in-c-sharp-and-net/
 - pubkey i profile
 - private key någonstans. (antagligen i en fil.. kan börja med att ha den i DBn)
+
+//generera matchande nycklar. 
+Spara en lokalt, settings Secret. Den publika ska följa med till mina vänner på myfriends där.
+
+
 
 _____A_____
 

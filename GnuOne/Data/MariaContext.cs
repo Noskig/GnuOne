@@ -30,7 +30,7 @@ namespace GnuOne.Data
         public DbSet<standardpictures> Standardpictures { get; set; }
         public DbSet<Bookmark> Bookmarks { get; set; }
         public DbSet<Notification> Notifications { get; set; }
-
+        public DbSet<Message> Messages { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             try { 
