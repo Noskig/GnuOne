@@ -26,14 +26,14 @@ namespace GnuOne.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var myfriends = await _context.MyFriends.ToListAsync();
+            var myfriends = await _context.MyFriends.Where(x=> x.isFriend == true).ToListAsync();
             var allmessages = await _context.Messages.ToListAsync();
 
             var dtoList = new List<FriendDto>();
             
             foreach ( var friend in myfriends)
             {
-                var lastMessage = allmessages.Where(x => x.To == friend.Email || x.From == friend.Email).TakeLast(1).FirstOrDefault();
+                var lastMessage = allmessages.Where(x => x.To == friend.Email || x.From == friend.Email).OrderBy(x => x.Sent).TakeLast(1).FirstOrDefault();
                 var dtoFriend = new FriendDto(friend, lastMessage);
                 dtoList.Add(dtoFriend);
             }
@@ -68,6 +68,10 @@ namespace GnuOne.Controllers
                 return BadRequest("it seems like you didn't include a message");
             }
             message.Sent = DateTime.Now;
+            
+            DateTime unixTime = DateTime.Now;
+            long unixID = ((DateTimeOffset)unixTime).ToUnixTimeSeconds();
+            message.ID = Convert.ToInt32(unixID);
 
             _context.Messages.Add(message);
             await _context.SaveChangesAsync();

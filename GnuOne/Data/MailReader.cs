@@ -626,6 +626,8 @@ namespace GnuOne.Data
 
             if (theirSettings is not null)
             {
+                var allOurMessage = context.Messages.Where(x => x.To == theirSettings.Email || x.From == theirSettings.Email).ToList();
+                context.Messages.RemoveRange(allOurMessage);
                 var stupidFriend = context.MyFriends.Where(x => x.Email == theirSettings.Email).FirstOrDefault();
                 var theirDiscussion = context.Discussions.Where(x => x.Email == theirSettings.Email).ToList();
                 context.Discussions.RemoveRange(theirDiscussion);

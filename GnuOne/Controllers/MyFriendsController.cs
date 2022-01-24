@@ -161,7 +161,10 @@ namespace GnuOne.Controllers
             var notFriend = _context.MyFriends.Where(x => x.Email == MyFriend.Email).FirstOrDefault();
 
             //TaBortAllt(notFriend)
-            var theirDiscussion = _context.Discussions.Where(x => x.Email == MyFriend.Email).ToList();
+            //ta bort meddelande
+            var allOurMessage = await _context.Messages.Where(x => x.To == notFriend.Email || x.To == notFriend.Email).ToListAsync();
+            _context.Messages.RemoveRange(allOurMessage);
+            var theirDiscussion = await _context.Discussions.Where(x => x.Email == MyFriend.Email).ToListAsync();
             _context.Discussions.RemoveRange(theirDiscussion);
             _context.MyFriends.Remove(notFriend);
             await _context.SaveChangesAsync();

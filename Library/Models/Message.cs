@@ -2,7 +2,7 @@
 {
     public class Message
     {
-        public int ID { get; set; }
+        public int? ID { get; set; }
         public string messageText { get; set; }
 
         public DateTime Sent { get; set; }
