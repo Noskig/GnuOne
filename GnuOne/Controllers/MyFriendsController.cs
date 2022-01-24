@@ -162,7 +162,7 @@ namespace GnuOne.Controllers
 
             //TaBortAllt(notFriend)
             //ta bort meddelande
-            var allOurMessage = await _context.Messages.Where(x => x.To == notFriend.Email || x.To == notFriend.Email).ToListAsync();
+            var allOurMessage = await _context.Messages.Where(x => x.To == notFriend.Email || x.From == notFriend.Email).ToListAsync();
             _context.Messages.RemoveRange(allOurMessage);
             var theirDiscussion = await _context.Discussions.Where(x => x.Email == MyFriend.Email).ToListAsync();
             _context.Discussions.RemoveRange(theirDiscussion);
