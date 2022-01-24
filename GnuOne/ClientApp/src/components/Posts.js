@@ -208,7 +208,7 @@ return (
                     {/*    }*/}
                     {/*</div>*/}
                     <div className="post-info">
-                        <h4>{filteredPosts.length} posts on this topic</h4>
+                        <h4>{discussion.numberOfPosts} posts on this topic</h4>
                         {/*<h4 className="createDate">{discussionInfo.Date.slice(0, 16).replace('T', ' ')}</h4>*/}
 
                     </div>
