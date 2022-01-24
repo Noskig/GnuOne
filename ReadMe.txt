@@ -18,15 +18,17 @@ Skriva instruktion och testa att det går
 
 ___Agenda__
 
---profil
--bio uppdateras
--bild  
-
-- De inläggen man har bookmarkat
---Någon postat eller commenterat där
 
 
-*Uppdater picture location i MariaDB
+** Generera nycklar https://www.c-sharpcorner.com/article/generating-publicprivate-keys-in-c-sharp-and-net/
+- pubkey i profile
+- private key någonstans. (antagligen i en fil.. kan börja med att ha den i DBn)
+
+//generera matchande nycklar. 
+Spara en lokalt, settings Secret. Den publika ska följa med till mina vänner på myfriends där.
+
+
+
 _____A_____
 
 Frågor Stig
@@ -36,12 +38,12 @@ Frågor Stig
 -------------
 /////// Allmänt fixing
 
-** Generera nycklar https://www.c-sharpcorner.com/article/generating-publicprivate-keys-in-c-sharp-and-net/
-- pubkey i profile
-- private key någonstans. (antagligen i en fil.. kan börja med att ha den i DBn)
 
+*Uppdater picture location i MariaDB
 
-//chatt?
+*DM
+	-Krypteras?
+	-Notification?
 
 *Backup
 - För när man byter dator. (vi behöver få över den filen till den nya datorn)
@@ -98,6 +100,18 @@ KLART:
   --Delete all
   --Delete Single
   -Räknare
+
+20/1
+  *Notification
+  *Bookmarks
+
+24/1
+#DM
+	-Från, meddelande, till, tid.
+	-Sorteras på sin vän
+	-Sparas i maria.
+	-tas bort om man tar bort vännen
+
 
 # Gör om SQl-query till JSON och skickar i mailen för discussion, comment och post. 5/1
 # Göra om i Myfriendscontrollern rad 82-88 till metod   Behöver gå ut ett mail till mina vänner att vännen tas bort 5/1

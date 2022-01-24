@@ -6,6 +6,7 @@ using MailKit.Net.Pop3;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Text;
 using Welcome_Settings;
 
@@ -62,6 +63,14 @@ while (keepGoing)
             var username = Console.ReadLine();
             var secretk = RandomKey();
             password = AesCryption.Encrypt(password, "secretkey"); //ska bytas
+
+
+            //generera nycklar,
+            RSACryptoServiceProvider RSA = new RSACryptoServiceProvider();
+
+            //peta in dom där dom ska vara
+
+
             var settings = new MySettings
             {
                 ID = 1,

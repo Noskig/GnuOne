@@ -179,22 +179,22 @@ namespace GnuOne.Data
                                     break;
                                 }
                                 else
-                                {break;}
+                                { break; }
 
                             case "ForwardPutComment":
 
                                 var deeed2 = RecieveAndPutComment(decryptedMessage, _newContext, myInfo);
                                 if (deeed2 == 1)
-                                {break;}
+                                { break; }
                                 else
-                                {break;}
+                                { break; }
 
                             case "FriendRequest":
                                 var deedd = RecieveFriendRequest(decryptedMessage, _newContext);
                                 if (deedd == 1)
                                 { break; }
                                 else
-                                {break;}
+                                { break; }
 
                             case "PutFriendsProfile":
                                 var deed3 = RecieveAndUpdateFriend(decryptedMessage, _newContext);
@@ -271,6 +271,11 @@ namespace GnuOne.Data
                                 if (deed7 == 1) { break; }
                                 else { break; }
 
+                            case "DirectMessage":
+                                var edde = RecieveAndSaveMessage(decryptedMessage, _newContext);
+                                if (edde == 1) { break; }
+                                else { break; }
+
                             default:
                                 break;
                         }
@@ -291,6 +296,19 @@ namespace GnuOne.Data
 
                 //backupdatabase();
             }
+        }
+
+        private static int RecieveAndSaveMessage(string decryptedMessage, MariaContext context)
+        {
+            var message = JsonConvert.DeserializeObject<Message>(decryptedMessage);
+            if (message is not null)
+            {
+                context.Messages.Add(message);
+                context.SaveChangesAsync().Wait();
+
+                return 1;
+            }
+            return -1;
         }
 
         private static int RecieveAndPutComment(string decryptedMessage, MariaContext context, MySettings myinfo)
@@ -338,6 +356,29 @@ namespace GnuOne.Data
                                     context.Notifications.Add(not);
                                 }
                             }
+
+                            var bookmarklist = context.Bookmarks.ToList();
+                            foreach (var bookmark in bookmarklist)
+                            {
+                                if (bookmark.ID == comment.postID && myinfo.Email != comment.postEmail)
+                                {
+                                    if (context.Notifications.Where(x => x.infoID == comment.postID && x.hasBeenRead == false).Any())
+                                    {
+                                        var a = context.Notifications.Where(x => x.infoID == comment.postID && x.hasBeenRead == false).FirstOrDefault();
+                                        a.info = comment.userName;
+                                        context.Notifications.Update(a);
+                                        a.counter++;
+                                    }
+                                    else
+                                    {
+                                        Notification bookmarknot = new Notification("Comment", comment.Email, comment.userName, comment.postID);
+                                        context.Notifications.Add(bookmarknot);
+                                    }
+
+
+                                }
+                            }
+
                             context.SaveChangesAsync().Wait();
                         }
                         return 1;
@@ -585,6 +626,8 @@ namespace GnuOne.Data
 
             if (theirSettings is not null)
             {
+                var allOurMessage = context.Messages.Where(x => x.To == theirSettings.Email || x.From == theirSettings.Email).ToList();
+                context.Messages.RemoveRange(allOurMessage);
                 var stupidFriend = context.MyFriends.Where(x => x.Email == theirSettings.Email).FirstOrDefault();
                 var theirDiscussion = context.Discussions.Where(x => x.Email == theirSettings.Email).ToList();
                 context.Discussions.RemoveRange(theirDiscussion);
@@ -688,7 +731,7 @@ namespace GnuOne.Data
                     context.Posts.AddRangeAsync(theirPosts);
                     //context.SaveChanges();
                 }
-                if(subject == "AcceptedFriendRequest")
+                if (subject == "AcceptedFriendRequest")
                 {
                     var notification = new Notification("FriendRequestAccepted", friend.Email, friend.userName);
                     context.Notifications.Add(notification);
@@ -727,7 +770,7 @@ namespace GnuOne.Data
                 context.SaveChangesAsync().Wait();
                 return 1;
             }
-           
+
 
             return -1;
             //notification.messageType = "FriendRequest";
@@ -811,7 +854,7 @@ namespace GnuOne.Data
                     if (Email != myInfo.Email)
                     {
                         context.Posts.Add(post);
-                        if(myInfo.Email == post.discussionEmail)
+                        if (myInfo.Email == post.discussionEmail)
                         {
                             if (context.Notifications.Where(x => x.infoID == post.discussionID && x.hasBeenRead == false).Any())
                             {
@@ -822,13 +865,38 @@ namespace GnuOne.Data
                             }
                             else
                             {
-                                Notification not = new Notification("Post", Email, post.userName, post.discussionID); //
+                                Notification not = new Notification("Post", Email, post.userName, post.discussionID);
                                 context.Notifications.Add(not);
                             }
                         }
+                        var bookmarklist = context.Bookmarks.ToList();
+                        foreach (var bookmark in bookmarklist)
+                        {
+                            if (bookmark.ID == post.discussionID && myInfo.Email != post.discussionEmail)
+                            {
+                                if (context.Notifications.Where(x => x.infoID == post.discussionID && x.hasBeenRead == false).Any())
+                                {
+                                    var a = context.Notifications.Where(x => x.infoID == post.discussionID && x.hasBeenRead == false).FirstOrDefault();
+                                    a.info = post.userName;
+                                    context.Notifications.Update(a);
+                                    a.counter++;
+                                }
+                                else
+                                {
+                                    Notification bookmarknot = new Notification("Post", Email, post.userName, post.discussionID);
+
+                                    context.Notifications.Add(bookmarknot);
+                                }
+                            }
+
+                        }
+
+
+
                         context.SaveChangesAsync().Wait();
-                        return 1;
+
                     }
+                    return 1;
                 }
             }
             return -1;
