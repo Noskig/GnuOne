@@ -1,17 +1,109 @@
-﻿
+﻿import { useState, useContext, useEffect } from "react"
+import { Link, useRouteMatch } from 'react-router-dom';
+import PortContext from '../../contexts/portContext';
+import MeContext from '../../contexts/meContext';
+import FriendContext from '../../contexts/friendContext';
+import PrivateMessages from "./PrivateMessages";
+
 const Messages = () => {
+    const [messageList, setMessageList] = useState([])
+    const { friendEmail } = useContext(FriendContext)
+    const myEmail = useContext(MeContext)
+    const port = useContext(PortContext)
+    const url = `https://localhost:${port}/api/messages/`
+    let match = useRouteMatch()
 
 
+    useEffect(() => {
+        fetchData()
+
+    }, [myEmail])
+
+
+    async function fetchData() {
+        console.log(friendEmail, myEmail)
+
+        if (friendEmail === undefined) {
+            //if on my own profile, get all my messages
+            const response = await fetch(url)
+            const messages = await response.json()
+            console.log(messages)
+            let newList = messages.filter(message => {
+                if (message.lastmessage) {
+                    message.timeSince = timeSince(message.lastmessage.Sent)
+                    return message
+                }
+            })
+            console.log(newList)
+            setMessageList(newList)
+
+        }
+        /* else {*/
+        //    //get my friend's profile
+        //    const responseOne = await fetch(url + 'dm')
+        //    const friend = await responseOne.json()
+        //    console.log(friend.MyFriend)
+        //    setProfile(friend.MyFriend)
+
+        //}
+    }
+
+    let durationInSeconds = {
+        epochs: ['year', 'month', 'day', 'hour', 'minute', 'second'],
+        year: 31536000,
+        month: 2592000,
+        day: 86400,
+        hour: 3600,
+        minute: 60,
+        second: 1
+    };
+
+    function getDuration(seconds) {
+        var epoch, interval;
+
+        for (var i = 0; i < durationInSeconds.epochs.length; i++) {
+            epoch = durationInSeconds.epochs[i];
+            interval = Math.floor(seconds / durationInSeconds[epoch]);
+            if (interval >= 1) {
+                return {
+                    interval: interval,
+                    epoch: epoch
+                };
+            }
+        }
+
+    };
+
+    function timeSince(date) {
+        console.log(date)
+        var seconds = Math.floor((new Date() - new Date(date)) / 1000);
+        console.log(seconds)
+        var duration = getDuration(seconds);
+        console.log(duration)
+        var suffix = (duration.interval > 1 || duration.interval === 0) ? 's' : '';
+        return duration.interval + ' ' + duration.epoch + suffix + ' ago';
+    };
 
 
 
     return (
 
         <section className="messages-container">
+            {friendEmail === undefined
+                ?
+                <ul>
+                    {messageList.map(message => <li key={message.lastmessage.ID}>
+                        <Link to={{ pathname: `${match.url}/${message.Email.substring(0, message.Email.lastIndexOf("@"))}`, state: { userName: message.userName } }}>
+                            <h4>{message.userName}</h4>
+                            <p>{message.lastmessage.messageText}</p>
+                            <p>{message.timeSince}</p>
+                        </Link>
+                    </li>)}
+                </ul>
+                : <PrivateMessages/>
+            }
 
-            <h3>Messages</h3>
-            <input placeholder="Write something..." />
-            <button> Send </button>
+
         </section>
 
     )

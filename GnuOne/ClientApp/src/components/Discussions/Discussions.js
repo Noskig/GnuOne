@@ -276,7 +276,7 @@ const Discussions = ({ routes }) => {
 
 
                             <div className="discussion-info">
-                                <h4>{discussion.numberOfPosts} posts:</h4>
+                                <h4> Posts: {discussion.numberOfPosts}</h4>
                                 <h4 className="createDate">{discussion.Date.slice(0, 19).replace('T', ' ').slice(0, 16)}</h4>
                                 <img className={readMore && activeDiscussion == discussion.ID ? "read-more reverse-icon" : "read-more"} alt="read-more" src={arrows} onClick={() => readmoreAndId(discussion)} />
                                 <div className="discussion-tags">{discussion.tags.map(tag => <h4 key={discussion.tags.indexOf(tag)}># {tag} </h4> )} </div>
