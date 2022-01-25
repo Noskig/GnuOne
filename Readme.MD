@@ -124,3 +124,7 @@ In addition to that, your friend list will be updated so as to be seen by your o
 
 <h3>Bookmarks</h3>
 <b>Post:</b> Bookmarks a discussion.<br>
+
+<h3>Notifications</h3>
+<b>Get:</b> Returns all notifications.<br>
+
