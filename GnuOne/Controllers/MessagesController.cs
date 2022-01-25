@@ -65,6 +65,17 @@ namespace GnuOne.Controllers
             var friendsMessages = await _context.Messages.Where(x => x.From == friend.Email).OrderBy(x => x.Sent).ToListAsync();
             var myMessageToFriend = await _context.Messages.Where(x=> x.To == friend.Email).OrderBy(x=>x.Sent).ToListAsync();
 
+            var friendsUsername = await _context.MyFriends.Where(x => x.Email == friend.Email).Select(x => x.Email).SingleAsync();
+            var myusername = _settings.userName;
+
+            foreach (var friendsmessage in friendsMessages)
+            {
+                friendsmessage.FromUserName = friendsUsername;
+            }
+            foreach (var mymessage in myMessageToFriend)
+            {
+                mymessage.FromUserName = myusername;
+            }
             var allMessages = new List<Message>();
             allMessages.AddRange(friendsMessages);
             allMessages.AddRange(myMessageToFriend);
