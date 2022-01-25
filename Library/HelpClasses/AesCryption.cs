@@ -3,6 +3,7 @@ using System.Text;
 
 namespace Library.HelpClasses
 {
+    //Encrypt/decrypt messages and passwords.
     public class AesCryption
     {
         public static string Encrypt(string clearText, string secretkey)

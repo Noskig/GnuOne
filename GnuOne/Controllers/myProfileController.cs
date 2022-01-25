@@ -74,7 +74,9 @@ namespace GnuOne.Controllers
                 }
             }
             catch (Exception ex) 
-            { }
+            {
+                Console.WriteLine(ex);
+            }
             
             _context.MyProfile.Update(myprofile); 
             await _context.SaveChangesAsync(); 

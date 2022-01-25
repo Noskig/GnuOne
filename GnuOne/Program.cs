@@ -181,7 +181,7 @@ bool IsThereAGnu(MariaContext dbcontext)
 {
     try
     {
-        dbcontext.LastUpdates.Any();
+        dbcontext.Standardpictures.Any();
         return true;
     }
     catch

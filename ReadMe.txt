@@ -240,19 +240,18 @@ NotificC =
 SettingsC = 
 TagsC = 
 
-Mailreader = 
-AesCrypt = 
-DbCommand = 
-Global = 
+Mailreader =				Städat/Dokumenterat
+AesCrypt =					Städat/kommentar
+DbCommand =					Städat/kommentar
+Global =					Städat/Dokumenterat
 Megacrypt = 
-Noti = 
-pwMask = 
+MailSender =				Städat/kommentar
+pwMask =					Städat/Dokumenterat
+
+
 
 APicontext =				Städat/OK
 MariaCont =					Städat/OK
-
-
-
 Städa modellerna =			Städade/OK
 
 Gå igenom varningar?
