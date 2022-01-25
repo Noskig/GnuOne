@@ -171,7 +171,7 @@ var loop1Task = Task.Run(async () =>
         {
             Console.WriteLine(ex.Message);
         }
-        await Task.Delay(10000);
+        await Task.Delay(2000);
     }
 });
 app.Run();
