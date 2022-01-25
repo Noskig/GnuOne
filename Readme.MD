@@ -8,15 +8,15 @@ http://iwantag.nu/
 
 Database structure
 
-![Gnu Diagram](https://user-images.githubusercontent.com/72744280/149348594-00344fd0-fb8c-4c24-824f-73d2ff4dc76b.png)
+![Gnu Diagram](![Gnu Diagram updaterad](https://user-images.githubusercontent.com/72744280/150971152-f3cdd569-1adc-45b8-8ec2-bf6426dd3ae8.png))
 
 
 Whats our story behind it?
 
-It begins as an internproject to offer a different social platform that focus on being independent from third parties.
- Our customers request was to create a platform and not have information stored in the cloud by the big corperations.
+It begins as an internproject to offer a centralize social platform that focus on being independent from third parties.
+ Our customer request was to create a platform and not have information stored in the cloud by the big corperations.
 
-Okay so where do I get started?
+Okay How to get started?
 1. 
 Create a Gmail-account 
 
@@ -119,6 +119,7 @@ In addition to that, your friend list will be updated so as to be seen by your o
 <b>Get:</b> Searches for discussions with a specific tagId and returns those objects.<br>
 
 <h3>Messages</h3>
+<h5>api/messages</h5>
 <b>Get:</b> Returns all the messages.<br>
 <b>Post:</b> To write a new message.<br>
 
@@ -126,5 +127,7 @@ In addition to that, your friend list will be updated so as to be seen by your o
 <b>Post:</b> Bookmarks a discussion.<br>
 
 <h3>Notifications</h3>
+<h5>api/notifications</h5>
 <b>Get:</b> Returns all notifications.<br>
+
 
