@@ -97,3 +97,12 @@ button {
      width: 1.8em;
      color:red;
  }
+
+.discussion-tags {
+    display: flex;
+}
+    .discussion-tags h4 {
+        padding: 0 5px;
+        white-space: nowrap;
+    }
+

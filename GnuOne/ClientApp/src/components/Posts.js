@@ -109,6 +109,9 @@ function openEditPost(e, post) {
     setPostText(post.postText)
 }
 
+
+
+
 async function confirmEditPost(e, post) {
     e.preventDefault()
     console.log('fetching')
@@ -181,38 +184,18 @@ return (
 
             <ul className="posts-list">
                 <li className="post">
-                    {editOpen && activePost === discussion.id
-                        ? <textarea maxLength="500" value={discussion.discussionText} className="edit" onChange={(e) => setPostText(e.target.value)} />
-                        : <p className="text">{discussion.discussionText}</p>
-                    }
+                    {/*<div className="posts-wrapper">*/}
+                        {editOpen && activePost === discussion.id
+                            ? <textarea maxLength="500" value={discussion.discussionText} className="edit" onChange={(e) => setPostText(e.target.value)} />
+                            : <p className="text">{discussion.discussionText}</p>
+                        }
 
-                    {/*<div className="post-options">*/}
-                    {/*    {showDeleteConfirm && activePost === discussion.id*/}
-                    {/*        ?*/}
-                    {/*        <button onClick={(e) => deletePost(e, discussion.id)}>*/}
-                    {/*            <img alt="done" src={done} />*/}
-                    {/*        </button>*/}
+                        <div className="post-info">
+                            <h4>{filteredPosts.length} posts on this topic</h4>
+                            {/*<h4 className="createDate">{discussionInfo.Date.slice(0, 16).replace('T', ' ')}</h4>*/}
 
-                    {/*        :*/}
-                    {/*        <button onClick={(e) => openDeletePost(e, post)}>*/}
-                    {/*            <img alt="delete" src={trash} />*/}
-                    {/*        </button>*/}
-                    {/*    }*/}
-                    {/*    {editOpen && activePost === post.id ?*/}
-                    {/*        <button onClick={(e) => confirmEditPost(e, post)}>*/}
-                    {/*            <img alt="done" src={done} />*/}
-                    {/*        </button>*/}
-                    {/*        : <button onClick={(e) => openEditPost(e, post)}>*/}
-                    {/*            <img alt="edit" src={edit} />*/}
-                    {/*        </button>*/}
-                    {/*    }*/}
+                        </div>
                     {/*</div>*/}
-                    <div className="post-info">
-                        <h4>{filteredPosts.length} posts on this topic</h4>
-                        {/*<h4 className="createDate">{discussionInfo.Date.slice(0, 16).replace('T', ' ')}</h4>*/}
-
-                    </div>
-
                 </li>
                 {posts ? filteredPosts.map(post =>
                     <li className={post.postText === "Deleted post" ? "post deleted-post": "post"} key={post.id + post.userName}>
@@ -279,8 +262,11 @@ return (
 
 
                         <div className="post-info">
-                            <img className="friend-avatar" /> <h4> {post.userName} </h4>
+                            <div className="post-info-wrapper">
+                            <img className="friend-avatar" />
+                            <h4> {post.userName} </h4>
                             <h4 className="createDate">{post.date.slice(0, 16).replace('T', ' ')}</h4>
+                            </div>
                             <h4>Comments: {post.numberOfComments}</h4>
 
                         </div>
@@ -289,14 +275,44 @@ return (
             </ul>
             {editOpen
                 ? <p>pls finish editing ur post before writing a new one'</p>
-                : <form>
-                    <textarea rows="4" maxLength="500" placeholder="Write something..." value={postText} className="input-text" onChange={e => validateNewPost(e.target.value)} />
-                    <p>{charactersLeft}/500</p>
-                    <button type="button" className="btn" onClick={(e) => createNewPost(e)}>Post</button>
-                </form>}
+                :<div className="form-wrapper">
+                    <form>
+                        <textarea rows="4" maxLength="500" placeholder="Write something..." value={postText} className="input-text" onChange={e => validateNewPost(e.target.value)} />
+                        <div className="wrapper">
+                            <p>{charactersLeft}/500</p>
+                            <button type="button" className="btn" onClick={(e) => createNewPost(e)}>Post</button>
+                        </div>
+                    </form>
+                 </div>}
         </section>
     </>
 )
 }
 
 export default Posts
+
+
+// 192 - 212 
+ 
+// {/*<div className="post-options">*/}
+//{/*    {showDeleteConfirm && activePost === discussion.id*/ }
+//{/*        ?*/ }
+//{/*        <button onClick={(e) => deletePost(e, discussion.id)}>*/ }
+//{/*            <img alt="done" src={done} />*/ }
+//{/*        </button>*/ }
+
+//{/*        :*/ }
+//{/*        <button onClick={(e) => openDeletePost(e, post)}>*/ }
+//{/*            <img alt="delete" src={trash} />*/ }
+//{/*        </button>*/ }
+//{/*    }*/ }
+//{/*    {editOpen && activePost === post.id ?*/ }
+//{/*        <button onClick={(e) => confirmEditPost(e, post)}>*/ }
+//{/*            <img alt="done" src={done} />*/ }
+//{/*        </button>*/ }
+//{/*        : <button onClick={(e) => openEditPost(e, post)}>*/ }
+//{/*            <img alt="edit" src={edit} />*/ }
+//{/*        </button>*/ }
+//{/*    }*/ }
+//{/*</div>*/ }
+ 
