@@ -23,7 +23,6 @@ namespace GnuOne.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<MyFriend> MyFriends { get; set; }
         public DbSet<MyFriendsFriends> MyFriendsFriends { get; set; }
-        public DbSet<LastUpdate> LastUpdates { get; set; }
         public DbSet<MySettings> MySettings { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<myProfile> MyProfile { get; set; }

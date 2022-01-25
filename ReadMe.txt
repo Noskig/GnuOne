@@ -212,3 +212,47 @@ Run
  
 Login with the same username & password as Heidi
  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Städa:
+DiscussionC = 
+PostC = 
+CommentsC = 
+BookmarksC =
+MessageC = 
+MyFriendC = 
+myProfileC = 
+NotificC = 
+SettingsC = 
+TagsC = 
+
+Mailreader = 
+AesCrypt = 
+DbCommand = 
+Global = 
+Megacrypt = 
+Noti = 
+pwMask = 
+
+APicontext =				Städat/OK
+MariaCont =					Städat/OK
+
+
+
+Städa modellerna =			Städade/OK
+
+Gå igenom varningar?

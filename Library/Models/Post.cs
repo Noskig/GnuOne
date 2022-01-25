@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//Ändra postklassen samt SendPost. 
 namespace Library
 {
     public class Post
@@ -35,8 +34,6 @@ namespace Library
 
             string query = "INSERT into POSTS (ID, Email, userName, postText, Date, discussionID, discussionEmail) VALUES (" + one + comma + two + comma + thr + comma + fou + comma + fiv + comma + six + comma + sev + ")";
             return query;
-
-            //Klar?
         }
 
         public string EditPost(string oldtext)
@@ -65,7 +62,6 @@ namespace Library
             string query = $"DELETE from POSTS WHERE ID={one} AND Username={two} AND postText={thr}";
 
             return query;
-
         }
 
     }
