@@ -121,3 +121,6 @@ In addition to that, your friend list will be updated so as to be seen by your o
 <h3>Messages</h3>
 <b>Get:</b> Returns all the messages.<br>
 <b>Post:</b> To write a new message.<br>
+
+<h3>Bookmarks</h3>
+<b>Post:</b> Bookmarks a discussion.<br>
