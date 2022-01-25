@@ -10,8 +10,9 @@ using System.Text.Json.Serialization;
 
 namespace GnuOne.Controllers
 {
-   
-
+    /// <summary>
+    /// Controller for User's Profile
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class myProfileController : ControllerBase
@@ -21,10 +22,12 @@ namespace GnuOne.Controllers
 
         public myProfileController(ApiContext context)
         {
-             _context = context;
+            _context = context;
             _settings = _context.MySettings.First();
         }
-
+        /// <summary>
+        /// Get profile information
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -32,7 +35,10 @@ namespace GnuOne.Controllers
             var json = JsonConvert.SerializeObject(a);
             return Ok(json);
         }
-
+        /// <summary>
+        /// Gets a specific picture's information
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPicture(int? id)
         {
@@ -41,46 +47,45 @@ namespace GnuOne.Controllers
             return Ok(json);
         }
 
-
+        /// <summary>
+        /// Update users profile information and pings friends that information has changed
+        /// </summary>
         [HttpPut]
-        public async Task<IActionResult> PutMyProfile([FromBody]myProfile Profile)
+        public async Task<IActionResult> PutMyProfile([FromBody] myProfile Profile)
         {
             var myprofile = await _context.MyProfile.FirstOrDefaultAsync();
 
             myprofile.myUserInfo = Profile.myUserInfo;
             myprofile.pictureID = Profile.pictureID;
             myprofile.tagOne = Profile.tagOne;
-            myprofile.tagTwo = Profile.tagTwo;  
-            myprofile.tagThree = Profile.tagThree;  
-            
+            myprofile.tagTwo = Profile.tagTwo;
+            myprofile.tagThree = Profile.tagThree;
 
-            var myInfo = new MyFriend();
-            myInfo.Email = _settings.Email;
-            myInfo.userName = _settings.userName;
-            myInfo.userInfo = Profile.myUserInfo;
-            myInfo.pictureID = Profile.pictureID;
-            myInfo.tagOne = Profile.tagOne;
-            myInfo.tagTwo = Profile.tagTwo;
-            myInfo.tagThree = Profile.tagThree;
 
-            var jsonProfileInfo = JsonConvert.SerializeObject(myInfo); 
-            try
+            var myInfo = new MyFriend
             {
-                foreach (var user in _context.MyFriends)
-                {
-                    //if (user.isFriend == false) { continue; }
-                    MailSender.SendObject(jsonProfileInfo, user.Email, _settings, "PutFriendsProfile");
+                Email = _settings.Email,
+                userName = _settings.userName,
+                userInfo = Profile.myUserInfo,
+                pictureID = Profile.pictureID,
+                tagOne = Profile.tagOne,
+                tagTwo = Profile.tagTwo,
+                tagThree = Profile.tagThree
+            };
 
-                }
+            var jsonProfileInfo = JsonConvert.SerializeObject(myInfo);
+
+            foreach (var user in _context.MyFriends)
+            {
+                //if (user.isFriend == false) { continue; }
+                MailSender.SendObject(jsonProfileInfo, user.Email, _settings, "PutFriendsProfile");
+
             }
-            catch (Exception ex) 
-            { }
-            
-            _context.MyProfile.Update(myprofile); 
-            await _context.SaveChangesAsync(); 
+
+            _context.MyProfile.Update(myprofile);
+            await _context.SaveChangesAsync();
 
             return Ok("Updated profile");
         }
     }
 }
-    

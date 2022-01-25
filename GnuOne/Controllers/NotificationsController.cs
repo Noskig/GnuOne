@@ -9,6 +9,10 @@ using Newtonsoft.Json;
 
 namespace GnuOne.Controllers
 {
+
+    /// <summary>
+    /// Controller for handeling notifications for the User
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class NotificationsController : ControllerBase
@@ -20,7 +24,10 @@ namespace GnuOne.Controllers
             _context = context;
             _settings = _context.MySettings.First();
         }
-
+        /// <summary>
+        /// Gathers all notifications depending on type
+        /// </summary>
+        /// <returns>Notifcations in json format</returns>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -55,11 +62,6 @@ namespace GnuOne.Controllers
                         NotificationDTO friender1 = new NotificationDTO(item, friend1, item.messageType);
                         listOfDtos.Add(friender1);
                         break;
-                    //case "FriendRequestDenied":
-                    //    MyFriend friend2 = _context.MyFriends.Where(x => x.Email == item.mail).FirstOrDefault();
-                    //    NotificationDTO friender2 = new NotificationDTO(friend2, item.messageType);
-                    //    listOfDtos.Add(friender2);
-                    //    break;
                     default:
                         break;
                 }
@@ -69,6 +71,11 @@ namespace GnuOne.Controllers
             var json = JsonConvert.SerializeObject(listOfDtos);
             return Ok(json);
         }
+        /// <summary>
+        /// Updates that a specific notification has been seen
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int? id)
         {
@@ -79,6 +86,9 @@ namespace GnuOne.Controllers
             await _context.SaveChangesAsync();
             return Ok("Its been seen");
         }
+        /// <summary>
+        ///  Reset the counter for a specific notifation
+        /// </summary>
         [HttpPatch]
         public async Task<IActionResult> Patch(int? id)
         {
@@ -89,6 +99,11 @@ namespace GnuOne.Controllers
 
             return Ok();
         }
+        /// <summary>
+        /// Deletes a specific notification
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSingle(int? id)
         {
@@ -106,6 +121,10 @@ namespace GnuOne.Controllers
             }
           
         }
+        /// <summary>
+        /// Deletes all notifications
+        /// </summary>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<IActionResult> DeleteAll()
         {
@@ -114,6 +133,5 @@ namespace GnuOne.Controllers
             await _context.SaveChangesAsync();
             return Ok("All notifications has been deleted");
         }
-
     }
 }

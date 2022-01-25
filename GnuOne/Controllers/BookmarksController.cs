@@ -20,11 +20,16 @@ namespace GnuOne.Controllers
             _settings = _context.MySettings.First();
 
         }
-
+        /// <summary>
+        /// Get bookmarks
+        /// </summary>
+        /// <returns>
+        /// Bookmarks in JsonFromat
+        /// </returns>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var listBookmarks =  await _context.Bookmarks.ToListAsync();
+            var listBookmarks = await _context.Bookmarks.ToListAsync();
 
             var listDiscussion = await _context.Discussions.ToListAsync();
             var listPosts = await _context.Posts.ToListAsync();
@@ -33,13 +38,13 @@ namespace GnuOne.Controllers
             foreach (var bookmarked in listBookmarks)
             {
                 //if disc
-                if(listDiscussion.Where(x => x.ID == bookmarked.ID && x.Email == bookmarked.Email).Any())
+                if (listDiscussion.Where(x => x.ID == bookmarked.ID && x.Email == bookmarked.Email).Any())
                 {
                     var foundDisc = listDiscussion.Where(x => x.ID == bookmarked.ID && x.Email == bookmarked.Email).First();
                     bookmark.Discussusions.Add(foundDisc);
                 }
                 //if post
-                if(listPosts.Where(x => x.ID == bookmarked.ID && x.Email == bookmarked.Email).Any())
+                if (listPosts.Where(x => x.ID == bookmarked.ID && x.Email == bookmarked.Email).Any())
                 {
                     var foundPost = listPosts.Where(x => x.ID == bookmarked.ID && x.Email == bookmarked.Email).First();
                     bookmark.Posts.Add(foundPost);
@@ -51,6 +56,10 @@ namespace GnuOne.Controllers
             return Ok(jsonBookmark);
         }
 
+        /// <summary>
+        /// Create and save a new Bookmark
+        /// </summary>
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Bookmark mark)
         {
@@ -58,14 +67,20 @@ namespace GnuOne.Controllers
             {
                 return BadRequest();
             }
-            if (!_context.Bookmarks.Contains(mark)) { 
-            await _context.Bookmarks.AddAsync(mark);
-            await _context.SaveChangesAsync();
+            if (!_context.Bookmarks.Contains(mark))
+            {
+                await _context.Bookmarks.AddAsync(mark);
+                await _context.SaveChangesAsync();
 
-            return Ok("Bookmark saved");
+                return Ok("Bookmark saved");
             }
             return Ok("Bookmark is already saved");
         }
+        /// <summary>
+        /// Remove one of your bookmarks
+        /// </summary>
+        /// <param name="mark"></param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] Bookmark mark)
         {

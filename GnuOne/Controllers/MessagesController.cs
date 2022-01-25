@@ -10,6 +10,10 @@ using System.Linq;
 
 namespace GnuOne.Controllers
 {
+    /// <summary>
+    /// Controller for a direct messages between Users
+    /// </summary>
+
     [Route("api/[controller]")]
     [ApiController]
     public class MessagesController : ControllerBase
@@ -23,6 +27,12 @@ namespace GnuOne.Controllers
             _settings = _context.MySettings.FirstOrDefault();
         }
 
+        /// <summary>
+        /// Gets all friends and messages
+        /// </summary>
+        /// <returns>
+        /// Data of the friends and their last message together
+        /// </returns>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -43,8 +53,13 @@ namespace GnuOne.Controllers
             return Ok(jsonDtoList);
         }
 
-        [HttpGet("dm")]
-
+        /// <summary>
+        /// Gets all messages with one "Friend"
+        /// </summary>
+        /// <returns>
+        /// Time sorted messages between user and Friend
+        /// </returns>
+        [HttpPatch("dm")]
         public async Task<IActionResult> GetFriendsMessages([FromBody] MyFriend friend)
         {
             var friendsMessages = await _context.Messages.Where(x => x.From == friend.Email).OrderBy(x => x.Sent).ToListAsync();
@@ -55,11 +70,14 @@ namespace GnuOne.Controllers
             allMessages.AddRange(myMessageToFriend);
             allMessages.OrderByDescending(x => x.Sent).ToList();
 
-            var jsonmessages = JsonConvert.SerializeObject(allMessages); //osäker på om de är sorterade
+            var jsonmessages = JsonConvert.SerializeObject(allMessages);
             
             return Ok(jsonmessages);
         }
-
+        /// <summary>
+        /// Saves message locally
+        /// Send message to friend.
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> SendMessage(Message message)
         {
@@ -82,6 +100,5 @@ namespace GnuOne.Controllers
 
             return Ok("Message Sent");
         }
-
     }
 }

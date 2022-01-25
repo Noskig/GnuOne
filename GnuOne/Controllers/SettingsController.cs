@@ -8,6 +8,9 @@ using Library.HelpClasses;
 
 namespace GnuOne.Controllers
 {
+    /// <summary>
+    /// Controller for handling User settings
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class SettingsController : ControllerBase
@@ -20,8 +23,9 @@ namespace GnuOne.Controllers
             _context = context;
             _settings = _context.MySettings.First();
         }
-
-        //GET: api/<SettingController>
+        /// <summary>
+        /// Gets the users settings information
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -34,7 +38,9 @@ namespace GnuOne.Controllers
             }
             return NotFound();
         }
-
+        /// <summary>
+        /// Gets only the Darkmode setting
+        /// </summary>
         [HttpGet("{darkmode}")]
         public async Task<IActionResult> Getmode()
         {
@@ -43,6 +49,9 @@ namespace GnuOne.Controllers
             return Ok(darkModeJson);
         }
 
+        /// <summary>
+        /// Changes only the darkmode setting
+        /// </summary>
         [HttpPut("{darkmode}")]
         public async Task<IActionResult> Put(bool darkMode)
         {
@@ -54,8 +63,11 @@ namespace GnuOne.Controllers
             return Ok();
         }
 
-
-        // PUT api/<SettingController>/5
+        /// <summary>
+        /// Update any setting for the User
+        /// </summary>
+        /// <param name="mySettings"></param>
+        /// <returns></returns>
         [HttpPut]
         public async Task<IActionResult> updateSettingsPut([FromBody] MySettings mySettings)
         {
@@ -65,6 +77,9 @@ namespace GnuOne.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Updates the Username and pings the network of the change
+        /// </summary>
         [HttpPut("username")]
         public async Task<IActionResult> updateSettingsPut([FromBody] string username)
         {
@@ -91,12 +106,12 @@ namespace GnuOne.Controllers
                     MailSender.SendObject(jsonUsername, friendsFriend.Email, _settings, "UpdatedFriendsFriendsUsername");
                 }
             }
-
-
             return Ok();
         }
 
-        //https://localhost:7261/api/Settings/true Restores the DB!
+        /// <summary>
+        /// Not complete function. Only the start of a restoring database information if user were to switch computers
+        /// </summary>
         [HttpPatch("{GetBackUp}")]
         public IActionResult BackUpDB(bool GetBackUp)
         {
@@ -107,13 +122,5 @@ namespace GnuOne.Controllers
             }
             return BadRequest("Something didn work out...");
         }
-
-        // DELETE api/<SettingController>/5
-        //kanske ta bort konto?
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-
     }
 }

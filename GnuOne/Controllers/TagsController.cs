@@ -8,6 +8,9 @@ using Newtonsoft.Json;
 
 namespace GnuOne.Controllers
 {
+    /// <summary>
+    /// Controller for handling tags (categories) 
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class TagsController : ControllerBase
@@ -20,7 +23,10 @@ namespace GnuOne.Controllers
             _context = context;
             _settings = _context.MySettings.First();
         }
-
+        /// <summary>
+        /// Gets all tags
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetTags()
         {
@@ -32,7 +38,9 @@ namespace GnuOne.Controllers
             }
             return NotFound();
         }
-
+        /// <summary>
+        /// Gets all Discussions with a specfic tag
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -44,6 +52,9 @@ namespace GnuOne.Controllers
             }
             return Ok("Couldnt find any discussion by this tag");
         }
+        /// <summary>
+        /// Gets a specific tag's information (name)
+        /// </summary>
         [HttpPatch("{id}")]
         public async Task<IActionResult> Gettagname(int id)
         {
@@ -52,6 +63,9 @@ namespace GnuOne.Controllers
             return Ok(json);
         }
 
+        /// <summary>
+        /// Create a new tag
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> PostTags([FromBody] Tag tag)
         {
@@ -59,8 +73,5 @@ namespace GnuOne.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
-
-
-
     }
 }

@@ -9,7 +9,9 @@ using Newtonsoft.Json;
 
 namespace GnuOne.Controllers
 {
-
+    /// <summary>
+    /// Controller for handeling posts on a discussion
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class PostsController : ControllerBase
@@ -21,9 +23,8 @@ namespace GnuOne.Controllers
             _context = context;
             _settings = _context.MySettings.First();
         }
-        // GET: api/Posts
         /// <summary>
-        /// Hämtar Posten från DB. Konverterar dom till JSON och skickar tillbaka.
+        /// Gets all posts
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -35,12 +36,13 @@ namespace GnuOne.Controllers
             return Ok(converted);
         }
 
-        // GET: api/Posts/5
+
         /// <summary>
-        /// Hämtar post med ett specifikt ID
+        /// Gets a specific Post
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>
+        /// Post and all underlying Comments
+        /// </returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPost(int? id)
         {
@@ -50,20 +52,18 @@ namespace GnuOne.Controllers
             {
                 return NotFound();
             }
-
             var commentList = await _context.Comments.Where(x => x.postID == post.ID).ToListAsync();
 
             var dto = new PostDTO(post, commentList);
-
             return Ok(dto);
         }
 
-        // POST: api/Posts
         /// <summary>
-        /// Lägger upp en post och skickar ut mail
+        ///  Creates a Post
+        ///  Sets the information
+        ///  Send mail to the auther of the discussion for it to spread in the network
+        ///  Saves it locally
         /// </summary>
-        /// <param name="post"></param>
-        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> PostPost([FromBody] Post post)
         {
@@ -76,31 +76,19 @@ namespace GnuOne.Controllers
 
             var jsonPost = JsonConvert.SerializeObject(post);
 
-
-            //skickar vidare till författaren
-
             MailSender.SendObject(jsonPost, post.discussionEmail, _settings, "PostedPost");
-
-            //foreach (var user in _context.MyFriends)
-            //{
-            //    if (user.isFriend == false) { continue; }
-            //    MailSender.SendObject(jsonPost, user.Email, _settings, "PostedPost");
-            //}
 
             await _context.AddAsync(post);
             await _context.SaveChangesAsync();
 
-
             return CreatedAtAction("GetPost", new { id = post.ID }, post);
         }
 
-        // PUT: api/Posts/5
         /// <summary>
-        /// Ändrar en kommentar med ett specifikt ID
+        /// Edit an existing post.
+        /// Pings the edited information to the auther who spreads it in the network
+        /// Saves it locally
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="post"></param>
-        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPost(int? id, Post post)
         {
@@ -108,12 +96,10 @@ namespace GnuOne.Controllers
             {
                 return BadRequest();
             }
-
             if (!PostExists(id))
             {
                 return NotFound();
             }
-
 
             var jsonPost = JsonConvert.SerializeObject(post);
 
@@ -124,51 +110,29 @@ namespace GnuOne.Controllers
 
             return Accepted(post);
         }
-
-        // DELETE: api/Posts/5
         /// <summary>
-        /// Deletar en post med specifikt ID och skickar ut mail
+        /// Edit a post to mark it Deleted
+        /// Pings the top-level author who spreads it in the network
+        /// Saves i locally
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePost(int? id)
         {
             var post = await _context.Posts.FindAsync(id);
-
-            post.postText = "Deleted post";
-            post.userName = "Deleted post";
-
-            _context.Update(post);
-            await _context.SaveChangesAsync();
-            
             if (post == null)
             {
                 return NotFound();
             }
-
-            //json
-            //krypter
-            //skicka mail
-            //deleta
-
-            //Markera som deleted (men ska inte tas bort.)
-            //En bool. 
-            //skickas till alla vänner. 
-
-
+            post.postText = "Deleted post";
+            post.userName = "Deleted post";
+            
             var jsonPost = JsonConvert.SerializeObject(post);
 
             MailSender.SendObject(jsonPost, post.discussionEmail, _settings, "PutPost");
 
-            //foreach (var user in _context.MyFriends)
-            //{
-            //    if (user.isFriend == false) { continue; }
-            //    MailSender.SendObject(jsonPost, user.Email, _settings, "DeletePost");
-            //}
+            _context.Update(post);
+            await _context.SaveChangesAsync();
 
-            //_context.Remove(post);
-            //await _context.SaveChangesAsync();
             return Accepted(post);
         }
         private bool PostExists(int? id)
