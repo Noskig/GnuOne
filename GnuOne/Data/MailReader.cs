@@ -12,22 +12,30 @@ using System.Text.Json;
 
 namespace GnuOne.Data
 {
+    //Read all incoming emails with Imap.
+    //Every email sent from GNU, will have a specified, encrypted subject.
+    //After decryption the program will match the subjet to a switch.
+    //The switch will assign the appropiate method to read, save and re-send 
+    //the content of the e-mail. When read, Imap flags the message as "has-been-read",
+    //and deletes the e-mail from the G-mail inbox. 
+
+    //The program is set to loop the Mailreader-class every 10 seconds,
+    //for as long as GNU is running.
     public static class MailReader
     {
-
         public static async void ReadUnOpenEmails(MariaContext _newContext, string ConnectionString)
         {
             var myInfo = _newContext.MySettings.First();
 
             var pass = AesCryption.Decrypt(myInfo.Password, myInfo.Secret);
 
-            using (var client = new ImapClient()) //**** new ProtocolLogger("imap.log")) om vi vill logga
+            using (var client = new ImapClient()) //**** new ProtocolLogger("imap.log")) if ypu want to log.
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                 client.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
-                client.Connect("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect); //****
+                client.Connect("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect); 
                 client.AuthenticationMechanisms.Remove("XOAUTH2");
-                client.Authenticate(myInfo.Email, pass);                                                 //vad händer om man har fel lösen?
+                client.Authenticate(myInfo.Email, pass);                                               
                 client.Inbox.Open(FolderAccess.ReadWrite);
 
 
@@ -61,7 +69,6 @@ namespace GnuOne.Data
                                 { break; }
                                 else
                                 {
-                                    ///try again?
                                     break;
                                 }
 
@@ -73,10 +80,8 @@ namespace GnuOne.Data
                                     var doinga = ForwardToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardPost");
                                     break;
                                 }
-
                                 else
                                 {
-                                    ///try again?
                                     break;
                                 }
 
@@ -86,7 +91,6 @@ namespace GnuOne.Data
                                 { break; }
                                 else
                                 {
-                                    ///try again?
                                     break;
                                 }
 
@@ -97,21 +101,9 @@ namespace GnuOne.Data
                                 { break; }
                                 else
                                 {
-                                    ///try again?
                                     break;
                                 }
 
-                            //case "DeletePost":
-                            //    var deeding = ReceiveAndDeletePost(decryptedMessage, _newContext);
-                            //    if (deeding == 1)
-                            //    { 
-                            //        var deeding1 = ForwardPostToFriends(decryptedMessage, _newContext, cleanEmailFrom, "ForwardDeletePost");
-                            //        break; }
-                            //    else
-                            //    {
-                            //        ///try again?
-                            //        break;
-                            //    }
 
                             case "ForwardDeletePost":
                                 var deeding2 = ReceiveAndDeletePost(decryptedMessage, _newContext);
@@ -121,7 +113,6 @@ namespace GnuOne.Data
                                 }
                                 else
                                 {
-                                    ///try again?
                                     break;
                                 }
 
@@ -135,7 +126,6 @@ namespace GnuOne.Data
                                 }
                                 else
                                 {
-                                    ///try again?
                                     break;
                                 }
 
@@ -148,7 +138,6 @@ namespace GnuOne.Data
                                 }
                                 else
                                 {
-                                    ///try again?
                                     break;
                                 }
 
@@ -202,7 +191,6 @@ namespace GnuOne.Data
                                 { break; }
                                 else
                                 {
-                                    ///try again?
                                     break;
                                 }
 
@@ -213,16 +201,13 @@ namespace GnuOne.Data
                                 { break; }
                                 else
                                 {
-                                    ///try again?
                                     break;
                                 }
 
                             case "AcceptedFriendRequest":
-                                //var deedf = await Task.Run(() => ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false, myInfo.Email));
                                 var deedf = ReceieveInfoAndAcceptFriend(decryptedMessage, _newContext, false, myInfo.Email, Sub[1]);
                                 if (deedf == 1)
                                 {
-                                    //await Task.Run(() => GiveBackMyInformation(_newContext, emailFrom));
                                     var returnInfo = GiveBackMyInformation(_newContext, cleanEmailFrom);
                                     break;
                                 }
@@ -243,13 +228,10 @@ namespace GnuOne.Data
                                 if (deedi == 1) { break; }
                                 else { break; }
 
-
                             case "FriendsFriendGotRemoved":
                                 var deedj = RemoveFriendsFriend(decryptedMessage, _newContext, cleanEmailFrom);
                                 if (deedj == 1) { break; }
                                 else { break; }
-
-
 
                             case "FriendHiding":
                                 var deed4 = UpdateFriendHiding(decryptedMessage, _newContext, cleanEmailFrom);
@@ -280,12 +262,11 @@ namespace GnuOne.Data
                                 break;
                         }
 
-                        // Flaggar meddelandet att det skall tas bort.
-                        client.Inbox.AddFlags(mail, MessageFlags.Deleted, true);  //false? testa
-                        /*Backup.BackupDatabase();*/ // Backar upp dB
+                        // Flag message to "been-read" and deletes.
+                        client.Inbox.AddFlags(mail, MessageFlags.Deleted, true);  
+                        /*Backup.BackupDatabase();*/ // Code for backup goes here.
                     }
-
-                    //Spammail kmr hit och tas bort
+                    //Spamm-Email will be deleted.
                     else
                     {
                         client.Inbox.AddFlags(mail, MessageFlags.Deleted, true);
@@ -293,8 +274,6 @@ namespace GnuOne.Data
                     }
                 }
                 client.Disconnect(true);
-
-                //backupdatabase();
             }
         }
 
@@ -472,13 +451,6 @@ namespace GnuOne.Data
             context.Comments.UpdateRange(myComments);
             context.SaveChangesAsync().Wait();
 
-            //string[] message = new string[] { decryptedMessage, cleanEmailFrom };
-            //var jsonMessage = JsonConvert.SerializeObject(message);
-            //foreach (var friendd in context.MyFriends)
-            //{
-            //    MailSender.SendObject(jsonMessage, friendd.Email, mySettings, "UpdateFriendsFriendUsername");
-            //}
-
             return 1;
         }
 
@@ -571,25 +543,10 @@ namespace GnuOne.Data
             return 1;
 
         }
-        private static int ForwardCommentToFriends(string decryptedMessage, MariaContext context, string fromEmail, string subject)
-        {
-            var mysettings = context.MySettings.FirstOrDefault();
-
-            foreach (var friend in context.MyFriends)
-            {
-                if (friend.Email != fromEmail)
-                {
-                    if (friend.isFriend == false) { continue; }
-                    MailSender.SendObject(decryptedMessage, friend.Email, mysettings, subject);
-                }
-            }
-            return 1;
-        }
 
         private static int UpdateFriendFriends(string decryptedMessage, MariaContext context)
         {
             var newFriendFriends = JsonConvert.DeserializeObject<MyFriendsFriends>(decryptedMessage);
-
 
             if (newFriendFriends is not null)
             {
@@ -607,7 +564,6 @@ namespace GnuOne.Data
         private static int RemoveFriendsFriend(string decryptedMessage, MariaContext context, string fromEmail)
         {
             var friend = context.MyFriends.Where(x => x.Email == fromEmail).FirstOrDefault();
-
             var friendNotfriend = JsonConvert.DeserializeObject<MyFriend>(decryptedMessage);
 
             var removeablefriendfirend = context.MyFriendsFriends.Where(x => x.myFriendEmail == fromEmail && x.Email == friendNotfriend.Email).FirstOrDefault();
@@ -633,7 +589,7 @@ namespace GnuOne.Data
                 context.Discussions.RemoveRange(theirDiscussion);
                 context.MyFriends.Remove(stupidFriend);
                 context.SaveChangesAsync().Wait();
-                ///skicka ut mail till mina vänner att dom är borta
+                ///Send information that my friend is removed.
                 var jsonStupidFriend = JsonConvert.SerializeObject(stupidFriend);
 
                 var mySettings = context.MySettings.FirstOrDefault();
@@ -651,18 +607,15 @@ namespace GnuOne.Data
         private static int GiveBackMyInformation(MariaContext context, string toEmail)
         {
             var mysettingsEmail = context.MySettings.Select(x => x.Email).Single();
-
             var myprofile = context.MyProfile.FirstOrDefault();
-
 
             var bigListWithMyInfo = BigList.FillingBigListWithMyInfo(context, mysettingsEmail, false, myprofile);
             var jsonBigList = JsonConvert.SerializeObject(bigListWithMyInfo);
             var mySettings = context.MySettings.FirstOrDefault();
             MailSender.SendObject(jsonBigList, toEmail, mySettings, "GiveBackInformation");
 
-            ///vilken vän
             var friend = context.MyFriends.Where(x => x.Email == toEmail).FirstOrDefault();
-            //gör om till friendfriend och skicka till mina vänner
+            //Send my friendFriend to my friends.
             var friendFriendNew = new MyFriendsFriends(friend, mysettingsEmail);
             var jsonFriendFriendNew = JsonConvert.SerializeObject(friendFriendNew);
 
@@ -680,11 +633,9 @@ namespace GnuOne.Data
         {
             var theirLists = JsonConvert.DeserializeObject<BigList>(decryptedMessage);
 
-
             var email = theirLists.FromEmail;
             var username = theirLists.username;
             var friend = context.MyFriends.Where(x => x.Email == email).FirstOrDefault();
-
 
             if (theirLists is not null)
             {
@@ -714,22 +665,18 @@ namespace GnuOne.Data
 
                             myFriendFriendsList.Add(bff);
                         }
-
                     }
                     context.MyFriendsFriends.AddRangeAsync(myFriendFriendsList);
-                    //context.MyFriends.AddRange(theirFriends);
                 }
                 var theirDiscussion = theirLists.Discussions;
                 if (theirDiscussion is not null)
                 {
                     context.Discussions.AddRangeAsync(theirDiscussion);
-                    //context.SaveChanges();
                 }
                 var theirPosts = theirLists.Posts;
                 if (theirPosts is not null)
                 {
                     context.Posts.AddRangeAsync(theirPosts);
-                    //context.SaveChanges();
                 }
                 if (subject == "AcceptedFriendRequest")
                 {
@@ -770,12 +717,7 @@ namespace GnuOne.Data
                 context.SaveChangesAsync().Wait();
                 return 1;
             }
-
-
             return -1;
-            //notification.messageType = "FriendRequest";
-            //notification.mail = potentialfriend.Email;
-            //notification.info = potentialfriend.userName;
         }
 
         private static int RecieveAndPutDiscussion(string decryptedMessage, MariaContext context)
@@ -888,13 +830,8 @@ namespace GnuOne.Data
                                     context.Notifications.Add(bookmarknot);
                                 }
                             }
-
                         }
-
-
-
                         context.SaveChangesAsync().Wait();
-
                     }
                     return 1;
                 }
@@ -904,8 +841,6 @@ namespace GnuOne.Data
 
         private static int RecieveAndSaveDiscussion(string decryptedbody, MariaContext context)
         {
-
-
             var discussion = JsonConvert.DeserializeObject<Discussion>(decryptedbody);
             if (discussion is not null)
             {

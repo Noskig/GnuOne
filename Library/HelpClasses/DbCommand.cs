@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Library.HelpClasses
 {
+    //Send a command to Heidi to see if Gnu exist.
     public class DbCommand
     {
 
@@ -27,10 +28,6 @@ namespace Library.HelpClasses
               catch (Exception)
             {
                 Console.WriteLine("Info: Db already exist/Or mail couldnt be read?");
-                //Console.Error.WriteLine("Db kan inte skapas");
-                //Console.Error.WriteLine(queryString);
-                //Console.Error.WriteLine(connectionstring);
-                //Console.WriteLine("Kontrollera queryn och connectionstring");
                 return;
             }
         }

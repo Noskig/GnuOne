@@ -15,10 +15,10 @@ namespace Library.Models.DTOs
         public int? infoID { get; set; }
         public string Headline { get; set; }
         public int? Counter { get; set; }
-        public string? userName { get; set; }
+        public string userName { get; set; } = String.Empty;
 
 
-        public NotificationDTO(Notification notification, Discussion? discussion)
+        public NotificationDTO(Notification notification, Discussion discussion)
         {
             ID = notification.ID;
             Type = "discussion";
@@ -27,7 +27,7 @@ namespace Library.Models.DTOs
             Counter = notification.counter;
             hasBeenRead = notification.hasBeenRead;
         }
-        public NotificationDTO(Notification notification, Post? post)
+        public NotificationDTO(Notification notification, Post post)
         {
             ID = notification.ID;
 
@@ -38,33 +38,15 @@ namespace Library.Models.DTOs
             hasBeenRead = notification.hasBeenRead;
 
         }
-        public NotificationDTO(Notification notification ,MyFriend? myFriend, string sub)
+        public NotificationDTO(Notification notification ,MyFriend myFriend, string sub)
         {
             ID = notification.ID;
             Type = sub;
             Headline = myFriend.Email;
-            //infoID = myFriend.ID;
             userName = myFriend.userName;
             hasBeenRead = notification.hasBeenRead;
             
         }
-        //public NotificationDTO(Notification notification, MyFriend? myFriend)
-        //{
-        //    Type = "friend";
-        //    Headline = notification.messageType;
-        //    ID = post.ID;
-        //    Counter = notification.counter;
-        //}
-        //public NotificationDTO(Notification notification, Post post)
-        //{
-        //    Post = post;
-        //    postCounter = notification.counter;
-        //}
-        //public NotificationDTO(Notification notification, MyFriend myFriend)
-        //{
-        //    MyFriend = myFriend;
-        //    friendMethod = notification.messageType;
-        //}
     }
 }
 
