@@ -3,6 +3,7 @@ import FriendProfile from './Pages/FriendProfile';
 import Friends from './components/Friends/Friends';
 import Bio from './components/Bio/Bio';
 import Messages from './components/Messages/Messages';
+import PrivateMessages from './components/Messages/PrivateMessages';
 import Settings from './components/Settings/Settings';
 import Discussions from './components/Discussions/Discussions';
 import Posts from './components/Posts';
@@ -60,6 +61,10 @@ const routes = [
             {
                 path: '/profile/bio',
                 component: Bio,
+            },
+            {
+                path: '/profile/messages/:email',
+                component: PrivateMessages,
             },
             {
                 path: '/profile/messages',
