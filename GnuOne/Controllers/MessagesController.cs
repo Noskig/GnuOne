@@ -49,7 +49,7 @@ namespace GnuOne.Controllers
             var friendsMessages = await _context.Messages.Where(x => x.From == friend.Email).OrderBy(x => x.Sent).ToListAsync();
             var myMessageToFriend = await _context.Messages.Where(x => x.To == friend.Email).OrderBy(x => x.Sent).ToListAsync();
 
-            var friendsUsername = await _context.MyFriends.Where(x => x.Email == friend.Email).Select(x => x.Email).SingleAsync();
+            var friendsUsername = await _context.MyFriends.Where(x => x.Email == friend.Email).Select(x => x.userName).SingleAsync();
             var myusername = _settings.userName;
 
             foreach (var friendsmessage in friendsMessages)
@@ -64,8 +64,6 @@ namespace GnuOne.Controllers
             allMessages.AddRange(friendsMessages);
             allMessages.AddRange(myMessageToFriend);
             allMessages.OrderByDescending(x => x.Sent).ToList();
-
-
             var jsonmessages = JsonConvert.SerializeObject(allMessages);
 
             return Ok(jsonmessages);
