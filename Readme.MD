@@ -117,3 +117,7 @@ In addition to that, your friend list will be updated so as to be seen by your o
 
 <h5>api/tags/{id}</h5>
 <b>Get:</b> Searches for discussions with a specific tagId and returns those objects.<br>
+
+<h3>Messages</h3>
+<b>Get:</b> Returns all the messages.<br>
+<b>Post:</b> To write a new message.<br>
