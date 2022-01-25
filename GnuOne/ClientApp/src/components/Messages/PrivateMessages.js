@@ -19,10 +19,17 @@ const PrivateMessages = () => {
     }
 
 
-    useEffect(() => {
-        fetchPrivateMessages({ Email: `${email}@gmail.com` })
+    //useEffect(() => {
+    //    fetchPrivateMessages({ Email: `${email}@gmail.com` })
 
-    }, [email])
+    //}, [email])
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+        fetchPrivateMessages({ Email: `${email}@gmail.com` })
+        }, 2000);
+        return () => clearInterval(interval);
+    }, [email]);
 
     async function fetchPrivateMessages(friend) {
         const response = await fetch(url +'dm', {
@@ -97,6 +104,9 @@ const PrivateMessages = () => {
     function timeSince(date) {
         console.log(date)
         var seconds = Math.floor((new Date() - new Date(date)) / 1000);
+        if (seconds < 1) {
+            seconds = 1
+        }
         console.log(seconds)
         var duration = getDuration(seconds);
         console.log(duration)
