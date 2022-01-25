@@ -8,7 +8,7 @@ http://iwantag.nu/
 
 Database structure
 
-![Gnu Diagram](![Gnu Diagram updaterad](https://user-images.githubusercontent.com/72744280/150971152-f3cdd569-1adc-45b8-8ec2-bf6426dd3ae8.png))
+[Gnu Diagram]![Gnu Diagram updaterad](https://user-images.githubusercontent.com/72744280/150971152-f3cdd569-1adc-45b8-8ec2-bf6426dd3ae8.png)
 
 
 Whats our story behind it?
@@ -124,6 +124,7 @@ In addition to that, your friend list will be updated so as to be seen by your o
 <b>Post:</b> To write a new message.<br>
 
 <h3>Bookmarks</h3>
+<h5>api/bookmarks</h5>
 <b>Post:</b> Bookmarks a discussion.<br>
 
 <h3>Notifications</h3>
