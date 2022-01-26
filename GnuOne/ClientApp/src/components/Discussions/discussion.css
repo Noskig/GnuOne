@@ -1,12 +1,13 @@
 ﻿.discussion {
     background-color: var(--darker-turquoise);
-    color:white;
-    margin-top:0.5rem;
-    display:grid;
-    grid-template-columns:auto auto 7rem;
-    grid-template-rows:auto auto;
-    padding:1rem 1rem 1rem;
-    border-radius:15px ;
+    color: white;
+    margin-top: 0.5rem;
+    display: grid;
+    grid-template-columns: auto auto 7rem;
+    grid-template-rows: auto auto;
+    padding: 1rem 1rem 1rem;
+    border-radius: 7px;
+    box-shadow: 0 2px 4px 1px #a19d9d;
 }
 .discussion-content {
     grid-column-start: 1;

@@ -175,35 +175,12 @@ return (
         <Search search={search} />
         <section className="comments-container">
             <h2>{postInfo.Headline}</h2>
-            {/*<div className="post-tags">{post.firstTag ? `#${discussion.firstTag}` : null} {discussion.secondTag ? `#${discussion.secondTag}` : null}  {discussion.thirdTag ? `#${discussion.thirdTag}` : null} </div>*/}
-
                 <div className="comment">
                     {editOpen && activeComment === post.id
                         ? <textarea maxLength="500" value={post.postText} className="edit" onChange={(e) => setCommentText(e.target.value)} />
                         : <p className="text">{post.postText}</p>
                     }
 
-                    {/*<div className="comment-options">*/}
-                    {/*    {showDeleteConfirm && activeComment === discussion.id*/}
-                    {/*        ?*/}
-                    {/*        <button onClick={(e) => deleteComment(e, discussion.id)}>*/}
-                    {/*            <img alt="done" src={done} />*/}
-                    {/*        </button>*/}
-
-                    {/*        :*/}
-                    {/*        <button onClick={(e) => openDeletecomment(e, comment)}>*/}
-                    {/*            <img alt="delete" src={trash} />*/}
-                    {/*        </button>*/}
-                    {/*    }*/}
-                    {/*    {editOpen && activeComment === comment.id ?*/}
-                    {/*        <button onClick={(e) => confirmEditComment(e, comment)}>*/}
-                    {/*            <img alt="done" src={done} />*/}
-                    {/*        </button>*/}
-                    {/*        : <button onClick={(e) => openEditComment(e, comment)}>*/}
-                    {/*            <img alt="edit" src={edit} />*/}
-                    {/*        </button>*/}
-                    {/*    }*/}
-                    {/*</div>*/}
                     <div className="comment-info">
                         <h4>{filteredComments.length} comment(s) on this post</h4>
                         <h4 className="createDate">{postInfo.Date.slice(0, 16).replace('T', ' ')}</h4>

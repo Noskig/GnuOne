@@ -144,7 +144,11 @@ form .wrapper {
 }
 
 .text-option-wrapper {
-    display:flex; 
-    justify-content:space-between;
-    margin-bottom:1rem;
+    max-width:38rem;
+    display:flex;
+}
+
+.edit-delete-wrapper {
+    display: flex;
+    align-self: start;
 }

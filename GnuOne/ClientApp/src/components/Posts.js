@@ -231,7 +231,7 @@ return (
                         <div className="post-options">
                                     
                             {post.email === myEmail
-                                ? <> {showDeleteConfirm && activePost === post.id
+                                ? <div className="edit-delete-wrapper"> {showDeleteConfirm && activePost === post.id
                                     ?<>
                                     <button onClick={(e) => deletePost(e, post.id)}>
                                         <img alt="done" src={done} />
@@ -250,7 +250,7 @@ return (
                                             <img alt="edit" src={edit} />
                                         </button>
 
-                                    }</>
+                                    }</div>
 
 
                                 : <>
