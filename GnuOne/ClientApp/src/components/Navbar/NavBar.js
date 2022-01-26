@@ -1,6 +1,7 @@
 ﻿import React, { useState, useContext} from 'react';
 import { Link, Switch, useRouteMatch } from 'react-router-dom'
-import logo from '../../icons/Logo.svg'
+/*import logo from '../../icons/Logo.svg'*/
+import logo from '../../Image/Logo/gnux.png'
 import avatar from '../../icons/useravatar.svg'
 import settings from '../../icons/settings.svg'
 import messages from '../../icons/messagesNavbar.svg'
@@ -32,7 +33,7 @@ const NavBar = () => {
     return (
           
             <div className="navbar">
-            <Link to="/" onClick={() => handleClick(0)}> <img src={logo} alt="logo" /> </Link>
+            <Link className="logo" to="/" onClick={() => handleClick(0)}> <img src={logo} alt="logo" /> </Link>
             <ul className="elements">
                 <li onClick={() => setIsPressed(!isPressed)} className="avatar">
                     {profilePic && avatar? <img src={avatar} alt="avatar" /> :null} 
