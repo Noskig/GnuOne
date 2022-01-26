@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useContext } from 'react'
+﻿import { useState, useEffect, useContext, useCallback } from 'react'
 import PortContext from '../../contexts/portContext';
 import AddDiscussionOverlay from './DiscussionOverlay/AddDiscussionOverlay';
 import { Link, useRouteMatch } from 'react-router-dom';
@@ -30,10 +30,6 @@ const Discussions = ({ routes }) => {
     const [editOpen, setEditOpen] = useState(false)
     let match = useRouteMatch()
 
-    //save 
-    const [discussionID, setDiscussionID] = useState();
-    const [discussionEmail, setDiscussionEmail] = useState();
-
     //SEARCH 
     const [searchTerm, setSearchTerm] = useState('')
     const filteredDiscussions = filterDiscussions(discussions, searchTerm)
@@ -42,28 +38,10 @@ const Discussions = ({ routes }) => {
     console.log(myEmail)
     console.log(friendEmail)
 
-    useEffect(() => {
-        fetchData()
-        console.log('i did it again')
-    }, [myEmail])
-
-    async function fetchData() {
+    const fetchData = useCallback(async () => {
         const response = await fetch(url + 'discussions/')
         const discussions = await response.json()
         console.log(discussions)
-
-        ////GET TAGS 
-        //const responseTwo = await fetch(url + 'tags')
-        //const tags = await responseTwo.json()
-        //console.log(tags)
-        //discussions.forEach(discussion => {
-        //    let discussionTags = tags.filter(tag => tag.ID === discussion.tagOne || tag.ID === discussion.tagTwo || tag.ID === discussion.tagThree)
-        //    console.log(discussionTags)
-        //    discussion.firstTag = discussionTags[0] ? discussionTags[0].tagName : null
-        //    discussion.secondTag = discussionTags[1] ? discussionTags[1].tagName : null
-        //    discussion.thirdTag = discussionTags[2] ? discussionTags[2].tagName : null
-        //})
-        ////end
 
         //SHOW ONLY MY OR MY FRIENDS DISCUSSIONS
         let filteredDisc = () => {
@@ -74,21 +52,25 @@ const Discussions = ({ routes }) => {
                     if (disc.Email === myEmail) {
                         console.log('displaying MY discussions: ' + disc.Email, myEmail)
                         return disc
-                    }
+                    } else return false
                 })
             } else if (discussions && friendEmail) {
                 return discussions.filter((disc) => {
                     if (disc.Email === friendEmail) {
                         console.log('displaying FRIENDs discussions: ' + disc.Email, friendEmail)
                         return disc
-                    }
+                    } else return false
                 })
-            }
+            } else return false
         }
         console.log(filteredDisc)
         setDiscussions(filteredDisc)
-    }
+    }, [setDiscussions, url, myEmail, friendEmail])
 
+    useEffect(() => {
+        fetchData()
+        console.log('i did it again')
+    }, [myEmail, fetchData])
 
     const close = () => {
         setShowOverlay(false)
@@ -155,7 +137,7 @@ const Discussions = ({ routes }) => {
     function readmoreAndId(discussion) {
         setActiveDiscussion(discussion.ID)
         setReadMore(true)
-        if (readMore == true && activeDiscussion == discussion.ID) {
+        if (readMore === true && activeDiscussion === discussion.ID) {
             setReadMore(false)
         }
     }
@@ -171,7 +153,7 @@ const Discussions = ({ routes }) => {
                 return true
             } else if (data.Headline.toLowerCase().includes(searchTerm.toLowerCase())) {
                 return data
-            }
+            } else { return false}
 
         })
     }
@@ -222,7 +204,7 @@ const Discussions = ({ routes }) => {
                                     }
                                 }}>
                                     <h4 className="headline">{discussion.Headline}</h4>
-                                    <div className={readMore && activeDiscussion == discussion.ID ? "" : "hide"}>
+                                    <div className={readMore && activeDiscussion === discussion.ID ? "" : "hide"}>
 
                                         <p className="text">{discussion.discussionText}</p>
 
@@ -233,7 +215,7 @@ const Discussions = ({ routes }) => {
                             }
 
 
-                            <div className={readMore && activeDiscussion == discussion.ID ? "discussion-options" : "discussion-options hide"}>
+                            <div className={readMore && activeDiscussion === discussion.ID ? "discussion-options" : "discussion-options hide"}>
 
                                 {friendEmail === undefined
                                     ? <>
@@ -277,7 +259,7 @@ const Discussions = ({ routes }) => {
                             <div className="discussion-info">
                                 <h4> Posts: {discussion.numberOfPosts}</h4>
                                 <h4 className="createDate">{discussion.Date.slice(0, 19).replace('T', ' ').slice(0, 16)}</h4>
-                                <img className={readMore && activeDiscussion == discussion.ID ? "read-more reverse-icon" : "read-more"} alt="read-more" src={arrows} onClick={() => readmoreAndId(discussion)} />
+                                <img className={readMore && activeDiscussion === discussion.ID ? "read-more reverse-icon" : "read-more"} alt="read-more" src={arrows} onClick={() => readmoreAndId(discussion)} />
                                 <div className="discussion-tags">{discussion.tags.map(tag => <h4 key={discussion.tags.indexOf(tag)}># {tag} </h4> )} </div>
                             </div>
                         </div>
