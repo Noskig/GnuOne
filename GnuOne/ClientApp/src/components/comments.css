@@ -1,6 +1,7 @@
 ﻿.comments-container {
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
 
 }
 
@@ -12,7 +13,8 @@
     display: grid;
     grid-template-columns: auto auto 6rem;
     grid-template-rows: auto auto;
-    border-radius: 15px;
+    border-radius: 7px;
+    padding:1rem;
 }
 
 .comment > .text {
@@ -23,10 +25,10 @@
     }
 
 .comment-options {
-    grid-column-start: 3;
-    grid-column-end: 4;
-    grid-row-start: 1;
-    grid-row-end: 2;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-end;
 }
 
 .comment-info {
