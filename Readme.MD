@@ -1,38 +1,95 @@
-# Project Name
-> Outline a brief description of your project.
-> Live demo [_here_](https://www.youtube.com/)
+# Gnu - A Decentrilized Forum
 
-Reading through the guided code will help you learn about the project and how to use it.
+This project was created for a start-up and our customer who wanted a proof of concept for a decentrilzed forum. 
 
-Visit
 
-http://iwantag.nu/
+> Demo [_here_](https://www.youtube.com/)
 
-Database structure
+Visit: http://iwantag.nu/ to read more.
 
+## Table of Contents
+* [General Info](#general-information)
+* [Technologies Used](#technologies-used)
+* [Features](#features)
+* [Screenshots](#screenshots)
+* [Setup](#setup)
+* [Usage](#usage)
+* [Project Status](#project-status)
+* [Room for Improvement](#room-for-improvement)
+* [Acknowledgements](#acknowledgements)
+* [Contact](#contact)
+<!-- * [License](#license) -->
+
+## General Information
+<!-- *- Provide general information about your project here.-->
+- It begans as an group-project to offer a decentralize social platform. 
+- This is a the Beta version that is have a solid foundation but is still not fully developed.
+
+- What problem does it (intend to) solve?
+-  To be independent from third parties.
+-  To keep information stored locally.
+-  To be decentrilzed and private.
+-  Not having any ads
+
+- What is the purpose of your project?
+-  To create an interactive application which does not provide a algorithmic feed for you.
+-  <b>To learn</b> different technologies, to co-operate in a medium-big team. To get better att problem-solvning. To connect back- to front -end. To see how iterative development can work.  
+
+## Technologies Used
+- MariaDB - version 10.7.1
+- HeideSQL - version 11.3
+- React - version xx
+- Node.js - version xx
+- .Net - version 6
+- EntityFrameworkCore - version xx
+- Impt-client - version xx
+- Postman - version 9
+- 
+
+## Features
+List the ready features here:
+- Starting forum threads (We call them Discussions)
+- Responding to Discussion. (We call them Posts)
+- Responding to Posts. (We call them Comments)
+- Adding friends.
+- Direct messages to friends.
+- Bookmarking of interesting Discussions/Posts
+- Notifications
+- Interactive usage. <p>App based on discovery among your friends by clicking. Instead of a feed.</p>
+- Tag a interest on a Discussions and on your Profile.
+- 
+- Awesome feature 2
+- Awesome feature 3
+
+## Screenshots
+<b>Database structure</b>
 [Gnu Diagram]![Gnu Diagram updaterad](https://user-images.githubusercontent.com/72744280/150971152-f3cdd569-1adc-45b8-8ec2-bf6426dd3ae8.png)
+<!-- If you have screenshots you'd like to share, include them here. -->
 
+<!-- Api Endpoint Bild -->
 
-Whats our story behind it?
+<!-- Inloggningen -->
 
-It begins as an internproject to offer a centralize social platform that focus on being independent from third parties.
- Our customer request was to create a platform and not have information stored in the cloud by the big corperations.
+<!-- 3-4 mindre bilder på sidorna -->
 
-Okay How to get started?
-1. 
-Create a Gmail-account 
+# Setup
+What are the project requirements/dependencies? Where are they listed? A requirements.txt or a Pipfile.lock file perhaps? Where is it located?
+
+1. Create a Gmail-account 
 
 Put "Access for less secure apps" to on.
 
 https://myaccount.google.com/security?gar=1
 
+2.Install MariaDb
 
-2.Install Heidi
+LINK
+
+3.Install Heidi
 
 https://www.heidisql.com/
 
-
-3.Run
+4.Run
 
 ![step1](https://user-images.githubusercontent.com/72744280/149352181-9e9c3c72-e083-40d6-acf0-bf36f5d871e0.JPG)
 
@@ -41,7 +98,41 @@ Login with the same username & password as Heidi
 ![step2](https://user-images.githubusercontent.com/72744280/149352266-787206cb-60c6-4e3d-badb-8586cded2498.JPG)
 
 Check out the inbox for your Gmail, it crashes when it is not empty or if there are emails that are not related to the program.
+--------------
+## Usage
+How does one go about using it?
+Provide various use cases and code examples here.
 
+`write-your-code-here`
+------------------------
+# Project Status
+Project is: _in progress_ / _complete_ / _no longer being worked on_. If you are no longer working on it, provide reasons why.
+
+
+## Room for Improvement
+Include areas you believe need improvement / could be improved. Also add TODOs for future development.
+
+Room for improvement:
+- Improvement to be done 1
+- Improvement to be done 2
+
+To do:
+- Feature to be added 1
+- Feature to be added 2
+
+
+## Acknowledgements
+Give credit here.
+- This project was inspired by...
+- This project was based on [this tutorial](https://www.example.com).
+- Many thanks to...
+
+
+## Contact
+Created by [@flynerdpl](https://www.flynerd.pl/) - feel free to contact me!
+
+
+-------------------------
 <h1>Endpoints</h1>
 
 <h3>Comments</h3>
