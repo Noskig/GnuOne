@@ -61,10 +61,15 @@ namespace GnuOne.Controllers
                 mymessage.FromUserName = myusername;
             }
             var allMessages = new List<Message>();
+
             allMessages.AddRange(friendsMessages);
             allMessages.AddRange(myMessageToFriend);
-            allMessages.OrderByDescending(x => x.Sent).ToList();
-            var jsonmessages = JsonConvert.SerializeObject(allMessages);
+
+            var sortedList = allMessages.OrderByDescending(x => x.Sent).ToList();
+
+
+
+            var jsonmessages = JsonConvert.SerializeObject(sortedList);
 
             return Ok(jsonmessages);
         }
