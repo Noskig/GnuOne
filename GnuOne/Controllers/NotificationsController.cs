@@ -25,9 +25,6 @@ namespace GnuOne.Controllers
         public async Task<IActionResult> GetAll()
         {
             var notications = await _context.Notifications.Where(x => x.hasBeenRead == false).ToListAsync();
-            //ändra hasbeenread == true  vart & när?
-
-            //Ändra i dto
 
             List<NotificationDTO> listOfDtos = new List<NotificationDTO>();
             
@@ -92,7 +89,6 @@ namespace GnuOne.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSingle(int? id)
         {
-            
             var a  = _context.Notifications.Where(x => x.ID == id).FirstOrDefault();
             if(a is null)
             {
@@ -117,3 +113,4 @@ namespace GnuOne.Controllers
 
     }
 }
+
