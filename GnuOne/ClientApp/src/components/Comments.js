@@ -18,7 +18,6 @@ const Comments = () => {
     const [post, setPost] = useState({})
     const [comments, setComments] = useState([])
     const [commentText, setCommentText] = useState('')
-    const [username, setUsername] = useState('me')
     const [activeComment, setActiveComment] = useState()
     const [editOpen, setEditOpen] = useState(false)
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
