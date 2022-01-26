@@ -5,6 +5,10 @@ namespace GnuOne.Data
 {
     public class MegaCrypt
     {
+        /// <summary>
+        /// Start of an asymmetric enkryption method.
+        /// </summary>
+
 
         public string body { get; set; }
         public byte[] aesKey;
