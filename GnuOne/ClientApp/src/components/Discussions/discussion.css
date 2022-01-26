@@ -1,5 +1,4 @@
 ﻿.discussion {
-    width: 100%;
     background-color: var(--darker-turquoise);
     color:white;
     margin-top:0.5rem;
@@ -98,3 +97,12 @@ button {
      width: 1.8em;
      color:red;
  }
+
+.discussion-tags {
+    display: flex;
+}
+    .discussion-tags h4 {
+        padding: 0 5px;
+        white-space: nowrap;
+    }
+

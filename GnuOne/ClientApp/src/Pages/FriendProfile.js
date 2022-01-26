@@ -12,6 +12,7 @@ const FriendProfile = ({ routes }) => {
     const { email } = useParams()
     const [friend, setFriend] = useState()
     const [myEmail, setMyEmail] = useState('')
+    const [friendsUserName, setFriendsUserName] = useState('')
 
     useEffect(() => {
         fetchFriend()
@@ -25,6 +26,7 @@ const FriendProfile = ({ routes }) => {
         const friend = await response.json()
         console.log(friend)
         setFriend(friend);
+        setFriendsUserName(friend.MyFriend.userName)
     }
 
     console.log(friend)
@@ -43,6 +45,7 @@ const FriendProfile = ({ routes }) => {
             <FriendContext.Provider value={{ friendEmail: friend?.MyFriend.Email, friendImg: friend?.MyFriend.pictureID }}>
                 <main className="main">
                     <Navbar />
+                    <h1 className="friends-name">{friendsUserName}</h1>
                     <ProfileWheel routes={routes} />
                     </main>
         </FriendContext.Provider>
