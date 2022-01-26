@@ -224,7 +224,7 @@ return (
                             </div>
                             : null}
                         {editOpen && activeComment === comment.id
-                            ? <textarea className="text" maxLength="500" value={commentText} className="edit" onChange={(e) => setCommentText(e.target.value)} />
+                            ? <textarea className="text edit" maxLength="500" value={commentText} onChange={(e) => setCommentText(e.target.value)} />
                             : <p className="text">{comment.commentText}</p>
                         }
 
@@ -267,7 +267,7 @@ return (
 
 
                         <div className="comment-info">
-                            <img className="friend-avatar" /> <h4> {comment.userName} </h4>
+                            {/*<img className="friend-avatar" alt={comment.pictureID} />*/} <h4> {comment.userName} </h4>
                             <h4 className="createDate">{comment.date.slice(0, 16).replace('T', ' ')}</h4>
                          
 

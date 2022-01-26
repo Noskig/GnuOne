@@ -6,7 +6,6 @@ import PortContext from '../../../contexts/portContext';
 const AddDiscussionOverlay = (props) => {
     const [discussionText, setDiscussionText] = useState('')
     const [headline, setHeadline] = useState('')
-    const [user, setUser] = useState('default user')
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/discussions`
 
@@ -25,7 +24,6 @@ const AddDiscussionOverlay = (props) => {
         let newDiscussion = {
             headline: headline,
             discussiontext: discussionText,
-            user: user,
             tagOne: chosenTag1,
             tagTwo: chosenTag2,
             tagThree: chosenTag3
