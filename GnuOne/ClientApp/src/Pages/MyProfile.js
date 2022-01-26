@@ -1,5 +1,4 @@
 ﻿import React, { useState, useEffect, useContext } from 'react';
-import { Link, Switch } from 'react-router-dom';
 import MeContext from '../contexts/meContext'
 import PortContext from '../contexts/portContext'
 import ProfileWheel from '../components/MenuWheel/ProfileWheel';

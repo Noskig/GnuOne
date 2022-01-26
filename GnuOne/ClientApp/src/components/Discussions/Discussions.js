@@ -28,7 +28,6 @@ const Discussions = ({ routes }) => {
     const [discussionText, setDiscussionText] = useState('')
     const [activeDiscussion, setActiveDiscussion] = useState('')
     const [editOpen, setEditOpen] = useState(false)
-    const [tagsReady, setTagsReady] = useState(false)
     let match = useRouteMatch()
 
     //save 

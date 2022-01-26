@@ -180,9 +180,9 @@ const Settings = () => {
             </div>
             <div className="change-theme">
                 <h3> Dark mode </h3>
-                <label class="switch">
+                <label className="switch">
                     <input type="checkbox" defaultChecked={DM} onClick={() => setDM(!DM)} />
-                    <span class="slider"></span>
+                    <span className="slider"></span>
                 </label>
             </div>
             <button type="button" onClick={(e) => handleClick(e)}>Save changes</button>

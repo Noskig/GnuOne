@@ -2,8 +2,6 @@
 import PortContext from '../../contexts/portContext';
 import MeContext from '../../contexts/meContext';
 import FriendContext from '../../contexts/friendContext';
-import done from '../../icons/share.svg'
-import edit from '../../icons/trash.svg'
 import './bio.css'
 
 const Bio = () => {

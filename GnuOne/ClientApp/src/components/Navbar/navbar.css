@@ -5,6 +5,18 @@
     align-items:center;
 
 }
+
+.logo {
+    width: 6rem;
+    height: 6rem;
+    background: var(--darker-turquoise);
+    border-radius: 50%;
+}
+.logo img{
+    width: 110%;
+    height: 110%;
+}
+
 .elements {
     list-style: none;
     display: flex;

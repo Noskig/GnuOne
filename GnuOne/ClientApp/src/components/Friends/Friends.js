@@ -9,6 +9,7 @@ import FriendContext from '../../contexts/friendContext';
 import MeContext from '../../contexts/meContext';
 import avatar from '../../icons/avatar-plain.svg'
 import WheelContext from '../../contexts/WheelContext'
+import images from '../../Image';
 
 
 const Friends = () => {
@@ -22,7 +23,7 @@ const Friends = () => {
     const [disabled, setDisabled] = useState(false)
     const [activeFriend, setActiveFriend] = useState(null)
     const { setChosenPage, setActive, setDone } = useContext(WheelContext);
-    const [darkMode, setDarkMode] = useState(true)
+    const [darkMode, setDarkMode] = useState(true);
 
 
 
@@ -32,7 +33,7 @@ const Friends = () => {
 
     useEffect(() => {
         fetchData()
-    }, [friendEmail])
+    }, [friendEmail, myEmail])
 
     async function fetchData() {
         if (friendEmail === undefined) {
@@ -144,7 +145,7 @@ const Friends = () => {
 
     // du är så jobbig
 
-    function getOutOnClick(friend){
+    function getOutOnClick(friend) {
         let noMoreNiceGuy = {
             isFriend: false,
             Email: friend.Email,
@@ -204,19 +205,19 @@ const Friends = () => {
                             ? <li key={friend.ID}>
                                 <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} onClick={() => wheelReset(0)} >
                                     <div className="friend-icon">
-                                        <img src={avatar} />
+                                        <img alt={friend.userName} src={images[`Img${friend.pictureID}`]} />
                                     </div>
                                     <h2 className="userName"> {friend.userName} </h2>
                                 </Link>
                                 {/*hide friend*/}
-                                {friend.hideMe == 0 ? 
-                                <button onClick={ () => hideFromFriendsFriends(friend.Email) }>
-                                    Hide friend
-                                </button>
-                                :
-                                <button onClick={() => unHideFromFriendsFriends(friend.Email)}>
-                                    show friend
-                                </button>
+                                {friend.hideMe == 0 ?
+                                    <button onClick={() => hideFromFriendsFriends(friend.Email)}>
+                                        Hide friend
+                                    </button>
+                                    :
+                                    <button onClick={() => unHideFromFriendsFriends(friend.Email)}>
+                                        show friend
+                                    </button>
                                 }
                                 <button onClick={() => getOutOnClick(friend)}>
                                     remove friend
@@ -226,7 +227,7 @@ const Friends = () => {
                             : friendEmail !== undefined
                                 ? <li key={friend.ID}><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
                                     <div className="friend-icon">
-                                        <img src={avatar} />
+                                        <img alt={friend.userName} src={images[`Img${friend.pictureID}`]} />
                                     </div>
                                     <h2 className="userName">{friend.userName} </h2>
                                 </Link>
@@ -249,36 +250,40 @@ const Friends = () => {
                     ? <>
                         <h3>New friend requests 🙍</h3>
                         <ul className="friends-list">
-                            {filteredFriends.map(friend => 
+                            {filteredFriends.map(friend =>
                                 !friend.isFriend && friend.userName
-                                ? <li key={friend.ID}>
-                                    <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
-                                            <div className="friend-icon"> <img src={avatar}/></div>
+                                    ? <li key={friend.ID}>
+                                        <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                            <div className="friend-icon">
+                                                <img alt={friend.userName} src={images[`Img${friend.pictureID}`]} />
+                                            </div>
                                             <h2 className="userName">{friend.userName}</h2>
-                                    </Link>
-                                    <button className="accept-friend" onClick={(e) => handleClick(e, friend)}>Accept friend</button>
-                                </li>
-                                : null
+                                        </Link>
+                                        <button className="accept-friend" onClick={(e) => handleClick(e, friend)}>Accept friend</button>
+                                    </li>
+                                    : null
                             )}
-                        
+
                         </ul>
 
                         <h3 key="maybe-friends">Sent friend requests 🖅</h3>
                         <ul className="friends-list">
-                            {filteredFriends.map(friend => 
+                            {filteredFriends.map(friend =>
                                 !friend.isFriend && !friend.userName && friendsList
-                                ? <li key={friend.ID}>
+                                    ? <li key={friend.ID}>
                                         <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
-                                            <div className="friend-icon"> <img src={avatar} />  </div>
-                                            <h2 className="userName">{ friend.Email.substring(0, friend.Email.lastIndexOf("@")) }</h2>
+                                            <div className="friend-icon">
+                                                <img alt={friend.userName} src={images[`Img${friend.pictureID}`]} />
+                                            </div>
+                                            <h2 className="userName">{friend.Email.substring(0, friend.Email.lastIndexOf("@"))}</h2>
                                         </Link>
-                                            <div className="pending">Pending request</div>
-                                </li>
-                                : null
+                                        <div className="pending">Pending request</div>
+                                    </li>
+                                    : null
                             )}
                         </ul>
                     </>
-                    : null }
+                    : null}
             </section>
         </>
     )

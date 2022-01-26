@@ -199,7 +199,10 @@ namespace GnuOne.Data
                             case "PutFriendsProfile":
                                 var deed3 = RecieveAndUpdateFriend(decryptedMessage, _newContext);
                                 if (deed3 == 1)
-                                { break; }
+                                {
+                                    var deeding12 = ForwardToFriends(decryptedMessage, _newContext, cleanEmailFrom, "FriendFriendsPicID");
+                                    break;
+                                }
                                 else
                                 {
                                     ///try again?
@@ -271,10 +274,17 @@ namespace GnuOne.Data
                                 if (deed7 == 1) { break; }
                                 else { break; }
 
+                            case "FriendFriendsPicID":
+                                var edde1 = UpdateFriendsFriendsPicID(decryptedMessage, _newContext, cleanEmailFrom);
+                                if (edde1 == 1) { break; }
+                                else { break; }
+
+
                             case "DirectMessage":
                                 var edde = RecieveAndSaveMessage(decryptedMessage, _newContext);
                                 if (edde == 1) { break; }
                                 else { break; }
+
 
                             default:
                                 break;
@@ -297,6 +307,21 @@ namespace GnuOne.Data
                 //backupdatabase();
             }
         }
+
+        private static int UpdateFriendsFriendsPicID(string decryptedMessage, MariaContext context, string cleanEmailFrom)
+        {
+            var friendsfriendsPicIDAndInfo = JsonConvert.DeserializeObject<MyFriend>(decryptedMessage);
+            if (friendsfriendsPicIDAndInfo is not null)
+            {
+                var friendFriendToChange = context.MyFriendsFriends.Where(x => x.Email == friendsfriendsPicIDAndInfo.Email && x.myFriendEmail == cleanEmailFrom).FirstOrDefault();
+                friendFriendToChange.pictureID = friendsfriendsPicIDAndInfo.pictureID;
+                context.MyFriendsFriends.Update(friendFriendToChange);
+                context.SaveChangesAsync().Wait();
+                return 1;
+            }
+            return -1;
+        }
+
 
         private static int RecieveAndSaveMessage(string decryptedMessage, MariaContext context)
         {
@@ -550,6 +575,10 @@ namespace GnuOne.Data
 
                 context.MyFriends.Update(friend);
                 context.SaveChangesAsync().Wait();
+
+                var myFriendInFriendFriends = context.MyFriendsFriends.Where(x => x.myFriendEmail == friend.Email).FirstOrDefault();
+                myFriendInFriendFriends.pictureID = friendInfo.pictureID;
+
                 return 1;
             }
             return -1;

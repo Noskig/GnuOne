@@ -10,7 +10,7 @@ import ProfilePicContext from './contexts/profilePicContext'
 import ThemeContext from './contexts/themeContext'
 import routes from './Routes';
 import RouteWithSubRoutes from './components/RouteWithSubRoutes';
-import { useState, useContext, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 function App() {
     const url = `https://localhost:7261/api/`
