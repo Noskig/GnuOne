@@ -1,4 +1,6 @@
-Welcome to the Gnu Project!
+# Project Name
+> Outline a brief description of your project.
+> Live demo [_here_](https://www.youtube.com/)
 
 Reading through the guided code will help you learn about the project and how to use it.
 
