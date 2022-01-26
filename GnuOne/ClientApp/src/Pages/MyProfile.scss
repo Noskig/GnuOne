@@ -33,7 +33,7 @@ main {
         justify-self: center;
     }
 
-    .bio-container, .messages-container, .settings-container, .discussions-container, .saved-section, .posts-container, .comments-container {
+    .bio-container, .messages-container, .settings-container, .discussions-container, .saved-section, .posts-container, .comments-container, .notification-section {
         grid-column-start: 2;
         grid-column-end: 6;
         grid-row-start: 3;

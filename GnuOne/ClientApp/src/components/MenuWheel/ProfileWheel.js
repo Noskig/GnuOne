@@ -1,5 +1,5 @@
 ﻿import React, { useState, useContext } from 'react';
-import { Link, Switch, useRouteMatch } from 'react-router-dom';
+import { Link, Route, Switch, useRouteMatch } from 'react-router-dom';
 import friends from '../../icons/friends.svg';
 import messages from '../../icons/messages.svg';
 import file from '../../icons/file.svg';

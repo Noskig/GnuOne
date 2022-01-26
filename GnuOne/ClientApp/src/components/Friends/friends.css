@@ -110,13 +110,16 @@
     width: 50px;
     height: 50px;
     border-radius: 100px;
-    background: #167d8f;
-    align-content: center;
+    background: var(--darker-turquoise);
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
     
     .friend-icon img {
-        margin: auto;
+        border-radius: 50%;
+        width: 90%;
+        height: 90%;
     }
 
 h2 { 

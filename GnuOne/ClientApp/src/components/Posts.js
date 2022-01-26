@@ -202,12 +202,17 @@ return (
                         {showDeleteConfirm && activePost === post.id
                             ? <div className="delete-post-overlay">
                                 <p> Are you sure you want to delete this post?</p>
-                                <button onClick={(e) => deletePost(e, post.id)}> <svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M21.7585 0L8.5106 13.4289L4.21399 9.0736L0 13.3452L4.29661 17.7005L8.53812 22L12.7521 17.7284L26 4.29952L21.7585 0Z" fill="black" />
-                                </svg></button>
-                                <button onClick={closeOverlay}> <img alt="cancel" src={cancel}/> </button>
+                                <div className="confirm-button-wrapper">
+                                    <button onClick={(e) => deletePost(e, post.id)}>
+                                        <svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M21.7585 0L8.5106 13.4289L4.21399 9.0736L0 13.3452L4.29661 17.7005L8.53812 22L12.7521 17.7284L26 4.29952L21.7585 0Z" fill="black" />
+                                        </svg>
+                                    </button>
+                                        <button onClick={closeOverlay}> <img alt="cancel" src={cancel} /> </button>
+                                </div>
                             </div>
                             : null}
+                        <div className="text-option-wrapper">
                         {editOpen && activePost === post.id
                             ? <textarea className="text" maxLength="500" value={postText} className="edit" onChange={(e) => setPostText(e.target.value)} />
                             : <Link className="discussion-content" to={{
@@ -226,7 +231,7 @@ return (
                         <div className="post-options">
                                     
                             {post.email === myEmail
-                                ? <> {showDeleteConfirm && activePost === post.id
+                                ? <div className="edit-delete-wrapper"> {showDeleteConfirm && activePost === post.id
                                     ?<>
                                     <button onClick={(e) => deletePost(e, post.id)}>
                                         <img alt="done" src={done} />
@@ -245,7 +250,7 @@ return (
                                             <img alt="edit" src={edit} />
                                         </button>
 
-                                    }</>
+                                    }</div>
 
 
                                 : <>
@@ -258,14 +263,14 @@ return (
                                 </>
 
                             }</div>
-
+                            </div>
 
 
                         <div className="post-info">
                             <div className="post-info-wrapper">
-                            <img className="friend-avatar" />
-                            <h4> {post.userName} </h4>
-                            <h4 className="createDate">{post.date.slice(0, 16).replace('T', ' ')}</h4>
+                                <img className="friend-avatar" />
+                                <h4> {post.userName} </h4>
+                                <h4 className="createDate">{post.date.slice(0, 16).replace('T', ' ')}</h4>
                             </div>
                             <h4>Comments: {post.numberOfComments}</h4>
 

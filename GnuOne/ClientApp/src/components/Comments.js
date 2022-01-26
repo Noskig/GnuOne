@@ -18,7 +18,6 @@ const Comments = () => {
     const [post, setPost] = useState({})
     const [comments, setComments] = useState([])
     const [commentText, setCommentText] = useState('')
-    const [username, setUsername] = useState('me')
     const [activeComment, setActiveComment] = useState()
     const [editOpen, setEditOpen] = useState(false)
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
@@ -175,35 +174,12 @@ return (
         <Search search={search} />
         <section className="comments-container">
             <h2>{postInfo.Headline}</h2>
-            {/*<div className="post-tags">{post.firstTag ? `#${discussion.firstTag}` : null} {discussion.secondTag ? `#${discussion.secondTag}` : null}  {discussion.thirdTag ? `#${discussion.thirdTag}` : null} </div>*/}
-
                 <div className="comment">
                     {editOpen && activeComment === post.id
                         ? <textarea maxLength="500" value={post.postText} className="edit" onChange={(e) => setCommentText(e.target.value)} />
                         : <p className="text">{post.postText}</p>
                     }
 
-                    {/*<div className="comment-options">*/}
-                    {/*    {showDeleteConfirm && activeComment === discussion.id*/}
-                    {/*        ?*/}
-                    {/*        <button onClick={(e) => deleteComment(e, discussion.id)}>*/}
-                    {/*            <img alt="done" src={done} />*/}
-                    {/*        </button>*/}
-
-                    {/*        :*/}
-                    {/*        <button onClick={(e) => openDeletecomment(e, comment)}>*/}
-                    {/*            <img alt="delete" src={trash} />*/}
-                    {/*        </button>*/}
-                    {/*    }*/}
-                    {/*    {editOpen && activeComment === comment.id ?*/}
-                    {/*        <button onClick={(e) => confirmEditComment(e, comment)}>*/}
-                    {/*            <img alt="done" src={done} />*/}
-                    {/*        </button>*/}
-                    {/*        : <button onClick={(e) => openEditComment(e, comment)}>*/}
-                    {/*            <img alt="edit" src={edit} />*/}
-                    {/*        </button>*/}
-                    {/*    }*/}
-                    {/*</div>*/}
                     <div className="comment-info">
                         <h4>{filteredComments.length} comment(s) on this post</h4>
                         <h4 className="createDate">{postInfo.Date.slice(0, 16).replace('T', ' ')}</h4>
@@ -225,7 +201,7 @@ return (
                             </div>
                             : null}
                         {editOpen && activeComment === comment.id
-                            ? <textarea className="text" maxLength="500" value={commentText} className="edit" onChange={(e) => setCommentText(e.target.value)} />
+                            ? <textarea className="text edit" maxLength="500" value={commentText} onChange={(e) => setCommentText(e.target.value)} />
                             : <p className="text">{comment.commentText}</p>
                         }
 
@@ -268,7 +244,7 @@ return (
 
 
                         <div className="comment-info">
-                            <img className="friend-avatar" /> <h4> {comment.userName} </h4>
+                            {/*<img className="friend-avatar" alt={comment.pictureID} />*/} <h4> {comment.userName} </h4>
                             <h4 className="createDate">{comment.date.slice(0, 16).replace('T', ' ')}</h4>
                          
 
