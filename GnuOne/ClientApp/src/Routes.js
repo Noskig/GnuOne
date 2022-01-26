@@ -8,7 +8,8 @@ import Settings from './components/Settings/Settings';
 import Discussions from './components/Discussions/Discussions';
 import Posts from './components/Posts';
 import Saved from './components/Saved/Saved';
-import Comments from './components/Comments'
+import Comments from './components/Comments';
+import Notifications from './components/Notifications/Notification';
 
 const routes = [
     {
@@ -91,6 +92,10 @@ const routes = [
                 path: '/profile/saved',
                 component: Saved,
 
+            },
+            {
+                path: '/',
+                component: Notifications,
             },
         ],
     },

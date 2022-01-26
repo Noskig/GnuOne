@@ -7,7 +7,6 @@ import "./MyProfile.min.css";
 import FriendContext from '../contexts/friendContext'
 import Navbar from '../components/Navbar/NavBar';
 
-
 //testar
 function MyProfile({ routes }) {
     const port = useContext(PortContext)
