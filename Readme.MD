@@ -66,6 +66,11 @@ List the ready features here:
 [Gnu Diagram]![Gnu Diagram updaterad](https://user-images.githubusercontent.com/72744280/150971152-f3cdd569-1adc-45b8-8ec2-bf6426dd3ae8.png)
 <!-- If you have screenshots you'd like to share, include them here. -->
 
+<b>Early state </b>
+
+![consolemessage](https://user-images.githubusercontent.com/72744280/151310340-df5b1005-0353-4298-ba64-2bf46f1e1929.jpg)
+This is when the project was from the beginning
+
 <!-- Api Endpoint Bild -->
 
 <!-- Inloggningen -->
