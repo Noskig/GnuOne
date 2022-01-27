@@ -63,19 +63,35 @@ List the ready features here:
 
 ## Screenshots
 <b>Database structure</b>
-[Gnu Diagram]![Gnu Diagram updaterad](https://user-images.githubusercontent.com/72744280/150971152-f3cdd569-1adc-45b8-8ec2-bf6426dd3ae8.png)
-<!-- If you have screenshots you'd like to share, include them here. -->
+
+![Gnu Diagram - Diagram updated 27 jan](https://user-images.githubusercontent.com/72744280/151323920-75f7a9fa-7cc2-4c3f-b7a0-c055b83ae942.png)
+
 
 <b>Early state </b>
 
 ![consolemessage](https://user-images.githubusercontent.com/72744280/151310340-df5b1005-0353-4298-ba64-2bf46f1e1929.jpg)
-This is when the project was from the beginning
+This is when the project was from the beginning.
 
 <!-- Api Endpoint Bild -->
+<b>Api Endpoint overview </b>
+![Gnu Diagram - Endpoint updated 27 jan](https://user-images.githubusercontent.com/72744280/151323669-eeb9f50c-cc2f-4e82-b7cf-dce843105517.png)
+
+
 
 <!-- Inloggningen -->
 
 <!-- 3-4 mindre bilder på sidorna -->
+
+<b>Discuss</b>
+
+![owndiscuss](https://user-images.githubusercontent.com/72744280/151330235-95ec33fb-9ca8-4cb1-b729-758d27316925.JPG)
+
+
+<b>Friends view
+  
+![friendsview](https://user-images.githubusercontent.com/72744280/151329279-204995c7-e9d4-497b-bb6c-6ef96de61b0c.JPG)
+
+
 
 # Setup
 What are the project requirements/dependencies? Where are they listed? A requirements.txt or a Pipfile.lock file perhaps? Where is it located?
