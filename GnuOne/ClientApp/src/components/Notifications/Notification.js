@@ -10,7 +10,6 @@ function Notifications() {
     const port = useContext(PortContext);
     const url = `https://localhost:${port}/api/notifications`;
     const [allNotifications, setAllNotifications] = useState([]);
-    const [notificationId, setNotificationId] = useState();
 
     useEffect(() => {
         fetchData();
@@ -52,18 +51,18 @@ function Notifications() {
                         :
                         newEvents.Type === "discussion" ?
                             <div key={newEvents.ID}>
-                                <Link>
+                                <Link to={}>
                                     <p>you have {newEvents.Counter} new post on "{newEvents.Headline}"</p>
-                                    <button onClick={() => setId(newEvents.ID)}>Delete</button>
                                 </Link>
+                                    <button onClick={() => setId(newEvents.ID)}>Delete</button>
                             </div>
                             :
                             newEvents.Type === "post" ?
                                 <div key={newEvents.ID}>
                                     <Link>
                                         <p>you have {newEvents.Counter} new comments on your post "{newEvents.Headline}"</p>
-                                        <button onClick={() => setId(newEvents.ID)}>Delete</button>
                                     </Link>
+                                        <button onClick={() => setId(newEvents.ID)}>Delete</button>
                                 </div>
                                 : <h1>no new notifications</h1>
             )}
