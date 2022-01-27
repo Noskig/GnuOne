@@ -134,7 +134,7 @@ Project is: _in progress_ / _complete_ / _no longer being worked on_. If you are
 Include areas you believe need improvement / could be improved. Also add TODOs for future development.
 
 Room for improvement:
-- Improvement to be done 1
+- Mobile/tablet-app
 - Improvement to be done 2
 
 To do:
@@ -146,13 +146,11 @@ To do:
 
 ## Acknowledgements
 Give credit here.
-- This project was inspired by...
-- This project was based on [this tutorial](https://www.example.com).
-- Many thanks to...
+- This project was inspired by bubbles
 
 
 ## Contact
-Created by [@flynerdpl](https://www.flynerd.pl/) - feel free to contact me!
+Created by the GNU squad (http://iwantag.nu/) 
 
 
 -------------------------
