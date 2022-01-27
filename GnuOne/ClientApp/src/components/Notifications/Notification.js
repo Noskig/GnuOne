@@ -10,6 +10,7 @@ function Notifications() {
     const port = useContext(PortContext);
     const url = `https://localhost:${port}/api/notifications`;
     const [allNotifications, setAllNotifications] = useState([]);
+    const [notificationId, setNotificationId] = useState();
 
     useEffect(() => {
         fetchData();
@@ -21,29 +22,48 @@ function Notifications() {
         setAllNotifications(notifications);
     }
 
+    function setId(newEvents) {
+        deleteNotification(newEvents)
+    }
 
+    async function deleteNotification(notificationId) {
+        await fetch(`https://localhost:${port}/api/notifications/${notificationId}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            }
+        })
+    }
 
     return (
         <section className="notification-section">
             {allNotifications.map(newEvents => 
-                newEvents.Type == "FriendRequestRecieved" ?
-                    <div>
-                        <h1>you have a new friend request from {newEvents.userName}</h1>
+                newEvents.Type === "FriendRequestRecieved" ?
+                    <div key={newEvents.ID}>
+                        <p>you have a new friend request from {newEvents.userName}</p>
+                        <button onClick={() => setId(newEvents.ID)}>Delete</button>
                     </div>
                     :
-                    newEvents.Type == "FriendRequestAccepted" ?
-                        <div>
-                            <h1>{newEvents.userName} has accepted your friend request</h1>
+                    newEvents.Type === "FriendRequestAccepted" ?
+                        <div key={newEvents.ID}>
+                            <p>{newEvents.userName} has accepted your friend request</p>
+                            <button onClick={() => setId(newEvents.ID)}>Delete</button>
                         </div>
                         :
-                        newEvents.Type == "discussion" ?
-                            <div>
-                                <h1>you have {newEvents.Counter} new post on {newEvents.Headline}</h1>
+                        newEvents.Type === "discussion" ?
+                            <div key={newEvents.ID}>
+                                <Link>
+                                    <p>you have {newEvents.Counter} new post on "{newEvents.Headline}"</p>
+                                    <button onClick={() => setId(newEvents.ID)}>Delete</button>
+                                </Link>
                             </div>
                             :
-                            newEvents.Type == "post" ?
-                                <div>
-                                    <h1>you have {newEvents.Counter} new comments on your post {newEvents.Headline}</h1>
+                            newEvents.Type === "post" ?
+                                <div key={newEvents.ID}>
+                                    <Link>
+                                        <p>you have {newEvents.Counter} new comments on your post "{newEvents.Headline}"</p>
+                                        <button onClick={() => setId(newEvents.ID)}>Delete</button>
+                                    </Link>
                                 </div>
                                 : <h1>no new notifications</h1>
             )}
