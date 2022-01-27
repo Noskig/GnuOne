@@ -36,6 +36,7 @@ namespace Library.Models.DTOs
             infoID = post.ID;
             Counter = notification.counter;
             hasBeenRead = notification.hasBeenRead;
+            userName = post.discussionID.ToString();
 
         }
         public NotificationDTO(Notification notification ,MyFriend? myFriend, string sub)
