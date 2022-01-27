@@ -120,40 +120,8 @@ Login with the same username & password as Heidi
 
 Check out the inbox for your Gmail, it crashes when it is not empty or if there are emails that are not related to the program.
 --------------
-## Usage
-How does one go about using it?
-Provide various use cases and code examples here.
+  
 
-`write-your-code-here`
-------------------------
-# Project Status
-Project is: _in progress_ / _complete_ / _no longer being worked on_. If you are no longer working on it, provide reasons why.
-
-
-## Room for Improvement
-Include areas you believe need improvement / could be improved. Also add TODOs for future development.
-
-Room for improvement:
-- Mobile/tablet-app
-- Improvement to be done 2
-
-To do:
-- The ability to share & upload files between the friends/user.
-- Use a different mail-account than Gmail
-- Run the project without HeidiSQL
-
-
-
-## Acknowledgements
-Give credit here.
-- This project was inspired by bubbles
-
-
-## Contact
-Created by the GNU squad (http://iwantag.nu/) 
-
-
--------------------------
 <h1>Endpoints</h1>
 
 <h3>Comments</h3>
@@ -243,6 +211,43 @@ In addition to that, your friend list will be updated so as to be seen by your o
 
 <h3>Notifications</h3>
 <h5>api/notifications</h5>
-<b>Get:</b> Returns all notifications.<br>
+<b>Get:</b> Returns all notifications.<br>  
+  
+-------------------------
+
+## Usage
+How does one go about using it?
+Provide various use cases and code examples here.
+
+`write-your-code-here`
+------------------------
+# Project Status
+Project is: in beta progress. 
+
+
+## Room for Improvement
+Include areas you believe need improvement / could be improved. Also add TODOs for future development.
+
+Room for improvement:
+- Mobile/tablet-app
+- Improvement to be done 2
+
+To do:
+- The ability to share & upload files between friends/user.
+- Use a different mail-account than Gmail
+- Run the project without HeidiSQL
+
+
+
+## Acknowledgements
+Give credit here.
+- This project was inspired by bubbles
+
+
+## Contact
+Created by the GNU squad (http://iwantag.nu/) 
+
+
+
 
 
