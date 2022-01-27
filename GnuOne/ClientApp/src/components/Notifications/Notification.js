@@ -18,7 +18,27 @@ function Notifications() {
     async function fetchData() {
         const response = await fetch(url);
         const notifications = await response.json();
+        console.log(notifications)
+        //Skapar en ny lista "posts" genom att filtrera fram alla notifications av type "post"
+        let posts = notifications.filter(notification => notification.Type ===  "post")
+        console.log(posts)
+
+        let discussions = notifications.filter(notification => notification.Type === "discussion")
+
+        //Lägger på "discussionEmail" för varje post i listan "posts"
+        posts.forEach(async (post) => {
+            const responseOne = await fetch(`https://localhost:${port}/api/posts/${post.infoID}`);
+            const actualPost = await responseOne.json();
+            post.discussionEmail = actualPost.discussionEmail.substring(0, actualPost.discussionEmail.lastIndexOf("@"));
+        })
+
+        discussions.forEach(async (discussion) => {
+            const responseTwo = await fetch(`https://localhost:${port}/api/discussions/${discussion.infoID}`);
+            const actualDiscussion = await responseTwo.json();
+            discussion.discussionEmail = actualDiscussion.email.substring(0, actualDiscussion.email.lastIndexOf("@"));
+        })
         setAllNotifications(notifications);
+        console.log(notifications)
     }
 
     function setId(newEvents) {
@@ -51,7 +71,7 @@ function Notifications() {
                         :
                         newEvents.Type === "discussion" ?
                             <div key={newEvents.ID}>
-                                <Link to={}>
+                                <Link >
                                     <p>you have {newEvents.Counter} new post on "{newEvents.Headline}"</p>
                                 </Link>
                                     <button onClick={() => setId(newEvents.ID)}>Delete</button>
