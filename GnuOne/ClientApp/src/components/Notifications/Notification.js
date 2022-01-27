@@ -51,7 +51,7 @@ function Notifications() {
                         :
                         newEvents.Type === "discussion" ?
                             <div key={newEvents.ID}>
-                                <Link to={}>
+                                <Link>
                                     <p>you have {newEvents.Counter} new post on "{newEvents.Headline}"</p>
                                 </Link>
                                     <button onClick={() => setId(newEvents.ID)}>Delete</button>
