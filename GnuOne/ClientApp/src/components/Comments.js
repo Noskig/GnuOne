@@ -244,13 +244,16 @@ const Comments = () => {
                         ) : 'oops kan inte nå api'}
                     </ul>
 
-                    {editOpen
-                        ? <p>pls finish editing ur comment before writing a new one'</p>
-                        : <form>
-                            <textarea rows="4" maxLength="500" placeholder="Write something..." value={commentText} className="input-text" onChange={e => validateNewComment(e.target.value)} />
-                            <p>{charactersLeft}/500</p>
-                            <button type="button" className="btn" onClick={(e) => createNewComment(e)}>Comment</button>
-                        </form>}
+            {editOpen
+                ? <p>pls finish editing ur comment before writing a new one'</p>
+                    :
+                    <div className="form-container">
+                    <textarea rows="4" maxLength="500" placeholder="Write something..." value={commentText} className="input-text" onChange={e => validateNewComment(e.target.value)} />
+                    <div className="write-comment-wrapper">
+                        <p>{charactersLeft}/500</p>
+                        <button type="button" className="comment-btn" onClick={(e) => createNewComment(e)}>Comment</button>
+                    </div>
+                    </div>}
                 </div>
             </section>
         </>
