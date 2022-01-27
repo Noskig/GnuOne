@@ -138,8 +138,10 @@ Room for improvement:
 - Improvement to be done 2
 
 To do:
-- Feature to be added 1
-- Feature to be added 2
+- The ability to share & upload files between the friends/user.
+- Use a different mail-account than Gmail
+- Run the project without HeidiSQL
+
 
 
 ## Acknowledgements
