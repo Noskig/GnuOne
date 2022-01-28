@@ -1,36 +1,116 @@
-Welcome to the Gnu Project!
+# Gnu - A Decentrilized Forum
 
-Reading through the guided code will help you learn about the project and how to use it.
-
-Visit
-
-http://iwantag.nu/
-
-Database structure
-
-![Gnu Diagram](https://user-images.githubusercontent.com/72744280/149348594-00344fd0-fb8c-4c24-824f-73d2ff4dc76b.png)
+This project was created for a start-up and our customer who wanted a proof of concept for a decentrilzed forum. 
 
 
-Whats our story behind it?
+> Demo [_here_](https://www.youtube.com/)
 
-It begins as an internproject to offer a different social platform that focus on being independent from third parties.
- Our customers request was to create a platform and not have information stored in the cloud by the big corperations.
+Visit: http://iwantag.nu/ to read more.
 
-Okay so where do I get started?
-1. 
-Create a Gmail-account 
+## Table of Contents
+* [General Info](#general-information)
+* [Technologies Used](#technologies-used)
+* [Features](#features)
+* [Screenshots](#screenshots)
+* [Setup](#setup)
+* [Usage](#usage)
+* [Project Status](#project-status)
+* [Room for Improvement](#room-for-improvement)
+* [Acknowledgements](#acknowledgements)
+* [Contact](#contact)
+<!-- * [License](#license) -->
+
+## General Information
+<!-- *- Provide general information about your project here.-->
+- It begans as an group-project to offer a decentralize social platform. 
+- This is a the Beta version that is have a solid foundation but is still not fully developed.
+
+- What problem does it (intend to) solve?
+-  To be independent from third parties.
+-  To keep information stored locally.
+-  To be decentrilzed and private.
+-  Not having any ads
+
+- What is the purpose of your project?
+-  To create an interactive application which does not provide a algorithmic feed for you.
+-  <b>To learn</b> different technologies, to co-operate in a medium-big team. To get better att problem-solvning. To connect back- to front -end. To see how iterative development can work.  
+
+## Technologies Used
+- MariaDB - version 10.7.1
+- HeideSQL - version 11.3
+- React - version xx
+- Node.js - version xx
+- .Net - version 6
+- EntityFrameworkCore - version xx
+- Impt-client - version xx
+- Postman - version 9
+- 
+
+## Features
+List the ready features here:
+- Starting forum threads (We call them Discussions)
+- Responding to Discussion. (We call them Posts)
+- Responding to Posts. (We call them Comments)
+- Adding friends.
+- Direct messages to friends.
+- Bookmarking of interesting Discussions/Posts
+- Notifications
+- Interactive usage. <p>App based on discovery among your friends by clicking. Instead of a feed.</p>
+- Tag a interest on a Discussions and on your Profile.
+- 
+- Awesome feature 2
+- Awesome feature 3
+
+## Screenshots
+<b>Database structure</b>
+
+![Gnu Diagram - Diagram updated 27 jan](https://user-images.githubusercontent.com/72744280/151323920-75f7a9fa-7cc2-4c3f-b7a0-c055b83ae942.png)
+
+
+<b>Early state </b>
+
+![consolemessage](https://user-images.githubusercontent.com/72744280/151310340-df5b1005-0353-4298-ba64-2bf46f1e1929.jpg)
+This is when the project was from the beginning.
+
+<!-- Api Endpoint Bild -->
+<b>Api Endpoint overview </b>
+![Gnu Diagram - Endpoint updated 27 jan](https://user-images.githubusercontent.com/72744280/151323669-eeb9f50c-cc2f-4e82-b7cf-dce843105517.png)
+
+
+
+<!-- Inloggningen -->
+
+<!-- 3-4 mindre bilder på sidorna -->
+
+<b>Discuss</b>
+
+![owndiscuss](https://user-images.githubusercontent.com/72744280/151330235-95ec33fb-9ca8-4cb1-b729-758d27316925.JPG)
+
+
+<b>Friends view
+  
+![friendsview](https://user-images.githubusercontent.com/72744280/151329279-204995c7-e9d4-497b-bb6c-6ef96de61b0c.JPG)
+
+
+
+# Setup
+What are the project requirements/dependencies? Where are they listed? A requirements.txt or a Pipfile.lock file perhaps? Where is it located?
+
+1. Create a Gmail-account 
 
 Put "Access for less secure apps" to on.
 
 https://myaccount.google.com/security?gar=1
 
+2.Install MariaDb
 
-2.Install Heidi
+LINK
+
+3.Install Heidi
 
 https://www.heidisql.com/
 
-
-3.Run
+4.Run
 
 ![step1](https://user-images.githubusercontent.com/72744280/149352181-9e9c3c72-e083-40d6-acf0-bf36f5d871e0.JPG)
 
@@ -39,6 +119,8 @@ Login with the same username & password as Heidi
 ![step2](https://user-images.githubusercontent.com/72744280/149352266-787206cb-60c6-4e3d-badb-8586cded2498.JPG)
 
 Check out the inbox for your Gmail, it crashes when it is not empty or if there are emails that are not related to the program.
+--------------
+  
 
 <h1>Endpoints</h1>
 
@@ -117,3 +199,55 @@ In addition to that, your friend list will be updated so as to be seen by your o
 
 <h5>api/tags/{id}</h5>
 <b>Get:</b> Searches for discussions with a specific tagId and returns those objects.<br>
+
+<h3>Messages</h3>
+<h5>api/messages</h5>
+<b>Get:</b> Returns all the messages.<br>
+<b>Post:</b> To write a new message.<br>
+
+<h3>Bookmarks</h3>
+<h5>api/bookmarks</h5>
+<b>Post:</b> Bookmarks a discussion.<br>
+
+<h3>Notifications</h3>
+<h5>api/notifications</h5>
+<b>Get:</b> Returns all notifications.<br>  
+  
+-------------------------
+
+## Usage
+How does one go about using it?
+Provide various use cases and code examples here.
+
+`write-your-code-here`
+------------------------
+# Project Status
+Project is: in beta progress. 
+
+
+## Room for Improvement
+Include areas you believe need improvement / could be improved. Also add TODOs for future development.
+
+Room for improvement:
+- Mobile/tablet-app
+- Improvement to be done 2
+
+To do:
+- The ability to share & upload files between friends/user.
+- Use a different mail-account than Gmail
+- Run the project without HeidiSQL
+
+
+
+## Acknowledgements
+Give credit here.
+- This project was inspired by bubbles
+
+
+## Contact
+Created by the GNU squad (http://iwantag.nu/) 
+
+
+
+
+

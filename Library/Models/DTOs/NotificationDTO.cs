@@ -16,6 +16,8 @@ namespace Library.Models.DTOs
         public string Headline { get; set; }
         public int? Counter { get; set; }
         public string? userName { get; set; }
+        public string? Email { get; set; }
+        public int? DiscussionID { get; set; }
 
 
         public NotificationDTO(Notification notification, Discussion? discussion)
@@ -26,17 +28,20 @@ namespace Library.Models.DTOs
             infoID = discussion.ID;
             Counter = notification.counter;
             hasBeenRead = notification.hasBeenRead;
+            Email = discussion.Email;
+            userName = discussion.userName;
         }
         public NotificationDTO(Notification notification, Post? post)
         {
             ID = notification.ID;
-
             Type = "post";
             Headline = post.postText;
             infoID = post.ID;
             Counter = notification.counter;
             hasBeenRead = notification.hasBeenRead;
-            userName = post.discussionID.ToString();
+            DiscussionID = post.discussionID;
+            Email = post.discussionEmail;
+            userName= post.userName;
 
         }
         public NotificationDTO(Notification notification ,MyFriend? myFriend, string sub)
