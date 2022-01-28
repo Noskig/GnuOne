@@ -24,7 +24,7 @@ namespace GnuOne.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var notications = await _context.Notifications.Where(x => x.hasBeenRead == false).ToListAsync();
+            var notications = await _context.Notifications/*.Where(x => x.hasBeenRead == false)*/.ToListAsync();
             //ändra hasbeenread == true  vart & när?
 
             //Ändra i dto
