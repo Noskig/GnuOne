@@ -173,7 +173,7 @@ return (
     <>
         <Search search={search} />
         <section className="comments-container">
-            <h2>{postInfo.Headline}</h2>
+            <h2>{post.headline}</h2>
                 <div className="comment">
                     {editOpen && activeComment === post.id
                         ? <textarea maxLength="500" value={post.postText} className="edit" onChange={(e) => setCommentText(e.target.value)} />
@@ -182,7 +182,7 @@ return (
 
                     <div className="comment-info">
                         <h4>{filteredComments.length} comment(s) on this post</h4>
-                        <h4 className="createDate">{postInfo.Date.slice(0, 16).replace('T', ' ')}</h4>
+                        <h4 className="createDate">{post.date?.slice(0, 16).replace('T',' ')}</h4>
 
                     </div>
 
@@ -194,9 +194,11 @@ return (
                         {showDeleteConfirm && activeComment === comment.id
                             ? <div className="delete-comment-overlay">
                                 <p> Are you sure you want to delete this comment?</p>
-                                <button onClick={(e) => deleteComment(e, comment.id)}> <svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <button onClick={(e) => deleteComment(e, comment.id)}>
+                                    <svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M21.7585 0L8.5106 13.4289L4.21399 9.0736L0 13.3452L4.29661 17.7005L8.53812 22L12.7521 17.7284L26 4.29952L21.7585 0Z" fill="black" />
-                                </svg></button>
+                                    </svg>
+                                </button>
                                 <button onClick={closeOverlay}> <img alt="cancel" src={cancel}/> </button>
                             </div>
                             : null}
@@ -223,7 +225,8 @@ return (
                                         <button onClick={(e) => confirmEditComment(e, comment)}>
                                             <img alt="done" src={done} />
                                         </button>
-                                        : <button onClick={(e) => openEditComment(e, comment)}>
+                                        : 
+                                        <button onClick={(e) => openEditComment(e, comment)}>
                                             <img alt="edit" src={edit} />
                                         </button>
 

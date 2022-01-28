@@ -179,7 +179,7 @@ return (
     <>
         <Search search={search} />
         <section className="posts-container">
-            <h2>{discussionInfo.Headline}</h2>
+            <h2>{discussion.headline}</h2>
             <div className="discussion-tags">{discussion.firstTag ? `#${discussion.firstTag}` : null} {discussion.secondTag ? `#${discussion.secondTag}` : null}  {discussion.thirdTag ? `#${discussion.thirdTag}` : null} </div>
 
             <ul className="posts-list">
