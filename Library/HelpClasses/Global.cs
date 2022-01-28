@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   CONSTRAINT `FK_comments_posts` FOREIGN KEY (`postID`, `postEmail`) REFERENCES `posts` (`ID`, `Email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.comments: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.comments: ~4 rows (ungefär)
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 
@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `discussions` (
   KEY `FK_discussions_tags_3` (`tagThree`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.discussions: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.discussions: ~3 rows (ungefär)
 /*!40000 ALTER TABLE `discussions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `discussions` ENABLE KEYS */;
 
@@ -222,9 +222,9 @@ CREATE TABLE IF NOT EXISTS `myfriends` (
   `hideFriend` bit(1) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `Email` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myfriends: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.myfriends: ~2 rows (ungefär)
 /*!40000 ALTER TABLE `myfriends` DISABLE KEYS */;
 /*!40000 ALTER TABLE `myfriends` ENABLE KEYS */;
 
@@ -234,12 +234,13 @@ CREATE TABLE IF NOT EXISTS `myfriendsfriends` (
   `myFriendEmail` varchar(50) NOT NULL,
   `userName` varchar(50) DEFAULT NULL,
   `Email` varchar(50) DEFAULT NULL,
+  `pictureID` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `FK_myfriendsfriends_myfriends` (`myFriendEmail`),
   CONSTRAINT `FK_myfriendsfriends_myfriends` FOREIGN KEY (`myFriendEmail`) REFERENCES `myfriends` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myfriendsfriends: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.myfriendsfriends: ~4 rows (ungefär)
 /*!40000 ALTER TABLE `myfriendsfriends` DISABLE KEYS */;
 /*!40000 ALTER TABLE `myfriendsfriends` ENABLE KEYS */;
 
@@ -259,8 +260,10 @@ CREATE TABLE IF NOT EXISTS `myprofile` (
   KEY `FK_myprofile_standardpictures` (`pictureID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myprofile: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.myprofile: ~1 rows (ungefär)
 /*!40000 ALTER TABLE `myprofile` DISABLE KEYS */;
+INSERT INTO `myprofile` (`ID`, `Email`, `myUserInfo`, `pictureID`, `tagOne`, `tagTwo`, `tagThree`) VALUES
+	(1, 'albinscodetesting@gmail.com', 'Good vibes only', 2, 17, 7, 13);
 /*!40000 ALTER TABLE `myprofile` ENABLE KEYS */;
 
 -- Dumpar struktur för tabell gnu.mysettings
@@ -273,7 +276,7 @@ CREATE TABLE IF NOT EXISTS `mysettings` (
   `DarkMode` bit(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.mysettings: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.mysettings: ~1 rows (ungefär)
 /*!40000 ALTER TABLE `mysettings` DISABLE KEYS */;
 /*!40000 ALTER TABLE `mysettings` ENABLE KEYS */;
 
@@ -287,9 +290,9 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `counter` int(11) NOT NULL DEFAULT 0,
   `infoID` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.notifications: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.notifications: ~1 rows (ungefär)
 /*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
 /*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 
@@ -307,7 +310,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   CONSTRAINT `FK_posts_discussions` FOREIGN KEY (`discussionID`, `discussionEmail`) REFERENCES `discussions` (`ID`, `Email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.posts: ~0 rows (ungefär)
+-- Dumpar data för tabell gnu.posts: ~4 rows (ungefär)
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 
