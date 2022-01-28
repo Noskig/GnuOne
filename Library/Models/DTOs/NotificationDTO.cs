@@ -48,7 +48,7 @@ namespace Library.Models.DTOs
         {
             ID = notification.ID;
             Type = sub;
-            Headline = myFriend.Email;
+                Headline = myFriend.Email;
             //infoID = myFriend.ID;
             userName = myFriend.userName;
             hasBeenRead = notification.hasBeenRead;

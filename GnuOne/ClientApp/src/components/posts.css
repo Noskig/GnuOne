@@ -37,7 +37,9 @@
     justify-content: space-between;
 
 }
-
+.discussion-content {
+    width:100%;
+}
     .post-info h4 {
         padding-left: 1rem;
     }
@@ -145,7 +147,6 @@ form .wrapper {
 
 .text-option-wrapper {
         display:flex;
-        justify-content:space-between;
         margin-bottom:0.5rem;
 }
 
