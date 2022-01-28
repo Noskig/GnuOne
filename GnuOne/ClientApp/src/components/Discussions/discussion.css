@@ -33,20 +33,25 @@
     justify-self: right;
 }
 
-    .discussion-options:hover {
-        cursor: pointer
-    }
+.discussion-options:hover {
+    cursor: pointer
+}
 
 .discussion-options img {
     width: 1.5em;
 }
+
+.bookmark-button:hover path {
+    fill: red;
+}
+
 .discussion-info {
     grid-column-start: 1;
     grid-column-end: 4;
     grid-row-start: 2;
     grid-row-end: 3;
-    display:grid;
-    grid-template-columns:1fr 2fr 1fr 2fr 1fr;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 2fr 1fr;
 }
 h4 {
     margin-block-start: 2px;
