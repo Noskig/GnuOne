@@ -160,11 +160,11 @@ const Comments = () => {
         })
     }
 
-    return (
-        <>
-            <Search search={search} />
-            <section className="comments-container">
-                <h2>{postInfo.Headline}</h2>
+return (
+    <>
+        <Search search={search} />
+        <section className="comments-container">
+            <h2>{post.headline}</h2>
                 <div className="comment">
                     {editOpen && activeComment === post.id
                         ? <textarea maxLength="500" value={post.postText} className="edit" onChange={(e) => setCommentText(e.target.value)} />
@@ -173,7 +173,7 @@ const Comments = () => {
 
                     <div className="comment-info">
                         <h4>{filteredComments.length} comment(s) on this post</h4>
-                        <h4 className="createDate">{postInfo.Date.slice(0, 16).replace('T', ' ')}</h4>
+                        <h4 className="createDate">{post.date?.slice(0, 16).replace('T',' ')}</h4>
 
                     </div>
 
