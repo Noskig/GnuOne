@@ -183,7 +183,7 @@ return (
             <div className="discussion-tags">{discussion.firstTag ? `#${discussion.firstTag}` : null} {discussion.secondTag ? `#${discussion.secondTag}` : null}  {discussion.thirdTag ? `#${discussion.thirdTag}` : null} </div>
 
             <ul className="posts-list">
-                <li className="post">
+                <li className="discussion-info-first">
                     {/*<div className="posts-wrapper">*/}
                         {editOpen && activePost === discussion.id
                             ? <textarea maxLength="500" value={discussion.discussionText} className="edit" onChange={(e) => setPostText(e.target.value)} />
@@ -252,15 +252,7 @@ return (
 
                                     }</div>
 
-
-                                : <>
-                                    <button>
-                                        <img alt="bookmark" src={bookmark} />
-                                    </button>
-                                    <button>
-                                        <img alt="share" src={share} />
-                                    </button>
-                                </>
+                                :null
 
                             }</div>
                             </div>

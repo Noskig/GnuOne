@@ -4,6 +4,7 @@ import PortContext from '../../contexts/portContext';
 import MeContext from '../../contexts/meContext';
 import FriendContext from '../../contexts/friendContext';
 import PrivateMessages from "./PrivateMessages";
+import "./messages.css";
 
 const Messages = () => {
     const [messageList, setMessageList] = useState([])
@@ -88,17 +89,19 @@ const Messages = () => {
 
     return (
 
-        <section className="messages-container">
+        <section className="messages-section">
             {friendEmail === undefined
                 ?
                 <ul>
-                    {messageList.map(message => <li key={message.lastmessage.ID}>
-                        <Link to={{ pathname: `${match.url}/${message.Email.substring(0, message.Email.lastIndexOf("@"))}`, state: { userName: message.userName } }}>
-                            <h4>{message.userName}</h4>
-                            <p>{message.lastmessage.messageText}</p>
-                            <p>{message.timeSince}</p>
-                        </Link>
-                    </li>)}
+                    {messageList.map(message =>
+                        <li className="messages-container" key={message.lastmessage.ID}>
+                            <Link to={{ pathname: `${match.url}/${message.Email.substring(0, message.Email.lastIndexOf("@"))}`, state: { userName: message.userName } }}>
+                                <h4>{message.userName}</h4>
+                                <p>{message.lastmessage.messageText.substring(0,35)}</p>
+                                <p>{message.timeSince}</p>
+                            </Link>
+                        </li>
+                    )}
                 </ul>
                 : <PrivateMessages/>
             }
