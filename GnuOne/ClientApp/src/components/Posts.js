@@ -210,7 +210,7 @@ return (
                                 </div>
                             </div>
                             : null}
-                        <div className="text-option-wrapper">
+                      
                         {editOpen && activePost === post.id
                             ? <textarea className="text edit" maxLength="500" value={postText} onChange={(e) => setPostText(e.target.value)} />
                             : <Link className="discussion-content" to={{
@@ -253,7 +253,7 @@ return (
                                 :null
 
                             }</div>
-                            </div>
+                          
 
 
                         <div className="post-info">

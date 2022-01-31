@@ -8,45 +8,50 @@
     margin-top: 0.5rem;
     list-style: none;
     border-radius: 7px;
-    padding: 1rem;
     box-shadow: 0 2px 4px 1px #a19d9d;
+    display: grid;
 }
 
 .post > .text {
-  /*  grid-column-start: 1;
+    grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 1;
-    grid-row-end: 2;*/
+    grid-row-end: 2;
     margin: 0;
+    margin: 1rem;
     }
 
 .post-options {
-   /* grid-column-start: 3;
+    grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 1;
-    grid-row-end: 2;*/
-    padding: 0;
+    grid-row-end: 2;
+    padding: 1rem;
 }
 
 .post-info {
-   /* grid-column-start:1;
-    grid-column-end:3;*/
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
     display: flex;
     justify-content: space-between;
+    padding: 1rem;
 
 }
 .discussion-content {
     width:100%;
+    padding: 1rem;
 }
     .post-info h4 {
         padding-left: 1rem;
     }
 
 .delete-post-overlay {
-    /*grid-column-start: 1;
+    grid-column-start: 1;
     grid-column-end: 4;
     grid-row-start: 1;
-    grid-row-end: 3;*/
+    grid-row-end: 3;
     width: 100%;
     height: 100%;
     background-color: rgba(247, 245, 245, 0.9);
@@ -172,6 +177,7 @@ ul {
 .post-info h4 {
     margin-block-start: 0em;
     margin-block-end: 0em;
+    align-self: center;
 }
 .post-info {
 

@@ -18,6 +18,7 @@ const Saved = ({ routes }) => {
     const [showOverlay, setShowOverlay] = useState(false)
     const [readMore, setReadMore] = useState(false);
     const [activeDiscussion, setActiveDiscussion] = useState('')
+    const [hover, setHover] = useState(false)
     //let match = useRouteMatch()
 
     //SEARCH 
@@ -75,6 +76,7 @@ const Saved = ({ routes }) => {
             }
         })
         console.log(Deleted)
+        fetchData();
     }
 
 
@@ -91,15 +93,7 @@ const Saved = ({ routes }) => {
             <Search search={search} />
             <section className="discussions-container">
 
-                    <div className="new-discussion-container">
-                    {showOverlay
-                        ? <>
-                            <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)}/>
-                            <AddDiscussionOverlay fetchData={fetchData} close={close} />
-                          </>
-                        : <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)}/>
-                    }
-                    </div>
+                
 
 
                 <div className="discussions-list">
@@ -126,8 +120,18 @@ const Saved = ({ routes }) => {
                             
                             <div className={readMore && activeDiscussion === discussion.ID ? "discussion-options" : "discussion-options hide"}>
                                 <>
-                                    <button onClick={() => sendId(discussion)}>
-                                        <img alt="bookmark" src={bookmark} />
+                                    <button onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}onClick={() => sendId(discussion)}>
+                                        {
+                                            hover
+                                                ? <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M6.19091 21.855C6.07879 21.9354 5.94667 21.9833 5.80909 21.9934C5.67151 22.0036 5.5338 21.9756 5.4111 21.9125C5.2884 21.8495 5.18547 21.7538 5.11363 21.636C5.04179 21.5183 5.00382 21.383 5.00391 21.245V6.25C5.00391 5.38805 5.34632 4.5614 5.95581 3.9519C6.5653 3.34241 7.39195 3 8.25391 3H15.7519C16.6139 3 17.4405 3.34241 18.05 3.9519C18.6595 4.5614 19.0019 5.38805 19.0019 6.25V21.246C19.0019 21.384 18.9639 21.5194 18.8919 21.6372C18.82 21.755 18.7169 21.8506 18.594 21.9136C18.4712 21.9766 18.3334 22.0044 18.1957 21.9941C18.0581 21.9837 17.926 21.9356 17.8139 21.855L12.0039 17.674L6.19191 21.854L6.19091 21.855ZM17.5029 6.25C17.5029 5.78587 17.3185 5.34075 16.9903 5.01256C16.6622 4.68437 16.217 4.5 15.7529 4.5H8.25391C7.78978 4.5 7.34466 4.68437 7.01647 5.01256C6.68828 5.34075 6.50391 5.78587 6.50391 6.25V19.782L11.5649 16.141C11.6925 16.0492 11.8457 15.9998 12.0029 15.9998C12.1601 15.9998 12.3133 16.0492 12.4409 16.141L17.5019 19.782V6.25H17.5029Z" fill="white" />
+                                                </svg>
+
+                                                : <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M6.19091 21.855C6.07879 21.9354 5.94667 21.9833 5.80909 21.9934C5.67151 22.0036 5.5338 21.9756 5.4111 21.9125C5.2884 21.8495 5.18547 21.7538 5.11363 21.636C5.04179 21.5183 5.00382 21.383 5.00391 21.245V6.25C5.00391 5.38805 5.34632 4.5614 5.95581 3.9519C6.5653 3.34241 7.39195 3 8.25391 3H15.7519C16.6139 3 17.4405 3.34241 18.05 3.9519C18.6595 4.5614 19.0019 5.38805 19.0019 6.25V21.246C19.0019 21.384 18.9639 21.5194 18.8919 21.6372C18.82 21.755 18.7169 21.8506 18.594 21.9136C18.4712 21.9766 18.3334 22.0044 18.1957 21.9941C18.0581 21.9837 17.926 21.9356 17.8139 21.855L12.0039 17.674L6.19191 21.854L6.19091 21.855Z" fill="white" />
+                                                </svg>
+
+                                        }
                                     </button>
                                 </>
                                     
