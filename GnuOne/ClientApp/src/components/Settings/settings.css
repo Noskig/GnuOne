@@ -2,13 +2,12 @@
     color:black;
 }
 .change-img-container {
+    margin: 1rem 0;
     display: flex;
-    margin-top: 1rem;
+    flex-direction: column;
     justify-content: space-between;
 }
-.change-img-container h2 {
-    align-self: center;
-    }
+
 .change-img-container img {
         width: 5rem;
         height: 5rem;
@@ -23,8 +22,8 @@
 .change-theme {
     margin: 1rem 0;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
 }
 
 /* The switch - the box around the slider */
@@ -101,13 +100,13 @@ input:checked + .slider:before {
     width: 50%;
     border-radius: 7px;
     margin-bottom: 1rem;
+    padding: 5px;
 }
 
-.settings-container h2 {
-    margin:0 2rem;
-}
+
 .settings-container form {
     display: flex;
+    flex-direction:column;
     justify-content: space-between;
 }
 
@@ -120,6 +119,7 @@ input:checked + .slider:before {
 
 .bio {
     display: flex;
+    flex-direction:column;
     justify-content: space-between;
 }
 
