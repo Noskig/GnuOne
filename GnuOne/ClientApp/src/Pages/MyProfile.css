@@ -31,7 +31,7 @@ main .profile-wheel-container {
   grid-row-end: 5;
   justify-self: center;
 }
-main .bio-container, main .messages-container, main .settings-container, main .discussions-container, main .saved-section, main .posts-container, main .comments-container, main .notification-section {
+main .bio-container, main .messages-section, main .discussions-container, main .saved-section, main .posts-container, main .comments-container, main .notification-section, main .messages-container {
   grid-column-start: 2;
   grid-column-end: 6;
   grid-row-start: 3;
@@ -69,4 +69,10 @@ main .friends-name {
   grid-row-start: 3;
   grid-row-end: 5;
   justify-self: center;
+}
+main .settings-container {
+  grid-column-start: 2;
+  grid-column-end: 6;
+  grid-row-start: 3;
+  grid-row-end: 5;
 }

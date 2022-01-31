@@ -9,6 +9,7 @@
     border-radius: 7px;
     box-shadow: 0 2px 4px 1px #a19d9d;
 }
+
 .discussion-content {
     grid-column-start: 1;
     grid-column-end: 3;
@@ -33,35 +34,46 @@
     justify-self: right;
 }
 
-    .discussion-options:hover {
-        cursor: pointer
-    }
+.discussion-options:hover {
+    cursor: pointer
+}
 
 .discussion-options img {
     width: 1.5em;
 }
+
+.bookmark-button:hover path {
+    fill: red;
+}
+
 .discussion-info {
     grid-column-start: 1;
     grid-column-end: 4;
     grid-row-start: 2;
     grid-row-end: 3;
-    display:grid;
-    grid-template-columns:1fr 2fr 1fr 2fr 1fr;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 2fr 1fr;
 }
-h4 {
+
+.discussion-info h4 {
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+}
+
+.headline {
     margin-block-start: 2px;
     margin-block-end: 2px;
     grid-column-start: 1;
     grid-column-end: 2;
     font-size: 14px;
-    align-self:start;
+    align-self: start;
 }
+
 .read-more {
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 1;
     justify-self:center;
-
 }
 .createDate {
     grid-column-start: 2;
@@ -105,9 +117,13 @@ button {
 
 .discussion-tags {
     display: flex;
+    grid-column-start: 4;
+    grid-column-end: 6;
+    justify-self:right;
 }
-    .discussion-tags h4 {
-        padding: 0 5px;
-        white-space: nowrap;
-    }
+
+.discussion-tags h4 {
+    padding: 0 5px;
+    white-space: nowrap;
+}
 

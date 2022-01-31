@@ -12,7 +12,7 @@ const Search = (props) => {
         <section className="search-bar">
 
             <div className="search">
-                <input type="text" placeholder="Search..." onChange={(e) => {
+                <input type="search-input" placeholder="Search..." onChange={(e) => {
                     setSearch(e.target.value)
                 }} />
             </div>

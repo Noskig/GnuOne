@@ -1,0 +1,27 @@
+﻿.messages-container {
+    padding: 1rem 1rem 1rem;
+    background-color: var(--darker-turquoise);
+    color: white;
+    border-radius: 20px;
+    max-width:40rem
+}
+
+.messages-container a {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.messages-container h4 {
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+}
+
+.messages-container p {
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+}
+.input-div textarea{
+    margin-top: 2rem;
+}
