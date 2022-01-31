@@ -51,10 +51,14 @@ textarea {
         cursor:pointer;
     }
 
-    .new-discussion-overlay  .close {
-      background: none;
-      box-shadow: none;
-      
+    .new-discussion-box form select {
+        border-radius: 7px;
+        margin: 5px;
+
+    }
+    .new-discussion-overlay .close {
+        background: none;
+        box-shadow: none;
     }
 
 .new-discussion-box > .close:hover {
