@@ -3,6 +3,7 @@ import { useParams, useLocation } from "react-router-dom"
 import PortContext from '../../contexts/portContext';
 import MeContext from '../../contexts/meContext';
 import FriendContext from '../../contexts/friendContext';
+import "./privateMessages.css";
 
 const PrivateMessages = () => {
     const [privateMessages, setPrivateMessages] = useState([])
@@ -111,20 +112,22 @@ const PrivateMessages = () => {
 
         <section className="messages-container">
 
-            <ul>
-                {privateMessages.map(message => <li key={message.ID}>
+            <ul className="message-list-container">
+                {privateMessages.map(message =>
+                    <li className={message.From === myEmail?"my-message" : "friends-message" } key={message.ID}>
                     <h4>{message.FromUserName}</h4>
                     <p>{message.messageText}</p>
                     <p>{message.timeSince}</p>
                 </li>)}
             </ul>
 
-            <div>
+            <div className="input-div">
                 <textarea rows="4" type="text" placeholder="Meddelande..." value={messageText} onChange={e => setMessageText(e.target.value)} />
                 <button onClick={(e) => handleClick(e)}>Send message</button>
             </div>
 
         </section>
+        
 
     )
 }

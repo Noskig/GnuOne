@@ -33,7 +33,7 @@ main {
         justify-self: center;
     }
 
-    .bio-container, .messages-container, .settings-container, .discussions-container, .saved-section, .posts-container, .comments-container, .notification-section {
+    .bio-container, .messages-section, .discussions-container, .saved-section, .posts-container, .comments-container, .notification-section, .messages-container {
         grid-column-start: 2;
         grid-column-end: 6;
         grid-row-start: 3;
@@ -76,5 +76,13 @@ main {
         grid-row-end: 5;
         justify-self: center;
     }
+
+    .settings-container {
+        grid-column-start: 2;
+        grid-column-end: 6;
+        grid-row-start: 3;
+        grid-row-end: 5;
+    }
+
 }
  
