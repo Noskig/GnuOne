@@ -178,11 +178,14 @@ const Settings = () => {
             </form>
 
             <div className="change-img-container">
-                <img alt="img1"className={chosenImg === 1 ? "markedImage" : ""} onClick={() => setChosenImg(1)} src={Img1} />
-                <img alt="img2"className={chosenImg === 2 ? "markedImage" : ""} onClick={() => setChosenImg(2)} src={Img2} />
-                <img alt="img3"className={chosenImg === 3 ? "markedImage" : ""} onClick={() => setChosenImg(3)} src={Img3} />
-                <img alt="img4" className={chosenImg === 4 ? "markedImage" : ""} onClick={() => setChosenImg(4)} src={Img4} />
-                <img alt="img5"className={chosenImg === 5 ? "markedImage" : ""} onClick={() => setChosenImg(5)} src={Img5} />
+                <h2> Profil bild </h2>
+                <div className="img-wrapper">
+                    <img className={chosenImg == 1 ? "markedImage" : ""} onClick={() => setChosenImg(1)} src={Img1} />
+                    <img className={chosenImg == 2 ? "markedImage" : ""} onClick={() => setChosenImg(2)} src={Img2} />
+                    <img className={chosenImg == 3 ? "markedImage" : ""} onClick={() => setChosenImg(3)} src={Img3} />
+                    <img className={chosenImg == 4 ? "markedImage" : ""} onClick={() => setChosenImg(4)} src={Img4} />
+                    <img className={chosenImg == 5 ? "markedImage" : ""} onClick={() => setChosenImg(5)} src={Img5} />
+                </div>
             </div>
             <div className="change-theme">
                 <h2> Dark mode </h2>

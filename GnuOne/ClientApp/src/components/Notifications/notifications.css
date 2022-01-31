@@ -21,9 +21,6 @@
     box-shadow: 0 2px 4px 1px #a19d9d;
 }
 
-.notification a:hover p {
-   text-decoration: underline;
-}
 
 .read {
     background: lightgray;
@@ -32,6 +29,14 @@
 
 .unread {
     background: var(--light-turquoise);
+}
+
+.unread:hover {
+    background: var(--button-color);
+}
+
+.read:hover {
+    background: gray;
 }
 
 .delete-notification {
@@ -43,9 +48,9 @@
 }
 
 .delete-notification:hover {
-    background: var(--button-color);
+    background: var(--light-turquoise);
+    color: black;
     padding: 0.3em 0.6em;
-    color: white;
     border-radius: 10px;
     cursor: pointer;
 }
@@ -54,8 +59,12 @@
     background: gray;
 }
 
+.read:hover .delete-notification {
+    background: #474747;
+}
+
 .read .delete-notification:hover {
-    background: #545454;
+    background: lightgray;
 }
 
 

@@ -6,9 +6,7 @@
     background-color: var(--darker-turquoise);
     color: white;
     margin-top: 0.5rem;
-    /* display: grid;
-    grid-template-columns: auto auto 6rem;
-    grid-template-rows: auto auto;*/
+    list-style: none;
     border-radius: 7px;
     padding: 1rem;
     box-shadow: 0 2px 4px 1px #a19d9d;
