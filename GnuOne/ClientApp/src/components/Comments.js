@@ -1,6 +1,6 @@
 ﻿import PortContext from '../contexts/portContext';
 import { useParams, useLocation } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useCallback } from 'react';
 import trash from '../icons/trash.svg'
 import done from '../icons/done.svg'
 import edit from '../icons/edit.svg'
@@ -36,100 +36,91 @@ const Comments = () => {
 
     console.log(id)
 
-    useEffect(() => {
-        fetchData()
-    }, [id])
-
-    async function fetchData() {
+    const fetchData = useCallback(async () => {
         console.log('fetching')
         const response = await fetch(url + 'posts/' + id)
         const post = await response.json()
         console.log(post)
-    //    //GET TAGS 
-    //    const responseTwo = await fetch(url + 'tags')
-    //    const tags = await responseTwo.json()
-    //    console.log(tags)
-    //    let discussionTags = tags.filter(tag => tag.ID === discussion.tagOne || tag.ID === discussion.tagTwo || tag.ID === discussion.tagThree)
-    //    console.log(discussionTags)
-    //    discussion.firstTag = discussionTags[0] ? discussionTags[0].tagName : null
-    //    discussion.secondTag = discussionTags[1] ? discussionTags[1].tagName : null
-    //    discussion.thirdTag = discussionTags[2] ? discussionTags[2].tagName : null
-    ////end
 
-    setPost(post);
-    setComments(post.comments)
+        setPost(post);
+        setComments(post.comments)
 
-}
+    }, [url, id, setPost, setComments]);
 
-//COMMENT
-function validateNewComment(commentText) {
-    if (commentText.length <= 500) {
-        setCommentText(commentText)
-        setCharactersLeft(commentText.length)
-    }
-}
+    useEffect(() => {
+        fetchData()
+    }, [id, fetchData])
 
-function createNewComment(e) {
-    e.preventDefault()
-    let newComment = {
-        userName: postInfo.userName,
-        commentText: commentText,
-        postID: Number(id),
-        postEmail: postInfo.Email
-    }
-    console.log(newComment)
-    addNewComment(newComment)
-    setCommentText('')
-}
 
-async function addNewComment(newComment) {
-    await fetch(url + 'comments', {
-        method: 'POST',
-        body: JSON.stringify(newComment),
-        headers: {
-            "Content-type": "application/json; charset=UTF-8",
+    //COMMENT
+    function validateNewComment(commentText) {
+        if (commentText.length <= 500) {
+            setCommentText(commentText)
+            setCharactersLeft(commentText.length)
         }
-    })
+    }
 
-    fetchData();
-    setCharactersLeft(0);
-}
+    function createNewComment(e) {
+        e.preventDefault()
+        let newComment = {
+            userName: postInfo.userName,
+            commentText: commentText,
+            postID: Number(id),
+            postEmail: postInfo.Email
+        }
+        console.log(newComment)
+        addNewComment(newComment)
+        setCommentText('')
+    }
 
-//EDIT 
-function openEditComment(e, comment) {
-    e.preventDefault()
-    console.log(comment)
-    setActiveComment(comment.id)
-    console.log(comment.id)
-    console.log(activeComment)
-    setEditOpen(true)
-    setCommentText(comment.commentText)
-}
-
-async function confirmEditComment(e, comment) {
-    e.preventDefault()
-    console.log('fetching')
-    if (comment.commentText !== commentText) {
-        comment.commentText = commentText
-        console.log(comment)
-        await fetch(url + 'comments/' + comment.id, {
-            method: 'PUT',
-            body: JSON.stringify(comment),
+    async function addNewComment(newComment) {
+        await fetch(url + 'comments', {
+            method: 'POST',
+            body: JSON.stringify(newComment),
             headers: {
-                "Content-type": "application/json",
+                "Content-type": "application/json; charset=UTF-8",
             }
         })
+
+        fetchData();
+        setCharactersLeft(0);
     }
 
-    setEditOpen(false)
-    setCommentText('')
-}
+    //EDIT 
+    function openEditComment(e, comment) {
+        e.preventDefault()
+        console.log(comment)
+        setActiveComment(comment.id)
+        console.log(comment.id)
+        console.log(activeComment)
+        setEditOpen(true)
+        setCommentText(comment.commentText)
+    }
 
-//DELETE 
-function openDeleteComment(e, comment) {
-    e.preventDefault()
-    setActiveComment(comment.id)
-    setShowDeleteConfirm(true)
+    async function confirmEditComment(e, comment) {
+        e.preventDefault()
+        console.log('fetching')
+        if (comment.commentText !== commentText) {
+            comment.commentText = commentText
+            console.log(comment)
+            await fetch(url + 'comments/' + comment.id, {
+                method: 'PUT',
+                body: JSON.stringify(comment),
+                headers: {
+                    "Content-type": "application/json",
+                }
+            })
+        }
+
+        setEditOpen(false)
+        setCommentText('')
+    }
+
+    //DELETE 
+    function openDeleteComment(e, comment) {
+        e.preventDefault()
+        setActiveComment(comment.id)
+        setShowDeleteConfirm(true)
     }
 
     function closeOverlay() {
@@ -138,36 +129,36 @@ function openDeleteComment(e, comment) {
         setShowDeleteConfirm(false)
     }
 
-async function deleteComment(e, id) {
-    e.preventDefault()
-    console.log('fetching')
-    console.log(id)
-    await fetch(url + 'comments/' + id, {
-        method: 'DELETE',
-        body: { id: id },
-        headers: {
-            "Content-type": "application/json",
-        }
-    });
-    fetchData()
-    setShowDeleteConfirm(false)
-}
+    async function deleteComment(e, id) {
+        e.preventDefault()
+        console.log('fetching')
+        console.log(id)
+        await fetch(url + 'comments/' + id, {
+            method: 'DELETE',
+            body: { id: id },
+            headers: {
+                "Content-type": "application/json",
+            }
+        });
+        fetchData()
+        setShowDeleteConfirm(false)
+    }
 
-//SEARCH 
-function search(s) {
-    setSearchTerm(s)
-}
+    //SEARCH 
+    function search(s) {
+        setSearchTerm(s)
+    }
 
-function filterComments(comments, searchTerm) {
-    return comments.filter((data) => {
-        if (searchTerm === "") {
-            return true
-        } else if (data.commentText.toLowerCase().includes(searchTerm.toLowerCase())) {
-            return data
-        }
+    function filterComments(comments, searchTerm) {
+        return comments.filter((data) => {
+            if (searchTerm === "") {
+                return true
+            } else if (data.commentText.toLowerCase().includes(searchTerm.toLowerCase())) {
+                return data
+            } else return false
 
-    })
-}
+        })
+    }
 
 return (
     <>
@@ -186,75 +177,72 @@ return (
 
                     </div>
 
-            </div>
-            <div className="comments-list">
-            <ul >
-                {comments ? filteredComments.map(comment =>
-                    <li className={comment.commentText === "Deleted comment" ? "comment deleted-comment": "comment"} key={comment.id + comment.userName}>
-                        {showDeleteConfirm && activeComment === comment.id
-                            ? <div className="delete-comment-overlay">
-                                <p> Are you sure you want to delete this comment?</p>
-                                <button onClick={(e) => deleteComment(e, comment.id)}>
-                                    <svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M21.7585 0L8.5106 13.4289L4.21399 9.0736L0 13.3452L4.29661 17.7005L8.53812 22L12.7521 17.7284L26 4.29952L21.7585 0Z" fill="black" />
-                                    </svg>
-                                </button>
-                                <button onClick={closeOverlay}> <img alt="cancel" src={cancel}/> </button>
-                            </div>
-                            : null}
-                        {editOpen && activeComment === comment.id
-                            ? <textarea className="text edit" maxLength="500" value={commentText} onChange={(e) => setCommentText(e.target.value)} />
-                            : <p className="text">{comment.commentText}</p>
-                        }
-
-                        <div className="comment-options">
-                                    
-                            {comment.email === myEmail
-                                ? <> {showDeleteConfirm && activeComment === comment.id
-                                    ?<>
-                                    <button onClick={(e) => deleteComment(e, comment.id)}>
-                                        <img alt="done" src={done} />
-                                    </button>
-                                    </>
-                                    :
-                                    <button onClick={(e) => openDeleteComment(e, comment)}>
-                                        <img alt="delete" src={trash} />
-                                    </button>
+                </div>
+                <div className="comments-list">
+                    <ul >
+                        {comments ? filteredComments.map(comment =>
+                            <li className={comment.commentText === "Deleted comment" ? "comment deleted-comment" : "comment"} key={comment.id + comment.userName}>
+                                {showDeleteConfirm && activeComment === comment.id
+                                    ? <div className="delete-comment-overlay">
+                                        <p> Are you sure you want to delete this comment?</p>
+                                        <button onClick={(e) => deleteComment(e, comment.id)}> <svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M21.7585 0L8.5106 13.4289L4.21399 9.0736L0 13.3452L4.29661 17.7005L8.53812 22L12.7521 17.7284L26 4.29952L21.7585 0Z" fill="black" />
+                                        </svg></button>
+                                        <button onClick={closeOverlay}> <img alt="cancel" src={cancel} /> </button>
+                                    </div>
+                                    : null}
+                                {editOpen && activeComment === comment.id
+                                    ? <textarea className="text edit" maxLength="500" value={commentText} onChange={(e) => setCommentText(e.target.value)} />
+                                    : <p className="text">{comment.commentText}</p>
                                 }
-                                    {editOpen && activeComment === comment.id ?
-                                        <button onClick={(e) => confirmEditComment(e, comment)}>
-                                            <img alt="done" src={done} />
-                                        </button>
-                                        : 
-                                        <button onClick={(e) => openEditComment(e, comment)}>
-                                            <img alt="edit" src={edit} />
-                                        </button>
 
-                                    }</>
+                                <div className="comment-options">
+
+                                    {comment.email === myEmail
+                                        ? <> {showDeleteConfirm && activeComment === comment.id
+                                            ? <>
+                                                <button onClick={(e) => deleteComment(e, comment.id)}>
+                                                    <img alt="done" src={done} />
+                                                </button>
+                                            </>
+                                            :
+                                            <button onClick={(e) => openDeleteComment(e, comment)}>
+                                                <img alt="delete" src={trash} />
+                                            </button>
+                                        }
+                                            {editOpen && activeComment === comment.id ?
+                                                <button onClick={(e) => confirmEditComment(e, comment)}>
+                                                    <img alt="done" src={done} />
+                                                </button>
+                                                : <button onClick={(e) => openEditComment(e, comment)}>
+                                                    <img alt="edit" src={edit} />
+                                                </button>
+
+                                            }</>
 
 
-                                : <>
-                                    <button>
-                                        <img alt="bookmark" src={bookmark} />
-                                    </button>
-                                    <button>
-                                        <img alt="share" src={share} />
-                                    </button>
-                                </>
+                                        : <>
+                                            <button>
+                                                <img alt="bookmark" src={bookmark} />
+                                            </button>
+                                            <button>
+                                                <img alt="share" src={share} />
+                                            </button>
+                                        </>
 
-                            }</div>
+                                    }</div>
 
 
 
-                        <div className="comment-info">
-                            {/*<img className="friend-avatar" alt={comment.pictureID} />*/} <h4> {comment.userName} </h4>
-                            <h4 className="createDate">{comment.date.slice(0, 16).replace('T', ' ')}</h4>
-                         
+                                <div className="comment-info">
+                                    {/*<img className="friend-avatar" alt={comment.pictureID} />*/} <h4> {comment.userName} </h4>
+                                    <h4 className="createDate">{comment.date.slice(0, 16).replace('T', ' ')}</h4>
 
-                        </div>
-                    </li>
-                ) : 'oops kan inte nå api'}
-                </ul>
+
+                                </div>
+                            </li>
+                        ) : 'oops kan inte nå api'}
+                    </ul>
 
             {editOpen
                 ? <p>pls finish editing ur comment before writing a new one'</p>
@@ -267,9 +255,9 @@ return (
                     </div>
                     </div>}
                 </div>
-        </section>
-    </>
-)
+            </section>
+        </>
+    )
 }
 
 export default Comments

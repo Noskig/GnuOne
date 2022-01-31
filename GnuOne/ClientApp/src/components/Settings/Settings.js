@@ -13,12 +13,11 @@ import Img4 from "../../Image/4.jpg";
 import Img5 from "../../Image/5.jpg";
 
 const Settings = () => {
-    const { profilePic, setProfilePic } = useContext(ProfilePicContext);
-    const { darkMode, setDarkMode } = useContext(ThemeContext)
+    const { setProfilePic } = useContext(ProfilePicContext);
+    const { setDarkMode } = useContext(ThemeContext)
     const [DM, setDM] = useState()
 
     //changing user info 
-    const [chosenTab, setChosenTab] = useState();
     const [profile, setProfile] = useState({});
     const [userinfo, setUserInfo] = useState("");
     //============================================
@@ -37,40 +36,53 @@ const Settings = () => {
     const url = `https://localhost:${port}/api/myprofile`;
 
     useEffect(() => {
+        async function fetchData() {
+            const response = await fetch(url)
+            const profile = await response.json()
+            console.log(profile);
+
+            const responseTwo = await fetch('https://localhost:7261/api/tags');
+            const tags = await responseTwo.json()
+            console.log(tags)
+
+            let tag1 = tags.filter(tag => tag.ID === profile[0].tagOne)
+            let tag2 = tags.filter(tag => tag.ID === profile[0].tagTwo)
+            let tag3 = tags.filter(tag => tag.ID === profile[0].tagThree)
+            console.log(tag1[0], tag2[0], tag3[0]);
+            profile[0].firstTag = tag1[0] ? tag1[0].tagName : null
+            profile[0].secondTag = tag2[0] ? tag2[0].tagName : null
+            profile[0].thirdTag = tag3[0] ? tag3[0].tagName : null
+            setProfile(profile[0])
+            setUserInfo(profile[0].myUserInfo);
+            setChosenTags1(profile[0].tagOne);
+            setChosenTags2(profile[0].tagTwo);
+            setChosenTags3(profile[0].tagThree);
+            setChosenImg(profile[0].pictureID)
+
+            const responseThree = await fetch('https://localhost:7261/api/settings');
+            const settings = await responseThree.json()
+            console.log(settings)
+            setDM(settings.darkMode)
+
+        }
+
+        //changing/fetching tags from api tags 
+
+        async function fetchTags() {
+            const response = await fetch(`https://localhost:${port}/api/tags`)
+            const tags = await response.json()
+            console.log(tags);
+            setTags(tags);
+        }
+
+        //=================================================================
+
         fetchData();
         fetchTags();
 
-    }, [])
+    }, [url, setDM, setChosenTags1, setChosenTags2, setChosenTags3, setChosenImg, port])
 
-    async function fetchData() {
-        const response = await fetch(url)
-        const profile = await response.json()
-        console.log(profile);
 
-        const responseTwo = await fetch('https://localhost:7261/api/tags');
-        const tags = await responseTwo.json()
-        console.log(tags)
-
-        let tag1 = tags.filter(tag => tag.ID === profile[0].tagOne)
-        let tag2 = tags.filter(tag => tag.ID === profile[0].tagTwo)
-        let tag3 = tags.filter(tag => tag.ID === profile[0].tagThree)
-        console.log(tag1[0], tag2[0], tag3[0]);
-        profile[0].firstTag = tag1[0] ? tag1[0].tagName : null
-        profile[0].secondTag = tag2[0] ? tag2[0].tagName : null
-        profile[0].thirdTag = tag3[0] ? tag3[0].tagName : null
-        setProfile(profile[0])
-        setUserInfo(profile[0].myUserInfo);
-        setChosenTags1(profile[0].tagOne);
-        setChosenTags2(profile[0].tagTwo);
-        setChosenTags3(profile[0].tagThree);
-        setChosenImg(profile[0].pictureID)
-
-        const responseThree = await fetch('https://localhost:7261/api/settings');
-        const settings = await responseThree.json()
-        console.log(settings)
-        setDM(settings.darkMode)
-
-    }
 
     function handleClick(e) {
         e.preventDefault()
@@ -106,16 +118,6 @@ const Settings = () => {
     }
     //=================================================================
 
-    //changing/fetching tags from api tags 
-
-    async function fetchTags() {
-        const response = await fetch(`https://localhost:${port}/api/tags`)
-        const tags = await response.json()
-        console.log(tags);
-        setTags(tags);
-    }
-
-    //=================================================================
 
     async function changeTheme(theme) {
         console.log(theme)
@@ -176,14 +178,11 @@ const Settings = () => {
             </form>
 
             <div className="change-img-container">
-                <h2> Profil bild </h2>
-                <div className="img-wrapper">
-                    <img className={chosenImg == 1 ? "markedImage" : ""} onClick={() => setChosenImg(1)} src={Img1} />
-                    <img className={chosenImg == 2 ? "markedImage" : ""} onClick={() => setChosenImg(2)} src={Img2} />
-                    <img className={chosenImg == 3 ? "markedImage" : ""} onClick={() => setChosenImg(3)} src={Img3} />
-                    <img className={chosenImg == 4 ? "markedImage" : ""} onClick={() => setChosenImg(4)} src={Img4} />
-                    <img className={chosenImg == 5 ? "markedImage" : ""} onClick={() => setChosenImg(5)} src={Img5} />
-                </div>
+                <img alt="img1"className={chosenImg === 1 ? "markedImage" : ""} onClick={() => setChosenImg(1)} src={Img1} />
+                <img alt="img2"className={chosenImg === 2 ? "markedImage" : ""} onClick={() => setChosenImg(2)} src={Img2} />
+                <img alt="img3"className={chosenImg === 3 ? "markedImage" : ""} onClick={() => setChosenImg(3)} src={Img3} />
+                <img alt="img4" className={chosenImg === 4 ? "markedImage" : ""} onClick={() => setChosenImg(4)} src={Img4} />
+                <img alt="img5"className={chosenImg === 5 ? "markedImage" : ""} onClick={() => setChosenImg(5)} src={Img5} />
             </div>
             <div className="change-theme">
                 <h2> Dark mode </h2>

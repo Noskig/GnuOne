@@ -21,25 +21,27 @@ function App() {
     const [darkMode, setDarkMode] = useState()
 
     useEffect(() => {
+        console.log('one more time')
+        async function fetchData() {
+            console.log('fetching')
+            const response = await fetch(url + 'myprofile')
+            const me = await response.json()
+            const profilepic = me[0].pictureID
+            setProfilePic(profilepic);
+        }
+
+        async function fetchTheme() {
+            console.log('fetching theme')
+            const response = await fetch(url + 'settings')
+            const settings = await response.json()
+            const darkMode = settings.darkMode
+            setDarkMode(darkMode);
+        }
         fetchData()
         fetchTheme()
-    }, [])
+    }, [setProfilePic, setDarkMode, url])
 
-    async function fetchData() {
-        console.log('fetching')
-        const response = await fetch(url + 'myprofile')
-        const me = await response.json()
-        const profilepic = me[0].pictureID
-        setProfilePic(profilepic);
-    }
-
-    async function fetchTheme() {
-        console.log('fetching theme')
-        const response = await fetch(url + 'settings')
-        const settings = await response.json()
-        const darkMode = settings.darkMode
-        setDarkMode(darkMode);
-    }
+   
 
 
     return (

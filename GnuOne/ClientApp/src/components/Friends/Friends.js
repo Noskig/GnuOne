@@ -1,5 +1,5 @@
 ﻿
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useCallback } from 'react'
 import './friends.css'
 import PortContext from '../../contexts/portContext';
 import AddFriendOverlay from './AddFriendOverlay/AddFriendOverlay';
@@ -7,7 +7,6 @@ import Search from '../Search/Search'
 import { Link } from 'react-router-dom';
 import FriendContext from '../../contexts/friendContext';
 import MeContext from '../../contexts/meContext';
-import avatar from '../../icons/avatar-plain.svg'
 import WheelContext from '../../contexts/WheelContext'
 import images from '../../Image';
 
@@ -23,19 +22,13 @@ const Friends = () => {
     const [disabled, setDisabled] = useState(false)
     const [activeFriend, setActiveFriend] = useState(null)
     const { setChosenPage, setActive, setDone } = useContext(WheelContext);
-    const [darkMode, setDarkMode] = useState(true);
-
 
 
     //SEARCH 
     const [searchTerm, setSearchTerm] = useState('')
     const filteredFriends = filterFriends(friendsList, searchTerm)
 
-    useEffect(() => {
-        fetchData()
-    }, [friendEmail, myEmail])
-
-    async function fetchData() {
+    const fetchData = useCallback(async () => {
         if (friendEmail === undefined) {
             //get my own friends
             const response = await fetch(url)
@@ -67,7 +60,12 @@ const Friends = () => {
             console.log(friendsfriends, filteredFriendsfriends)
             setFriendsList(filteredFriendsfriends)
         }
-    }
+    }, [setFriendsList, url, friendEmail, myEmail]);
+
+
+    useEffect(() => {
+        fetchData()
+    }, [friendEmail, myEmail, fetchData])
 
     const close = () => {
         setShowOverlay(false)
@@ -178,7 +176,7 @@ const Friends = () => {
                 return true
             } else if (data.userName?.toLowerCase().includes(searchTerm.toLowerCase())) {
                 return data
-            }
+            } else return false
         })
     }
 
@@ -210,7 +208,7 @@ const Friends = () => {
                                     <h2 className="userName"> {friend.userName} </h2>
                                 </Link>
                                 {/*hide friend*/}
-                                {friend.hideMe == 0 ?
+                                {friend.hideMe === 0 ?
                                     <button onClick={() => hideFromFriendsFriends(friend.Email)}>
                                         Hide friend
                                     </button>

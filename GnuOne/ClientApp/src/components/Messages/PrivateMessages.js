@@ -1,4 +1,4 @@
-﻿import { useState, useContext, useEffect } from "react"
+﻿import { useState, useContext, useEffect, useCallback } from "react"
 import { useParams, useLocation } from "react-router-dom"
 import PortContext from '../../contexts/portContext';
 import MeContext from '../../contexts/meContext';
@@ -18,22 +18,47 @@ const PrivateMessages = () => {
         let { userName } = location.state
         console.log(userName)
     }
+    const getDuration = useCallback((seconds) => {
+        let durationInSeconds = {
+            epochs: ['year', 'month', 'day', 'hour', 'minute', 'second'],
+            year: 31536000,
+            month: 2592000,
+            day: 86400,
+            hour: 3600,
+            minute: 60,
+            second: 1
+        };
+        var epoch, interval;
+
+        for (var i = 0; i < durationInSeconds.epochs.length; i++) {
+            epoch = durationInSeconds.epochs[i];
+            interval = Math.floor(seconds / durationInSeconds[epoch]);
+            if (interval >= 1) {
+                return {
+                    interval: interval,
+                    epoch: epoch
+                };
+            }
+        }
+
+    }, []);
+
+    const timeSince = useCallback((date) => {
+        console.log(date)
+        var seconds = Math.floor((new Date() - new Date(date)) / 1000);
+        if (seconds < 1) {
+            seconds = 1
+        }
+        console.log(seconds)
+        var duration = getDuration(seconds);
+        console.log(duration)
+        var suffix = (duration.interval > 1 || duration.interval === 0) ? 's' : '';
+        return duration.interval + ' ' + duration.epoch + suffix + ' ago';
+    }, [getDuration]);
 
 
-    //useEffect(() => {
-    //    fetchPrivateMessages({ Email: `${email}@gmail.com` })
-
-    //}, [email])
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-        fetchPrivateMessages({ Email: `${email}@gmail.com` })
-        }, 2000);
-        return () => clearInterval(interval);
-    }, [email]);
-
-    async function fetchPrivateMessages(friend) {
-        const response = await fetch(url +'dm', {
+    const fetchPrivateMessages = useCallback(async (friend) => {
+        const response = await fetch(url + 'dm', {
             method: 'PATCH',
             body: JSON.stringify(friend),
             headers: {
@@ -50,7 +75,14 @@ const PrivateMessages = () => {
         })
         console.log(newList)
         setPrivateMessages(newList)
-    }
+    }, [setPrivateMessages, url, timeSince]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            fetchPrivateMessages({ Email: `${email}@gmail.com` })
+        }, 2000);
+        return () => clearInterval(interval);
+    }, [email, fetchPrivateMessages]);
 
     function handleClick(e) {
         e.preventDefault()
@@ -75,47 +107,6 @@ const PrivateMessages = () => {
         fetchPrivateMessages({ Email: `${email}@gmail.com` });
         setMessageText('')
     }
-
-    let durationInSeconds = {
-        epochs: ['year', 'month', 'day', 'hour', 'minute', 'second'],
-        year: 31536000,
-        month: 2592000,
-        day: 86400,
-        hour: 3600,
-        minute: 60,
-        second: 1
-    };
-
-    function getDuration(seconds) {
-        var epoch, interval;
-
-        for (var i = 0; i < durationInSeconds.epochs.length; i++) {
-            epoch = durationInSeconds.epochs[i];
-            interval = Math.floor(seconds / durationInSeconds[epoch]);
-            if (interval >= 1) {
-                return {
-                    interval: interval,
-                    epoch: epoch
-                };
-            }
-        }
-
-    };
-
-    function timeSince(date) {
-        console.log(date)
-        var seconds = Math.floor((new Date() - new Date(date)) / 1000);
-        if (seconds < 1) {
-            seconds = 1
-        }
-        console.log(seconds)
-        var duration = getDuration(seconds);
-        console.log(duration)
-        var suffix = (duration.interval > 1 || duration.interval === 0) ? 's' : '';
-        return duration.interval + ' ' + duration.epoch + suffix + ' ago';
-    };
-
-
 
     return (
 

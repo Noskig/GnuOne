@@ -1,8 +1,7 @@
 ﻿import React, { useState, useContext} from 'react';
-import { Link, Switch, useRouteMatch } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 /*import logo from '../../icons/Logo.svg'*/
 import logo from '../../Image/Logo/gnux.png'
-import avatar from '../../icons/useravatar.svg'
 import settings from '../../icons/settings.svg'
 import messages from '../../icons/messagesNavbar.svg'
 import profile from '../../icons/Gnu 220.png'

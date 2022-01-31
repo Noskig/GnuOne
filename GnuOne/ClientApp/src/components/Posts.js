@@ -1,6 +1,6 @@
 ﻿import PortContext from '../contexts/portContext';
 import { useParams, useLocation, Link, useRouteMatch } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useCallback } from 'react';
 import trash from '../icons/trash.svg'
 import done from '../icons/done.svg'
 import edit from '../icons/edit.svg'
@@ -19,7 +19,6 @@ const Posts = () => {
     const [discussion, setDiscussion] = useState({})
     const [posts, setPosts] = useState([])
     const [postText, setPostText] = useState('')
-    const [username, setUsername] = useState('me')
     const [activePost, setActivePost] = useState()
     const [editOpen, setEditOpen] = useState(false)
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
@@ -39,11 +38,7 @@ const Posts = () => {
 
     console.log(id)
 
-    useEffect(() => {
-        fetchData()
-    }, [id])
-
-    async function fetchData() {
+    const fetchData = useCallback(async () => {
         console.log('fetching')
         const response = await fetch(url + 'discussions/' + id)
         const discussion = await response.json()
@@ -57,12 +52,16 @@ const Posts = () => {
         discussion.firstTag = discussionTags[0] ? discussionTags[0].tagName : null
         discussion.secondTag = discussionTags[1] ? discussionTags[1].tagName : null
         discussion.thirdTag = discussionTags[2] ? discussionTags[2].tagName : null
-    
-    //end
-    setDiscussion(discussion);
-    setPosts(discussion.posts)
 
-}
+        //end
+        setDiscussion(discussion);
+        setPosts(discussion.posts)
+
+    }, [setDiscussion, setPosts, url, id]);
+
+    useEffect(() => {
+        fetchData()
+    }, [id, fetchData])
 
 //POST
 function validateNewPost(postText) {
@@ -75,7 +74,6 @@ function validateNewPost(postText) {
 function createNewPost(e) {
     e.preventDefault()
     let newPost = {
-        userName: username,
         postText: postText,
         discussionID: Number(id),
         discussionEmail: discussionInfo.Email
@@ -170,7 +168,7 @@ function filterPosts(posts, searchTerm) {
             return true
         } else if (data.postText.toLowerCase().includes(searchTerm.toLowerCase())) {
             return data
-        }
+        } else return false
 
     })
 }
@@ -214,7 +212,7 @@ return (
                             : null}
                         <div className="text-option-wrapper">
                         {editOpen && activePost === post.id
-                            ? <textarea className="text" maxLength="500" value={postText} className="edit" onChange={(e) => setPostText(e.target.value)} />
+                            ? <textarea className="text edit" maxLength="500" value={postText} onChange={(e) => setPostText(e.target.value)} />
                             : <Link className="discussion-content" to={{
                                 pathname: `${match.url}/post/${post.id}`, state: {
                                     postText: post.postText,
@@ -260,7 +258,7 @@ return (
 
                         <div className="post-info">
                             <div className="post-info-wrapper">
-                                <img className="friend-avatar" />
+                               {/* <img className="friend-avatar" alt={post.userName}/>*/}
                                 <h4> {post.userName} </h4>
                                 <h4 className="createDate">{post.date.slice(0, 16).replace('T', ' ')}</h4>
                             </div>

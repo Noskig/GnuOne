@@ -14,19 +14,18 @@ function MyProfile({ routes }) {
   
 
     useEffect(() => {
+        async function fetchData() {
+            console.log('fetching')
+            const response = await fetch(url)
+            const me = await response.json()
+            const myEmail = me.email
+            console.log(myEmail)
+            setMyEmail(myEmail);
+        }
         fetchData()
-    }, [])
+    }, [setMyEmail, url])
 
-    async function fetchData() {
-        console.log('fetching')
-        const response = await fetch(url)
-        const me = await response.json()
-        const myEmail = me.email
-        console.log(myEmail)
-        setMyEmail(myEmail);
-
-
-    }
+   
     return (
         <MeContext.Provider value={myEmail}>
             <FriendContext.Provider value={{ friendEmail: undefined, friendImg: undefined }}>

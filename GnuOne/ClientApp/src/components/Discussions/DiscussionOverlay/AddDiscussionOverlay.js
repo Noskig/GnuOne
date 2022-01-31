@@ -15,9 +15,14 @@ const AddDiscussionOverlay = (props) => {
     const [chosenTag3, setChosenTags3] = useState();
 
     useEffect(() => {
-        fetchData()
+        async function fetchTags() {
+            const response = await fetch(`https://localhost:${port}/api/tags`)
+            const tags = await response.json()
+            console.log(tags);
+            setTags(tags);
+        }
         fetchTags()
-    }, [])
+    }, [setTags, port])
 
     function handleClick(e) {
         e.preventDefault()
@@ -59,12 +64,7 @@ const AddDiscussionOverlay = (props) => {
         props.close()
     }
 
-    async function fetchTags() {
-        const response = await fetch(`https://localhost:${port}/api/tags`)
-        const tags = await response.json()
-        console.log(tags);
-        setTags(tags);
-    }
+  
 
     return (
         <div className="new-discussion-overlay" >

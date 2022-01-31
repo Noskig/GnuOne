@@ -15,30 +15,34 @@ const FriendProfile = ({ routes }) => {
     const [friendsUserName, setFriendsUserName] = useState('')
 
     useEffect(() => {
+        async function fetchFriend() {
+            console.log('fetching')
+            console.log(email)
+            const response = await fetch(url + 'myfriends/' + email + '@gmail.com')
+            const friend = await response.json()
+            console.log(friend)
+            setFriend(friend);
+            setFriendsUserName(friend.MyFriend.userName)
+        }
+
+        async function fetchMyEmail() {
+            console.log('fetching')
+            const response = await fetch(url + 'settings')
+            const me = await response.json()
+            console.log(me)
+            const myEmail = me.email
+            console.log(myEmail)
+            setMyEmail(myEmail);
+        }
+
         fetchFriend()
         fetchMyEmail()
-    }, [email])
+    }, [email, setFriend, setFriendsUserName, setMyEmail, url])
 
-    async function fetchFriend() {
-        console.log('fetching')
-        console.log(email)
-        const response = await fetch(url + 'myfriends/' + email + '@gmail.com')
-        const friend = await response.json()
-        console.log(friend)
-        setFriend(friend);
-        setFriendsUserName(friend.MyFriend.userName)
-    }
+    
 
     console.log(friend)
-    async function fetchMyEmail() {
-        console.log('fetching')
-        const response = await fetch(url + 'settings')
-        const me = await response.json()
-        console.log(me)
-        const myEmail = me.email
-        console.log(myEmail)
-        setMyEmail(myEmail);
-    }
+   
 
     return (
         <MeContext.Provider value={myEmail}>
