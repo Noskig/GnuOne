@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import logo from '../../Image/Logo/gnux.png'
 import settings from '../../icons/settings.svg'
 import messages from '../../icons/messagesNavbar.svg'
-import profile from '../../icons/Gnu 220.png'
 import ProfilePicContext from '../../contexts/profilePicContext'
 import WheelContext from '../../contexts/WheelContext'
 import "./navbar.css"
@@ -52,7 +51,7 @@ const NavBar = () => {
 
                 <li className={isPressed ? "profile out-animation3" : "profile in-animation3"}>
                     <Link to="/profile" onClick={() => handleClick(0)}>
-                        <img className="profile-picture" src={profile} alt="profile" />
+                        <img className="profile-picture" src={} alt="profile" />
                     </Link>
                 </li>
                     
