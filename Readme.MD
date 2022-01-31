@@ -25,25 +25,26 @@ Visit: http://iwantag.nu/ to read more.
 - It begans as an group-project to offer a decentralize social platform. 
 - This is a the Beta version that is have a solid foundation but is still not fully developed.
 
-- What problem does it (intend to) solve?
+<b>What problem does it (intend to) solve?</b>
 -  To be independent from third parties.
 -  To keep information stored locally.
 -  To be decentrilzed and private.
 -  Not having any ads
 
-- What is the purpose of your project?
+<b> What is the purpose of your project?</b>
 -  To create an interactive application which does not provide a algorithmic feed for you.
 -  <b>To learn</b> different technologies, to co-operate in a medium-big team. To get better att problem-solvning. To connect back- to front -end. To see how iterative development can work.  
 
 ## Technologies Used
-- MariaDB - version 10.7.1
-- HeideSQL - version 11.3
-- React - version xx
-- Node.js - version xx
-- .Net - version 6
-- EntityFrameworkCore - version xx
-- Impt-client - version xx
-- Postman - version 9
+- MariaDB      -  version 10.7.1
+- HeideSQL     -  version 11.3
+- React        -  version 17.0
+- React Router -  version 5.2
+- Node.js      -  version 5.3
+- .Net         -  version 6
+- EntityFrameworkCore - version 6
+- Impt-client  -  version 2.2
+- Postman      -  version 9
 - 
 
 ## Features
