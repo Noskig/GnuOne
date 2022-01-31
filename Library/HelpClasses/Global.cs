@@ -260,11 +260,7 @@ CREATE TABLE IF NOT EXISTS `myprofile` (
   KEY `FK_myprofile_standardpictures` (`pictureID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myprofile: ~1 rows (ungefär)
-/*!40000 ALTER TABLE `myprofile` DISABLE KEYS */;
-INSERT INTO `myprofile` (`ID`, `Email`, `myUserInfo`, `pictureID`, `tagOne`, `tagTwo`, `tagThree`) VALUES
-	(1, 'albinscodetesting@gmail.com', 'Good vibes only', 2, 17, 7, 13);
-/*!40000 ALTER TABLE `myprofile` ENABLE KEYS */;
+
 
 -- Dumpar struktur för tabell gnu.mysettings
 CREATE TABLE IF NOT EXISTS `mysettings` (
