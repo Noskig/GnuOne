@@ -222,12 +222,6 @@ return (
 
 
                                         : <>
-                                            <button>
-                                                <img alt="bookmark" src={bookmark} />
-                                            </button>
-                                            <button>
-                                                <img alt="share" src={share} />
-                                            </button>
                                         </>
 
                                     }</div>
