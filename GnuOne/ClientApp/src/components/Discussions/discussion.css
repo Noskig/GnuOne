@@ -34,7 +34,7 @@
     justify-self: right;
 }
 
-.discussion-options:hover {
+.discussion-options:hover button{
     cursor: pointer
 }
 
@@ -42,9 +42,7 @@
     width: 1.5em;
 }
 
-.bookmark-button:hover path {
-    fill: red;
-}
+
 
 .discussion-info {
     grid-column-start: 1;

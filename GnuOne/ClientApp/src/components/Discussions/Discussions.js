@@ -29,6 +29,7 @@ const Discussions = ({ routes }) => {
     const [activeDiscussion, setActiveDiscussion] = useState('')
     const [editOpen, setEditOpen] = useState(false)
     let match = useRouteMatch()
+    const [hover, setHover] = useState(false)
 
     //SEARCH 
     const [searchTerm, setSearchTerm] = useState('')
@@ -106,13 +107,26 @@ const Discussions = ({ routes }) => {
     //fucntions to save bookmarks
 
     async function saveToBookmarks(saved) {
-        await fetch('https://localhost:7261/api/bookmarks',{
+        await fetch('https://localhost:7261/api/bookmarks', {
             method: 'POST',
             body: JSON.stringify(saved),
             headers: {
                 "Content-type": "application/json",
             }
         })
+        fetchData();
+    }
+
+    async function removeFromBookmarks(saved) {
+        await fetch('https://localhost:7261/api/bookmarks', {
+            method: 'DELETE',
+            body: JSON.stringify(saved),
+            headers: {
+                "Content-type": "application/json",
+            }
+        })
+        console.log(saved)
+        fetchData();
     }
 
     function sendEmailAndId(discussion) {
@@ -120,7 +134,12 @@ const Discussions = ({ routes }) => {
             ID: discussion.ID,
             Email: discussion.Email,
         }
-        saveToBookmarks(saved);
+        if (!discussion.isBookmarked) {
+            saveToBookmarks(saved);
+        } else {
+            removeFromBookmarks(saved)
+        }
+       
     }
 
 
@@ -153,7 +172,7 @@ const Discussions = ({ routes }) => {
                 return true
             } else if (data.Headline.toLowerCase().includes(searchTerm.toLowerCase())) {
                 return data
-            } else { return false}
+            } else { return false }
 
         })
     }
@@ -167,16 +186,16 @@ const Discussions = ({ routes }) => {
 
                 {friendEmail === undefined
                     ? <div className="new-discussion-container">
-                    {showOverlay
-                        ? <>
-                                <input className="new-discussion" type="text" placeholder={"Create new..."} disabled onClick={() => setShowOverlay(true)}/>
-                            <AddDiscussionOverlay fetchData={fetchData} close={close} />
-                          </>
-                        : <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)}/>
-                    }
-                      </div>
+                        {showOverlay
+                            ? <>
+                                <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)} />
+                                <AddDiscussionOverlay fetchData={fetchData} close={close} />
+                            </>
+                            : <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)} />
+                        }
+                    </div>
                     : null}
-                
+
 
 
                 <div className="discussions-list">
@@ -244,17 +263,38 @@ const Discussions = ({ routes }) => {
 
 
                                     : <>
-                                        <button className="bookmark-button" onClick={() => sendEmailAndId(discussion)}>
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M5 2H19C19.2652 2 19.5196 2.10536 19.7071 2.29289C19.8946 2.48043 20 2.73478 20 3V22.143C20.0001 22.2324 19.9763 22.3202 19.9309 22.3973C19.8855 22.4743 19.8204 22.5378 19.7421 22.5811C19.6639 22.6244 19.5755 22.6459 19.4861 22.6434C19.3968 22.641 19.3097 22.6146 19.234 22.567L12 18.03L4.766 22.566C4.69037 22.6135 4.60339 22.6399 4.5141 22.6424C4.42482 22.6449 4.33649 22.6235 4.2583 22.5803C4.1801 22.5371 4.11491 22.4738 4.06948 22.3969C4.02406 22.32 4.00007 22.2323 4 22.143V3C4 2.73478 4.10536 2.48043 4.29289 2.29289C4.48043 2.10536 4.73478 2 5 2ZM18 4H6V19.432L12 15.671L18 19.432V4Z" fill="white" />
-                                            </svg>
+                                        <button onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} className="bookmark-button" onClick={() => sendEmailAndId(discussion)}>
+
+                                            {
+                                                discussion.isBookmarked && !hover
+                                                    ? <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M6.19091 21.855C6.07879 21.9354 5.94667 21.9833 5.80909 21.9934C5.67151 22.0036 5.5338 21.9756 5.4111 21.9125C5.2884 21.8495 5.18547 21.7538 5.11363 21.636C5.04179 21.5183 5.00382 21.383 5.00391 21.245V6.25C5.00391 5.38805 5.34632 4.5614 5.95581 3.9519C6.5653 3.34241 7.39195 3 8.25391 3H15.7519C16.6139 3 17.4405 3.34241 18.05 3.9519C18.6595 4.5614 19.0019 5.38805 19.0019 6.25V21.246C19.0019 21.384 18.9639 21.5194 18.8919 21.6372C18.82 21.755 18.7169 21.8506 18.594 21.9136C18.4712 21.9766 18.3334 22.0044 18.1957 21.9941C18.0581 21.9837 17.926 21.9356 17.8139 21.855L12.0039 17.674L6.19191 21.854L6.19091 21.855Z" fill="white" />
+                                                    </svg>
+
+                                                    : discussion.isBookmarked && hover
+                                                        ?
+                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M6.19091 21.855C6.07879 21.9354 5.94667 21.9833 5.80909 21.9934C5.67151 22.0036 5.5338 21.9756 5.4111 21.9125C5.2884 21.8495 5.18547 21.7538 5.11363 21.636C5.04179 21.5183 5.00382 21.383 5.00391 21.245V6.25C5.00391 5.38805 5.34632 4.5614 5.95581 3.9519C6.5653 3.34241 7.39195 3 8.25391 3H15.7519C16.6139 3 17.4405 3.34241 18.05 3.9519C18.6595 4.5614 19.0019 5.38805 19.0019 6.25V21.246C19.0019 21.384 18.9639 21.5194 18.8919 21.6372C18.82 21.755 18.7169 21.8506 18.594 21.9136C18.4712 21.9766 18.3334 22.0044 18.1957 21.9941C18.0581 21.9837 17.926 21.9356 17.8139 21.855L12.0039 17.674L6.19191 21.854L6.19091 21.855ZM17.5029 6.25C17.5029 5.78587 17.3185 5.34075 16.9903 5.01256C16.6622 4.68437 16.217 4.5 15.7529 4.5H8.25391C7.78978 4.5 7.34466 4.68437 7.01647 5.01256C6.68828 5.34075 6.50391 5.78587 6.50391 6.25V19.782L11.5649 16.141C11.6925 16.0492 11.8457 15.9998 12.0029 15.9998C12.1601 15.9998 12.3133 16.0492 12.4409 16.141L17.5019 19.782V6.25H17.5029Z" fill="white" />
+                                                        </svg>
+
+                                                        : !discussion.isBookmarked && !hover
+
+                                                            ? <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M6.19091 21.855C6.07879 21.9354 5.94667 21.9833 5.80909 21.9934C5.67151 22.0036 5.5338 21.9756 5.4111 21.9125C5.2884 21.8495 5.18547 21.7538 5.11363 21.636C5.04179 21.5183 5.00382 21.383 5.00391 21.245V6.25C5.00391 5.38805 5.34632 4.5614 5.95581 3.9519C6.5653 3.34241 7.39195 3 8.25391 3H15.7519C16.6139 3 17.4405 3.34241 18.05 3.9519C18.6595 4.5614 19.0019 5.38805 19.0019 6.25V21.246C19.0019 21.384 18.9639 21.5194 18.8919 21.6372C18.82 21.755 18.7169 21.8506 18.594 21.9136C18.4712 21.9766 18.3334 22.0044 18.1957 21.9941C18.0581 21.9837 17.926 21.9356 17.8139 21.855L12.0039 17.674L6.19191 21.854L6.19091 21.855ZM17.5029 6.25C17.5029 5.78587 17.3185 5.34075 16.9903 5.01256C16.6622 4.68437 16.217 4.5 15.7529 4.5H8.25391C7.78978 4.5 7.34466 4.68437 7.01647 5.01256C6.68828 5.34075 6.50391 5.78587 6.50391 6.25V19.782L11.5649 16.141C11.6925 16.0492 11.8457 15.9998 12.0029 15.9998C12.1601 15.9998 12.3133 16.0492 12.4409 16.141L17.5019 19.782V6.25H17.5029Z" fill="white" />
+                                                            </svg>
+
+                                                            : <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M6.19091 21.855C6.07879 21.9354 5.94667 21.9833 5.80909 21.9934C5.67151 22.0036 5.5338 21.9756 5.4111 21.9125C5.2884 21.8495 5.18547 21.7538 5.11363 21.636C5.04179 21.5183 5.00382 21.383 5.00391 21.245V6.25C5.00391 5.38805 5.34632 4.5614 5.95581 3.9519C6.5653 3.34241 7.39195 3 8.25391 3H15.7519C16.6139 3 17.4405 3.34241 18.05 3.9519C18.6595 4.5614 19.0019 5.38805 19.0019 6.25V21.246C19.0019 21.384 18.9639 21.5194 18.8919 21.6372C18.82 21.755 18.7169 21.8506 18.594 21.9136C18.4712 21.9766 18.3334 22.0044 18.1957 21.9941C18.0581 21.9837 17.926 21.9356 17.8139 21.855L12.0039 17.674L6.19191 21.854L6.19091 21.855Z" fill="white" />
+                                                            </svg>
+                                            }
+
+
+
                                         </button>
-                                        <button>
-                                            <img alt="share" src={share} />
-                                        </button>
+
                                     </>
                                 }
-                             
+
                             </div>
 
 
@@ -262,7 +302,7 @@ const Discussions = ({ routes }) => {
                                 <h4> Posts: {discussion.numberOfPosts}</h4>
                                 <h4 className="createDate">{discussion.Date.slice(0, 19).replace('T', ' ').slice(0, 16)}</h4>
                                 <img className={readMore && activeDiscussion === discussion.ID ? "read-more reverse-icon" : "read-more"} alt="read-more" src={arrows} onClick={() => readmoreAndId(discussion)} />
-                                <div className="discussion-tags">{discussion.tags.map(tag => <h4 key={discussion.tags.indexOf(tag)}># {tag} </h4> )} </div>
+                                <div className="discussion-tags">{discussion.tags.map(tag => <h4 key={discussion.tags.indexOf(tag)}># {tag} </h4>)} </div>
                             </div>
                         </div>
                     ) : 'oops kan inte nå api'}
