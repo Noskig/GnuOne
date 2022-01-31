@@ -9,6 +9,10 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using Welcome_Settings;
+using System.Diagnostics;
+
+
+
 
 /// <summary>
 /// 
@@ -33,6 +37,11 @@ while (keepGoing)
     MariaContext context = new MariaContext(Global.ConnectionString);
     MariaContext DbContext = new MariaContext(Global.CompleteConnectionString);
     WriteToJson("ConnectionStrings:Defaultconnection", Global.CompleteConnectionString);
+    //Process.Start(new ProcessStartInfo
+    //{
+    //    FileName = "https://localhost:5001/",
+    //    UseShellExecute = true
+    //});
 
     //kollar om det är rätt inlog med att skicka någonting till db:n
     if (await CheckConnection(context))
