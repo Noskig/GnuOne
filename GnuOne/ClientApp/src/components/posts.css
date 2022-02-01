@@ -87,7 +87,6 @@
     resize: none;
     font-size:17px;
     padding:7px;
-    width: 20rem;
 }
 
 .deleted-post {
@@ -153,8 +152,9 @@ form .wrapper {
 }
 
 .text-option-wrapper {
-        display:flex;
-        margin-bottom:0.5rem;
+    display:flex;
+    margin-bottom:0.5rem;
+    justify-content:space-between; 
 }
 
 .edit-delete-wrapper {
@@ -179,6 +179,6 @@ ul {
     margin-block-end: 0em;
     align-self: center;
 }
-.post-info {
-
+.edit{
+    height:100%;
 }

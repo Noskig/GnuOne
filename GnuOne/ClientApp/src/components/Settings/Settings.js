@@ -136,13 +136,13 @@ const Settings = () => {
         <section className="settings-container">
             <h1>Settings</h1>
             <div className="bio">
-                <h2> Something about you</h2>
+                <h2> Something about you </h2>
                 <textarea value={userinfo} type="text" onChange={e => setUserInfo(e.target.value)} />
             </div>
                 <form>
-                <h2>Intresse</h2>
+                <h2>interests</h2>
                 <div className="select-wrapper">
-                    <select onChange={(e) => setChosenTags1(e.target.value)} >
+                    <select onChange={(e) => setChosenTags1(e.target.value)}>
                         <option>
                             {profile.firstTag}
                         </option>
@@ -180,11 +180,11 @@ const Settings = () => {
             <div className="change-img-container">
                 <h2> Profil bild </h2>
                 <div className="img-wrapper">
-                    <img className={chosenImg == 1 ? "markedImage" : ""} onClick={() => setChosenImg(1)} src={Img1} />
-                    <img className={chosenImg == 2 ? "markedImage" : ""} onClick={() => setChosenImg(2)} src={Img2} />
-                    <img className={chosenImg == 3 ? "markedImage" : ""} onClick={() => setChosenImg(3)} src={Img3} />
-                    <img className={chosenImg == 4 ? "markedImage" : ""} onClick={() => setChosenImg(4)} src={Img4} />
-                    <img className={chosenImg == 5 ? "markedImage" : ""} onClick={() => setChosenImg(5)} src={Img5} />
+                    <img alt="img1" className={chosenImg === 1 ? "markedImage" : ""} onClick={() => setChosenImg(1)} src={Img1} />
+                    <img alt="img1" className={chosenImg === 2 ? "markedImage" : ""} onClick={() => setChosenImg(2)} src={Img2} />
+                    <img alt="img1" className={chosenImg === 3 ? "markedImage" : ""} onClick={() => setChosenImg(3)} src={Img3} />
+                    <img alt="img1" className={chosenImg === 4 ? "markedImage" : ""} onClick={() => setChosenImg(4)} src={Img4} />
+                    <img alt="img1" className={chosenImg === 5 ? "markedImage" : ""} onClick={() => setChosenImg(5)} src={Img5} />
                 </div>
             </div>
             <div className="change-theme">

@@ -113,7 +113,10 @@ function openEditPost(e, post) {
 async function confirmEditPost(e, post) {
     e.preventDefault()
     console.log('fetching')
-    if (post.postText !== postText) {
+    if (postText.length < 1) {
+        deletePost(e, post.id)
+    }
+    else if (post.postText !== postText) {
         post.postText = postText
         console.log(post)
         await fetch(url + 'posts/' + post.id, {
@@ -124,9 +127,8 @@ async function confirmEditPost(e, post) {
             }
         })
     }
-
-    setEditOpen(false)
     setPostText('')
+    setEditOpen(false)
 }
 
 //DELETE 
@@ -212,7 +214,7 @@ return (
                             : null}
                       
                         {editOpen && activePost === post.id
-                            ? <textarea className="text edit" maxLength="500" value={postText} onChange={(e) => setPostText(e.target.value)} />
+                            ? <textarea className="text-post edit" maxLength="500" value={postText} onChange={(e) => setPostText(e.target.value)} />
                             : <Link className="discussion-content" to={{
                                 pathname: `${match.url}/post/${post.id}`, state: {
                                     postText: post.postText,

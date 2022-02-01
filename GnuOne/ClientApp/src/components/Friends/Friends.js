@@ -209,15 +209,15 @@ const Friends = () => {
                                 </Link>
                                 {/*hide friend*/}
                                 {friend.hideMe === 0 ?
-                                    <button onClick={() => hideFromFriendsFriends(friend.Email)}>
+                                    <button className="accept-friend" onClick={() => hideFromFriendsFriends(friend.Email)}>
                                         Hide friend
                                     </button>
                                     :
-                                    <button onClick={() => unHideFromFriendsFriends(friend.Email)}>
+                                    <button className="accept-friend" onClick={() => unHideFromFriendsFriends(friend.Email)}>
                                         show friend
                                     </button>
                                 }
-                                <button onClick={() => getOutOnClick(friend)}>
+                                <button className="accept-friend" onClick={() => getOutOnClick(friend)}>
                                     remove friend
                                 </button>
                             </li>
