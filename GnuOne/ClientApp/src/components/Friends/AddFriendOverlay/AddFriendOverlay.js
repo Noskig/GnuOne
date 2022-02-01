@@ -55,7 +55,7 @@ const AddFriendOverlay = (props) => {
                 {
                     friendEmail === undefined
                         ? <>
-                            <input type="text" placeholder={"Email..."} onChange={e => setEmail(e.target.value)} />
+                            <input type="text" autoFocus placeholder={"Email..."} onChange={e => setEmail(e.target.value)} />
                             <button type="button" onClick={(e) => handleClick(e, email)}>Send friend request</button>
 
                         </>

@@ -167,7 +167,7 @@ return (
             <h2>{post.headline}</h2>
                 <div className="comment">
                     {editOpen && activeComment === post.id
-                        ? <textarea maxLength="500" value={post.postText} className="edit" onChange={(e) => setCommentText(e.target.value)} />
+                        ? <textarea rows="2" maxLength="500" value={post.postText} className="edit" onChange={(e) => setCommentText(e.target.value)} />
                         : <p className="text">{post.postText}</p>
                     }
 
@@ -185,10 +185,11 @@ return (
                                 {showDeleteConfirm && activeComment === comment.id
                                     ? <div className="delete-comment-overlay">
                                         <p> Are you sure you want to delete this comment?</p>
-                                        <button onClick={(e) => deleteComment(e, comment.id)}> <svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <div className="delete-comment-overlay-buttons"> <button onClick={(e) => deleteComment(e, comment.id)}> <svg width="18" height="14" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M21.7585 0L8.5106 13.4289L4.21399 9.0736L0 13.3452L4.29661 17.7005L8.53812 22L12.7521 17.7284L26 4.29952L21.7585 0Z" fill="black" />
                                         </svg></button>
-                                        <button onClick={closeOverlay}> <img alt="cancel" src={cancel} /> </button>
+                                            <button onClick={closeOverlay}> <img alt="cancel" src={cancel} /> </button>
+                                            </div>
                                     </div>
                                     : null}
                                 {editOpen && activeComment === comment.id

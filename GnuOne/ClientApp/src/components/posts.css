@@ -39,13 +39,11 @@
     padding: 1rem;
 
 }
-.discussion-content {
+.post-content {
     width:100%;
     padding: 1rem;
 }
-    .post-info h4 {
-        padding-left: 1rem;
-    }
+ 
 
 .delete-post-overlay {
     grid-column-start: 1;
@@ -143,13 +141,13 @@ form .wrapper {
     align-self: center;
 }
 
-.post-info-wrapper {
+/*.post-info-wrapper {
     display:flex;
     text-align:center;
     flex-direction:row;
     justify-content:center;
     align-items:center;
-}
+}*/
 
 .text-option-wrapper {
     display:flex;
@@ -178,7 +176,14 @@ ul {
     margin-block-start: 0em;
     margin-block-end: 0em;
     align-self: center;
+   font-size: .8rem;
 }
+
+.post-info .createDate {
+    padding-left: 1rem;
+}
+
+
 .edit{
     height:100%;
 }

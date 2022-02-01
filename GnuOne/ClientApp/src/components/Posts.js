@@ -215,7 +215,7 @@ return (
                       
                         {editOpen && activePost === post.id
                             ? <textarea className="text-post edit" maxLength="500" value={postText} onChange={(e) => setPostText(e.target.value)} />
-                            : <Link className="discussion-content" to={{
+                            : <Link className="post-content" to={{
                                 pathname: `${match.url}/post/${post.id}`, state: {
                                     postText: post.postText,
                                     Date: post.date,
@@ -259,11 +259,10 @@ return (
 
 
                         <div className="post-info">
-                            <div className="post-info-wrapper">
+                           
                                {/* <img className="friend-avatar" alt={post.userName}/>*/}
                                 <h4> {post.userName} </h4>
                                 <h4 className="createDate">{post.date.slice(0, 16).replace('T', ' ')}</h4>
-                            </div>
                             <h4>Comments: {post.numberOfComments}</h4>
 
                         </div>

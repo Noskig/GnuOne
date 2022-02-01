@@ -70,7 +70,7 @@ const AddDiscussionOverlay = (props) => {
         <div className="new-discussion-overlay" >
             <section className="new-discussion-box">
                 <button className="close" onClick={close}>✖️</button>
-                <input type="text" placeholder={"Headline..."} onChange={e => setHeadline(e.target.value)} />
+                <input type="text" autoFocus placeholder={"Headline..."} onChange={e => setHeadline(e.target.value)} />
                 <textarea rows="4" type="text" placeholder="What do you want to say?" onChange={e => setDiscussionText(e.target.value)} />
 
                 <form>

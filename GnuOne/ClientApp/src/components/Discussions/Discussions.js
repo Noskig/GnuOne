@@ -188,7 +188,7 @@ const Discussions = ({ routes }) => {
                     ? <div className="new-discussion-container">
                         {showOverlay
                             ? <>
-                                <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)} />
+                                <input className="new-discussion" type="text" placeholder={"Create new..."} disabled onClick={() => setShowOverlay(true)} />
                                 <AddDiscussionOverlay fetchData={fetchData} close={close} />
                             </>
                             : <input className="new-discussion" type="text" placeholder={"Create new..."} onClick={() => setShowOverlay(true)} />
