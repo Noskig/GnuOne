@@ -867,6 +867,9 @@ namespace GnuOne.Data
             var discussion = JsonConvert.DeserializeObject<Discussion>(decryptedMessage);
             if (discussion is not null)
             {
+                var resultDisc = context.Notifications.Where(x => x.ID == discussion.ID).FirstOrDefault();
+                context.Notifications.Remove(resultDisc);
+                context.SaveChangesAsync().Wait();
                 context.Remove(discussion);
                 context.SaveChangesAsync().Wait();
                 return 1;
