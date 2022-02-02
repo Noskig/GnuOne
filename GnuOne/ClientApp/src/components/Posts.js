@@ -270,7 +270,7 @@ return (
                 ) : 'oops kan inte nå api'}
             </ul>
             {editOpen
-                ? <p>pls finish editing ur post before writing a new one'</p>
+                ? null
                 :<div className="form-wrapper">
                     <form>
                         <textarea rows="4" maxLength="500" placeholder="Write something..." value={postText} className="input-text" onChange={e => validateNewPost(e.target.value)} />

@@ -84,6 +84,7 @@ const Messages = () => {
     return (
 
         <section className="messages-section">
+            <h3> Private Messages </h3>
             {friendEmail === undefined
                 ?
                 <ul>
