@@ -51,9 +51,9 @@
     margin-left: 1em;
 }
 
-    .comment-options img {
-        height: 1.5rem;
-    }
+.comment-options img {
+    height: 1.5rem;
+}
 
 .comment-info {
     grid-column-start: 1;
@@ -97,10 +97,6 @@
 }
 
 
-
-
-
-
 .comments-list {
     width: 100%;
     padding-left: 1em;
@@ -128,7 +124,7 @@
 
 .comments-container textarea {
     color: black;
-    resize: vertical;
+    resize: none;
 }
 
 .deleted-comment {

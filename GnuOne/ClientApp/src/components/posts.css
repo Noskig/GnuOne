@@ -10,6 +10,7 @@
     border-radius: 7px;
     box-shadow: 0 2px 4px 1px #a19d9d;
     display: grid;
+    grid-template-columns:auto auto 8rem;
 }
 
 .post > .text {
@@ -26,7 +27,7 @@
     grid-column-end: 4;
     grid-row-start: 1;
     grid-row-end: 2;
-    padding: 1rem;
+    padding: 1rem 1rem 0rem 0rem;
 }
 
 .post-info {
@@ -41,9 +42,19 @@
 }
 .post-content {
     width:100%;
-    padding: 1rem;
+    padding:1rem 0rem 0rem 1rem;
+    grid-column-start:1;
+    grid-column-end:3;
+    grid-row-start:1;
+    grid-row-end:2;
 }
  
+.form-container{
+    width:98%; 
+}
+.form-container > textarea{
+    width: 100%;
+}
 
 .delete-post-overlay {
     grid-column-start: 1;
@@ -105,16 +116,7 @@
     justify-content: flex-end;
 }
 
-form {
-    align-self:flex-end;
-    border:thin;
-    border-radius: 10px;
-    
-}
-textarea {
-    width: 98%;
-    resize:none;
-}
+
 form .wrapper {
     display: flex;
     justify-content: space-between;
@@ -183,7 +185,11 @@ ul {
     padding-left: 1rem;
 }
 
-
-.edit{
-    height:100%;
+.edit {
+    margin: 1rem 0rem 0rem 1rem;
+    width: 100%;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
 }

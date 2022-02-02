@@ -160,11 +160,11 @@ const Comments = () => {
         })
     }
 
-return (
-    <>
-        <Search search={search} />
-        <section className="comments-container">
-            <h2>{post.headline}</h2>
+    return (
+        <>
+            <Search search={search} />
+            <section className="comments-container">
+                <h2>{post.headline}</h2>
                 <div className="comment">
                     {editOpen && activeComment === post.id
                         ? <textarea rows="2" maxLength="500" value={post.postText} className="edit" onChange={(e) => setCommentText(e.target.value)} />
@@ -173,7 +173,7 @@ return (
 
                     <div className="comment-info">
                         <h4>{filteredComments.length} comment(s) on this post</h4>
-                        <h4 className="createDate">{post.date?.slice(0, 16).replace('T',' ')}</h4>
+                        <h4 className="createDate">{post.date?.slice(0, 16).replace('T', ' ')}</h4>
 
                     </div>
 
@@ -185,11 +185,14 @@ return (
                                 {showDeleteConfirm && activeComment === comment.id
                                     ? <div className="delete-comment-overlay">
                                         <p> Are you sure you want to delete this comment?</p>
-                                        <div className="delete-comment-overlay-buttons"> <button onClick={(e) => deleteComment(e, comment.id)}> <svg width="18" height="14" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M21.7585 0L8.5106 13.4289L4.21399 9.0736L0 13.3452L4.29661 17.7005L8.53812 22L12.7521 17.7284L26 4.29952L21.7585 0Z" fill="black" />
-                                        </svg></button>
+                                        <div className="delete-comment-overlay-buttons">
+                                            <button onClick={(e) => deleteComment(e, comment.id)}>
+                                                <svg width="18" height="14" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M21.7585 0L8.5106 13.4289L4.21399 9.0736L0 13.3452L4.29661 17.7005L8.53812 22L12.7521 17.7284L26 4.29952L21.7585 0Z" fill="black" />
+                                                </svg>
+                                            </button>
                                             <button onClick={closeOverlay}> <img alt="cancel" src={cancel} /> </button>
-                                            </div>
+                                        </div>
                                     </div>
                                     : null}
                                 {editOpen && activeComment === comment.id
@@ -239,16 +242,16 @@ return (
                         ) : 'oops kan inte nå api'}
                     </ul>
 
-            {editOpen
-                ? <p>pls finish editing ur comment before writing a new one'</p>
-                    :
-                    <div className="form-container">
-                    <textarea rows="4" maxLength="500" placeholder="Write something..." value={commentText} className="input-text" onChange={e => validateNewComment(e.target.value)} />
-                    <div className="write-comment-wrapper">
-                        <p>{charactersLeft}/500</p>
-                        <button type="button" className="comment-btn" onClick={(e) => createNewComment(e)}>Comment</button>
-                    </div>
-                    </div>}
+                    {editOpen
+                        ? <p>pls finish editing ur comment before writing a new one'</p>
+                        :
+                        <div className="form-container">
+                            <textarea className="textarea-comments" rows="4" maxLength="500" placeholder="Write something..." value={commentText} className="input-text" onChange={e => validateNewComment(e.target.value)} />
+                            <div className="write-comment-wrapper">
+                                <p>{charactersLeft}/500</p>
+                                <button type="button" className="comment-btn" onClick={(e) => createNewComment(e)}>Comment</button>
+                            </div>
+                        </div>}
                 </div>
             </section>
         </>
