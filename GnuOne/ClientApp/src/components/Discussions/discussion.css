@@ -1,4 +1,8 @@
-﻿.discussion {
+﻿.discussions-list {
+    margin-top: 1rem;
+}
+
+.discussion {
     background-color: var(--darker-turquoise);
     color: white;
     margin-top: 0.5rem;
@@ -95,7 +99,7 @@ button {
 }
 .new-discussion {
     align-self: center;
-    padding: 0.5em;
+    padding: .5em .5rem .4rem 1rem;
     border-radius: 20px;
     box-shadow: inset 2px 3px 7px rgb(226 226 226);
     border: none;

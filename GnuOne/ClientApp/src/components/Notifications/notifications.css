@@ -12,6 +12,7 @@
 
 .notifications-header > h4 {
    align-self: flex-end;
+   cursor: pointer;
  }
 
 .notification {

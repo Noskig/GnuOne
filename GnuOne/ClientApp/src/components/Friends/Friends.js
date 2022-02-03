@@ -9,6 +9,8 @@ import FriendContext from '../../contexts/friendContext';
 import MeContext from '../../contexts/meContext';
 import WheelContext from '../../contexts/WheelContext'
 import images from '../../Image';
+import ThemeContext from '../../contexts/themeContext';
+
 
 
 const Friends = () => {
@@ -22,7 +24,7 @@ const Friends = () => {
     const [disabled, setDisabled] = useState(false)
     const [activeFriend, setActiveFriend] = useState(null)
     const { setChosenPage, setActive, setDone } = useContext(WheelContext);
-
+    const {darkMode} = useContext(ThemeContext)
 
     //SEARCH 
     const [searchTerm, setSearchTerm] = useState('')
@@ -196,16 +198,16 @@ const Friends = () => {
                     : null
                 }
                 <h3> My friends 🤝🏻 </h3>
-                <ul className="friends-list">
+                <ul className="friends-list" >
                     {filteredFriends.map(friend =>
                         //dina vänner
                         friendEmail === undefined && friend.isFriend
-                            ? <li key={friend.ID}>
-                                <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} onClick={() => wheelReset(0)} >
+                            ? <li className={darkMode ? "dm friends-list-item" : "friends-list-item"}key={friend.ID}>
+                                <Link  to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} onClick={() => wheelReset(0)} >
                                     <div className="friend-icon">
                                         <img alt={friend.userName} src={images[`Img${friend.pictureID}`]} />
                                     </div>
-                                    <h2 className="userName"> {friend.userName} </h2>
+                                    <h2 className={darkMode? "dm userName" : "userName"}> {friend.userName} </h2>
                                 </Link>
                                 {/*hide friend*/}
                                 {friend.hideMe === false ?

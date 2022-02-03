@@ -7,14 +7,14 @@
     padding-bottom:1rem;
     padding-left:2rem;
     padding-right:2rem;
-    background: #167D8F;
+    background: var(--darker-turquoise);
     border-radius: 15px;
     display: flex;
     flex-direction: column;
     max-width: 25rem;
 }
 
-.friends-list > li {
+.friends-list-item {
     display:flex;
     background: white;
     list-style: none;
@@ -60,10 +60,10 @@
         background-position: center;
     }
 
-    .friends-list > li a h2 {
+    .friends-container .userName {
         padding: 0em 0.5em;
         font-weight: 400;
-        color: #167d8f;
+        color: var(--darker-turquoise);
     }
 
 .friends-list > li a h4 {
@@ -137,6 +137,11 @@ h2 {
 }
 
 .dm {
+    color: var(--light-turquoise);
+    background: #545454;
+}
+
+.friends-container .dm {
     color: var(--light-turquoise);
     background: #545454;
 }

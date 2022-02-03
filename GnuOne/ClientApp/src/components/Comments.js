@@ -243,7 +243,7 @@ const Comments = () => {
                     </ul>
 
                     {editOpen
-                        ? <p>pls finish editing ur comment before writing a new one'</p>
+                        ? null
                         :
                         <div className="form-container">
                             <textarea className="textarea-comments" rows="4" maxLength="500" placeholder="Write something..." value={commentText} className="input-text" onChange={e => validateNewComment(e.target.value)} />

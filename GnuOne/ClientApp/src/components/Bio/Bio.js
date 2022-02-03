@@ -62,13 +62,9 @@ const Bio = () => {
                 <p> {profile.userInfo || profile.myUserInfo}</p>
 
                 <h3> my interests </h3>
-                <ul>
-                    {
-                        tagList?.map(tag => <li key={tag.ID}>
-                            {tag.tagName}
-                        </li>)
-                    }
-                </ul>
+                <div>
+                    {tagList && tagList.length > 0 ? <> {tagList[0]?.tagName}  ✨ {tagList[1]?.tagName} ✨ {tagList[2]?.tagName}</> : null}
+                </div>
 
                 <h3> public key </h3>
                 <p> {profile.pubKey || profile.Secret}</p>

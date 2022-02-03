@@ -140,7 +140,7 @@ const Settings = () => {
                 <textarea value={userinfo} type="text" onChange={e => setUserInfo(e.target.value)} />
             </div>
                 <form>
-                <h2>interests</h2>
+                <h2>Interests</h2>
                 <div className="select-wrapper">
                     <select onChange={(e) => setChosenTags1(e.target.value)}>
                         <option>
@@ -178,7 +178,7 @@ const Settings = () => {
             </form>
 
             <div className="change-img-container">
-                <h2> Profil bild </h2>
+                <h2> Profile picture </h2>
                 <div className="img-wrapper">
                     <img alt="img1" className={chosenImg === 1 ? "markedImage" : ""} onClick={() => setChosenImg(1)} src={Img1} />
                     <img alt="img1" className={chosenImg === 2 ? "markedImage" : ""} onClick={() => setChosenImg(2)} src={Img2} />
