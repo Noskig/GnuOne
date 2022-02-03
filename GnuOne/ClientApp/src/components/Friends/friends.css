@@ -136,12 +136,3 @@ h2 {
     font-weight: 800;
 }
 
-.dm {
-    color: var(--light-turquoise);
-    background: #545454;
-}
-
-.friends-container .dm {
-    color: var(--light-turquoise);
-    background: #545454;
-}

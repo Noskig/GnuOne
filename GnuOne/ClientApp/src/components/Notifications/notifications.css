@@ -48,13 +48,13 @@
     cursor: pointer;
 }
 
-.delete-notification:hover {
-    background: var(--light-turquoise);
-    color: black;
-    padding: 0.3em 0.6em;
-    border-radius: 10px;
-    cursor: pointer;
-}
+    .delete-notification:hover {
+        background: var(--light-turquoise);
+        color: var(--text-color);
+        padding: 0.3em 0.6em;
+        border-radius: 10px;
+        cursor: pointer;
+    }
 
 .read .delete-notification {
     background: gray;

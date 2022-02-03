@@ -14,23 +14,23 @@
     text-align: left;
     margin-top: 1rem;
     background-color: var(--light-turquoise);
-    color: black;
+    color: var(--text-color);
     max-width: 70%;
     width: max-content;
     padding: 1rem;
-    border-radius:9px;
+    border-radius: 9px;
 }
 
 .my-message {
     text-align: right;
     margin-top: 1rem;
     background-color: var(--light-turquoise);
-    color: black;
+    color: var(--message-text);
     max-width: 70%;
     width: max-content;
     padding: 1rem;
-    border-radius:9px;
-    align-self:self-end;
+    border-radius: 9px;
+    align-self: self-end;
 }
 
 .message-list-container::-webkit-scrollbar {
@@ -51,8 +51,8 @@
 }
 
 .input-div textarea {
-    color: black;
+    color: var(--textarea-text-color);
     font-family: 'Poppins', sans-serif;
-    width:98%;
-    resize:none;
+    width: 98%;
+    resize: none;
 }

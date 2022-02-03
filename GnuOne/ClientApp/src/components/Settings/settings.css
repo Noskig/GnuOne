@@ -1,5 +1,5 @@
-﻿.Account{
-    color:black;
+﻿.Account {
+    color: var(--text-color);
 }
 .change-img-container {
     margin: 1rem 0;
@@ -102,6 +102,8 @@ input:checked + .slider:before {
     margin-bottom: 1rem;
     padding: 5px;
     font-family: 'Poppins', sans-serif;
+    background: var(--textarea-color);
+    color: var(--textarea-text-color);
 }
 
 
@@ -115,7 +117,13 @@ input:checked + .slider:before {
     border-radius: 7px;
     padding: 0 1rem;
     margin: 0 5px;
-    color: black;
+    background: var(--textarea-color);
+    color: var(--textarea-text-color);
+}
+
+.settings-container select option{
+    background: var(--textarea-color);
+    color: var(--textarea-text-color);
 }
 
 .bio {

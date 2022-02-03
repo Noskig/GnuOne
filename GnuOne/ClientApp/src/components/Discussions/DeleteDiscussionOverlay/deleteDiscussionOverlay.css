@@ -16,10 +16,10 @@
 }
 
 .conferm-text {
-    padding:2rem 2rem 2rem;
+    padding: 2rem 2rem 2rem;
     margin-block-end: 0rem;
     margin-block-start: 0rem;
-    color: black;
+    color: var(--text-color);
 }
 
 .delete-overlay-background {

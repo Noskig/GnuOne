@@ -24,7 +24,7 @@
     font-size:20px;
 }
 .discussion-content textarea {
-    color: black;
+    color: var(--textarea-text-color);
     width: 100%;
 }
 .text {

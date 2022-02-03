@@ -53,7 +53,8 @@ function App() {
     })
 
     function changeColorDark(color) {
-        document.documentElement.style.setProperty('--darker-turquoise', color)
+        document.documentElement.style.setProperty('--background-color', '#171717')
+        document.documentElement.style.setProperty('--text-color', '#83D3EC')
     }
 
     return (

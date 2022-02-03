@@ -129,10 +129,20 @@ const Settings = () => {
             }
         })
         if (theme) {
-            document.documentElement.style.setProperty('--darker-turquoise', 'red')
+            //document.documentElement.style.setProperty('--darker-turquoise', 'red');
+            document.documentElement.style.setProperty('--background-color', '#171717')
+            document.documentElement.style.setProperty('--text-color', '#83D3EC')
+            document.documentElement.style.setProperty('--textarea-color', 'black')
+
+
 
         } else {
             document.documentElement.style.setProperty('--darker-turquoise', '')
+            document.documentElement.style.setProperty('--background-color', '')
+            document.documentElement.style.setProperty('--text-color', '')
+            document.documentElement.style.setProperty('--textarea-color', '')
+
+
         }
 
         
