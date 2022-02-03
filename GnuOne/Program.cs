@@ -9,39 +9,23 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using Welcome_Settings;
-using System.Diagnostics;
 
-
-
-
-/// <summary>
-/// 
-/// 
-/// PUBLISHA - kunna köra utan VS
-/// 
-///  
-/// 
-/// Lägga till vänner / grupper -- Hur blir det med nycklar. 
-///     Bjuda in via mail? - vanlig mail / dedikerad gmail?
-///     Krypera lösenord till mailen, nycklar mellan sina vänner/ grupper.
-///     PM
-/// 
-/// --bittorrent--
-/// backup - restore
-/// 
-/// </summary>
+string[] empty = { string.Empty };
 bool keepGoing = true;
 while (keepGoing)
 {
-    Global.ConnectionString = EnterCredentials();
+    Console.Clear();
+    Meny.DefaultWindow2("");
+    Meny.Draw(Meny.EnterCredMenu(""), 38, 15, ConsoleColor.White);
+    Global.ConnectionString = EnterCredMenuInput();
+
+
+    //kolla hur consolen blir när man gör en ny DB
+
+
     MariaContext context = new MariaContext(Global.ConnectionString);
     MariaContext DbContext = new MariaContext(Global.CompleteConnectionString);
     WriteToJson("ConnectionStrings:Defaultconnection", Global.CompleteConnectionString);
-    //Process.Start(new ProcessStartInfo
-    //{
-    //    FileName = "https://localhost:5001/",
-    //    UseShellExecute = true
-    //});
 
     //kollar om det är rätt inlog med att skicka någonting till db:n
     if (await CheckConnection(context))
@@ -59,26 +43,22 @@ while (keepGoing)
         }
         else
         {
-            ///kanske skicka till frontend för att fylla i.
+            Console.Clear();
 
             Console.Clear();
+            Meny.DefaultWindow2("");
+            Meny.Draw(Meny.EnterCredMenu(""), 38, 15, ConsoleColor.White);
+
             Console.Write("Write your Email: ");
             var email = Console.ReadLine();
             Console.Write("EmailPassword: ");
             var password = pwMask.pwMasker();
-           ; ///hårdkordad
+            ; ///hårdkordad
             Console.Write("\n");
             Console.Write("choose your username: ");
             var username = Console.ReadLine();
             var secretk = RandomKey();
             password = AesCryption.Encrypt(password, "secretkey"); //ska bytas
-
-
-            //generera nycklar,
-            RSACryptoServiceProvider RSA = new RSACryptoServiceProvider();
-
-            //peta in dom där dom ska vara
-
 
             var settings = new MySettings
             {
@@ -86,7 +66,7 @@ while (keepGoing)
                 Email = email,
                 Password = password,
                 userName = username,
-                Secret = "secretkey" //private public keys behövs
+                Secret = "secretkey"
             };
             var profile = new myProfile
             {
@@ -108,7 +88,6 @@ while (keepGoing)
             }
 
             keepGoing = false;
-
         };
     }
     else
@@ -165,32 +144,42 @@ app.MapFallbackToFile("index.html");
 int a = 0; //Visualiserar att mailfunktionen rullar.
 var loop1Task = Task.Run(async () =>
 {
+
     while (true)
     {
+
         try
         {
             using (MariaContext context = new MariaContext(_connectionstring))
             {
+
+
                 MailReader.ReadUnOpenEmails(context, _connectionstring);
                 a++;
-                Console.Write(a);
+                Console.Clear();
+                Meny.DefaultWindow2("");
+                Meny.Draw(empty, 38, 20, ConsoleColor.White);
+
+                Console.WriteLine("The Gnu is reading your dedicated inbox");
+                Meny.Draw(empty, 0, 25, ConsoleColor.White);
             }
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
         }
-        await Task.Delay(10000);
+        await Task.Delay(2000);
     }
 });
 app.Run();
+
 
 
 bool IsThereAGnu(MariaContext dbcontext)
 {
     try
     {
-        dbcontext.LastUpdates.Any();
+        dbcontext.Standardpictures.Any();
         return true;
     }
     catch
@@ -316,4 +305,96 @@ static string RandomKey()
 
     }
     return sw.ToString();
+}
+
+
+
+
+static string[] FirstStartInput(int menuNum)
+{
+    switch (menuNum)
+    {
+        case 1:
+            {
+                int cursorLength = Meny.LongestString(Meny.FirstTimeUserMenu(""));
+                Console.SetCursorPosition(cursorLength + 38, 16);
+                string email = Console.ReadLine();
+                Console.SetCursorPosition(cursorLength + 38, 17);
+                string password = pwMasker();
+                Console.SetCursorPosition(cursorLength + 38, 19);
+                string username = Console.ReadLine();
+                Meny.DefaultConsoleSettings();
+
+                string newConnection;
+
+
+                return new string[] { email, password, username };
+            }
+        case 2:
+            {
+                int cursorLength = Meny.LongestString(Meny.FirstTimeUserMenu(""));
+                Console.SetCursorPosition(cursorLength + 38, 16);
+                string email = Console.ReadLine();
+                Console.SetCursorPosition(cursorLength + 38, 17);
+                string password = pwMasker();
+                Console.SetCursorPosition(cursorLength + 38, 19);
+                string username = Console.ReadLine();
+                Meny.DefaultConsoleSettings();
+
+
+                return new string[] { email, password, username };
+            }
+        case 3:
+            {
+                int cursorLength = Meny.LongestString(Meny.FirstTimeUserMenu(""));
+                Console.SetCursorPosition(cursorLength + 2, 16);
+                string email = Console.ReadLine();
+                Console.SetCursorPosition(cursorLength + 2, 17);
+                string password = pwMasker();
+                Console.SetCursorPosition(cursorLength + 2, 19);
+                string username = Console.ReadLine();
+                Meny.DefaultConsoleSettings();
+                return new string[] { email, password, username };
+            }
+        default:
+            return new string[] { "", "", "" };
+    }
+}
+static string EnterCredMenuInput()
+{
+
+    int cursorLength = Meny.LongestString(Meny.EnterCredMenu(""), 4);
+    Console.SetCursorPosition(cursorLength + 40, 20);
+    string? inputUserName = Console.ReadLine();
+    Console.SetCursorPosition(cursorLength + 40, 21);
+    string? inputPassWord = pwMasker();
+    Meny.DefaultConsoleSettings();
+
+    string newConnection = "server=localhost;user id=" + inputUserName + ";password=" + inputPassWord + ";";
+    Global.CompleteConnectionString = "server=localhost;user id=" + inputUserName + ";password=" + inputPassWord + ";database=gnu;";
+
+    return newConnection;
+
+}
+static string pwMasker()
+{
+    var inputP = string.Empty;
+    ConsoleKey key;
+    do
+    {
+        var keyInfo = Console.ReadKey(intercept: true);
+        key = keyInfo.Key;
+
+        if (key == ConsoleKey.Backspace && inputP.Length > 0)
+        {
+            Console.Write("\b \b");
+            inputP = inputP[0..^1];
+        }
+        else if (!char.IsControl(keyInfo.KeyChar))
+        {
+            Console.Write("*");
+            inputP += keyInfo.KeyChar;
+        }
+    } while (key != ConsoleKey.Enter);
+    return inputP;
 }
