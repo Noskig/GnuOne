@@ -20,7 +20,7 @@
     list-style: none;
     width: 100%;
     max-width: 30rem;
-    box-shadow: #0000007a -1px 5px 11px 1px;
+    box-shadow: var(--box-shadow);
     border-radius: 5px;
     text-align: center;
     height: 4em;
@@ -29,8 +29,8 @@
 
 .friends-container {
     margin: 1rem 1rem 1rem;
-    max-width:35rem;
-    width:100%;
+    max-width: 35rem;
+    width: 100%;
 }
 
 .friends-list > li a {
@@ -59,11 +59,11 @@
         background-position: center;
     }
 
-    .friends-container .userName {
-        padding: 0em 0.5em;
-        font-weight: 400;
-        color: var(--darker-turquoise);
-    }
+.friends-container .userName {
+    padding: 0em 0.5em;
+    font-weight: 400;
+    color: var(--textarea-text-color);
+}
 
 .friends-list > li a h4 {
     margin: 0.5em;
@@ -86,13 +86,13 @@
     width: 100%;
 }
 
-.friends-list > li .accept-friend , 
-.friends-container > .new-friend{
+.friends-list > li .accept-friend,
+.friends-container > .new-friend {
     margin: 0.5em;
     border-radius: 5px;
     border-style: solid;
     border-width: thin;
-    box-shadow: #a19a9a 0px 0px 2px 1px;
+    box-shadow: var(--box-shadow);
 }
 
     .friends-list > li .accept-friend:hover, 
@@ -100,7 +100,7 @@
         cursor: pointer;
         color: white;
         background: var(--light-turquoise);
-        box-shadow: 0px 0px 3px 1px gray;
+        box-shadow: var(--box-shadow);
         border-color: #a19a9a;
         border-width: thin;
     }

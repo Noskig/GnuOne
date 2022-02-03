@@ -135,6 +135,10 @@ const Settings = () => {
             document.documentElement.style.setProperty('--textarea-color', 'black')
             document.documentElement.style.setProperty('--textarea-text-color', 'white')
             document.documentElement.style.setProperty('--private-messages-blubb', '#171717')
+            document.documentElement.style.setProperty('--box-shadow', '0px 0px 0px 0px none')
+            document.documentElement.style.setProperty('--overlay-color', 'rgb(31 31 31 / 70%)')
+            document.documentElement.style.setProperty('--lightgray-to-darkgray', 'darkgray')
+
 
 
         } else {
@@ -143,6 +147,10 @@ const Settings = () => {
             document.documentElement.style.setProperty('--text-color', '')
             document.documentElement.style.setProperty('--textarea-color', '')
             document.documentElement.style.setProperty('--private-messages-blubb', '')
+            document.documentElement.style.setProperty('--box-shadow', '')
+            document.documentElement.style.setProperty('--overlay-color', '')
+            document.documentElement.style.setProperty('--lightgray-to-darkgray', '')
+            document.documentElement.style.setProperty('--textarea-text-color', '')
 
         }
 

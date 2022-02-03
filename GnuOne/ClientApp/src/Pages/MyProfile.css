@@ -13,6 +13,9 @@
   --textarea-color: white;
   --private-messages-blubb: #83D3EC;
   --lines-menu-wheel: #0D5A69;
+  --box-shadow: 0px 0px 3px 1px gray;
+  --overlay-color: rgba(247, 245, 245, 0.67);
+  --lightgray-to-darkgray: lightgray;
 }
 
 html, body {

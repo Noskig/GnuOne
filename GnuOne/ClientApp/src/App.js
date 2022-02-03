@@ -48,9 +48,12 @@ function App() {
     function changeColorDark() {
         document.documentElement.style.setProperty('--background-color', '#171717')
         document.documentElement.style.setProperty('--text-color', 'white')
-        document.documentElement.style.setProperty('--textarea-text-color', '#white')
         document.documentElement.style.setProperty('--textarea-color', 'black')
-        document.documentElement.style.setProperty('--light-turquoise', '#171717')
+        document.documentElement.style.setProperty('--textarea-text-color', 'white')
+        document.documentElement.style.setProperty('--private-messages-blubb', '#171717')
+        document.documentElement.style.setProperty('--box-shadow', 'none')
+        document.documentElement.style.setProperty('--overlay-color', 'rgb(31 31 31 / 70%)')
+        document.documentElement.style.setProperty('--lightgray-to-darkgray', 'darkgray')
     }
 
     return (
@@ -59,7 +62,7 @@ function App() {
                 <ProfilePicContext.Provider value={{ profilePic, setProfilePic }}>
                     <WheelContext.Provider value={{ chosenPage, setChosenPage, active, setActive, done, setDone }} >
                         <Router>
-                            <div className={darkMode ? "dm App" : "App"}>
+                            <div className="App">
                                 <Switch>
                                     <Redirect exact from='/' to='/profile' />
                                     {routes.map((route, i) => (

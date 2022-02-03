@@ -225,7 +225,7 @@ const Friends = () => {
                             </li>
                             //din vänners vänner
                             : friendEmail !== undefined
-                                ? <li key={friend.ID}><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                ? <li className="friends-list-item" key={friend.ID}><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
                                     <div className="friend-icon">
                                         <img alt={friend.userName} src={images[`Img${friend.pictureID}`]} />
                                     </div>
@@ -252,7 +252,7 @@ const Friends = () => {
                         <ul className="friends-list">
                             {filteredFriends.map(friend =>
                                 !friend.isFriend && friend.userName
-                                    ? <li key={friend.ID}>
+                                    ? <li className="friends-list-item" key={friend.ID}>
                                         <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
                                             <div className="friend-icon">
                                                 <img alt={friend.userName} src={images[`Img${friend.pictureID}`]} />
@@ -270,7 +270,7 @@ const Friends = () => {
                         <ul className="friends-list">
                             {filteredFriends.map(friend =>
                                 !friend.isFriend && !friend.userName && friendsList
-                                    ? <li key={friend.ID}>
+                                    ? <li className="friends-list-item" key={friend.ID}>
                                         <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
                                             <div className="friend-icon">
                                                 <img alt={friend.userName} src={images[`Img${friend.pictureID}`]} />

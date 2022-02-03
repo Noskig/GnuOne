@@ -67,6 +67,7 @@
 }
 .delete-post-overlay p {
     margin-bottom: 0;
+    color: black;
 }
     .delete-post-overlay .confirm-button-wrapper {
         display: flex;
@@ -196,6 +197,7 @@ ul {
     resize: none;
     padding: 7px;
     border-radius: 7px;
+    background-color: var(--textarea-color);
 }
 
 .edit::-webkit-scrollbar, .posts-container .input-text::-webkit-scrollbar  {
