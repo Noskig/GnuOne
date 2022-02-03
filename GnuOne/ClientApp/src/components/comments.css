@@ -119,6 +119,10 @@
     background-color: #24AAC3;
 }
 
+.comments-list ul li.deleted-comment {
+    background-color: var(--lightgray-to-darkgray);
+}
+
 .comment > textarea {
     color: var(--text-color);
 }

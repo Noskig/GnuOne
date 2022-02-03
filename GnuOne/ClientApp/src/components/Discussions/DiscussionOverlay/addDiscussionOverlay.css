@@ -8,7 +8,7 @@ textarea {
 
 .new-discussion-overlay {
     position: fixed;
-    background-color: rgba(247, 245, 245, 0.67);
+    background-color: var(--overlay-color);
     height: 100vh;
     width: 100vw;
     top: 0em;
@@ -26,7 +26,7 @@ textarea {
     padding: 2em 1.5em 2em 1.5em;
     border: 1px rgb(136, 128, 135) solid;
     border-radius: 10px;
-    background: white;
+    background: var(--background-color)
 }
 
     .new-discussion-box > input, .new-discussion-box > textarea {
@@ -34,27 +34,28 @@ textarea {
         padding: 0.5em;
         margin: 0.5em;
         border-radius: 9px;
-        box-shadow: 2px 3px 7px rgb(226 226 226);
+        box-shadow: var(--box-shadow);
         border: 2px rgb(136, 128, 135) solid;
+        background-color: var(--textarea-color);
     }
 
     .new-discussion-box button {
         border: 0px;
-        background:var(--darker-turquoise);
+        background: var(--darker-turquoise);
         padding: 0.5em 1.5em;
         color: white;
         border-radius: 10px;
-        box-shadow: 2px 3px 7px rgb(226 226 226);
+        box-shadow: var(--box-shadow);
         padding: 0.5em;
         margin: 0.5em;
         align-self: flex-end;
-        cursor:pointer;
+        cursor: pointer;
     }
 
     .new-discussion-box form select {
         border-radius: 7px;
         margin: 5px;
-
+        background-color: var(--textarea-color);
     }
     .new-discussion-overlay .close {
         background: none;

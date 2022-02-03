@@ -123,7 +123,7 @@ const PrivateMessages = () => {
 
             <div className="input-div">
                 <textarea rows="4" type="text" placeholder="Meddelande..." value={messageText} onChange={e => setMessageText(e.target.value)} />
-                <button onClick={(e) => handleClick(e)}>Send message</button>
+                <button className="pm-button" onClick={(e) => handleClick(e)}>Send message</button>
             </div>
 
         </section>

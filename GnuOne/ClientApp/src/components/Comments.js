@@ -233,10 +233,9 @@ const Comments = () => {
 
 
                                 <div className="comment-info">
-                                    {/*<img className="friend-avatar" alt={comment.pictureID} />*/} <h4> {comment.userName} </h4>
+                                    {/*<img className="friend-avatar" alt={comment.pictureID} />*/}
+                                    <h4> {comment.userName === "Deleted comment" ? null : comment.userName} </h4>
                                     <h4 className="createDate">{comment.date.slice(0, 16).replace('T', ' ')}</h4>
-
-
                                 </div>
                             </li>
                         ) : 'oops kan inte nå api'}

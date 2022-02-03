@@ -83,7 +83,7 @@
 }
 
 .deleted-post {
-    background: #E3E3E3;
+    background: var(--lightgray-to-darkgray);
     color: var(--text-color);
     list-style: none;
     width: 80%;

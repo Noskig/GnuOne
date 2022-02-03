@@ -24,7 +24,7 @@
 
 
 .read {
-    background: lightgray;
+    background: var(--lightgray-to-darkgray);
     color: white;
 }
 

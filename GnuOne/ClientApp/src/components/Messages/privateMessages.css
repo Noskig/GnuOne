@@ -56,3 +56,6 @@
     width: 98%;
     resize: none;
 }
+.pm-button{
+    cursor:pointer;
+}

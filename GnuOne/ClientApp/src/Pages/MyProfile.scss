@@ -33,7 +33,7 @@ main {
     display: grid;
     grid-template-columns: 0.5fr repeat(7,1fr) 0.5fr;
     grid-template-rows: 7rem 3rem 1fr 1fr 1fr;
-   background: var(--background-color);
+    background: var(--background-color);
 
     .profile-wheel-container {
         grid-column-start: 6;

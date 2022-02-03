@@ -16,7 +16,7 @@
 
 .friends-list-item {
     display: flex;
-    background: var(--private-messages-blubb);
+    background: var(--textarea-color);
     list-style: none;
     width: 100%;
     max-width: 30rem;
