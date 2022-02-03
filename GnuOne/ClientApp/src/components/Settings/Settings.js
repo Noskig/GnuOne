@@ -64,9 +64,7 @@ const Settings = () => {
             console.log(settings)
             setDM(settings.darkMode)
 
-            if (DM === true) {
-                changeColorDark('red')
-            }
+          
         }
 
         //changing/fetching tags from api tags 
@@ -130,12 +128,18 @@ const Settings = () => {
                 "Content-type": "application/json; charset=UTF-8",
             }
         })
+        if (theme) {
+            document.documentElement.style.setProperty('--darker-turquoise', 'red')
+
+        } else {
+            document.documentElement.style.setProperty('--darker-turquoise', '')
+        }
+
+        
         setDarkMode(theme)
     }
 
-    function changeColorDark(color) {
-        document.documentElement.style.setProperty('--darker-turquoise', color)
-    }
+   
 
 
     return (
