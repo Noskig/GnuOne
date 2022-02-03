@@ -212,3 +212,8 @@ Run
  
 Login with the same username & password as Heidi
  
+
+
+
+
+Before Publish, uncomment code on line 40-44 in program.cs
