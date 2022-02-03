@@ -9,8 +9,10 @@
     --darker-turquoise: #0D5A69;
     --background-color: white;
     --text-color: black;
-    --textarea-text-color: white;
-    --textarea-color: black;
+    --textarea-text-color: black;
+    --textarea-color: white;
+    --private-messages-blubb: #83D3EC;
+    --lines-menu-wheel: #0D5A69;
 }
 
 html, body {
@@ -36,6 +38,7 @@ main {
         grid-row-start: 3;
         grid-row-end: 5;
         justify-self: center;
+        z-index: 1;
     }
 
     .bio-container, .messages-section, .discussions-container, .saved-section, .posts-container, .comments-container, .notification-section, .messages-container {

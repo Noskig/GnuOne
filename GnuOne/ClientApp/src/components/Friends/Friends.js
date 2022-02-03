@@ -202,12 +202,12 @@ const Friends = () => {
                     {filteredFriends.map(friend =>
                         //dina vänner
                         friendEmail === undefined && friend.isFriend
-                            ? <li className={darkMode ? "dm friends-list-item" : "friends-list-item"}key={friend.ID}>
+                            ? <li className="friends-list-item" key={friend.ID}>
                                 <Link  to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} onClick={() => wheelReset(0)} >
                                     <div className="friend-icon">
                                         <img alt={friend.userName} src={images[`Img${friend.pictureID}`]} />
                                     </div>
-                                    <h2 className={darkMode? "dm userName" : "userName"}> {friend.userName} </h2>
+                                    <h2 className="userName"> {friend.userName} </h2>
                                 </Link>
                                 {/*hide friend*/}
                                 {friend.hideMe === false ?

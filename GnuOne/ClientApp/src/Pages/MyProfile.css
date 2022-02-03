@@ -9,8 +9,10 @@
   --darker-turquoise: #0D5A69;
   --background-color: white;
   --text-color: black;
-  --textarea-text-color: white;
-  --textarea-color: black;
+  --textarea-text-color: black;
+  --textarea-color: white;
+  --private-messages-blubb: #83D3EC;
+  --lines-menu-wheel: #0D5A69;
 }
 
 html, body {
@@ -36,6 +38,7 @@ main .profile-wheel-container {
   grid-row-start: 3;
   grid-row-end: 5;
   justify-self: center;
+  z-index: 1;
 }
 main .bio-container, main .messages-section, main .discussions-container, main .saved-section, main .posts-container, main .comments-container, main .notification-section, main .messages-container {
   grid-column-start: 2;

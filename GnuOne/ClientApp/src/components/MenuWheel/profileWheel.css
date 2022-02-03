@@ -12,7 +12,7 @@
   position: absolute;
   width: 10em;
   height: 3px;
-  background-color: lightgray;
+  background-color: var(--lines-menu-wheel);
   z-index: -1;
   animation: lines-animation 1s ease-in;
 }
@@ -21,7 +21,7 @@
   position: absolute;
   width: 10em;
   height: 3px;
-  background-color: lightgray;
+  background-color: var(--lines-menu-wheel);
   z-index: -1;
 }
 
@@ -143,9 +143,11 @@
 }
 .profile-wheel .chosen {
   background-color: var(--light-turquoise);
+  border: solid 3px var(--darker-turquoise);
 }
 .profile-wheel .initialPlace {
   background-color: var(--light-turquoise);
+  border: solid 3px var(--darker-turquoise);
   border-radius: 50%;
   display: flex;
   justify-content: center;

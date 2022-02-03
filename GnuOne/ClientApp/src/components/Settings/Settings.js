@@ -131,9 +131,10 @@ const Settings = () => {
         if (theme) {
             //document.documentElement.style.setProperty('--darker-turquoise', 'red');
             document.documentElement.style.setProperty('--background-color', '#171717')
-            document.documentElement.style.setProperty('--text-color', '#83D3EC')
+            document.documentElement.style.setProperty('--text-color', 'white')
             document.documentElement.style.setProperty('--textarea-color', 'black')
-
+            document.documentElement.style.setProperty('--textarea-text-color', 'white')
+            document.documentElement.style.setProperty('--private-messages-blubb', '#171717')
 
 
         } else {
@@ -141,11 +142,10 @@ const Settings = () => {
             document.documentElement.style.setProperty('--background-color', '')
             document.documentElement.style.setProperty('--text-color', '')
             document.documentElement.style.setProperty('--textarea-color', '')
-
+            document.documentElement.style.setProperty('--private-messages-blubb', '')
 
         }
 
-        
         setDarkMode(theme)
     }
 

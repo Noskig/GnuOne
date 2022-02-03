@@ -15,17 +15,16 @@
 }
 
 .friends-list-item {
-    display:flex;
-    background: white;
+    display: flex;
+    background: var(--private-messages-blubb);
     list-style: none;
     width: 100%;
     max-width: 30rem;
     box-shadow: #0000007a -1px 5px 11px 1px;
-    border-radius:5px;
-    text-align:center;
+    border-radius: 5px;
+    text-align: center;
     height: 4em;
-    margin-bottom:1rem
-
+    margin-bottom: 1rem
 }
 
 .friends-container {

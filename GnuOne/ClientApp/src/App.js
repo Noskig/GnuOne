@@ -37,24 +37,20 @@ function App() {
             const darkMode = settings.darkMode
             setDarkMode(darkMode);
             if (darkMode === true) {
-                changeColorDark('red')
-            }
-            else {
-                changeColorDark('')
+                changeColorDark()
             }
         }
         fetchData()
         fetchTheme()
     }, [setProfilePic, setDarkMode, url])
 
-    useEffect(() => {
-        const color = getComputedStyle(document.documentElement).getPropertyValue('--darker-turquoise')
-        console.log(color);
-    })
 
-    function changeColorDark(color) {
+    function changeColorDark() {
         document.documentElement.style.setProperty('--background-color', '#171717')
-        document.documentElement.style.setProperty('--text-color', '#83D3EC')
+        document.documentElement.style.setProperty('--text-color', 'white')
+        document.documentElement.style.setProperty('--textarea-text-color', '#white')
+        document.documentElement.style.setProperty('--textarea-color', 'black')
+        document.documentElement.style.setProperty('--light-turquoise', '#171717')
     }
 
     return (

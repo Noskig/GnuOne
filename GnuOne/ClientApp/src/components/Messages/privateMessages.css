@@ -13,7 +13,7 @@
 .friends-message {
     text-align: left;
     margin-top: 1rem;
-    background-color: var(--light-turquoise);
+    background-color: var(--private-messages-blubb);
     color: var(--text-color);
     max-width: 70%;
     width: max-content;
@@ -24,8 +24,8 @@
 .my-message {
     text-align: right;
     margin-top: 1rem;
-    background-color: var(--light-turquoise);
-    color: var(--message-text);
+    background-color: var(--private-messages-blubb);
+    color: var( --text-color);
     max-width: 70%;
     width: max-content;
     padding: 1rem;

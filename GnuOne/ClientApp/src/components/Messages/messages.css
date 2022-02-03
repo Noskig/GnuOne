@@ -32,9 +32,11 @@
     margin-block-start: 0em;
     margin-block-end: 0em;
 }
-.input-div textarea{
+.input-div textarea {
     margin-top: 2rem;
     width: 94%;
     border-radius: 7px;
     padding: .5rem;
+    background: var(--textarea-color);
+    color: var(--textarea-text-color);
 }

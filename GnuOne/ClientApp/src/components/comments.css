@@ -125,6 +125,8 @@
 .comments-container textarea {
     color: var(--text-color);
     resize: none;
+    background: var(--textarea-color);
+    color: var(--textarea-text-color);
 }
 
 .deleted-comment {
