@@ -48,13 +48,6 @@
     grid-row-start:1;
     grid-row-end:2;
 }
- 
-.form-container{
-    width:98%; 
-}
-.form-container > textarea{
-    width: 100%;
-}
 
 .delete-post-overlay {
     grid-column-start: 1;
@@ -103,10 +96,14 @@
 
 .form-wrapper {
     display: flex;
-    justify-content: flex-end;
-
+    width:97.9%;
 }
-
+.form-wrapper form{
+    width:100%;
+}
+.form-wrapper textarea {
+    width: 100%;
+}
 
 form .wrapper {
     display: flex;

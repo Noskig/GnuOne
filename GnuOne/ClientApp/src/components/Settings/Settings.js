@@ -14,7 +14,7 @@ import Img5 from "../../Image/5.jpg";
 
 const Settings = () => {
     const { setProfilePic } = useContext(ProfilePicContext);
-    const { setDarkMode } = useContext(ThemeContext)
+    const { darkMode, setDarkMode } = useContext(ThemeContext)
     const [DM, setDM] = useState()
 
     //changing user info 
@@ -64,6 +64,9 @@ const Settings = () => {
             console.log(settings)
             setDM(settings.darkMode)
 
+            if (DM === true) {
+                changeColorDark('red')
+            }
         }
 
         //changing/fetching tags from api tags 
@@ -128,6 +131,10 @@ const Settings = () => {
             }
         })
         setDarkMode(theme)
+    }
+
+    function changeColorDark(color) {
+        document.documentElement.style.setProperty('--darker-turquoise', color)
     }
 
 
