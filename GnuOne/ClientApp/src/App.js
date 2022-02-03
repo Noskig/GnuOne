@@ -36,13 +36,25 @@ function App() {
             const settings = await response.json()
             const darkMode = settings.darkMode
             setDarkMode(darkMode);
+            if (darkMode === true) {
+                changeColorDark('red')
+            }
+            else {
+                changeColorDark('')
+            }
         }
         fetchData()
         fetchTheme()
     }, [setProfilePic, setDarkMode, url])
 
-   
+    useEffect(() => {
+        const color = getComputedStyle(document.documentElement).getPropertyValue('--darker-turquoise')
+        console.log(color);
+    })
 
+    function changeColorDark(color) {
+        document.documentElement.style.setProperty('--darker-turquoise', color)
+    }
 
     return (
         <PortContext.Provider value={7261}>
