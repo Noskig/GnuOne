@@ -53,4 +53,6 @@
 .input-div textarea {
     color: black;
     font-family: 'Poppins', sans-serif;
+    width:98%;
+    resize:none;
 }

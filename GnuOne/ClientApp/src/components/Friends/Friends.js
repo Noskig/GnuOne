@@ -208,7 +208,7 @@ const Friends = () => {
                                     <h2 className="userName"> {friend.userName} </h2>
                                 </Link>
                                 {/*hide friend*/}
-                                {friend.hideMe === 0 ?
+                                {friend.hideMe === false ?
                                     <button className="accept-friend" onClick={() => hideFromFriendsFriends(friend.Email)}>
                                         Hide friend
                                     </button>
