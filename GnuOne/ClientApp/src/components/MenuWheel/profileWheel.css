@@ -14,7 +14,7 @@
   height: 3px;
   background-color: var(--lines-menu-wheel);
   z-index: -1;
-  /*    animation: lines-animation 1s ease-in;*/
+  animation: lines-animation 7.5s ease-in;
 }
 
 .line-after {
@@ -25,23 +25,20 @@
   z-index: -1;
 }
 
-/*@keyframes lines-animation{
-    0% {
-        opacity: 0%;
-    }
-
-    33% {
-        opacity: 10%;
-    }
-
-    66% {
-        opacity: 40%;
-    }
-
-    100% {
-        opacity: 100%;
-    }
-}*/
+@keyframes lines-animation {
+  0% {
+    opacity: 0%;
+  }
+  33% {
+    opacity: 10%;
+  }
+  66% {
+    opacity: 40%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
 .profile-wheel {
   position: relative;
   width: 35em;
@@ -283,12 +280,8 @@
   animation: menu-animation-friend 1s ease-in forwards;
 }
 
-/*@keyframes menu-animation-friend {
-    from{
-        opacity:0%;
-    }
-    to{
-        opacity:100%;
-    }
+@keyframes menu-animation-friend {
+  100% {
+    transform: translate(0em);
+  }
 }
-*/

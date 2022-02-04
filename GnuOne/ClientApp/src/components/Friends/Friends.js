@@ -212,15 +212,15 @@ const Friends = () => {
                                 {/*hide friend*/}
                                 {friend.hideMe === false ?
                                     <button className="accept-friend" onClick={() => hideFromFriendsFriends(friend.Email)}>
-                                        Hide friend
+                                        Hide me
                                     </button>
                                     :
                                     <button className="accept-friend" onClick={() => unHideFromFriendsFriends(friend.Email)}>
-                                        show friend
+                                        Show me
                                     </button>
                                 }
                                 <button className="accept-friend" onClick={() => getOutOnClick(friend)}>
-                                    remove friend
+                                    Remove friend
                                 </button>
                             </li>
                             //din vänners vänner
