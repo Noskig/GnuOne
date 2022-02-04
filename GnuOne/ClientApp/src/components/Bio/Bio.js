@@ -2,8 +2,6 @@
 import PortContext from '../../contexts/portContext';
 import MeContext from '../../contexts/meContext';
 import FriendContext from '../../contexts/friendContext';
-import done from '../../icons/share.svg'
-import edit from '../../icons/trash.svg'
 import './bio.css'
 
 const Bio = () => {
@@ -16,47 +14,44 @@ const Bio = () => {
 
 
     useEffect(() => {
+        async function fetchData() {
+            console.log(friendEmail, myEmail)
+
+            if (friendEmail === undefined) {
+                //get my own profile
+                const response = await fetch(url + 'myprofile')
+                const me = await response.json()
+                console.log(me[0])
+                setProfile(me[0])
+
+            } else {
+                //get my friend's profile
+                const responseOne = await fetch(url + 'myfriends/' + friendEmail)
+                const friend = await responseOne.json()
+                console.log(friend.MyFriend)
+                setProfile(friend.MyFriend)
+
+            }
+        }
         fetchData()
 
-    }, [myEmail])
+    }, [myEmail, setProfile, url, friendEmail])
 
     useEffect(() => {
+        async function getTags() {
+            if (profile) {
+                console.log(profile)
+                const response = await fetch(url + 'tags')
+                const tags = await response.json()
+                console.log(tags)
+                console.log(profile.tagOne)
+                let userTags = tags.filter(tag => tag.ID === profile.tagOne || tag.ID === profile.tagTwo || tag.ID === profile.tagThree)
+                console.log(userTags)
+                setTagList(userTags)
+            }
+        }
         getTags()
-    }, [profile])
-
-    async function fetchData() {
-        console.log(friendEmail, myEmail)
-
-        if (friendEmail === undefined) {
-            //get my own profile
-            const response = await fetch(url + 'myprofile')
-            const me = await response.json()
-            console.log(me[0])
-            setProfile(me[0])
-
-        } else {
-            //get my friend's profile
-            const responseOne = await fetch(url + 'myfriends/' + friendEmail)
-            const friend = await responseOne.json()
-            console.log(friend.MyFriend)
-            setProfile(friend.MyFriend)
-
-        }
-    }
-
-    async function getTags() {
-        if (profile) {
-            console.log(profile)
-            const response = await fetch(url + 'tags')
-            const tags = await response.json()
-            console.log(tags)
-            console.log(profile.tagOne)
-            let userTags = tags.filter(tag => tag.ID === profile.tagOne || tag.ID === profile.tagTwo || tag.ID === profile.tagThree)
-            console.log(userTags)
-            setTagList(userTags)
-        }
-    }
-
+    }, [profile, setTagList, url])
 
 
     return (
@@ -67,13 +62,9 @@ const Bio = () => {
                 <p> {profile.userInfo || profile.myUserInfo}</p>
 
                 <h3> my interests </h3>
-                <ul>
-                    {
-                        tagList?.map(tag => <li key={tag.ID}>
-                            {tag.tagName}
-                        </li>)
-                    }
-                </ul>
+                <div>
+                    {tagList && tagList.length > 0 ? <> {tagList[0]?.tagName}  ✨ {tagList[1]?.tagName} ✨ {tagList[2]?.tagName}</> : null}
+                </div>
 
                 <h3> public key </h3>
                 <p> {profile.pubKey || profile.Secret}</p>

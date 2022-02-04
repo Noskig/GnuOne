@@ -3,12 +3,12 @@
 }
 
 textarea {
-    font-family: sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .new-discussion-overlay {
     position: fixed;
-    background-color: rgba(247, 245, 245, 0.67);
+    background-color: var(--overlay-color);
     height: 100vh;
     width: 100vw;
     top: 0em;
@@ -26,7 +26,7 @@ textarea {
     padding: 2em 1.5em 2em 1.5em;
     border: 1px rgb(136, 128, 135) solid;
     border-radius: 10px;
-    background: white;
+    background: var(--background-color)
 }
 
     .new-discussion-box > input, .new-discussion-box > textarea {
@@ -34,27 +34,32 @@ textarea {
         padding: 0.5em;
         margin: 0.5em;
         border-radius: 9px;
-        box-shadow: 2px 3px 7px rgb(226 226 226);
+        box-shadow: var(--box-shadow);
         border: 2px rgb(136, 128, 135) solid;
+        background-color: var(--textarea-color);
     }
 
     .new-discussion-box button {
         border: 0px;
-        background:var(--darker-turquoise);
+        background: var(--darker-turquoise);
         padding: 0.5em 1.5em;
         color: white;
         border-radius: 10px;
-        box-shadow: 2px 3px 7px rgb(226 226 226);
+        box-shadow: var(--box-shadow);
         padding: 0.5em;
         margin: 0.5em;
         align-self: flex-end;
-        cursor:pointer;
+        cursor: pointer;
     }
 
-    .new-discussion-overlay  .close {
-      background: none;
-      box-shadow: none;
-      
+    .new-discussion-box form select {
+        border-radius: 7px;
+        margin: 5px;
+        background-color: var(--textarea-color);
+    }
+    .new-discussion-overlay .close {
+        background: none;
+        box-shadow: none;
     }
 
 .new-discussion-box > .close:hover {
@@ -68,57 +73,3 @@ textarea {
     background: linear-gradient(90deg, rgba(146,135,154,1) 0%, rgba(72,88,164,1) 44%, rgba(0,19,111,1) 100%);
 }
 
-/*.discussionsMain div a {
-    text-decoration: none;
-    color: black;
-}*/
-
-/*.friendsTopics {
-    padding: 2em;
-    display: grid;
-    grid-template-columns: repeat( 3, 6fr);
-    grid-template-rows: repeat( 1, 2fr);
-}*/
-/*
-.topicUser {
-    padding: 1em;
-}
-
-.createDate {
-    font-size: 0.5em;
-    color: var(--border-color)
-}
-
-.userName {
-    font-size: 1em;
-}
-
-p .text {
-    margin-bottom: auto;
-}
-
-.discussionsMain div a {
-    text-decoration: none;
-    color: black;
-}
-
-.friendsTopics {
-    padding: 2em;
-    display: grid;
-    grid-template-columns: repeat( 3, 6fr);
-    grid-template-rows: repeat( 1, 2fr);
-    background: rgba(247, 245, 245, 0.67)
-}
-
-.topicUser {
-    padding: 1em;
-}
-
-.createDate {
-    font-size: 0.5em;
-    color: var(--border-color)
-}
-
-.userName {
-    font-size: 1em;
-}*/

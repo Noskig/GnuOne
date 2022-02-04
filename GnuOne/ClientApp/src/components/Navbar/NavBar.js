@@ -1,10 +1,10 @@
 ﻿import React, { useState, useContext} from 'react';
-import { Link, Switch, useRouteMatch } from 'react-router-dom'
-import logo from '../../icons/Logo.svg'
-import avatar from '../../icons/useravatar.svg'
+import { Link } from 'react-router-dom'
+/*import logo from '../../icons/Logo.svg'*/
+import logo from '../../Image/Logo/gnux.png'
 import settings from '../../icons/settings.svg'
 import messages from '../../icons/messagesNavbar.svg'
-import profile from '../../icons/Gnu 220.png'
+import notificationsIcon from '../../icons/Group 220.svg'
 import ProfilePicContext from '../../contexts/profilePicContext'
 import WheelContext from '../../contexts/WheelContext'
 import "./navbar.css"
@@ -32,7 +32,7 @@ const NavBar = () => {
     return (
           
             <div className="navbar">
-            <Link to="/" onClick={() => handleClick(0)}> <img src={logo} alt="logo" /> </Link>
+            <Link className="logo" to="/" onClick={() => handleClick(0)}> <img src={logo} alt="logo" /> </Link>
             <ul className="elements">
                 <li onClick={() => setIsPressed(!isPressed)} className="avatar">
                     {profilePic && avatar? <img src={avatar} alt="avatar" /> :null} 
@@ -52,7 +52,7 @@ const NavBar = () => {
 
                 <li className={isPressed ? "profile out-animation3" : "profile in-animation3"}>
                     <Link to="/profile" onClick={() => handleClick(0)}>
-                        <img className="profile-picture" src={profile} alt="profile" />
+                        <img className="profile-picture" src={notificationsIcon} alt="profile" />
                     </Link>
                 </li>
                     

@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useContext } from 'react'
+﻿import { useState, useContext } from 'react'
 import './addFriendOverlay.css'
 import PortContext from '../../../contexts/portContext';
 import FriendContext from '../../../contexts/friendContext';
@@ -55,7 +55,7 @@ const AddFriendOverlay = (props) => {
                 {
                     friendEmail === undefined
                         ? <>
-                            <input type="text" placeholder={"Email..."} onChange={e => setEmail(e.target.value)} />
+                            <input type="text" autoFocus placeholder={"Email..."} onChange={e => setEmail(e.target.value)} />
                             <button type="button" onClick={(e) => handleClick(e, email)}>Send friend request</button>
 
                         </>

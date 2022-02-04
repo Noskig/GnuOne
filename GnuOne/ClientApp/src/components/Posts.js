@@ -1,6 +1,6 @@
 ﻿import PortContext from '../contexts/portContext';
 import { useParams, useLocation, Link, useRouteMatch } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useCallback } from 'react';
 import trash from '../icons/trash.svg'
 import done from '../icons/done.svg'
 import edit from '../icons/edit.svg'
@@ -19,7 +19,6 @@ const Posts = () => {
     const [discussion, setDiscussion] = useState({})
     const [posts, setPosts] = useState([])
     const [postText, setPostText] = useState('')
-    const [username, setUsername] = useState('me')
     const [activePost, setActivePost] = useState()
     const [editOpen, setEditOpen] = useState(false)
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
@@ -39,11 +38,7 @@ const Posts = () => {
 
     console.log(id)
 
-    useEffect(() => {
-        fetchData()
-    }, [id])
-
-    async function fetchData() {
+    const fetchData = useCallback(async () => {
         console.log('fetching')
         const response = await fetch(url + 'discussions/' + id)
         const discussion = await response.json()
@@ -57,12 +52,16 @@ const Posts = () => {
         discussion.firstTag = discussionTags[0] ? discussionTags[0].tagName : null
         discussion.secondTag = discussionTags[1] ? discussionTags[1].tagName : null
         discussion.thirdTag = discussionTags[2] ? discussionTags[2].tagName : null
-    
-    //end
-    setDiscussion(discussion);
-    setPosts(discussion.posts)
 
-}
+        //end
+        setDiscussion(discussion);
+        setPosts(discussion.posts)
+
+    }, [setDiscussion, setPosts, url, id]);
+
+    useEffect(() => {
+        fetchData()
+    }, [id, fetchData])
 
 //POST
 function validateNewPost(postText) {
@@ -75,7 +74,6 @@ function validateNewPost(postText) {
 function createNewPost(e) {
     e.preventDefault()
     let newPost = {
-        userName: username,
         postText: postText,
         discussionID: Number(id),
         discussionEmail: discussionInfo.Email
@@ -109,10 +107,16 @@ function openEditPost(e, post) {
     setPostText(post.postText)
 }
 
+
+
+
 async function confirmEditPost(e, post) {
     e.preventDefault()
     console.log('fetching')
-    if (post.postText !== postText) {
+    if (postText.length < 1) {
+        deletePost(e, post.id)
+    }
+    else if (post.postText !== postText) {
         post.postText = postText
         console.log(post)
         await fetch(url + 'posts/' + post.id, {
@@ -123,9 +127,8 @@ async function confirmEditPost(e, post) {
             }
         })
     }
-
-    setEditOpen(false)
     setPostText('')
+    setEditOpen(false)
 }
 
 //DELETE 
@@ -167,7 +170,7 @@ function filterPosts(posts, searchTerm) {
             return true
         } else if (data.postText.toLowerCase().includes(searchTerm.toLowerCase())) {
             return data
-        }
+        } else return false
 
     })
 }
@@ -176,58 +179,43 @@ return (
     <>
         <Search search={search} />
         <section className="posts-container">
-            <h2>{discussionInfo.Headline}</h2>
+            <h2>{discussion.headline}</h2>
             <div className="discussion-tags">{discussion.firstTag ? `#${discussion.firstTag}` : null} {discussion.secondTag ? `#${discussion.secondTag}` : null}  {discussion.thirdTag ? `#${discussion.thirdTag}` : null} </div>
 
             <ul className="posts-list">
-                <li className="post">
-                    {editOpen && activePost === discussion.id
-                        ? <textarea maxLength="500" value={discussion.discussionText} className="edit" onChange={(e) => setPostText(e.target.value)} />
-                        : <p className="text">{discussion.discussionText}</p>
-                    }
+                <li className="discussion-info-first">
+                    {/*<div className="posts-wrapper">*/}
+                        {editOpen && activePost === discussion.id
+                            ? <textarea maxLength="500" value={discussion.discussionText} className="edit" onChange={(e) => setPostText(e.target.value)} />
+                            : <p className="text">{discussion.discussionText}</p>
+                        }
 
-                    {/*<div className="post-options">*/}
-                    {/*    {showDeleteConfirm && activePost === discussion.id*/}
-                    {/*        ?*/}
-                    {/*        <button onClick={(e) => deletePost(e, discussion.id)}>*/}
-                    {/*            <img alt="done" src={done} />*/}
-                    {/*        </button>*/}
+                        <div className="post-info">
+                            <h4>{filteredPosts.length} posts on this topic</h4>
+                            {/*<h4 className="createDate">{discussionInfo.Date.slice(0, 16).replace('T', ' ')}</h4>*/}
 
-                    {/*        :*/}
-                    {/*        <button onClick={(e) => openDeletePost(e, post)}>*/}
-                    {/*            <img alt="delete" src={trash} />*/}
-                    {/*        </button>*/}
-                    {/*    }*/}
-                    {/*    {editOpen && activePost === post.id ?*/}
-                    {/*        <button onClick={(e) => confirmEditPost(e, post)}>*/}
-                    {/*            <img alt="done" src={done} />*/}
-                    {/*        </button>*/}
-                    {/*        : <button onClick={(e) => openEditPost(e, post)}>*/}
-                    {/*            <img alt="edit" src={edit} />*/}
-                    {/*        </button>*/}
-                    {/*    }*/}
+                        </div>
                     {/*</div>*/}
-                    <div className="post-info">
-                        <h4>{filteredPosts.length} posts on this topic</h4>
-                        {/*<h4 className="createDate">{discussionInfo.Date.slice(0, 16).replace('T', ' ')}</h4>*/}
-
-                    </div>
-
                 </li>
                 {posts ? filteredPosts.map(post =>
                     <li className={post.postText === "Deleted post" ? "post deleted-post": "post"} key={post.id + post.userName}>
                         {showDeleteConfirm && activePost === post.id
                             ? <div className="delete-post-overlay">
                                 <p> Are you sure you want to delete this post?</p>
-                                <button onClick={(e) => deletePost(e, post.id)}> <svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M21.7585 0L8.5106 13.4289L4.21399 9.0736L0 13.3452L4.29661 17.7005L8.53812 22L12.7521 17.7284L26 4.29952L21.7585 0Z" fill="black" />
-                                </svg></button>
-                                <button onClick={closeOverlay}> <img alt="cancel" src={cancel}/> </button>
+                                <div className="confirm-button-wrapper">
+                                    <button onClick={(e) => deletePost(e, post.id)}>
+                                        <svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M21.7585 0L8.5106 13.4289L4.21399 9.0736L0 13.3452L4.29661 17.7005L8.53812 22L12.7521 17.7284L26 4.29952L21.7585 0Z" fill="black" />
+                                        </svg>
+                                    </button>
+                                        <button onClick={closeOverlay}> <img alt="cancel" src={cancel} /> </button>
+                                </div>
                             </div>
                             : null}
+                      
                         {editOpen && activePost === post.id
-                            ? <textarea className="text" maxLength="500" value={postText} className="edit" onChange={(e) => setPostText(e.target.value)} />
-                            : <Link className="discussion-content" to={{
+                            ? <textarea className="text-post edit" maxLength="500" value={postText} onChange={(e) => setPostText(e.target.value)} />
+                            : <Link className="post-content" to={{
                                 pathname: `${match.url}/post/${post.id}`, state: {
                                     postText: post.postText,
                                     Date: post.date,
@@ -243,7 +231,7 @@ return (
                         <div className="post-options">
                                     
                             {post.email === myEmail
-                                ? <> {showDeleteConfirm && activePost === post.id
+                                ? <div className="edit-delete-wrapper"> {showDeleteConfirm && activePost === post.id
                                     ?<>
                                     <button onClick={(e) => deletePost(e, post.id)}>
                                         <img alt="done" src={done} />
@@ -262,25 +250,19 @@ return (
                                             <img alt="edit" src={edit} />
                                         </button>
 
-                                    }</>
+                                    }</div>
 
-
-                                : <>
-                                    <button>
-                                        <img alt="bookmark" src={bookmark} />
-                                    </button>
-                                    <button>
-                                        <img alt="share" src={share} />
-                                    </button>
-                                </>
+                                :null
 
                             }</div>
-
+                          
 
 
                         <div className="post-info">
-                            <img className="friend-avatar" /> <h4> {post.userName} </h4>
-                            <h4 className="createDate">{post.date.slice(0, 16).replace('T', ' ')}</h4>
+                           
+                               {/* <img className="friend-avatar" alt={post.userName}/>*/}
+                                <h4> {post.userName} </h4>
+                                <h4 className="createDate">{post.date.slice(0, 16).replace('T', ' ')}</h4>
                             <h4>Comments: {post.numberOfComments}</h4>
 
                         </div>
@@ -288,15 +270,45 @@ return (
                 ) : 'oops kan inte nå api'}
             </ul>
             {editOpen
-                ? <p>pls finish editing ur post before writing a new one'</p>
-                : <form>
-                    <textarea rows="4" maxLength="500" placeholder="Write something..." value={postText} className="input-text" onChange={e => validateNewPost(e.target.value)} />
-                    <p>{charactersLeft}/500</p>
-                    <button type="button" className="btn" onClick={(e) => createNewPost(e)}>Post</button>
-                </form>}
+                ? null
+                :<div className="form-wrapper">
+                    <form>
+                        <textarea rows="4" maxLength="500" placeholder="Write something..." value={postText} className="input-text" onChange={e => validateNewPost(e.target.value)} />
+                        <div className="wrapper">
+                            <p>{charactersLeft}/500</p>
+                            <button type="button" className="btn" onClick={(e) => createNewPost(e)}>Post</button>
+                        </div>
+                    </form>
+                 </div>}
         </section>
     </>
 )
 }
 
 export default Posts
+
+
+// 192 - 212 
+ 
+// {/*<div className="post-options">*/}
+//{/*    {showDeleteConfirm && activePost === discussion.id*/ }
+//{/*        ?*/ }
+//{/*        <button onClick={(e) => deletePost(e, discussion.id)}>*/ }
+//{/*            <img alt="done" src={done} />*/ }
+//{/*        </button>*/ }
+
+//{/*        :*/ }
+//{/*        <button onClick={(e) => openDeletePost(e, post)}>*/ }
+//{/*            <img alt="delete" src={trash} />*/ }
+//{/*        </button>*/ }
+//{/*    }*/ }
+//{/*    {editOpen && activePost === post.id ?*/ }
+//{/*        <button onClick={(e) => confirmEditPost(e, post)}>*/ }
+//{/*            <img alt="done" src={done} />*/ }
+//{/*        </button>*/ }
+//{/*        : <button onClick={(e) => openEditPost(e, post)}>*/ }
+//{/*            <img alt="edit" src={edit} />*/ }
+//{/*        </button>*/ }
+//{/*    }*/ }
+//{/*</div>*/ }
+ 

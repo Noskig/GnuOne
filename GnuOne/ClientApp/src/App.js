@@ -10,7 +10,7 @@ import ProfilePicContext from './contexts/profilePicContext'
 import ThemeContext from './contexts/themeContext'
 import routes from './Routes';
 import RouteWithSubRoutes from './components/RouteWithSubRoutes';
-import { useState, useContext, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 function App() {
     const url = `https://localhost:7261/api/`
@@ -21,26 +21,40 @@ function App() {
     const [darkMode, setDarkMode] = useState()
 
     useEffect(() => {
+        console.log('one more time')
+        async function fetchData() {
+            console.log('fetching')
+            const response = await fetch(url + 'myprofile')
+            const me = await response.json()
+            const profilepic = me[0].pictureID
+            setProfilePic(profilepic);
+        }
+
+        async function fetchTheme() {
+            console.log('fetching theme')
+            const response = await fetch(url + 'settings')
+            const settings = await response.json()
+            const darkMode = settings.darkMode
+            setDarkMode(darkMode);
+            if (darkMode === true) {
+                changeColorDark()
+            }
+        }
         fetchData()
         fetchTheme()
-    }, [])
+    }, [setProfilePic, setDarkMode, url])
 
-    async function fetchData() {
-        console.log('fetching')
-        const response = await fetch(url + 'myprofile')
-        const me = await response.json()
-        const profilepic = me[0].pictureID
-        setProfilePic(profilepic);
+
+    function changeColorDark() {
+        document.documentElement.style.setProperty('--background-color', '#171717')
+        document.documentElement.style.setProperty('--text-color', 'white')
+        document.documentElement.style.setProperty('--textarea-color', 'black')
+        document.documentElement.style.setProperty('--textarea-text-color', 'white')
+        document.documentElement.style.setProperty('--private-messages-blubb', '#171717')
+        document.documentElement.style.setProperty('--box-shadow', 'none')
+        document.documentElement.style.setProperty('--overlay-color', 'rgb(31 31 31 / 70%)')
+        document.documentElement.style.setProperty('--lightgray-to-darkgray', 'darkgray')
     }
-
-    async function fetchTheme() {
-        console.log('fetching theme')
-        const response = await fetch(url + 'settings')
-        const settings = await response.json()
-        const darkMode = settings.darkMode
-        setDarkMode(darkMode);
-    }
-
 
     return (
         <PortContext.Provider value={7261}>
@@ -48,7 +62,7 @@ function App() {
                 <ProfilePicContext.Provider value={{ profilePic, setProfilePic }}>
                     <WheelContext.Provider value={{ chosenPage, setChosenPage, active, setActive, done, setDone }} >
                         <Router>
-                            <div className={darkMode ? "dm App" : "App"}>
+                            <div className="App">
                                 <Switch>
                                     <Redirect exact from='/' to='/profile' />
                                     {routes.map((route, i) => (

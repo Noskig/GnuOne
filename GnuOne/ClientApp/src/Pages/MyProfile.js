@@ -1,12 +1,10 @@
 ﻿import React, { useState, useEffect, useContext } from 'react';
-import { Link, Switch } from 'react-router-dom';
 import MeContext from '../contexts/meContext'
 import PortContext from '../contexts/portContext'
 import ProfileWheel from '../components/MenuWheel/ProfileWheel';
 import "./MyProfile.min.css";
 import FriendContext from '../contexts/friendContext'
 import Navbar from '../components/Navbar/NavBar';
-
 
 //testar
 function MyProfile({ routes }) {
@@ -16,19 +14,18 @@ function MyProfile({ routes }) {
   
 
     useEffect(() => {
+        async function fetchData() {
+            console.log('fetching')
+            const response = await fetch(url)
+            const me = await response.json()
+            const myEmail = me.email
+            console.log(myEmail)
+            setMyEmail(myEmail);
+        }
         fetchData()
-    }, [])
+    }, [setMyEmail, url])
 
-    async function fetchData() {
-        console.log('fetching')
-        const response = await fetch(url)
-        const me = await response.json()
-        const myEmail = me.email
-        console.log(myEmail)
-        setMyEmail(myEmail);
-
-
-    }
+   
     return (
         <MeContext.Provider value={myEmail}>
             <FriendContext.Provider value={{ friendEmail: undefined, friendImg: undefined }}>

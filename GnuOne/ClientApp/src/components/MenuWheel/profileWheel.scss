@@ -12,10 +12,36 @@
 
 .line {
     position: absolute;
-    width: 20em;
+    width: 10em;
     height: 3px;
-    background-color: lightgray;
+    background-color: var(--lines-menu-wheel);
     z-index: -1;
+    animation: lines-animation 1s ease-in;
+}
+.line-after {
+    position: absolute;
+    width: 10em;
+    height: 3px;
+    background-color: var(--lines-menu-wheel);
+    z-index: -1;
+}
+
+@keyframes lines-animation{
+    0% {
+        opacity: 0%;
+    }
+
+    33% {
+        opacity: 10%;
+    }
+
+    66% {
+        opacity: 40%;
+    }
+
+    100% {
+        opacity: 100%;
+    }
 }
 
 //=================================================================
@@ -52,8 +78,7 @@
         }
     }
 
-    .line {
-        display: block;
+    .line, .line-after {
         position: absolute;
 
         $angle: (360 / $item-count);
@@ -61,7 +86,7 @@
 
         @for $i from 1 through $item-count {
             &:nth-of-type(#{$i}) {
-                transform: rotate($rot * 1deg) translate($circle-size / 12);
+                transform: rotate($rot * 1deg) translate($circle-size / 6);
             }
 
             $rot: $rot + $angle;
@@ -91,7 +116,130 @@
 }
 
 .profile-wheel {
-    @include on-circle-about($item-count: 6, $circle-size: 35em, $item-size: 8em);
+    @include on-circle-about($item-count: 6, $circle-size: 35em, $item-size: 8em );
+
+    li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .chosen, .notChosen, .notChosenAfter, .img-of-person {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 100%;
+        border-radius: 50%;
+    }
+
+    .notChosenAfter {
+        background-color: var(--darker-turquoise);
+    }
+
+    .notChosen {
+        background-color: var(--darker-turquoise);
+    }
+
+    .chosen {
+        background-color: var(--light-turquoise);
+        border: solid 3px var(--darker-turquoise)
+    }
+
+    .initialPlace {
+        background-color: var(--light-turquoise);
+        border: solid 3px var(--darker-turquoise);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .img-of-person {
+        background-color: var(--darker-turquoise);
+
+        img {
+            height: 90%;
+            width: 90%;
+            border-radius: 50%;
+        }
+    }
+}
+
+
+
+//when on your friends profile
+
+@mixin on-circle-about-friend($item-count, $circle-size, $item-size) {
+    position: relative;
+    width: $circle-size;
+    height: $circle-size;
+    border-radius: 50%;
+    padding: 0;
+    list-style: none;
+
+    > .initialPlace, .chosen, .notChosen, .img-of-person {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -($item-size / 2);
+        width: $item-size;
+        height: $item-size;
+
+        $angle: (240 / $item-count );
+        $rot: 0;
+
+        @for $i from 1 through $item-count {
+            &:nth-of-type(#{$i}) {
+                transform: rotate($rot * 1deg) translate($circle-size / 2.5) rotate($rot * -1deg);
+            }
+
+            $rot: $rot + $angle;
+        }
+    }
+
+    .line, .line-after {
+        display: block;
+        position: absolute;
+
+        $angle: (240 / $item-count);
+        $rot: 0;
+
+        @for $i from 1 through $item-count {
+            &:nth-of-type(#{$i}) {
+                transform: rotate($rot * 1deg) translate($circle-size / 6);
+            }
+
+            $rot: $rot + $angle;
+        }
+    }
+
+    .notChosenAfter, .img-of-person {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -($item-size / 2);
+        width: $item-size;
+        height: $item-size;
+
+        $angle: (240 / $item-count);
+        $rot: 0;
+
+        @for $i from 1 through $item-count {
+            &:nth-of-type(#{$i}) {
+                transform: rotate($rot * 1deg) translate($circle-size / 3.75) rotate($rot * -1deg);
+            }
+
+            $rot: $rot + $angle;
+        }
+    }
+}
+
+.friends-wheel {
+    @include on-circle-about-friend($item-count: 4, $circle-size: 35em, $item-size: 8em);
+
 
     li {
         display: flex;
@@ -139,16 +287,40 @@
     }
 }
 
+
+
+
+
 //animations for menu
+
 .notChosen {
     text-decoration: none;
     animation: menu-animation 1s ease-in forwards;
 }
+
 @keyframes menu-animation {
-    100% {
+    from {
+        opacity: 0%;
+    }
+    to {
+        opacity: 100%;
         transform: translate(0em);
     }
 }
+
+.friends-wheel {
+    animation: menu-animation-friend 1s ease-in forwards;
+}
+
+@keyframes menu-animation-friend {
+    from{
+        opacity:0%;
+    }
+    to{
+        opacity:100%;
+    }
+}
+
 
 
 //=================================================================

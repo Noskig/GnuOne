@@ -99,6 +99,13 @@ while (keepGoing)
 
 }
 
+//Öppnar websidan.
+Process.Start(new ProcessStartInfo
+{
+    FileName = "https://localhost:5001/",
+    UseShellExecute = true
+});
+
 var builder = WebApplication.CreateBuilder(args);
 string _connectionstring = builder.Configuration.GetConnectionString("DefaultConnection");
 // Add services to the container.

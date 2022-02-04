@@ -7,31 +7,30 @@
     padding-bottom:1rem;
     padding-left:2rem;
     padding-right:2rem;
-    background: #167D8F;
+    background: var(--darker-turquoise);
     border-radius: 15px;
     display: flex;
     flex-direction: column;
     max-width: 25rem;
 }
 
-.friends-list > li {
-    display:flex;
-    background: white;
+.friends-list-item {
+    display: flex;
+    background: var(--textarea-color);
     list-style: none;
     width: 100%;
     max-width: 30rem;
-    box-shadow: #0000007a -1px 5px 11px 1px;
-    border-radius:5px;
-    text-align:center;
+    box-shadow: var(--box-shadow);
+    border-radius: 5px;
+    text-align: center;
     height: 4em;
-    margin-bottom:1rem
-
+    margin-bottom: 1rem
 }
 
 .friends-container {
     margin: 1rem 1rem 1rem;
-    max-width:35rem;
-    width:100%;
+    max-width: 35rem;
+    width: 100%;
 }
 
 .friends-list > li a {
@@ -60,11 +59,11 @@
         background-position: center;
     }
 
-    .friends-list > li a h2 {
-        padding: 0em 0.5em;
-        font-weight: 400;
-        color: #167d8f;
-    }
+.friends-container .userName {
+    padding: 0em 0.5em;
+    font-weight: 400;
+    color: var(--textarea-text-color);
+}
 
 .friends-list > li a h4 {
     margin: 0.5em;
@@ -87,13 +86,13 @@
     width: 100%;
 }
 
-.friends-list > li .accept-friend , 
-.friends-container > .new-friend{
+.friends-list > li .accept-friend,
+.friends-container > .new-friend {
     margin: 0.5em;
     border-radius: 5px;
     border-style: solid;
     border-width: thin;
-    box-shadow: #a19a9a 0px 0px 2px 1px;
+    box-shadow: var(--box-shadow);
 }
 
     .friends-list > li .accept-friend:hover, 
@@ -101,7 +100,7 @@
         cursor: pointer;
         color: white;
         background: var(--light-turquoise);
-        box-shadow: 0px 0px 3px 1px gray;
+        box-shadow: var(--box-shadow);
         border-color: #a19a9a;
         border-width: thin;
     }
@@ -110,13 +109,16 @@
     width: 50px;
     height: 50px;
     border-radius: 100px;
-    background: #167d8f;
-    align-content: center;
+    background: var(--darker-turquoise);
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
     
     .friend-icon img {
-        margin: auto;
+        border-radius: 50%;
+        width: 90%;
+        height: 90%;
     }
 
 h2 { 
@@ -133,7 +135,3 @@ h2 {
     font-weight: 800;
 }
 
-.dm {
-    color: var(--light-turquoise);
-    background: #545454;
-}

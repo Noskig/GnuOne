@@ -6,13 +6,28 @@
     align-items: flex-end;
 }
 .search input {
-    border: 1px rgb(255, 255, 255) solid;
     width: 7em;
     align-self: center;
-    padding: 0.5em;
     margin: 0.5em 1.5em;
-    border-radius: 9px;
-    box-shadow: -3px 1px 3px rgb(226 226 226);
+    padding: 0.5em 1em;
+    border-radius: 20px;
+    box-shadow: inset 2px 3px 7px rgb(226 226 226);
+    border: none;
+    width: 97%;
+    background: #F4F4F4;
+    color:black;
+}
+
+.search-icon {
+    display: inline-block;
+    position: relative;
+    left: -3.5em;
+    align-self: center;
+   top: .1em;
+    
+}
+.search-icon svg {
+    height: 1em;
 }
   
 .search input:focus {
@@ -27,4 +42,10 @@
     border: 1px gray solid;
 }
 
+input {
+    border-width: 1px;
+    border-style: inset;
+    border-color: black;
+    border-image: initial;
+}
 

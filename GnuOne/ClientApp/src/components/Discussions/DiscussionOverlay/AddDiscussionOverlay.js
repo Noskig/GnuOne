@@ -6,7 +6,6 @@ import PortContext from '../../../contexts/portContext';
 const AddDiscussionOverlay = (props) => {
     const [discussionText, setDiscussionText] = useState('')
     const [headline, setHeadline] = useState('')
-    const [user, setUser] = useState('default user')
     const port = useContext(PortContext)
     const url = `https://localhost:${port}/api/discussions`
 
@@ -16,16 +15,20 @@ const AddDiscussionOverlay = (props) => {
     const [chosenTag3, setChosenTags3] = useState();
 
     useEffect(() => {
-        fetchData()
+        async function fetchTags() {
+            const response = await fetch(`https://localhost:${port}/api/tags`)
+            const tags = await response.json()
+            console.log(tags);
+            setTags(tags);
+        }
         fetchTags()
-    }, [])
+    }, [setTags, port])
 
     function handleClick(e) {
         e.preventDefault()
         let newDiscussion = {
             headline: headline,
             discussiontext: discussionText,
-            user: user,
             tagOne: chosenTag1,
             tagTwo: chosenTag2,
             tagThree: chosenTag3
@@ -61,18 +64,13 @@ const AddDiscussionOverlay = (props) => {
         props.close()
     }
 
-    async function fetchTags() {
-        const response = await fetch(`https://localhost:${port}/api/tags`)
-        const tags = await response.json()
-        console.log(tags);
-        setTags(tags);
-    }
+  
 
     return (
         <div className="new-discussion-overlay" >
             <section className="new-discussion-box">
                 <button className="close" onClick={close}>✖️</button>
-                <input type="text" placeholder={"Headline..."} onChange={e => setHeadline(e.target.value)} />
+                <input type="text" autoFocus placeholder={"Headline..."} onChange={e => setHeadline(e.target.value)} />
                 <textarea rows="4" type="text" placeholder="What do you want to say?" onChange={e => setDiscussionText(e.target.value)} />
 
                 <form>

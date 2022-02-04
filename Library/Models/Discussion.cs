@@ -28,6 +28,8 @@ namespace Library
         [NotMapped]
         public int? numberOfPosts { get; set; }
 
+        [NotMapped]
+        public bool? isBookmarked { get; set; } = false;
 
         public string SendDiscussion()
         {

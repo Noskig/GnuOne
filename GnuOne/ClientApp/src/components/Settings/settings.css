@@ -1,10 +1,17 @@
-﻿.Account{
-    color:black;
+﻿.Account {
+    color: var(--text-color);
 }
-.change-img-container img{
-    width:5rem;
-    height:5rem;
-    border-radius:100%;
+.change-img-container {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.change-img-container img {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 100%;
 }
 .markedImage {
     width: 8rem;
@@ -15,7 +22,8 @@
 .change-theme {
     margin: 1rem 0;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 /* The switch - the box around the slider */
@@ -74,4 +82,56 @@ input:checked + .slider:before {
     transform: translateX(26px);
 }
 
+.save-changes {
+    background: var(--darker-turquoise);
+    padding: 0.3em 0.6em;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-left: auto;
+    transition:transform 0.1s;
+}
 
+    .save-changes:hover {
+        transform: scale(1.02);
+        box-shadow: 0 2px 4px 1px #a19d9d;
+    }
+.settings-container textarea {
+    width: 50%;
+    border-radius: 7px;
+    margin-bottom: 1rem;
+    padding: 5px;
+    font-family: 'Poppins', sans-serif;
+    background: var(--textarea-color);
+    color: var(--textarea-text-color);
+}
+
+
+.settings-container form {
+    display: flex;
+    flex-direction:column;
+    justify-content: space-between;
+}
+
+.settings-container select {
+    border-radius: 7px;
+    padding: 0 1rem;
+    margin: 0 5px;
+    background: var(--textarea-color);
+    color: var(--textarea-text-color);
+}
+
+.settings-container select option{
+    background: var(--textarea-color);
+    color: var(--textarea-text-color);
+}
+
+.bio {
+    display: flex;
+    flex-direction:column;
+    justify-content: space-between;
+}
+
+.bio h2 { 
+    align-items:center;
+}

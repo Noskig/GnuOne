@@ -92,7 +92,6 @@ namespace GnuOne.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSingle(int? id)
         {
-            
             var a  = _context.Notifications.Where(x => x.ID == id).FirstOrDefault();
             if(a is null)
             {
@@ -117,3 +116,4 @@ namespace GnuOne.Controllers
 
     }
 }
+

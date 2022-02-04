@@ -12,6 +12,7 @@ namespace Library.Models
         public string myFriendEmail { get; set; }
         public string userName { get; set; }
         public string Email { get; set; }
+        public int pictureID { get; set; }
 
         public MyFriendsFriends()
         {
@@ -23,6 +24,7 @@ namespace Library.Models
             myFriendEmail = closeFriendEmail;
             userName = mf.userName;
             Email = mf.Email;
+            pictureID = mf.pictureID;
         }
         public MyFriendsFriends(string[] bodymessage)
         {

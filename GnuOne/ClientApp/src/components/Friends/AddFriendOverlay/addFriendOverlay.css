@@ -7,50 +7,50 @@
     padding: 0.5em;
     margin: 0.5em;
     border-radius: 9px;
-    box-shadow: 2px 3px 7px rgb(226 226 226);
+    box-shadow: var(--box-shadow);
     border: 2px rgb(136, 128, 135) solid;
 }
 
 .add-friend-overlay {
     position: fixed;
-      background-color: rgba(247, 245, 245, 0.67);
-      height: 100vh;
-      width: 100vw;
-      top: 0em;
-      left: 0em;
-      z-index: 5;
-      display: flex;
-      justify-content: center;
-      align-items: center;  
-} 
+    background-color: var(--overlay-color);
+    height: 100vh;
+    width: 100vw;
+    top: 0em;
+    left: 0em;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-.add-friend  {
+.add-friend {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 2em 1.5em 2em 1.5em;
     border: 1px rgb(136, 128, 135) solid;
     border-radius: 5px;
-    background: white;
+    background: var(--textarea-color);
 }
-
-
 
 .add-friend-overlay input, .add-friend-overlay textarea {
     width: 30em;
     padding: 0.5em;
     margin: 0.5em;
     border-radius: 9px;
-    box-shadow: 2px 3px 7px rgb(226 226 226);
+    box-shadow: var(--box-shadow);
     border: 2px rgb(136, 128, 135) solid;
+    color: var(--textarea-text-color);
+    background: var(--textarea-color);
 }
 
 .add-friend-overlay button {
     border: 0px;
     padding: 0.5em 1.5em;
-    color: white;
+    color: var(--textarea-text-color);
     border-radius: 10px;
-    box-shadow: 2px 3px 7px rgb(226 226 226);
+    box-shadow: var(--box-shadow);
     background-color: var(--darker-turquoise);
     padding: 0.5em;
     margin: 0.5em;
@@ -68,8 +68,8 @@
 
 
 .add-friend-overlay button:hover {
-    color:  white;
-    cursor:pointer;
+    color: var(--textarea-color);
+    cursor: pointer;
 }
 
 

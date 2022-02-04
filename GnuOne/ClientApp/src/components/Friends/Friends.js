@@ -1,5 +1,5 @@
 ﻿
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useCallback } from 'react'
 import './friends.css'
 import PortContext from '../../contexts/portContext';
 import AddFriendOverlay from './AddFriendOverlay/AddFriendOverlay';
@@ -7,8 +7,10 @@ import Search from '../Search/Search'
 import { Link } from 'react-router-dom';
 import FriendContext from '../../contexts/friendContext';
 import MeContext from '../../contexts/meContext';
-import avatar from '../../icons/avatar-plain.svg'
 import WheelContext from '../../contexts/WheelContext'
+import images from '../../Image';
+import ThemeContext from '../../contexts/themeContext';
+
 
 
 const Friends = () => {
@@ -22,19 +24,13 @@ const Friends = () => {
     const [disabled, setDisabled] = useState(false)
     const [activeFriend, setActiveFriend] = useState(null)
     const { setChosenPage, setActive, setDone } = useContext(WheelContext);
-    const [darkMode, setDarkMode] = useState(true)
-
-
+    const {darkMode} = useContext(ThemeContext)
 
     //SEARCH 
     const [searchTerm, setSearchTerm] = useState('')
     const filteredFriends = filterFriends(friendsList, searchTerm)
 
-    useEffect(() => {
-        fetchData()
-    }, [friendEmail])
-
-    async function fetchData() {
+    const fetchData = useCallback(async () => {
         if (friendEmail === undefined) {
             //get my own friends
             const response = await fetch(url)
@@ -66,7 +62,12 @@ const Friends = () => {
             console.log(friendsfriends, filteredFriendsfriends)
             setFriendsList(filteredFriendsfriends)
         }
-    }
+    }, [setFriendsList, url, friendEmail, myEmail]);
+
+
+    useEffect(() => {
+        fetchData()
+    }, [friendEmail, myEmail, fetchData])
 
     const close = () => {
         setShowOverlay(false)
@@ -144,7 +145,7 @@ const Friends = () => {
 
     // du är så jobbig
 
-    function getOutOnClick(friend){
+    function getOutOnClick(friend) {
         let noMoreNiceGuy = {
             isFriend: false,
             Email: friend.Email,
@@ -177,7 +178,7 @@ const Friends = () => {
                 return true
             } else if (data.userName?.toLowerCase().includes(searchTerm.toLowerCase())) {
                 return data
-            }
+            } else return false
         })
     }
 
@@ -197,36 +198,36 @@ const Friends = () => {
                     : null
                 }
                 <h3> My friends 🤝🏻 </h3>
-                <ul className="friends-list">
+                <ul className="friends-list" >
                     {filteredFriends.map(friend =>
                         //dina vänner
                         friendEmail === undefined && friend.isFriend
-                            ? <li key={friend.ID}>
-                                <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} onClick={() => wheelReset(0)} >
+                            ? <li className="friends-list-item" key={friend.ID}>
+                                <Link  to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} onClick={() => wheelReset(0)} >
                                     <div className="friend-icon">
-                                        <img src={avatar} />
+                                        <img alt={friend.userName} src={images[`Img${friend.pictureID}`]} />
                                     </div>
                                     <h2 className="userName"> {friend.userName} </h2>
                                 </Link>
                                 {/*hide friend*/}
-                                {friend.hideMe == 0 ? 
-                                <button onClick={ () => hideFromFriendsFriends(friend.Email) }>
-                                    Hide friend
-                                </button>
-                                :
-                                <button onClick={() => unHideFromFriendsFriends(friend.Email)}>
-                                    show friend
-                                </button>
+                                {friend.hideMe === false ?
+                                    <button className="accept-friend" onClick={() => hideFromFriendsFriends(friend.Email)}>
+                                        Hide friend
+                                    </button>
+                                    :
+                                    <button className="accept-friend" onClick={() => unHideFromFriendsFriends(friend.Email)}>
+                                        show friend
+                                    </button>
                                 }
-                                <button onClick={() => getOutOnClick(friend)}>
+                                <button className="accept-friend" onClick={() => getOutOnClick(friend)}>
                                     remove friend
                                 </button>
                             </li>
                             //din vänners vänner
                             : friendEmail !== undefined
-                                ? <li key={friend.ID}><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                ? <li className="friends-list-item" key={friend.ID}><Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
                                     <div className="friend-icon">
-                                        <img src={avatar} />
+                                        <img alt={friend.userName} src={images[`Img${friend.pictureID}`]} />
                                     </div>
                                     <h2 className="userName">{friend.userName} </h2>
                                 </Link>
@@ -249,36 +250,40 @@ const Friends = () => {
                     ? <>
                         <h3>New friend requests 🙍</h3>
                         <ul className="friends-list">
-                            {filteredFriends.map(friend => 
+                            {filteredFriends.map(friend =>
                                 !friend.isFriend && friend.userName
-                                ? <li key={friend.ID}>
-                                    <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
-                                            <div className="friend-icon"> <img src={avatar}/></div>
+                                    ? <li className="friends-list-item" key={friend.ID}>
+                                        <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
+                                            <div className="friend-icon">
+                                                <img alt={friend.userName} src={images[`Img${friend.pictureID}`]} />
+                                            </div>
                                             <h2 className="userName">{friend.userName}</h2>
-                                    </Link>
-                                    <button className="accept-friend" onClick={(e) => handleClick(e, friend)}>Accept friend</button>
-                                </li>
-                                : null
+                                        </Link>
+                                        <button className="accept-friend" onClick={(e) => handleClick(e, friend)}>Accept friend</button>
+                                    </li>
+                                    : null
                             )}
-                        
+
                         </ul>
 
                         <h3 key="maybe-friends">Sent friend requests 🖅</h3>
                         <ul className="friends-list">
-                            {filteredFriends.map(friend => 
+                            {filteredFriends.map(friend =>
                                 !friend.isFriend && !friend.userName && friendsList
-                                ? <li key={friend.ID}>
+                                    ? <li className="friends-list-item" key={friend.ID}>
                                         <Link to={`/friendprofile/${friend.Email.substring(0, friend.Email.lastIndexOf("@"))}`} >
-                                            <div className="friend-icon"> <img src={avatar} />  </div>
-                                            <h2 className="userName">{ friend.Email.substring(0, friend.Email.lastIndexOf("@")) }</h2>
+                                            <div className="friend-icon">
+                                                <img alt={friend.userName} src={images[`Img${friend.pictureID}`]} />
+                                            </div>
+                                            <h2 className="userName">{friend.Email.substring(0, friend.Email.lastIndexOf("@"))}</h2>
                                         </Link>
-                                            <div className="pending">Pending request</div>
-                                </li>
-                                : null
+                                        <div className="pending">Pending request</div>
+                                    </li>
+                                    : null
                             )}
                         </ul>
                     </>
-                    : null }
+                    : null}
             </section>
         </>
     )
