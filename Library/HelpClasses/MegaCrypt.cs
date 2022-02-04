@@ -5,6 +5,10 @@ namespace GnuOne.Data
 {
     public class MegaCrypt
     {
+        /// <summary>
+        /// Start of an asymmetric enkryption method.
+        /// </summary>
+
 
         public string body { get; set; }
         public byte[] aesKey;
@@ -39,13 +43,13 @@ namespace GnuOne.Data
                 RSACryptoServiceProvider RSAalg = new RSACryptoServiceProvider();
                 RSAalg.ImportFromPem(senderPublicKey);
                 RSAParameters Key = RSAalg.ExportParameters(false);
-                //Om signaturen är äkta så avkoda meddelandet.
-                //Returnera true.
+                //If signature is true, decode message.
+                //Return true.
                 if (Verify.VerifySignedHash(orginalData, signature, Key))
                 {
                     Console.WriteLine("The data was verified.");
                     Console.WriteLine("Decrypt it");
-                    //lösen, salt
+                    //Password, salt
                     DecryptBodyAES(aesSecret[0], aesSecret[1]);
                     return true;
                 }

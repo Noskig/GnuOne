@@ -6,15 +6,14 @@ namespace GnuOne.Data.Models
     {
         public int? ID { get; set; }
         public string messageText { get; set; }
-
         public DateTime Sent { get; set; }
-
-        //public bool Read { get; set; }
         public string From { get; set; }
         public string To{ get; set; }
 
         [NotMapped]
         public string FromUserName { get; set; }
+
+
         public Message()
         {
 

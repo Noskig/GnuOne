@@ -20,7 +20,6 @@ namespace Library.Models
         }        
         public MyFriendsFriends(MyFriend mf,string closeFriendEmail)
         {
-            //myFriendID = mf.ID;
             myFriendEmail = closeFriendEmail;
             userName = mf.userName;
             Email = mf.Email;

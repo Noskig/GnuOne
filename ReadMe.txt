@@ -216,4 +216,42 @@ Login with the same username & password as Heidi
 
 
 
-Before Publish, uncomment code on line 40-44 in program.cs
+
+
+
+
+
+
+
+
+
+
+
+
+Städa:
+DiscussionC = 
+PostC = 
+CommentsC = 
+BookmarksC =
+MessageC = 
+MyFriendC = 
+myProfileC = 
+NotificC = 
+SettingsC = 
+TagsC = 
+
+Mailreader =				Städat/Dokumenterat
+AesCrypt =					Städat/kommentar
+DbCommand =					Städat/kommentar
+Global =					Städat/Dokumenterat
+Megacrypt = 
+MailSender =				Städat/kommentar
+pwMask =					Städat/Dokumenterat
+
+
+
+APicontext =				Städat/OK
+MariaCont =					Städat/OK
+Städa modellerna =			Städade/OK
+
+Gå igenom varningar?

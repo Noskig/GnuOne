@@ -11,6 +11,9 @@ using System.Text.Json;
 
 namespace GnuOne.Controllers
 {
+    /// <summary>
+    /// Controller for establishing connection between users
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class MyFriendsController : ControllerBase
@@ -23,31 +26,30 @@ namespace GnuOne.Controllers
             _context = context;
             _settings = _context.MySettings.First();
         }
-        ///Frontend - Klicka på knapp för att skicka en vänförfrågan
+
         /// <summary>
-        /// Send FriendRequest
+        /// Sends FriendRequest with the User's information
         /// </summary>
-        /// <param name="ToEmail"></param>
-        /// <returns></returns>
+
         [HttpPost]
-        //[Route("api/[controller]/SendFriendRequest")]
         public async Task<IActionResult> PostSendFriendRequest([FromBody] MyFriend Email)
         {
-
             var potentialnewfriend = new MyFriend();
             potentialnewfriend.Email = Email.Email;
 
             var myProfile = await _context.MyProfile.FirstAsync();
-            //skickar min information till vännen
-            var myInfo = new MyFriend();
-            myInfo.Email = _settings.Email;
-            myInfo.userName = _settings.userName;
-            myInfo.isFriend = false; //vi har inte blivit vänner än
-            myInfo.userInfo = myProfile.myUserInfo;
-            myInfo.pictureID = myProfile.pictureID;
-            myInfo.tagOne   =  myProfile.tagOne;  
-            myInfo.tagTwo = myProfile.tagTwo;
-            myInfo.tagThree = myProfile.tagThree;  
+
+            var myInfo = new MyFriend
+            {
+                Email = _settings.Email,
+                userName = _settings.userName,
+                isFriend = false,
+                userInfo = myProfile.myUserInfo,
+                pictureID = myProfile.pictureID,
+                tagOne = myProfile.tagOne,
+                tagTwo = myProfile.tagTwo,
+                tagThree = myProfile.tagThree
+            };
 
             var jsonMyInfoInObject = JsonConvert.SerializeObject(myInfo);
 
@@ -59,7 +61,7 @@ namespace GnuOne.Controllers
             return Ok();
         }
         /// <summary>
-        /// Letar efter vänner & gör till JSON
+        /// Get all the users friends
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -72,10 +74,10 @@ namespace GnuOne.Controllers
         }
 
         /// <summary>
-        /// Hämtar vän och hans vänner
+        /// Finds a specific friend and their friends.
         /// </summary>
         /// <param name="email"></param>
-        /// <returns></returns>
+        
         [HttpGet("{email}")]
         public async Task<IActionResult> GetByEmail(string email)
         {
@@ -89,7 +91,9 @@ namespace GnuOne.Controllers
         }
 
         /// <summary>
-        /// Svarar på en vänförfrågan
+        /// Accepts or Denies a friendrequest
+        /// If denies, send mail to that user
+        /// if Accepts. Sends them ALL my information so it ends up in their database. 
         /// </summary>
         /// <param name="potentialFriend"></param>
         /// <returns></returns>
@@ -101,13 +105,12 @@ namespace GnuOne.Controllers
             {
                 return BadRequest("Could not find friend with this email");
             }
-            //min info
-            var myInfo = new MyFriend();
-            myInfo.Email = _settings.Email.ToString();
-            myInfo.userName = _settings.userName.ToString();
-
+            var myInfo = new MyFriend
+            {
+                Email = _settings.Email.ToString(),
+                userName = _settings.userName.ToString()
+            };
             var jsonMyInfoInObject = JsonConvert.SerializeObject(myInfo);
-
 
             if (potentialFriend.isFriend == false)
             {
@@ -150,18 +153,18 @@ namespace GnuOne.Controllers
             }
         }
         /// <summary>
-        /// Tar bort en vän
+        /// Removes a friend in DB and pings the notlongerfriend to remove User from their DB .
+        /// And pings current friends that the friendship ended and updates their DB aswell
         /// </summary>
         /// <param name="MyFriend"></param>
         /// <returns></returns>
         [HttpDelete]
         public async Task<IActionResult> DeleteFriend([FromBody] MyFriend MyFriend)
         {
-            //hittat den vännen som vi ska ta bort
+
             var notFriend = _context.MyFriends.Where(x => x.Email == MyFriend.Email).FirstOrDefault();
 
-            //TaBortAllt(notFriend)
-            //ta bort meddelande
+
             var allOurMessage = await _context.Messages.Where(x => x.To == notFriend.Email || x.From == notFriend.Email).ToListAsync();
             _context.Messages.RemoveRange(allOurMessage);
             var theirDiscussion = await _context.Discussions.Where(x => x.Email == MyFriend.Email).ToListAsync();
@@ -169,13 +172,13 @@ namespace GnuOne.Controllers
             _context.MyFriends.Remove(notFriend);
             await _context.SaveChangesAsync();
 
-            //skickas till vännen som tas bort
+
             var myInfo = _context.MySettings.FirstOrDefault();
             var jsonmyInfo = JsonConvert.SerializeObject(myInfo);
             MailSender.SendObject(jsonmyInfo, notFriend.Email, _settings, "ItsNotMeItsYou");
 
             var jsonNotFriend = JsonConvert.SerializeObject(notFriend);
-            //skickas ut till mina vänner och tas bort i deras friendsfriend
+ 
             foreach (var user in _context.MyFriends)
             {
                 if (user.isFriend == false) { continue; }
@@ -184,7 +187,12 @@ namespace GnuOne.Controllers
 
             return Ok();
         }
-
+        /// <summary>
+        /// Lets a user change visible in friends network.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="hide"></param>
+        /// <returns></returns>
         [HttpPatch("{hide}")]
         public async Task<IActionResult> Visibility([FromBody] string email, bool hide)
         {

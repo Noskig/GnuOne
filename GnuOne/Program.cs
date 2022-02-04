@@ -11,6 +11,66 @@ using System.Text;
 using Welcome_Settings;
 
 string[] empty = { string.Empty };
+/// 
+/// 
+/// PUBLISHA - kunna köra utan VS
+/// 
+///  
+/// 
+/// Lägga till vänner / grupper -- Hur blir det med nycklar. 
+///     Bjuda in via mail? - vanlig mail / dedikerad gmail?
+///     Krypera lösenord till mailen, nycklar mellan sina vänner/ grupper.
+///     PM
+/// 
+/// --bittorrent--
+/// backup - restore
+/// 
+/// </summary>
+/// 
+/// 
+/// PUBLISHA - kunna köra utan VS
+/// 
+///  
+/// 
+/// Lägga till vänner / grupper -- Hur blir det med nycklar. 
+///     Bjuda in via mail? - vanlig mail / dedikerad gmail?
+///     Krypera lösenord till mailen, nycklar mellan sina vänner/ grupper.
+///     PM
+/// 
+/// --bittorrent--
+/// backup - restore
+/// 
+/// </summary>
+/// 
+/// 
+/// PUBLISHA - kunna köra utan VS
+/// 
+///  
+/// 
+/// Lägga till vänner / grupper -- Hur blir det med nycklar. 
+///     Bjuda in via mail? - vanlig mail / dedikerad gmail?
+///     Krypera lösenord till mailen, nycklar mellan sina vänner/ grupper.
+///     PM
+/// 
+/// --bittorrent--
+/// backup - restore
+/// 
+/// </summary>
+/// 
+/// 
+/// PUBLISHA - kunna köra utan VS
+/// 
+///  
+/// 
+/// Lägga till vänner / grupper -- Hur blir det med nycklar. 
+///     Bjuda in via mail? - vanlig mail / dedikerad gmail?
+///     Krypera lösenord till mailen, nycklar mellan sina vänner/ grupper.
+///     PM
+/// 
+/// --bittorrent--
+/// backup - restore
+/// 
+/// </summary>
 bool keepGoing = true;
 while (keepGoing)
 {

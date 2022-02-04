@@ -21,11 +21,13 @@ namespace GnuOne.Controllers
             _settings = _context.MySettings.First();
 
         }
-        // GET: api/Comments
+
         /// <summary>
-        /// Hämtar kommentarer från DB. Konverterar dom till JSON och skickar tillbaka requesten.
+        /// Get all comments
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// Comments in Jsonformat
+        /// </returns>
         [HttpGet]
         public async Task<IActionResult> GetComments()
         {
@@ -35,12 +37,11 @@ namespace GnuOne.Controllers
             return Ok(converted);
         }
 
-        // GET: api/Comments/5
         /// <summary>
-        /// Hämtar information på ett specifikt ID
+        /// Get comment with ID
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>Comment in Json</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetComment(int? id)
         {
@@ -56,9 +57,10 @@ namespace GnuOne.Controllers
             return Ok(converted);
         }
 
-        //POST: api/Comments
         /// <summary>
-        /// Lägger upp en kommentar och skickar ut mail
+        /// Post a comment. Sets the information. Serialzes it.
+        /// Sends mail to the the owner of the discussion to spread it to the network.
+        /// Saves it locally
         /// </summary>
         /// <param name = "comment" ></ param >
         /// < returns ></ returns >
@@ -85,30 +87,11 @@ namespace GnuOne.Controllers
             return CreatedAtAction("PostComment", new { id = comment.ID }, comment);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> PostComment([FromBody] string comment)
-        //{
-
-        //    var megacrypt = new MegaCrypt(comment);
-        //    megacrypt.RSAEncryptIt(Global.MyPrivatekey, Global.ericPublicKey);
-
-        //    var jsoncrypt = JsonConvert.SerializeObject(megacrypt);
-
-
-
-        //    MailSender.SendObject(jsoncrypt, "mailconsolejonatan@gmail.com", _settings, "TestMail");
-
-
-
-
-        //    return Ok("GetComment");
-        //}
-        //    }
-        //}
-
         // PUT: api/Comments
         /// <summary>
-        /// Ändrar en kommentar
+        /// Change an already existing comment
+        /// Sending mail to the owner so he can send to the rest of the network
+        /// saves it locally
         /// </summary>
         /// <param name="id"></param>
         /// <param name="comment"></param>
@@ -124,6 +107,7 @@ namespace GnuOne.Controllers
             {
                 return NotFound();
             }
+
             comment.Date = DateTime.Now;
 
             var jsonComment = JsonConvert.SerializeObject(comment);
@@ -140,7 +124,8 @@ namespace GnuOne.Controllers
 
         // DELETE: api/Comments/5
         /// <summary>
-        /// Tar bort kommentar med ett specifikt ID
+        /// Remove a specific comment
+        /// Send mail so it gets removed in the network
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

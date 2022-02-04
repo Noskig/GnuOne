@@ -4,7 +4,7 @@ namespace GnuOne.Data.Models
 {
     public class FriendDto
     {
-        public string? userName { get; set; }
+        public string userName { get; set; } = String.Empty;
         public string Email { get; set; }
         public string pubKey { get; set; }
         public int pictureID { get; set; }

@@ -12,7 +12,7 @@ namespace Library
     {
         [Key]
         public int ID { get; set; }
-        public string? userName { get; set; }
+        public string userName { get; set; } = String.Empty;
         public string Email { get; set; }
         public bool? isFriend { get; set; } = false;
         public string pubKey { get; set; }

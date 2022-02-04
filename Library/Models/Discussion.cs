@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//Bara ändra SendDiscussion Email/ID to unix.
 namespace Library
 {
     public class Discussion
@@ -19,14 +18,15 @@ namespace Library
         public string discussionText { get; set; } 
         public string userName { get; set; } 
         public DateTime Date { get; set; }
-        
         public int? tagOne { get; set; }
         public int? tagTwo { get; set; }
         public int? tagThree { get; set; }
         [NotMapped]
-        public List<string>? tags { get; set; } = new List<string>();
+        public List<string> tags { get; set; } = new List<string>();
         [NotMapped]
         public int? numberOfPosts { get; set; }
+        [NotMapped]
+        public bool isBookmarked { get; set; } = false;
 
         [NotMapped]
         public bool? isBookmarked { get; set; } = false;
@@ -62,7 +62,6 @@ namespace Library
 
             string query = $"UPDATE DISCUSSIONs SET DISCUSSIONTEXT={thr}, HEADLINE={two} " +
                 $"WHERE ID={one} AND DISCUSSIONTEXT={oldtext} AND userName={fou}";
-            //Where ID And Email?
             return query;
         }
 
