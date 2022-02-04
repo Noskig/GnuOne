@@ -9,10 +9,10 @@
 }
 
 .change-img-container img {
-        width: 5rem;
-        height: 5rem;
-        border-radius: 100%;
-    }
+    width: 5rem;
+    height: 5rem;
+    border-radius: 100%;
+}
 .markedImage {
     width: 8rem;
     height: 8rem;
