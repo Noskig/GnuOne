@@ -102,7 +102,7 @@ https://myaccount.google.com/security?gar=1
 
 2.Install MariaDb
 
-LINK
+https://mariadb.org/
 
 3.Install Heidi
 
