@@ -25,6 +25,8 @@ namespace Library
         public List<string> tags { get; set; } = new List<string>();
         [NotMapped]
         public int? numberOfPosts { get; set; }
+        [NotMapped]
+        public bool isBookmarked { get; set; } = false;
 
 
         public string SendDiscussion()

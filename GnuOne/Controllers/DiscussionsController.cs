@@ -36,10 +36,17 @@ namespace GnuOne.Controllers
             var listaDiscussion = _context.Discussions.ToList();
             var taglista = _context.tags.ToList();
 
+            var bookmarks = _context.Bookmarks.ToList();
+
             var posts = _context.Posts.ToList();
 
             foreach (var discussion in listaDiscussion)
             {
+                if(bookmarks.Where(x => x.ID == discussion.ID).Any())
+                {
+                    discussion.isBookmarked = true;
+                }
+
                 if (discussion.tagOne is not null)
                 {
                     var tagOne = taglista.Where(x => x.ID == discussion.tagOne).Select(x => x.tagName).Single();
@@ -59,6 +66,8 @@ namespace GnuOne.Controllers
 
                 discussion.numberOfPosts = posts.Where(x => x.discussionID == discussion.ID).Count();
             }
+
+
 
             var converted = JsonConvert.SerializeObject(listaDiscussion);
 
