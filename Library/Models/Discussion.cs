@@ -28,8 +28,6 @@ namespace Library
         [NotMapped]
         public bool isBookmarked { get; set; } = false;
 
-        [NotMapped]
-        public bool? isBookmarked { get; set; } = false;
 
         public string SendDiscussion()
         {

@@ -189,6 +189,11 @@ builder.Services.AddCors(options =>
         });
 });
 builder.Services.AddControllersWithViews();
+builder.Services.AddSpaStaticFiles(configuration =>
+{
+    configuration.RootPath = "ClientApp/build";
+});
+
 
 var app = builder.Build();
 
@@ -200,11 +205,18 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseSpaStaticFiles();
 app.UseRouting();
 app.UseCors();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
+
+app.UseSpa(spa =>
+{
+    spa.Options.SourcePath = "ClientApp";
+
+});
 app.MapFallbackToFile("index.html");
 
 

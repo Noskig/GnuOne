@@ -73,20 +73,20 @@ namespace GnuOne.Controllers
                 tagThree = Profile.tagThree
             };
 
-            var jsonProfileInfo = JsonConvert.SerializeObject(myInfo); 
-            try
+            var jsonProfileInfo = JsonConvert.SerializeObject(myInfo);
+
+            foreach (var user in _context.MyFriends)
             {
-                foreach (var user in _context.MyFriends)
-                {
-                    if (user.isFriend == false) { continue; }
-                    MailSender.SendObject(jsonProfileInfo, user.Email, _settings, "PutFriendsProfile");
+                if (user.isFriend == false) { continue; }
+                MailSender.SendObject(jsonProfileInfo, user.Email, _settings, "PutFriendsProfile");
+
+
+
+                _context.MyProfile.Update(myprofile);
+                await _context.SaveChangesAsync();
 
             }
-
-            _context.MyProfile.Update(myprofile);
-            await _context.SaveChangesAsync();
-
-            return Ok("Updated profile");
+                return Ok("Updated profile");
         }
     }
 }
