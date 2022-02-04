@@ -107,7 +107,7 @@ const Discussions = ({ routes }) => {
     //fucntions to save bookmarks
 
     async function saveToBookmarks(saved) {
-        await fetch('https://localhost:7261/api/bookmarks', {
+        await fetch(`https://localhost:${port}/api/bookmarks`, {
             method: 'POST',
             body: JSON.stringify(saved),
             headers: {
@@ -118,7 +118,7 @@ const Discussions = ({ routes }) => {
     }
 
     async function removeFromBookmarks(saved) {
-        await fetch('https://localhost:7261/api/bookmarks', {
+        await fetch(`https://localhost:${port}/api/bookmarks`, {
             method: 'DELETE',
             body: JSON.stringify(saved),
             headers: {
