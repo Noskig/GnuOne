@@ -43,6 +43,27 @@
 
   <ItemGroup>
     <None Remove="appsettings.json~RF5fe26b3d.TMP" />
+    <None Remove="ClientApp\src\components\Bio\bio.css" />
+    <None Remove="ClientApp\src\components\Bio\Bio.js" />
+    <None Remove="ClientApp\src\components\Discussions\DeleteDiscussionOverlay\deleteDiscussionOverlay.css" />
+    <None Remove="ClientApp\src\components\Discussions\DeleteDiscussionOverlay\DeleteDiscussionOverlay.js" />
+    <None Remove="ClientApp\src\components\Discussions\DiscussionOverlay\addDiscussionOverlay.css" />
+    <None Remove="ClientApp\src\components\MenuWheel\ProfileWheel.js" />
+    <None Remove="ClientApp\src\components\MenuWheel\profileWheel.scss" />
+    <None Remove="ClientApp\src\Pages\MyProfile.scss" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ClientApp\src\components\Bio\bio.css" />
+    <Content Include="ClientApp\src\components\Bio\Bio.js" />
+    <Content Include="ClientApp\src\components\Discussions\DeleteDiscussionOverlay\deleteDiscussionOverlay.css" />
+    <Content Include="ClientApp\src\components\Discussions\DeleteDiscussionOverlay\DeleteDiscussionOverlay.js" />
+    <Content Include="ClientApp\src\components\Discussions\DiscussionOverlay\addDiscussionOverlay.css" />
+    <Content Include="ClientApp\src\components\MenuWheel\ProfileWheel.js" />
+    <Content Include="ClientApp\src\components\MenuWheel\profileWheel.scss">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ClientApp\src\Pages\MyProfile.scss" />
   </ItemGroup>
 
   <ItemGroup>
