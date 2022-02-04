@@ -3,8 +3,6 @@
 This project was created for a start-up and our customer who wanted a proof of concept for a decentrilzed forum. 
 
 
-> Demo [_here_](https://www.youtube.com/)
-
 Visit: http://iwantag.nu/ to read more.
 
 ## Table of Contents
@@ -121,7 +119,6 @@ Login with the same username & password as Heidi
 
 ![step2](https://user-images.githubusercontent.com/72744280/149352266-787206cb-60c6-4e3d-badb-8586cded2498.JPG)
 
-Funkar det verkligen så här? Testa på en ren dator?
 --------------
 
 ------------------------
