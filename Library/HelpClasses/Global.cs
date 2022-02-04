@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   CONSTRAINT `FK_comments_posts` FOREIGN KEY (`postID`, `postEmail`) REFERENCES `posts` (`ID`, `Email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.comments: ~4 rows (ungefär)
+-- Dumpar data för tabell gnu.comments: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 
@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `discussions` (
   KEY `FK_discussions_tags_3` (`tagThree`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.discussions: ~3 rows (ungefär)
+-- Dumpar data för tabell gnu.discussions: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `discussions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `discussions` ENABLE KEYS */;
 
@@ -224,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `myfriends` (
   KEY `Email` (`Email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myfriends: ~2 rows (ungefär)
+-- Dumpar data för tabell gnu.myfriends: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `myfriends` DISABLE KEYS */;
 /*!40000 ALTER TABLE `myfriends` ENABLE KEYS */;
 
@@ -240,7 +240,7 @@ CREATE TABLE IF NOT EXISTS `myfriendsfriends` (
   CONSTRAINT `FK_myfriendsfriends_myfriends` FOREIGN KEY (`myFriendEmail`) REFERENCES `myfriends` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.myfriendsfriends: ~4 rows (ungefär)
+-- Dumpar data för tabell gnu.myfriendsfriends: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `myfriendsfriends` DISABLE KEYS */;
 /*!40000 ALTER TABLE `myfriendsfriends` ENABLE KEYS */;
 
@@ -260,7 +260,9 @@ CREATE TABLE IF NOT EXISTS `myprofile` (
   KEY `FK_myprofile_standardpictures` (`pictureID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
-
+-- Dumpar data för tabell gnu.myprofile: ~1 rows (ungefär)
+/*!40000 ALTER TABLE `myprofile` DISABLE KEYS */;
+/*!40000 ALTER TABLE `myprofile` ENABLE KEYS */;
 
 -- Dumpar struktur för tabell gnu.mysettings
 CREATE TABLE IF NOT EXISTS `mysettings` (
@@ -272,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `mysettings` (
   `DarkMode` bit(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.mysettings: ~1 rows (ungefär)
+-- Dumpar data för tabell gnu.mysettings: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `mysettings` DISABLE KEYS */;
 /*!40000 ALTER TABLE `mysettings` ENABLE KEYS */;
 
@@ -288,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.notifications: ~1 rows (ungefär)
+-- Dumpar data för tabell gnu.notifications: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
 /*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 
@@ -306,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   CONSTRAINT `FK_posts_discussions` FOREIGN KEY (`discussionID`, `discussionEmail`) REFERENCES `discussions` (`ID`, `Email`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumpar data för tabell gnu.posts: ~4 rows (ungefär)
+-- Dumpar data för tabell gnu.posts: ~0 rows (ungefär)
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 
@@ -385,7 +387,6 @@ INSERT INTO `users` (`ID`, `userName`, `Email`) VALUES
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
-";
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;";
     }
 }
