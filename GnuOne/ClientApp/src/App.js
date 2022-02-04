@@ -13,7 +13,7 @@ import RouteWithSubRoutes from './components/RouteWithSubRoutes';
 import { useState, useEffect } from 'react'
 
 function App() {
-    const url = `https://localhost:7261/api/`
+    const url = `https://localhost:5001/api/`
     const [chosenPage, setChosenPage] = useState();
     const [active, setActive] = useState();
     const [done, setDone] = useState();
@@ -57,7 +57,7 @@ function App() {
     }
 
     return (
-        <PortContext.Provider value={7261}>
+        <PortContext.Provider value={5001}>
             <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
                 <ProfilePicContext.Provider value={{ profilePic, setProfilePic }}>
                     <WheelContext.Provider value={{ chosenPage, setChosenPage, active, setActive, done, setDone }} >
