@@ -43,7 +43,7 @@ Visit: http://iwantag.nu/ to read more.
 - EntityFrameworkCore - version 6
 - Impt-client  -  version 2.2
 - Postman      -  version 9
-- 
+
 
 ## Features
 List the ready features here:
@@ -56,9 +56,6 @@ List the ready features here:
 - Notifications
 - Interactive usage. <p>App based on discovery among your friends by clicking. Instead of a feed.</p>
 - Tag a interest on a Discussions and on your Profile.
-- 
-- Awesome feature 2
-- Awesome feature 3
 
 ## Screenshots
 <b>Database structure</b>
