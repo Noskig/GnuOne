@@ -5,7 +5,8 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import arrows from '../../icons/arrows.svg';
 import Search from '../Search/Search.js';
 import MeContext from '../../contexts/meContext';
-import bookmark from '../../icons/bookmark.svg'
+import bookmark from '../../icons/bookmark.svg';
+
 
 
 
@@ -68,7 +69,7 @@ const Saved = ({ routes }) => {
 
 
     async function saveToBookmarks(Deleted) {
-        await fetch('https://localhost:7261/api/bookmarks', {
+        await fetch(url + 'bookmarks/', {
             method: 'DELETE',
             body: JSON.stringify(Deleted),
             headers: {
@@ -81,7 +82,7 @@ const Saved = ({ routes }) => {
 
 
     function sendId(discussion) {
-        let Deleted = {
+        let Deleted = { 
             ID: discussion.ID,
             Email: discussion.Email,
         }

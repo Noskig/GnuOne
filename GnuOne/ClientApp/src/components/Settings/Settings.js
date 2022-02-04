@@ -41,7 +41,7 @@ const Settings = () => {
             const profile = await response.json()
             console.log(profile);
 
-            const responseTwo = await fetch('https://localhost:7261/api/tags');
+            const responseTwo = await fetch(`https://localhost:${port}/api/tags`);
             const tags = await responseTwo.json()
             console.log(tags)
 
@@ -59,7 +59,7 @@ const Settings = () => {
             setChosenTags3(profile[0].tagThree);
             setChosenImg(profile[0].pictureID)
 
-            const responseThree = await fetch('https://localhost:7261/api/settings');
+            const responseThree = await fetch(`https://localhost:${port}/api/settings`);
             const settings = await responseThree.json()
             console.log(settings)
             setDM(settings.darkMode)
