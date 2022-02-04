@@ -68,7 +68,7 @@ namespace GnuOne.Controllers
             {
                 foreach (var user in _context.MyFriends)
                 {
-                    //if (user.isFriend == false) { continue; }
+                    if (user.isFriend == false) { continue; }
                     MailSender.SendObject(jsonProfileInfo, user.Email, _settings, "PutFriendsProfile");
 
                 }
